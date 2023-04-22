@@ -7,90 +7,29 @@ export const dateToString = (isoDate: string) =>
 
 export type SexToKorean = '남여 모두' | '남' | '여';
 
-export const sexTypeToKorean = (sex: SexType): SexToKorean => {
-  switch (sex) {
-    case 'ALL':
-      return '남여 모두';
-    case 'MALE':
-      return '남';
-    case 'FEMALE':
-      return '여';
-    default:
-  }
-};
-
-export const sexKoreanToEng = (sex: SexToKorean): SexType => {
-  switch (sex) {
-    case '남여 모두':
-      return 'ALL';
-    case '남':
-      return 'MALE';
-    case '여':
-      return 'FEMALE';
-    default:
-  }
+export const sexTypeToKorean: Record<SexType, SexToKorean> = {
+  ALL: '남여 모두',
+  MALE: '남',
+  FEMALE: '여',
 };
 
 export type GradeToKorean = '모든 학년' | '1학년' | '2학년' | '3학년';
 
-export const gradeTypeToKorean = (grade: GradeType): GradeToKorean => {
-  switch (grade) {
-    case 0:
-      return '모든 학년';
-    case 1:
-      return '1학년';
-    case 2:
-      return '2학년';
-    case 3:
-      return '3학년';
-    default:
-  }
+export const gradeTypeToKorean: Record<GradeType, GradeToKorean> = {
+  0: '모든 학년',
+  1: '1학년',
+  2: '2학년',
+  3: '3학년',
 };
 
-export const gradeKoreanToEng = (grade: GradeToKorean): GradeType => {
-  switch (grade) {
-    case '모든 학년':
-      return 0;
-    case '1학년':
-      return 1;
-    case '2학년':
-      return 2;
-    case '3학년':
-      return 3;
-    default:
-  }
+export type SeatStatusKorean = '사용 가능' | '사용 불가' | '빈 공간' | '사용중';
+
+export const seatStatusToKorean: Record<SeatStatusType, SeatStatusKorean> = {
+  AVAILABLE: '사용 가능',
+  UNAVAILABLE: '사용 불가',
+  EMPTY: '빈 공간',
+  IN_USE: '사용중',
 };
-
-export type SeatStatusKorean = '사용 가능' | '사용 불가' | '빈 공간';
-
-export const seatStatusToKorean = (
-  status: SeatStatusType,
-): SeatStatusKorean => {
-  switch (status) {
-    case 'AVAILABLE':
-      return '사용 가능';
-    case 'UNAVAILABLE':
-      return '사용 불가';
-    case 'EMPTY':
-      return '빈 공간';
-    default:
-  }
-};
-
-export const seatStatusKoreanToEng = (
-  status: SeatStatusKorean,
-): SeatStatusType => {
-  switch (status) {
-    case '사용 가능':
-      return 'AVAILABLE';
-    case '사용 불가':
-      return 'UNAVAILABLE';
-    case '빈 공간':
-      return 'EMPTY';
-    default:
-  }
-};
-
 export type ServiceToKorean = '홈' | '신청' | '공지' | '마이페이지';
 
 export interface ServiceObject {
@@ -114,42 +53,15 @@ export const serviceToKorean = (service: Features): ServiceObject => {
       };
   }
 };
-export const getDayWithText = (text: string) => {
-  switch (text) {
-    case '월':
-      return DAY.MONDAY;
-    case '화':
-      return DAY.TUESDAY;
-    case '수':
-      return DAY.WEDNESDAY;
-    case '목':
-      return DAY.THURSDAY;
-    case '금':
-      return DAY.FRIDAY;
-    case '토':
-      return DAY.SATURDAY;
-    case '일':
-      return DAY.SUNDAY;
-    default:
-  }
-};
 
-export const getTextWithDay = (day: DAY) => {
-  switch (day) {
-    case DAY.MONDAY:
-      return '월';
-    case DAY.TUESDAY:
-      return '화';
-    case DAY.WEDNESDAY:
-      return '수';
-    case DAY.THURSDAY:
-      return '목';
-    case DAY.FRIDAY:
-      return '금';
-    case DAY.SATURDAY:
-      return '토';
-    case DAY.SUNDAY:
-      return '일';
-    default:
-  }
+export type DayToKorean = '월' | '화' | '수' | '목' | '금' | '토' | '일';
+
+export const getDayWithText: Record<DayToKorean, DAY> = {
+  월: DAY.MONDAY,
+  화: DAY.TUESDAY,
+  수: DAY.WEDNESDAY,
+  목: DAY.THURSDAY,
+  금: DAY.FRIDAY,
+  토: DAY.SATURDAY,
+  일: DAY.SUNDAY,
 };

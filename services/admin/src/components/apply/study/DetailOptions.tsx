@@ -19,9 +19,9 @@ import {
 import { useModal } from '@/hooks/useModal';
 import { SetUseTimeModal } from '@/components/modals/SetUseTime';
 
-const sex = ['ALL', 'MALE', 'FEMALE'].map((i: SexType) => sexTypeToKorean(i));
+const sex = ['ALL', 'MALE', 'FEMALE'].map((i: SexType) => sexTypeToKorean[i]);
 
-const grade = [0, 1, 2, 3].map((i: GradeType) => gradeTypeToKorean(i));
+const grade = [0, 1, 2, 3].map((i: GradeType) => gradeTypeToKorean[i]);
 
 interface PropsType {
   onChangeSegmented: (sex: SexToKorean) => void;
@@ -67,7 +67,7 @@ export function CreateStudyRoomDetailOptions({
     <_Wrapper>
       <SegmentedBtn
         selectedArr={sex}
-        cur={sexTypeToKorean(available_sex)}
+        cur={sexTypeToKorean[available_sex]}
         onChange={onChangeSegmented}
       />
       <DropDown
@@ -75,7 +75,7 @@ export function CreateStudyRoomDetailOptions({
         placeholder="모든 학년"
         onChange={onChangeGrade}
         label="신청 가능 학년"
-        value={gradeTypeToKorean(available_grade)}
+        value={gradeTypeToKorean[available_grade]}
         margin={['top', 20]}
       />
       <_ColumWrapper>

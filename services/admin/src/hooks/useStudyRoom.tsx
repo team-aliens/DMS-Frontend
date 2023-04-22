@@ -5,12 +5,14 @@ import {
   SeatSettingDispatchContext,
 } from '@/context/seatSetting';
 import {
-  gradeKoreanToEng,
   GradeToKorean,
-  sexKoreanToEng,
   SexToKorean,
+  gradeTypeToKorean,
+  sexTypeToKorean,
 } from '@/utils/translate';
 import { StudyRoomDetailResponse } from '@/apis/studyRooms/response';
+import { GradeType, SexType } from '@/apis/studyRooms/request';
+import { useKeyByValue } from './useKeyByValue';
 
 export const useStudyRoom = () => {
   const studyRoomState = useContext(SeatSettingContext);
@@ -49,7 +51,7 @@ export const useStudyRoom = () => {
       type: 'SET_STUDY_ROOM_OPTION',
       payload: {
         ...studyRoomState,
-        available_sex: sexKoreanToEng(sex),
+        available_sex: useKeyByValue(sexTypeToKorean, sex) as SexType,
       },
     });
   };
@@ -58,7 +60,7 @@ export const useStudyRoom = () => {
       type: 'SET_STUDY_ROOM_OPTION',
       payload: {
         ...studyRoomState,
-        available_grade: gradeKoreanToEng(grade),
+        available_grade: +useKeyByValue(gradeTypeToKorean, grade) as GradeType,
       },
     });
   };

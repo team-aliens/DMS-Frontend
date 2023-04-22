@@ -12,15 +12,16 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { SeatStatusType } from '@/apis/studyRooms/request';
 import {
   SeatStatusKorean,
-  seatStatusKoreanToEng,
   seatStatusToKorean,
 } from '@/utils/translate';
 import { SeatType } from '@/apis/studyRooms/response';
 import { SelectedModalType } from '@/context/modal';
 import { useStudyRoom } from '@/hooks/useStudyRoom';
+import { useKeyByValue } from '@/hooks/useKeyByValue';
+import React from "react";
 
 const seatStatus = ['AVAILABLE', 'UNAVAILABLE', 'EMPTY'].map(
-  (i: SeatStatusType) => seatStatusToKorean(i),
+  (i: SeatStatusType) => seatStatusToKorean[i],
 );
 
 interface PropsType {
@@ -43,7 +44,7 @@ export function SeatSetting({
   const { status, type, number } = studyRoomState.seat;
   const onChangeSeatStatus = (changingStatus: SeatStatusKorean) => {
     onChangeSeatSetting({
-      status: seatStatusKoreanToEng(changingStatus),
+      status: useKeyByValue(seatStatusToKorean , changingStatus) as SeatStatusType,
     });
   };
   const onChangeNumber = (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,10 +67,10 @@ export function SeatSetting({
           placeholder="사용 가능"
           onChange={onChangeSeatStatus}
           label="자리 상태"
-          value={seatStatusToKorean(studyRoomState.seat?.status)}
+          value={seatStatusToKorean[studyRoomState.seat?.status]}
           margin={['top', 60]}
         />
-        {seatStatusToKorean(studyRoomState.seat?.status) === '사용 가능' && (
+        {seatStatusToKorean[studyRoomState.seat?.status] === '사용 가능' && (
           <Input
             label="자리 번호"
             type="number"
@@ -142,7 +143,7 @@ export function SeatSetting({
                 (status === 'UNAVAILABLE' && number && !type) ||
                 status === 'EMPTY'
               ) &&
-              seatStatusToKorean(studyRoomState.seat?.status) !== '사용 불가'
+              seatStatusToKorean[studyRoomState.seat?.status] !== '사용 불가'
             }
             kind="contained"
             color="primary"

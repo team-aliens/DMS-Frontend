@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import styled from 'styled-components';
 import { Tag } from './Tag';
+import React from "react"
 
 interface PropsType {
   refetchSearchStudents: () => void;
@@ -38,12 +39,14 @@ export function TagDropDown({
     } else setCheckedTagList([...checkedTagList, tagElement]);
   };
 
+  const outSideClick = () => {
+    setClick(false);
+    refetchSearchStudents();
+  }
+
   return (
     <OutsideClickHandler
-      onOutsideClick={() => {
-        setClick(false);
-        refetchSearchStudents();
-      }}
+      onOutsideClick={outSideClick}
     >
       <_TagDropDown>
         <Button

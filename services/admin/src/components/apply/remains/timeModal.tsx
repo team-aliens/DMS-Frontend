@@ -8,9 +8,10 @@ import {
 } from 'react';
 import styled from 'styled-components';
 import { useGetRemainTime, useSetRemainTime } from '@/hooks/useRemainApi';
-import { getDayWithText, getTextWithDay } from '@/utils/translate';
+import { DayToKorean, getDayWithText } from '@/utils/translate';
 import { useModal } from '@/hooks/useModal';
 import { useForm } from '@/hooks/useForm';
+import { useKeyByValue } from '@/hooks/useKeyByValue';
 interface ITimeState {
   startDay: string;
   startHour: string;
@@ -28,30 +29,30 @@ const minToArray = Array(60)
   .fill(void 0)
   .map((_, idx) => `${idx < 10 ? '0' + String(idx) : String(idx)}`);
 
-const dayToArray = ['월', '화', '수', '목', '금', '토', '일'];
+const dayToArray: DayToKorean[] = ['월', '화', '수', '목', '금', '토', '일'];
 export default function TimeModal() {
   const { data: remainTime } = useGetRemainTime();
   const { state: timeState, setState: setTimeState } = useForm<ITimeState>({
-    startDay: getTextWithDay(remainTime?.start_day_of_week),
+    startDay: useKeyByValue(getDayWithText, remainTime?.start_day_of_week),
     startHour: remainTime?.start_time.slice(0, 2),
     startMin: remainTime?.start_time.slice(3, 5),
-    endDay: getTextWithDay(remainTime?.end_day_of_week),
+    endDay: useKeyByValue(getDayWithText, remainTime?.end_day_of_week),
     endHour: remainTime?.end_time.slice(0, 2),
     endMin: remainTime?.end_time.slice(3, 5),
   });
   const { closeModal } = useModal();
   const { mutate } = useSetRemainTime({
-    start_day_of_week: getDayWithText(timeState.startDay),
+    start_day_of_week: getDayWithText[timeState.startDay],
     start_time: `${timeState.startHour}:${timeState.startMin}:00`,
-    end_day_of_week: getDayWithText(timeState.endDay),
+    end_day_of_week: getDayWithText[timeState.endDay],
     end_time: `${timeState.endHour}:${timeState.endMin}:00`,
   });
   useEffect(() => {
     setTimeState({
-      startDay: getTextWithDay(remainTime?.start_day_of_week),
+      startDay: useKeyByValue(getDayWithText, remainTime?.start_day_of_week),
       startHour: remainTime?.start_time.slice(0, 2),
       startMin: remainTime?.start_time.slice(3, 5),
-      endDay: getTextWithDay(remainTime?.end_day_of_week),
+      endDay: useKeyByValue(getDayWithText ,remainTime?.end_day_of_week),
       endHour: remainTime?.end_time.slice(0, 2),
       endMin: remainTime?.end_time.slice(3, 5),
     });

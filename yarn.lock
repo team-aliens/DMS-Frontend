@@ -2011,7 +2011,7 @@ __metadata:
     "@types/file-saver": ^2
     "@types/jest": ^29.2.6
     "@types/node": ^18.11.18
-    "@types/react": ^18.0.27
+    "@types/react": ^18.0.38
     "@types/react-color": ^3.0.6
     "@types/react-dom": ^18.0.10
     "@types/react-outside-click-handler": ^1.3.1
@@ -2030,8 +2030,10 @@ __metadata:
     env-cmd: ^10.1.0
     eslint: ^8.38.0
     eslint-config-airbnb-base: ^15.0.0
+    eslint-config-prettier: ^8.8.0
     eslint-plugin-aliens: ^1.0.10
     eslint-plugin-import: ^2.27.5
+    eslint-plugin-prettier: ^4.2.1
     exceljs: ^4.3.0
     file-saver: ^2.0.5
     html-webpack-plugin: ^5.5.0
@@ -2041,17 +2043,18 @@ __metadata:
     lint-staged: ">=10"
     mini-css-extract-plugin: ^2.6.0
     pinst: ">=2"
-    prettier: 2.8.3
+    prettier: ^2.8.7
     react: ^18.2.0
     react-color: ^2.19.3
     react-cookie: ^4.1.1
     react-dom: ^18.2.0
+    react-is: ^18.2.0
     react-outside-click-handler: ^1.3.0
     react-query: ^3.39.2
-    react-router-dom: ^6.4.2
+    react-router-dom: ^6.10.0
     recoil: ^0.7.6
     style-loader: ^3.3.1
-    styled-components: ^5.3.6
+    styled-components: ^5.3.9
     styled-normalize: ^8.0.7
     ts-loader: ^9.3.0
     typescript: ^4.9.4
@@ -2452,7 +2455,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.27":
+"@types/react@npm:*":
   version: 18.0.37
   resolution: "@types/react@npm:18.0.37"
   dependencies:
@@ -2460,6 +2463,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 6a6c8feada1d6aa2d01a38c44ce09598d93688e97ed21511d5e34fd7fe748b760dd957a5ac0725f5643d8d7e1a0ade6478ebd4be96c9605c5d6816b17ad35d2d
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.0.38":
+  version: 18.0.38
+  resolution: "@types/react@npm:18.0.38"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 34481c79f4f7ea2aefbaa45281319dc183200230d932d968463eba1643bd3635073d0a17c5c613150a69e36ca18b811ecffafea6384fa3dff3b5203866339d69
   languageName: node
   linkType: hard
 
@@ -5446,6 +5460,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-prettier@npm:^8.8.0":
+  version: 8.8.0
+  resolution: "eslint-config-prettier@npm:8.8.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: 1e94c3882c4d5e41e1dcfa2c368dbccbfe3134f6ac7d40101644d3bfbe3eb2f2ffac757f3145910b5eacf20c0e85e02b91293d3126d770cbf3dc390b3564681c
+  languageName: node
+  linkType: hard
+
 "eslint-import-resolver-node@npm:^0.3.7":
   version: 0.3.7
   resolution: "eslint-import-resolver-node@npm:0.3.7"
@@ -5504,6 +5529,21 @@ __metadata:
   peerDependencies:
     eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
   checksum: f500571a380167e25d72a4d925ef9a7aae8899eada57653e5f3051ec3d3c16d08271fcefe41a30a9a2f4fefc232f066253673ee4ea77b30dba65ae173dade85d
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-prettier@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "eslint-plugin-prettier@npm:4.2.1"
+  dependencies:
+    prettier-linter-helpers: ^1.0.0
+  peerDependencies:
+    eslint: ">=7.28.0"
+    prettier: ">=2.0.0"
+  peerDependenciesMeta:
+    eslint-config-prettier:
+      optional: true
+  checksum: b9e839d2334ad8ec7a5589c5cb0f219bded260839a857d7a486997f9870e95106aa59b8756ff3f37202085ebab658de382b0267cae44c3a7f0eb0bcc03a4f6d6
   languageName: node
   linkType: hard
 
@@ -5929,6 +5969,13 @@ __metadata:
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: e21a9d8d84f53493b6aa15efc9cfd53dd5b714a1f23f67fb5dc8f574af80df889b3bce25dc081887c6d25457cce704e636395333abad896ccdec03abaf1f3f9d
+  languageName: node
+  linkType: hard
+
+"fast-diff@npm:^1.1.2":
+  version: 1.2.0
+  resolution: "fast-diff@npm:1.2.0"
+  checksum: 1b5306eaa9e826564d9e5ffcd6ebd881eb5f770b3f977fcbf38f05c824e42172b53c79920e8429c54eb742ce15a0caf268b0fdd5b38f6de52234c4a8368131ae
   languageName: node
   linkType: hard
 
@@ -10393,12 +10440,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.8.3":
-  version: 2.8.3
-  resolution: "prettier@npm:2.8.3"
+"prettier-linter-helpers@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "prettier-linter-helpers@npm:1.0.0"
+  dependencies:
+    fast-diff: ^1.1.2
+  checksum: 00ce8011cf6430158d27f9c92cfea0a7699405633f7f1d4a45f07e21bf78e99895911cbcdc3853db3a824201a7c745bd49bfea8abd5fb9883e765a90f74f8392
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.8.7":
+  version: 2.8.7
+  resolution: "prettier@npm:2.8.7"
   bin:
     prettier: bin-prettier.js
-  checksum: 92f2ceb522d454370e02082aa74ad27388672f7cee8975028b59517c069fe643bdc73e322675c8faf2ff173d7a626d1a6389f26b474000308e793aa25fff46e5
+  checksum: fdc8f2616f099f5f0d685907f4449a70595a0fc1d081a88919604375989e0d5e9168d6121d8cc6861f21990b31665828e00472544d785d5940ea08a17660c3a6
   languageName: node
   linkType: hard
 
@@ -10668,7 +10724,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^18.0.0":
+"react-is@npm:^18.0.0, react-is@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: e72d0ba81b5922759e4aff17e0252bd29988f9642ed817f56b25a3e217e13eea8a7f2322af99a06edb779da12d5d636e9fda473d620df9a3da0df2a74141d53e
@@ -10709,7 +10765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.4.2":
+"react-router-dom@npm:^6.10.0":
   version: 6.10.0
   resolution: "react-router-dom@npm:6.10.0"
   dependencies:
@@ -11871,7 +11927,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^5.3.6":
+"styled-components@npm:^5.3.9":
   version: 5.3.9
   resolution: "styled-components@npm:5.3.9"
   dependencies:

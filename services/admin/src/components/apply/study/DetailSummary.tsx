@@ -36,12 +36,12 @@ const detailOptions: DetailOption[] = [
   {
     name: '신청 가능 성별',
     value: 'available_sex',
-    func: (item: SexType) => sexTypeToKorean(item),
+    func: (item: SexType) => sexTypeToKorean[item],
   },
   {
     name: '신청 가능 학년',
     value: 'available_grade',
-    func: (item: GradeType) => gradeTypeToKorean(item),
+    func: (item: GradeType) => gradeTypeToKorean[item],
   },
 ];
 

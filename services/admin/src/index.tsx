@@ -5,8 +5,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { App } from './App';
 import { ModalProvider } from '@/context/modal';
 import { SeatSettingProvider } from '@/context/seatSetting';
-import { RouterProvider } from 'react-router-dom';
-import { Router } from './router';
+
 
 export const queryClient = new QueryClient({
   defaultOptions: {

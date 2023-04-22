@@ -24,7 +24,7 @@ export function StudyCard({
       <_Divider />
       <_Info>
         <Text color="primary" size="bodyM">
-          {gradeTypeToKorean(available_grade)} {sexTypeToKorean(available_sex)}
+          {gradeTypeToKorean[available_grade]} {sexTypeToKorean[available_sex]}
         </Text>
         <Text color="gray5" size="bodyM" margin={['left', 'auto']}>
           {in_use_headcount}/{total_available_seat}

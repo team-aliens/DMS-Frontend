@@ -1,4 +1,4 @@
-import { Arrow, Text } from '@team-aliens/design-system';
+import { Arrow, Button, Input, Text } from '@team-aliens/design-system';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
@@ -7,33 +7,67 @@ import { Verification } from '@/components/myPage/Verification';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { useForm } from '@/hooks/useForm';
 import { useModal } from '@/hooks/useModal';
-import { ChangeQnA } from '@/components/modals/ChangeQnA';
-import { LogOutModal } from '@/components/modals/LogOut';
 import { ChangeSchoolQnARequest } from '@/apis/schools/request';
 import { useChangeQnA, useReissueSchoolCode } from '@/hooks/useSchoolsApi';
 import { useMyProfileInfo } from '@/hooks/useMangersApis';
 import { StudentRegistrationExcel } from '@/components/modals/StudentRegistrationExcel';
 import { pagePath } from '@/utils/pagePath';
-import { SchoolCheckingCodeModal } from '@/components/modals/SchoolCheckingCode';
+import { useAuth } from '@/hooks/useAuth';
 
 export function MyPage() {
-  const { modalState, selectModal, closeModal } = useModal();
-  const openNewQuestionModal = () => selectModal('NEW_QNA');
-  const openLogoutModal = () => selectModal('LOGOUT');
-  const openStudentExelModal = () => selectModal('STUDENT_EXEL');
-
+  const { modalState, renderModal, closeModal } = useModal();
+  const { logOut } = useAuth();
   const { onHandleChange: onChange, state: qnaState } =
     useForm<ChangeSchoolQnARequest>({
       question: '',
       answer: '',
     });
   const { answer, question } = qnaState;
+  const openNewQuestionModal = () =>
+    renderModal({
+      title: '새 확인 질문과 답변을 입력해주세요.',
+      inputs: [
+        <Input
+          name="question"
+          value={question}
+          onChange={onChange}
+          placeholder="질문"
+        />,
+        <Input
+          name="answer"
+          value={answer}
+          onChange={onChange}
+          placeholder="답변"
+        />,
+      ],
+      buttons: [
+        <Button kind="contained" onClick={changeQnA.mutate}>
+          저장
+        </Button>,
+      ],
+    });
+  const logOutConfirm = () =>
+    renderModal({
+      title: '로그아웃 재확인',
+      content: '로그아웃 하시겠습니까?',
+      buttons: [
+        <Button onClick={closeModal} kind="outline" color="gray">
+          취소
+        </Button>,
+        <Button onClick={logOut} kind="contained" color="error">
+          확인
+        </Button>,
+      ],
+    });
+
+  const openStudentExelModal = () => selectModl('STUDENT_EXEL');
 
   const { data: myProfileData } = useMyProfileInfo();
   const changeQnA = useChangeQnA(qnaState);
   const getNewCode = useReissueSchoolCode();
 
   const [code, setCode] = useState('');
+
   useEffect(() => {
     setCode(myProfileData?.code);
   }, [myProfileData]);
@@ -42,6 +76,19 @@ export function MyPage() {
     if (getNewCode.data) setCode(getNewCode.data?.code);
   }, [getNewCode.isSuccess, getNewCode.data]);
 
+  const changeSchoolCode = () => {
+    renderModal({
+      content: '확인코드를 새로 발급하시겠습니까?',
+      buttons: [
+        <Button onClick={closeModal} kind="outline" color="gray">
+          취소
+        </Button>,
+        <Button onClick={getNewCode.mutate} kind="contained" color="error">
+          확인
+        </Button>,
+      ],
+    });
+  };
   return (
     <>
       <WithNavigatorBar>
@@ -51,10 +98,7 @@ export function MyPage() {
           </Text>
           <_CardWrapper>
             <div>
-              <Verification
-                onClickNewCode={() => selectModal('SCHOOL_CHECKING_CODE')}
-                code={code}
-              />
+              <Verification onClickNewCode={changeSchoolCode} code={code} />
               <_OptionBtn>
                 <_PasswordChange to={pagePath.myPage.changePwd}>
                   <Text display="block" size="titleS">
@@ -64,7 +108,7 @@ export function MyPage() {
                 </_PasswordChange>
                 <_Logout
                   margin={['left', 'auto']}
-                  onClick={openLogoutModal}
+                  onClick={logOutConfirm}
                   display="block"
                   size="titleS"
                   color="error"
@@ -87,24 +131,6 @@ export function MyPage() {
           </_StudentIssuance>
         </_Wrapper>
       </WithNavigatorBar>
-      {modalState.selectedModal === 'NEW_QNA' && (
-        <ChangeQnA
-          close={closeModal}
-          question={question}
-          onChange={onChange}
-          answer={answer}
-          onClick={changeQnA.mutate}
-        />
-      )}
-      {modalState.selectedModal === 'SCHOOL_CHECKING_CODE' && (
-        <SchoolCheckingCodeModal
-          closeModal={closeModal}
-          onClick={getNewCode.mutate}
-        />
-      )}
-      {modalState.selectedModal === 'LOGOUT' && (
-        <LogOutModal closeModal={closeModal} />
-      )}
       {modalState.selectedModal === 'STUDENT_EXEL' && (
         <StudentRegistrationExcel closeModal={closeModal} />
       )}

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { SeeMore, Text } from '@team-aliens/design-system';
+import { Button, SeeMore, Text } from '@team-aliens/design-system';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useState } from 'react';
 import { GenderType } from '@/apis/managers/response';
@@ -24,8 +24,20 @@ export function StudentProfile({
   profile_image_url,
 }: Props) {
   const [openDeleteStudent, setOpenDeleteStudent] = useState<boolean>(false);
-  const { selectModal } = useModal();
-  const openDeleteStudentModal = () => selectModal('DELETE_STUDENT');
+  const { renderModal, closeModal } = useModal();
+  const openDeleteStudentModal = () =>
+    renderModal({
+      content: '학생을 삭제 하시겠습니까?',
+      onClose: closeModal,
+      buttons: [
+        <Button onClick={closeModal} kind="outline" color="gray">
+          취소
+        </Button>,
+        <Button className="modalButton" color="error" onClick={onClick}>
+          확인
+        </Button>,
+      ],
+    });
 
   const ChangeState = () => {
     setOpenDeleteStudent(!openDeleteStudent);

@@ -9,7 +9,7 @@ interface PropsType {
 }
 
 export const StudentRegistrationExcel = ({ closeModal }: PropsType) => {
-  const [uploadedFile, setUplodaedFile] = useState(null);
+  const [uploadedFile, setUplodaedFile] = useState<null | File>(null);
   const studentAccount = useStudentAccountIssuance(uploadedFile, closeModal);
 
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

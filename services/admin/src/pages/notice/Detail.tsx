@@ -1,32 +1,35 @@
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Text, BreadCrumb } from '@team-aliens/design-system';
+import { Text, BreadCrumb, Button } from '@team-aliens/design-system';
 import { NoticeDetailSummary } from '@/components/notice/NoticeDetailSummary';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { useModal } from '@/hooks/useModal';
-import { DeleteNoticeConfirm } from '@/components/modals/DeleteNoticeConfirm';
 import { useDeleteNotice, useNoticeDetail } from '@/hooks/useNoticeApi';
 import { pathToKorean } from '@/router';
 
 export function NoticeDetail() {
   const { noticeId } = useParams();
 
-  const { selectModal, modalState, closeModal } = useModal();
+  const { renderModal, modalState, closeModal } = useModal();
 
   const { data: detail } = useNoticeDetail(noticeId);
   const deleteNotice = useDeleteNotice(noticeId);
 
-  const onClickDeleteNotice = () => {
-    selectModal('DELETE_NOTICE');
-  };
+  const deleteConfirm = () =>
+    renderModal({
+      content: '공지를 삭제하시겠습니까?',
+      buttons: [
+        <Button kind="outline" color="gray" onClick={closeModal}>
+          취소
+        </Button>,
+        <Button kind="contained" color="error" onClick={deleteNotice.mutate}>
+          삭제
+        </Button>,
+      ],
+    });
+
   return (
     <>
-      {modalState.selectedModal === 'DELETE_NOTICE' && (
-        <DeleteNoticeConfirm
-          closeModal={closeModal}
-          deleteNotice={deleteNotice.mutate}
-        />
-      )}
       <WithNavigatorBar>
         <_Wrapper>
           <BreadCrumb left={366} pathToKorean={pathToKorean} />
@@ -39,7 +42,7 @@ export function NoticeDetail() {
             {detail?.title}
           </Text>
           <NoticeDetailSummary
-            onClickDeleteNotice={onClickDeleteNotice}
+            onClickDeleteNotice={deleteConfirm}
             createdDate={detail?.created_at}
             noticeId={noticeId}
           />

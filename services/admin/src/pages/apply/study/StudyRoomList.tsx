@@ -131,10 +131,9 @@ export function StudyRoomList() {
           </Button>
           {studyTimeSlots?.time_slots?.map((timeSlot) => (
             <TimeCard
-            
-            setClickTimeCardId={setClickTimeCardId}
-            selectTimeCardId={selectTimeCardId}
-            setSelectTimeCardId={setSelectTimeCardId}
+              setClickTimeCardId={setClickTimeCardId}
+              selectId={selectTimeCardId}
+              setSelectTimeCardId={setSelectTimeCardId}
               selectModal={selectModal}
               prevId={timeSlot.id}
               timeSlot={timeSlot}

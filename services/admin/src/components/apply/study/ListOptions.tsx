@@ -13,12 +13,12 @@ import { useToast } from '@/hooks/useToast';
 
 interface PropsType {
   setApplicationTime: () => void;
-  onChangeDropdown: (type: keyof ApplicationTime, value: string) => void;
+  onChangeApplicationTime: (type: keyof ApplicationTime, value: string) => void;
 }
 
 export function StudyListOptions({
   setApplicationTime,
-  onChangeDropdown,
+  onChangeApplicationTime,
   startHour,
   startMin,
   endHour,
@@ -50,7 +50,7 @@ export function StudyListOptions({
     <>
       {modalState.selectedModal === 'APPLICATION_TIME' && (
         <SetApplicationTimeModal
-          onChangeDropdown={onChangeDropdown}
+          onChangeDropdown={onChangeApplicationTime}
           close={closeModal}
           startHour={startHour}
           startMin={startMin}

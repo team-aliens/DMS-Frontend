@@ -131,9 +131,10 @@ export function StudyRoomList() {
           </Button>
           {studyTimeSlots?.time_slots?.map((timeSlot) => (
             <TimeCard
-              setClickId={setClickTimeCardId}
-              selectId={selectTimeCardId}
-              setSelectId={setSelectTimeCardId}
+            
+            setClickTimeCardId={setClickTimeCardId}
+            selectTimeCardId={selectTimeCardId}
+            setSelectTimeCardId={setSelectTimeCardId}
               selectModal={selectModal}
               prevId={timeSlot.id}
               timeSlot={timeSlot}
@@ -209,21 +210,4 @@ const _Buttons = styled.div`
   align-items: center;
   gap: 12px;
   margin-top: 40px;
-`;
-
-const _Line = styled.div`
-  width: 1px;
-  height: 26px;
-  border: 1px solid #579aff;
-  margin: 10px;
-`;
-
-const _Border = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  background-color: #2b7fff;
-  border-radius: 50px;
 `;

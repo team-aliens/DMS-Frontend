@@ -6,52 +6,52 @@ import { ITimeSlots } from '@/apis/studyRooms/response';
 import { tranformTimeSlot } from '@/utils/time';
 
 interface PropsType {
-  setClickId: Dispatch<SetStateAction<string>>;
-  selectId: string;
-  setSelectId: Dispatch<SetStateAction<string>>;
+  setClickTimeCardId: Dispatch<SetStateAction<string>>;
+  selectTimeCardId: string;
+  setSelectTimeCardId: Dispatch<SetStateAction<string>>;
   prevId: string;
   selectModal: (selected: SelectedModalType) => void;
   timeSlot: ITimeSlots;
 }
 export default function TimeCard({
-  setClickId,
-  selectId,
-  setSelectId,
+  setClickTimeCardId,
+  selectTimeCardId,
+  setSelectTimeCardId,
   prevId,
   selectModal,
   timeSlot,
 }: PropsType) {
   const onClickEdit = () => {
-    setClickId(prevId);
+    setClickTimeCardId(prevId);
     selectModal('EDIT_STUDY_ROOM_TIME');
   };
   const onClickDelete = () => {
-    setClickId(prevId);
+    setClickTimeCardId(prevId);
     selectModal('DELETE_STUDY_ROOM_TIME');
   };
   const { start_hour, start_min, end_min, end_hour } =
     tranformTimeSlot(timeSlot);
   return (
-    <_TimeWrapper isSelect={selectId === prevId}>
+    <_TimeWrapper isSelect={selectTimeCardId === prevId}>
       <Button
-        kind={selectId == prevId ? 'contained' : 'outline'}
-        color={selectId === prevId ? 'primary' : 'gray'}
+        kind={selectTimeCardId == prevId ? 'contained' : 'outline'}
+        color={selectTimeCardId === prevId ? 'primary' : 'gray'}
       >
-        <_time onClick={() => setSelectId(prevId)}>
+        <_time onClick={() => setSelectTimeCardId(prevId)}>
           {start_hour}:{start_min} ~ {end_hour}:{end_min}{' '}
         </_time>
         <Line className="line" />
         <div className="timeMenu">
           <div onClick={onClickEdit}>
             <EditIcon
-              pathColor={selectId == prevId ? 'white' : '#999999'}
-              color={selectId == prevId ? '#3D8AFF' : '#FFFFFF'}
+              pathColor={selectTimeCardId == prevId ? 'white' : '#999999'}
+              color={selectTimeCardId == prevId ? '#3D8AFF' : '#FFFFFF'}
             />
           </div>
           <div onClick={onClickDelete}>
             <Trash
               className="icon"
-              colorKey={selectId === prevId ? 'gray1' : 'gray5'}
+              colorKey={selectTimeCardId === prevId ? 'gray1' : 'gray5'}
               size={28}
             />
           </div>

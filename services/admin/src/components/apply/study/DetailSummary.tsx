@@ -78,7 +78,7 @@ export function StudyRoomDetailSummary({
           수정하기
         </Button>
       </Link>
-      <Button
+      <Buttosn
         color="error"
         kind="rounded"
         margin={['left', 10]}

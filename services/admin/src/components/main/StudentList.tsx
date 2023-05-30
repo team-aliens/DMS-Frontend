@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, SearchBox, Sort } from '@team-aliens/design-system';
+import { Button, SearchBox, Sort, CheckBox, Text } from '@team-aliens/design-system';
 import {
   ChangeEvent,
   Dispatch,
@@ -38,6 +38,9 @@ import { ViewAllTagModal } from '../modals/ViewAllTagModal';
 import { useDeleteTag } from '@/apis/tags';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { IsUseAbleFeature } from '@/apis/auth/response';
+import { Divider } from './Divider';
+import { ViewItem } from './ViewItem';
+import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 
 interface Props extends FilterState {
   mode: ModeType;
@@ -132,6 +135,7 @@ export function StudentList({
     },
   });
 
+
   const deleteTagAPI = useDeleteTag(selectedTag, {
     onSuccess: () => {
       refetchAllTags();
@@ -183,6 +187,21 @@ export function StudentList({
     setShowGiveModal(false);
   };
 
+  const [isSelectAllButton, setIsSelectAllButton] = useState(false);
+
+  console.log(selectedStudentId)
+  
+  const onClickAllButton = () => {
+    if(isSelectAllButton){
+      setSelectedStudentId([]);
+    }else {
+      studentList.forEach((student) => {
+        setSelectedStudentId((prev) => [...prev, student.id])
+      })
+    }
+    setIsSelectAllButton((prev) => !prev)
+  }
+
   const tagId = useRecoilValue(DeleteTagIdAtom);
 
   const deleteStudentTag = useDeleteStudentTag(
@@ -193,7 +212,7 @@ export function StudentList({
   );
 
   return (
-    <_Wrapper detailIsOpened={!!selectedStudentId[0]}>
+    <_Wrapper>
       <_Filter className="filter">
         <SearchBox
           className="searchBox"
@@ -201,7 +220,7 @@ export function StudentList({
           onChange={onChangeSearchName}
         />
         <_Buttons>
-          {mode === 'POINTS' && (
+          {/* {mode === 'POINTS' && (
             <_ChooseModalBoxWrapper>
               <Button
                 className="grantPoint"
@@ -281,20 +300,9 @@ export function StudentList({
                   </OutsideClickHandler>
                 )}
             </_ChooseModalBoxWrapper>
-          )}
-          <Button
-            kind="outline"
-            color="gray"
-            onClick={onChangeSortType}
-            Icon={<Sort />}
-            className="filterButton"
-          >
-            {SortEnum[sort]}순
-          </Button>
-        </_Buttons>
-      </_Filter>
-      <_Buttons>
-        {availableFeature?.point_service && (
+          )} */}
+          <ViewItem />
+          {availableFeature?.point_service && (
           <Button
             color={filterState.color as 'primary' | 'gray' | 'error'}
             kind="outline"
@@ -308,6 +316,29 @@ export function StudentList({
           checkedTagList={checkedTagList}
           setCheckedTagList={setCheckedTagList}
         />
+          <Button
+            kind="outline"
+            color="gray"
+            onClick={onChangeSortType}
+            Icon={<Sort />}
+            className="filterButton"
+          >
+            {SortEnum[sort]}순
+          </Button>
+          <Divider width={2} height={47} margin={"0 16px 0 16px"}/>
+          <Button
+            kind="outline"
+            color="gray"
+            onClick={() => {}}
+            className="filterButton"
+          >
+            상/벌점 내역
+          </Button>
+        </_Buttons>
+      </_Filter>
+      <_Buttons>
+        <CheckBox status={isSelectAllButton} onChange={onClickAllButton}/>
+        <Text cursor={"pointer"}>전체 선택</Text>
       </_Buttons>
       <_StudentList>
         {studentList.map((item) => (
@@ -318,6 +349,8 @@ export function StudentList({
             onClickStudent={onClickStudent}
             isSelected={selectedStudentId.includes(item.id)}
             selectedStudentId={selectedStudentId}
+            setSelectedStudentId={setSelectedStudentId}
+
           />
         ))}
       </_StudentList>
@@ -406,10 +439,9 @@ export function StudentList({
   );
 }
 
-const _Wrapper = styled.div<{ detailIsOpened: boolean }>`
-  width: ${({ detailIsOpened }) => (detailIsOpened ? 500 : 670)}px;
+const _Wrapper = styled.div`
+  width: 1030px;
   transition: width 0.7s ease-in-out;
-  margin-left: 50px;
   margin-bottom: 150px;
 `;
 
@@ -438,7 +470,8 @@ const _Buttons = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 10px 0;
+  margin-left: 36px;
+  margin-top: 52px;
 `;
 
 const _ChooseModalBoxWrapper = styled.div`

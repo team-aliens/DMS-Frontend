@@ -99,16 +99,12 @@ export function Home() {
   };
 
   const onClickStudent = (id: string, modeType?: ModeType) => {
-    if (modeType === 'POINTS') {
-      if (selectedStudentId.includes(id)) {
-        setSelectedStudentId(
-          selectedStudentId.filter((element) => element !== id),
-        );
-      } else {
-        setSelectedStudentId([...selectedStudentId, id]);
-      }
+    if (selectedStudentId.includes(id)) {
+      setSelectedStudentId(
+        selectedStudentId.filter((element) => element !== id),
+      );
     } else {
-      setSelectedStudentId(selectedStudentId[0] === id ? [''] : [id]);
+      setSelectedStudentId([...selectedStudentId, id]);
     }
   };
 
@@ -142,7 +138,7 @@ export function Home() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        <_ModeButton
+        {/* <_ModeButton
           onClick={() => {
             ChangeMode();
             setSelectedStudentId(['']);
@@ -161,7 +157,7 @@ export function Home() {
           >
             {listViewType === 'POINTS' ? '전체 상/벌점 내역' : '학생 목록 보기'}
           </_PointListButton>
-        )}
+        )} */}
         {listViewType === 'POINTS' ? (
           <>
             <StudentList
@@ -186,21 +182,6 @@ export function Home() {
               refetchStudentDetail={refetchStudentDetail}
               refetchStudentPointHistory={refetchStudentPointHistory}
             />
-            <Divider />
-            <div>
-              <StudentDetail
-                mode={mode.type}
-                studentDetail={studentDetail}
-                studentList={studentList?.students || []}
-                studentId={selectedStudentId.filter((i) => i)}
-                onClickStudent={onClickStudent}
-                availableFeature={availableFeature}
-                studentPointHistory={studentPointHistory}
-                studentsPointHistoryList={
-                  studentsPointHistoryList.pointHistoryList
-                }
-              />
-            </div>
           </>
         ) : (
           <PointList />
@@ -212,7 +193,8 @@ export function Home() {
 
 const _Wrapper = styled.div`
   display: flex;
-  margin: 160px auto 0 auto;
+  margin-top: 160px;
+  margin-left: 80px;
   overflow-y: scroll;
 `;
 

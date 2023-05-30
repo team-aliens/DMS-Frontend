@@ -1,16 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext, SetStateAction, Dispatch } from 'react';
 import styled from 'styled-components';
-import { Text } from '@team-aliens/design-system';
+import { Text, CheckBox } from '@team-aliens/design-system';
 import { StudentInfo } from '@/apis/managers/response';
 import { ModeType } from '@/pages/Home';
 import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import { Tag } from './Tag';
 
-interface Props {
+export interface StudentBoxProps {
   mode: ModeType;
   studentInfo: StudentInfo;
   onClickStudent: (id: string, modeType?: ModeType) => void;
   isSelected: boolean;
+  setSelectedStudentId: Dispatch<SetStateAction<string[]>>;
   selectedStudentId: string[];
 }
 
@@ -19,28 +20,30 @@ export function StudentBox({
   onClickStudent,
   isSelected,
   selectedStudentId,
+  setSelectedStudentId,
   mode,
-}: Props) {
+}: StudentBoxProps) {
   const ref = useRef<HTMLLIElement>(null);
   useEffect(() => {
     if (selectedStudentId.includes(studentInfo.id))
       ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, [selectedStudentId]);
-  const { updateRecentlyStudentInfo } = usePointHistoryList();
+  const { updateRecentlyStudentInfo, pointHistoryList } = usePointHistoryList();
+
+  const onChangeCheckBox = () => {
+    if(isSelected){
+      setSelectedStudentId((student) => student.filter((id) => id !== studentInfo.id))
+    }else {
+      setSelectedStudentId((prev) => [...prev, studentInfo.id])
+    }
+  }
   return (
     <_Wrapper
       ref={ref}
-      isSelected={isSelected}
       className="studentBox"
-      onClick={() => {
-        onClickStudent(studentInfo.id, mode);
-        updateRecentlyStudentInfo({
-          studentId: studentInfo.id,
-          gcn: studentInfo.gcn,
-          name: studentInfo.name,
-        });
-      }}
     >
+      <CheckBox status={isSelected} onChange={onChangeCheckBox}
+      />
       <img
         className="studentBox"
         src={studentInfo.profile_image_url}
@@ -49,7 +52,7 @@ export function StudentBox({
       <Text
         className="studentBox"
         size="bodyL"
-        color={isSelected ? 'gray1' : 'gray10'}
+        color={'gray10'}
         margin={['left', 16]}
       >
         {studentInfo.name}
@@ -58,11 +61,11 @@ export function StudentBox({
         className="studentBox"
         margin={['left', 16]}
         size="bodyL"
-        color={isSelected ? 'gray4' : 'gray6'}
+        color={'gray6'}
       >
         {studentInfo.gcn}
       </Text>
-      <_Tags isSelected={isSelected}>
+      <_Tags>
         {studentInfo.tags?.map((tag) => (
           <Tag key={tag.id} id={tag.id} color={tag.color} name={tag.name} />
         ))}
@@ -70,7 +73,7 @@ export function StudentBox({
       <Text
         className="studentBox"
         size="bodyL"
-        color={isSelected ? 'gray4' : 'gray6'}
+        color={'gray6'}
         margin={['left', 'auto']}
       >
         {studentInfo.room_number}호
@@ -79,17 +82,12 @@ export function StudentBox({
   );
 }
 
-interface WrapperProps {
-  isSelected: boolean;
-}
-
-const _Wrapper = styled.li<WrapperProps>`
+const _Wrapper = styled.li`
   position: relative;
   z-index: 1;
   width: 100%;
   height: 70px;
-  background-color: ${({ theme, isSelected }) =>
-    isSelected ? theme.color.primaryDarken1 : theme.color.gray1};
+  background-color: ${({ theme, }) => theme.color.gray1};
   box-shadow: 0 1px 20px rgba(204, 204, 204, 0.24);
   border-radius: 4px;
   padding: 17px 40px 17px 36px;
@@ -99,13 +97,13 @@ const _Wrapper = styled.li<WrapperProps>`
   > img {
     width: 36px;
     height: 36px;
-    background-color: ${({ theme, isSelected }) =>
-      isSelected ? theme.color.primary : theme.color.gray5};
+    background-color: ${({ theme  }) => theme.color.gray5};
     border-radius: 50%;
+    margin-left: 24px;
   }
 `;
 
-const _Tags = styled.div<{ isSelected: boolean }>`
+const _Tags = styled.div`
   max-width: 45%;
   display: flex;
   align-items: center;
@@ -113,5 +111,5 @@ const _Tags = styled.div<{ isSelected: boolean }>`
   gap: 10px;
   white-space: nowrap;
   overflow: hidden;
-  opacity: ${({ isSelected }) => (isSelected ? 0.5 : 1)};
+  opacity: 1;
 `;

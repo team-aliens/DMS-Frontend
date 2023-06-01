@@ -27,11 +27,12 @@ export default function StudyTimeOptions({
 
   const [selectId, setSelectId] = useState(timeSlotId);
 
-  const onClick = (id: string) => {
+  const onClick = async (id: string) => {
     setSelectId(id);
-    setTimeSlotState(id);
+    await setTimeSlotState(id);
     refetch();
   };
+
   useEffect(() => {
     initalValue(detail);
   }, [detail]);
@@ -85,4 +86,5 @@ const _studyTimeSlot = styled.button<{ isSelect: boolean }>`
   color: ${({ isSelect }) => (isSelect ? '#3D8AFF' : 'black')};
   border: ${({ isSelect }) => (isSelect ? '1px solid #3D8AFF' : 'black')};
   cursor: pointer;
+  white-space: nowrap;
 `;

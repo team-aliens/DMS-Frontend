@@ -27,7 +27,6 @@ interface PropsType {
   setSelectedPointOption?: Dispatch<SetStateAction<string>>;
   close: () => void;
   allPointOptions?: AllPointsOptionResponse;
-  refetchAllPointOptions?: () => void;
 }
 
 export function ViewPointOptionsModal({
@@ -35,7 +34,6 @@ export function ViewPointOptionsModal({
   selectedPointOption,
   setSelectedPointOption,
   allPointOptions,
-  refetchAllPointOptions,
 }: PropsType) {
   const MustTrue = true;
 
@@ -88,52 +86,16 @@ export function ViewPointOptionsModal({
       point_option_name: '',
     });
 
-  const { toastDispatch } = useToast();
-
   const addPointOptionAPI = useAddPointOption(
     addPointScore,
     addPointName,
     AddState,
-    {
-      onSuccess: () => {
-        refetchAllPointOptions();
-        toastDispatch({
-          toastType: 'SUCCESS',
-          actionType: 'APPEND_TOAST',
-          message: '상/벌점 항목이 추가되었습니다.',
-        });
-      },
-      onError: () => {
-        toastDispatch({
-          toastType: 'ERROR',
-          actionType: 'APPEND_TOAST',
-          message: '상/벌점 항목 추가를 실패했습니다.',
-        });
-      },
-    },
   );
   const editPointOptionAPI = useEditPointOption(
     selectedPointOption,
     score_,
     name_,
     EditState,
-    {
-      onSuccess: () => {
-        refetchAllPointOptions();
-        toastDispatch({
-          toastType: 'SUCCESS',
-          actionType: 'APPEND_TOAST',
-          message: '상/벌점 항목이 수정되었습니다.',
-        });
-      },
-      onError: () => {
-        toastDispatch({
-          toastType: 'ERROR',
-          actionType: 'APPEND_TOAST',
-          message: '상/벌점 항목 수정을 실패했습니다.',
-        });
-      },
-    },
   );
 
   return (

@@ -1,7 +1,7 @@
 {
   "root": true,
   "plugins": ["aliens"],
-  "extends": ["eslint:recommended", "plugin:alines/recommended"],
+  "extends": ["eslint:recommended", "plugin:aliens/recommended"],
   "env": {
     "es6": true
   }

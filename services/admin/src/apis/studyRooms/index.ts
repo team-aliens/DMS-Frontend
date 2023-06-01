@@ -1,5 +1,5 @@
 import { pagePath } from '@/utils/pagePath';
-import { MutationOptions, useMutation, useQuery } from 'react-query';
+import { MutationOptions, useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { instance } from '..';
 import { AxiosError } from 'axios';
@@ -151,17 +151,23 @@ export const useDeleteStudyRoom = (
 };
 
 export const useStudyRoomDetail = (studyRoomId: string, timeSlotId: string) =>
-  useQuery(['studyRoomDetail', studyRoomId], async () => {
-    const { data } = await instance.get<StudyRoomDetailResponse>(
-      `${router}/${studyRoomId}/managers`,
-      {
-        params: {
-          time_slot: timeSlotId,
+  useQuery(
+    ['studyRoomDetail', studyRoomId],
+    async () => {
+      const { data } = await instance.get<StudyRoomDetailResponse>(
+        `${router}/${studyRoomId}/managers`,
+        {
+          params: {
+            time_slot: timeSlotId,
+          },
         },
-      },
-    );
-    return data;
-  });
+      );
+      return data;
+    },
+    {
+      refetchOnWindowFocus: true,
+    },
+  );
 
 export const usePatchStudyRoom = (
   studyRoomId: string,
@@ -283,6 +289,8 @@ export const useCreateTimeSlots = (
   options?: MutationOptions,
 ) => {
   const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
+
   return useMutation(
     () =>
       instance.post<CreateStudyTimeSlotsResponse>(
@@ -291,6 +299,14 @@ export const useCreateTimeSlots = (
       ),
     {
       ...options,
+      onSuccess: () => {
+        toastDispatch({
+          toastType: 'SUCCESS',
+          actionType: 'APPEND_TOAST',
+          message: '자습실 이용 시간이 추가되었습니다.',
+        });
+        closeModal();
+      },
       onError: (error: AxiosError) => {
         if (error.request.status) {
           switch (error.request.status) {
@@ -331,10 +347,24 @@ export const useCreateTimeSlots = (
 
 export const useEditTimeSlots = ({ path, body }: EditStudyTimeSlotsRequest) => {
   const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
   return useMutation(
     () => instance.patch(`${router}/time-slots/${path.time_slot_id}`, body),
     {
+      onSuccess: () => {
+        toastDispatch({
+          toastType: 'SUCCESS',
+          actionType: 'APPEND_TOAST',
+          message: '자습실 이용 시간이 수정되었습니다.',
+        });
+        closeModal();
+      },
       onError: (error: AxiosError) => {
+        toastDispatch({
+          toastType: 'ERROR',
+          actionType: 'APPEND_TOAST',
+          message: '자습실 이용시간 수정이 실패되었습니다.',
+        });
         if (error.request.status) {
           switch (error.request.status) {
             case 400: {
@@ -372,10 +402,30 @@ export const useEditTimeSlots = ({ path, body }: EditStudyTimeSlotsRequest) => {
   );
 };
 
-export const useDeleteTimeSlots = ({ path }: DeleteStudyTimeSlotsRequest) =>
-  useMutation(() =>
-    instance.delete(`${router}/time-slots/${path.time_slot_id}`),
+export const useDeleteTimeSlots = ({ path }: DeleteStudyTimeSlotsRequest) => {
+  const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
+
+  return useMutation(
+    () => instance.delete(`${router}/time-slots/${path.time_slot_id}`),
+    {
+      onSuccess: () => {
+        toastDispatch({
+          toastType: 'SUCCESS',
+          actionType: 'APPEND_TOAST',
+          message: '자습실 이용시간이 삭제되었습니다.',
+        });
+        closeModal();
+      },
+      onError: () =>
+        toastDispatch({
+          toastType: 'ERROR',
+          actionType: 'APPEND_TOAST',
+          message: '자습실 이용시간 삭제를 실패했습니다.',
+        }),
+    },
   );
+};
 
 export const useGetStudyExcel = () =>
   useMutation(

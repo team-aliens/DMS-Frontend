@@ -25,22 +25,19 @@ import { useForm } from '@/hooks/useForm';
 import { PointItem } from '../main/DetailBox/PointItem';
 import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import { useToast } from '@/hooks/useToast';
+import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import { useModal } from '@/hooks/useModal';
 
 interface PropsType {
-  selectedStudentId: string[];
-  close: () => void;
   allPointOptions: AllPointsOptionResponse;
-  refetchAllPointOptions?: () => void;
 }
 
 const canClick = true;
-export function GivePointOptionsModal({
-  close,
-  selectedStudentId,
-  allPointOptions,
-  refetchAllPointOptions,
-}: PropsType) {
+export function GivePointOptionsModal({ allPointOptions }: PropsType) {
   const [newItem, setNewItem] = useState(true);
+  const [selectedStudentId] = useSelectedStudentIdStore((store) => [
+    store.selectedStudentId,
+  ]);
   const [selectedPointOption, setSelectedPointOption] = useState<{
     id: string;
     type: PointType;
@@ -112,32 +109,18 @@ export function GivePointOptionsModal({
     },
   );
 
-  const addPointOptionAPI = useAddPointOption(scoreOption, nameOption, sort, {
-    onSuccess: () => {
-      refetchAllPointOptions();
-      toastDispatch({
-        toastType: 'SUCCESS',
-        actionType: 'APPEND_TOAST',
-        message: '상/벌점 항목이 추가되었습니다.',
-      });
-    },
-    onError: () => {
-      toastDispatch({
-        toastType: 'ERROR',
-        actionType: 'APPEND_TOAST',
-        message: '상/벌점 항목 추가를 실패했습니다.',
-      });
-    },
-  });
+  const addPointOptionAPI = useAddPointOption(scoreOption, nameOption, sort);
 
   const { isLoading } = givePointOptionAPI;
+
+  const { closeModal } = useModal();
 
   return (
     <Modal
       className="grantPoint"
       title="상/벌점 항목을 선택해주세요."
       content=""
-      close={close}
+      close={closeModal}
       buttonList={[
         <Button
           className="grantPoint"

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Button, Text } from '@team-aliens/design-system';
 import { useEffect, useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import RemainModal from '@/components/apply/remains/remainModal';
 import DeleteModal from '@/components/apply/remains/deleteModal';
@@ -36,7 +36,7 @@ export default function RemainsLists() {
   useEffect(() => {
     getAllRemainMutate(null, {
       onSuccess: () => {
-        queryClient.invalidateQueries('getAllRemains');
+        queryClient.invalidateQueries(['getAllRemains']);
       },
     });
   }, [modalState]);

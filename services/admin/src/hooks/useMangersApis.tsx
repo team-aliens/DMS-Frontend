@@ -1,4 +1,4 @@
-import { MutationOptions, useMutation, useQuery } from 'react-query';
+import { MutationOptions, useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import {
   deleteStudent,
@@ -13,6 +13,8 @@ import { PointType } from '@/apis/points';
 import { useModal } from './useModal';
 import { pagePath } from '@/utils/pagePath';
 import { TagType } from '@/apis/tags/response';
+import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PropsType {
   selectedId: string;
@@ -69,17 +71,23 @@ export const useSearchStudents = ({
   );
 
 export const useStudentDetail = (id: string) =>
-  useQuery(['getStudentDetail', id], () => id && getStudentDetail(id));
-
+  useQuery(['getStudentDetail', id], () => id && getStudentDetail(id), {
+    enabled: !!id,
+  });
 export const useMyProfileInfo = () => useQuery(['getMyProfile'], getMyProfile);
 
-export const useDeleteStudent = (
-  student_id: string,
-  options?: MutationOptions,
-) => {
+export const useDeleteStudent = (student_id: string) => {
   const { closeModal } = useModal();
+  const [selectedStudentId, resetStudentId] = useSelectedStudentIdStore(
+    (state) => [state.selectedStudentId, state.resetStudentId],
+  );
+  const queryClient = useQueryClient();
 
   return useMutation(() => deleteStudent(student_id), {
-    ...options,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['studentList']);
+      resetStudentId();
+      closeModal();
+    },
   });
 };

@@ -18,6 +18,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useAddTag, useGiveTag } from '@/apis/tags';
 import { useToast } from '@/hooks/useToast';
 import { AxiosError } from 'axios';
+import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 
 interface PropsType {
   selectedStudentId: string[];
@@ -37,13 +38,15 @@ interface Colors {
 
 export function GiveAllTagModal({
   close,
-  selectedStudentId,
   allTags,
   refetchAllTags,
   selectedTag,
   setSelectedTag,
   setTagModal,
 }: PropsType) {
+  const [selectedStudentId] = useSelectedStudentIdStore((state) => [
+    state.selectedStudentId,
+  ]);
   const [newItem, setNewItem] = useState<boolean>(true);
   const [colorDropDown, setColorDropDown] = useState<boolean>(false);
   const [selectedColor, setselectedColor] = useState<string>('');
@@ -90,43 +93,7 @@ export function GiveAllTagModal({
     setColorDropDown(false);
   };
 
-  const giveTagAPI = useGiveTag(
-    selectedTag,
-    selectedStudentId.filter((i) => i),
-    {
-      onSuccess: () => {
-        toastDispatch({
-          actionType: 'APPEND_TOAST',
-          toastType: 'SUCCESS',
-          message: `태그가 부여되었습니다.`,
-        });
-      },
-      onError: (e: AxiosError) => {
-        if (e.request.status) {
-          switch (e.request.status) {
-            case 500:
-              return toastDispatch({
-                actionType: 'APPEND_TOAST',
-                toastType: 'ERROR',
-                message: `관리자에게 문의해주세요.`,
-              });
-            default:
-              toastDispatch({
-                actionType: 'APPEND_TOAST',
-                toastType: 'ERROR',
-                message: `태그 부여를 실패했습니다.`,
-              });
-          }
-        } else {
-          toastDispatch({
-            actionType: 'APPEND_TOAST',
-            toastType: 'SUCCESS',
-            message: `인터넷 연결을 확인해주세요.`,
-          });
-        }
-      },
-    },
-  );
+  const giveTagAPI = useGiveTag(selectedTag, selectedStudentId);
 
   const addTagAPI = useAddTag(addTag.addTagName, selectedColor, {
     onSuccess: () => {

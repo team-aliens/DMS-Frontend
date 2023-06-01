@@ -11,6 +11,7 @@ import { useGetRemainTime, useSetRemainTime } from '@/hooks/useRemainApi';
 import { getDayWithText, getTextWithDay } from '@/utils/translate';
 import { useModal } from '@/hooks/useModal';
 import { useForm } from '@/hooks/useForm';
+import { hourToArray, minToArray } from '@/utils/timeToArray';
 interface ITimeState {
   startDay: string;
   startHour: string;
@@ -19,14 +20,6 @@ interface ITimeState {
   endHour: string;
   endMin: string;
 }
-
-const hourToArray = Array(24)
-  .fill(void 0)
-  .map((_, idx) => `${idx < 10 ? '0' + String(idx) : String(idx)}`);
-
-const minToArray = Array(60)
-  .fill(void 0)
-  .map((_, idx) => `${idx < 10 ? '0' + String(idx) : String(idx)}`);
 
 const dayToArray = ['월', '화', '수', '목', '금', '토', '일'];
 export default function TimeModal() {

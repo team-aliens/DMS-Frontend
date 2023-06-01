@@ -24,17 +24,20 @@ import { DeleteStudyRoomTimeModal } from '@/components/modals/DeleteStudyRoomTim
 import PrintStudyRoomApplyModal from '@/components/modals/PrintStudyRoomApplyModal';
 import StudyTimeModal from '@/components/modals/StudyTimeModal';
 import { pathToKorean } from '@/router';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function StudyRoomList() {
   const { closeModal, selectModal, modalState } = useModal();
   const { toastDispatch } = useToast();
-  const { data: applicationTime, refetch } = useGetApplicationTime();
+  const { data: applicationTime } = useGetApplicationTime();
   const [globalApplicationTime, onHandleChange] = useState<ApplicationTime>({
     startHour: '00',
     startMin: '00',
     endHour: '00',
     endMin: '00',
   });
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (applicationTime?.start_at && applicationTime?.end_at) {
@@ -67,7 +70,7 @@ export function StudyRoomList() {
     {
       onSuccess: () => {
         closeModal();
-        refetch();
+        queryClient.invalidateQueries(['getStudentRoomApplicationTime']);
         toastDispatch({
           toastType: 'SUCCESS',
           actionType: 'APPEND_TOAST',

@@ -84,27 +84,14 @@ export function SetUseTimeModal({
   }, []);
 
   //이용시간 추가 API
-  const { mutateAsync: mutateCreateTime } = useCreateTimeSlots(
-    {
-      body: {
-        start_time: String(
-          (startHourState || '00') + ':' + (startMinState || '00'),
-        ),
-        end_time: String((endHourState || '00') + ':' + (endMinState || '00')),
-      },
+  const { mutateAsync: mutateCreateTime } = useCreateTimeSlots({
+    body: {
+      start_time: String(
+        (startHourState || '00') + ':' + (startMinState || '00'),
+      ),
+      end_time: String((endHourState || '00') + ':' + (endMinState || '00')),
     },
-    {
-      onSuccess: () => {
-        mutate();
-        resetState();
-        toastDispatch({
-          toastType: 'SUCCESS',
-          actionType: 'APPEND_TOAST',
-          message: '자습실 이용 시간이 추가되었습니다.',
-        });
-      },
-    },
-  );
+  });
 
   const { toastDispatch } = useToast();
   //이용시간 수정 API

@@ -27,3 +27,8 @@ export const setCookie = (
     path: '/',
   });
 };
+
+export const removeCookies = (keys: CookieType[] | CookieType) => {
+  if (Array.isArray(keys)) keys.forEach((key) => cookie.remove(key));
+  else cookie.remove(keys);
+};

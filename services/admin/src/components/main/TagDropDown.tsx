@@ -23,13 +23,16 @@ export function TagDropDown({
   const tagState = useMemo(() => {
     if (click)
       return {
-        text: <Arrow size={18} colorKey="gray6" direction="bottom" />,
+        text: <Arrow size={18} colorKey="gray6" direction="top" />,
         color: 'gray',
       };
     else if (checkedTagList.length > 0) {
       return { text: ' ' + checkedTagList.length, color: 'primary' };
     }
-    return { text: <Arrow size={18} colorKey="gray6" direction="top" />, color: 'gray' };
+    return {
+      text: <Arrow size={18} colorKey="gray6" direction="bottom" />,
+      color: 'gray',
+    };
   }, [click]);
 
   const onChangeCheckBox = (isClick: boolean, tagElement: TagType) => {

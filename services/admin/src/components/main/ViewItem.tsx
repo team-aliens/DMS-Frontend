@@ -11,10 +11,13 @@ export function ViewItem() {
   const viewItemState = useMemo(() => {
     if (click)
       return {
-        text: <Arrow size={18} colorKey="gray6" direction="bottom" />,
+        text: <Arrow size={18} colorKey="gray6" direction="top" />,
         color: 'gray',
       };
-    return { text: <Arrow size={18} colorKey="gray6" direction="top" />, color: 'gray' };
+    return {
+      text: <Arrow size={18} colorKey="gray6" direction="bottom" />,
+      color: 'gray',
+    };
   }, [click]);
 
   return (
@@ -34,10 +37,14 @@ export function ViewItem() {
         {click && (
           <_Tags>
             <_Item>
-                <Text color="gray5" size="captionM" cursor={"pointer"}>상/벌점 항목 보기</Text>
+              <Text color="gray5" size="captionM" cursor={'pointer'}>
+                상/벌점 항목 보기
+              </Text>
             </_Item>
             <_Item>
-                <Text color="gray5" size="captionM" cursor={"pointer"}>학생 태그 항목 보기</Text>
+              <Text color="gray5" size="captionM" cursor={'pointer'}>
+                학생 태그 항목 보기
+              </Text>
             </_Item>
           </_Tags>
         )}

@@ -166,8 +166,6 @@ export const useEditPointOption = (
 };
 
 export const useDeletePointOption = (id: string, options?: MutationOptions) => {
-  const navigate = useNavigate();
-  const { toastDispatch } = useToast();
   return useMutation(
     async () => await instance.delete(`${router}/options/${id}`),
     {

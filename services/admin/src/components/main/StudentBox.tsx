@@ -31,19 +31,17 @@ export function StudentBox({
   const { updateRecentlyStudentInfo, pointHistoryList } = usePointHistoryList();
 
   const onChangeCheckBox = () => {
-    if(isSelected){
-      setSelectedStudentId((student) => student.filter((id) => id !== studentInfo.id))
-    }else {
-      setSelectedStudentId((prev) => [...prev, studentInfo.id])
+    if (isSelected) {
+      setSelectedStudentId((student) =>
+        student.filter((id) => id !== studentInfo.id),
+      );
+    } else {
+      setSelectedStudentId((prev) => [...prev, studentInfo.id]);
     }
-  }
+  };
   return (
-    <_Wrapper
-      ref={ref}
-      className="studentBox"
-    >
-      <CheckBox status={isSelected} onChange={onChangeCheckBox}
-      />
+    <_Wrapper ref={ref} className="studentBox">
+      <CheckBox status={isSelected} onChange={onChangeCheckBox} />
       <img
         className="studentBox"
         src={studentInfo.profile_image_url}
@@ -52,7 +50,7 @@ export function StudentBox({
       <Text
         className="studentBox"
         size="bodyL"
-        color={'gray10'}
+        color="gray10"
         margin={['left', 16]}
       >
         {studentInfo.name}
@@ -61,7 +59,7 @@ export function StudentBox({
         className="studentBox"
         margin={['left', 16]}
         size="bodyL"
-        color={'gray6'}
+        color="gray6"
       >
         {studentInfo.gcn}
       </Text>
@@ -73,7 +71,7 @@ export function StudentBox({
       <Text
         className="studentBox"
         size="bodyL"
-        color={'gray6'}
+        color="gray6"
         margin={['left', 'auto']}
       >
         {studentInfo.room_number}호
@@ -87,7 +85,7 @@ const _Wrapper = styled.li`
   z-index: 1;
   width: 100%;
   height: 70px;
-  background-color: ${({ theme, }) => theme.color.gray1};
+  background-color: ${({ theme }) => theme.color.gray1};
   box-shadow: 0 1px 20px rgba(204, 204, 204, 0.24);
   border-radius: 4px;
   padding: 17px 40px 17px 36px;
@@ -97,7 +95,7 @@ const _Wrapper = styled.li`
   > img {
     width: 36px;
     height: 36px;
-    background-color: ${({ theme  }) => theme.color.gray5};
+    background-color: ${({ theme }) => theme.color.gray5};
     border-radius: 50%;
     margin-left: 24px;
   }

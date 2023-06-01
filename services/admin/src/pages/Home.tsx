@@ -193,8 +193,7 @@ export function Home() {
 
 const _Wrapper = styled.div`
   display: flex;
-  margin-top: 160px;
-  margin-left: 80px;
+  margin: 160px auto 0 auto;
   overflow-y: scroll;
 `;
 

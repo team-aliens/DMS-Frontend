@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { Button, SearchBox, Sort, CheckBox, Text } from '@team-aliens/design-system';
+import {
+  Button,
+  SearchBox,
+  Sort,
+  CheckBox,
+  Text,
+} from '@team-aliens/design-system';
 import {
   ChangeEvent,
   Dispatch,
@@ -135,7 +141,6 @@ export function StudentList({
     },
   });
 
-
   const deleteTagAPI = useDeleteTag(selectedTag, {
     onSuccess: () => {
       refetchAllTags();
@@ -189,18 +194,16 @@ export function StudentList({
 
   const [isSelectAllButton, setIsSelectAllButton] = useState(false);
 
-  console.log(selectedStudentId)
-  
   const onClickAllButton = () => {
-    if(isSelectAllButton){
+    if (isSelectAllButton) {
       setSelectedStudentId([]);
-    }else {
+    } else {
       studentList.forEach((student) => {
-        setSelectedStudentId((prev) => [...prev, student.id])
-      })
+        setSelectedStudentId((prev) => [...prev, student.id]);
+      });
     }
-    setIsSelectAllButton((prev) => !prev)
-  }
+    setIsSelectAllButton((prev) => !prev);
+  };
 
   const tagId = useRecoilValue(DeleteTagIdAtom);
 
@@ -303,19 +306,19 @@ export function StudentList({
           )} */}
           <ViewItem />
           {availableFeature?.point_service && (
-          <Button
-            color={filterState.color as 'primary' | 'gray' | 'error'}
-            kind="outline"
-            onClick={openPointFilterModal}
-          >
-            {filterState.text}
-          </Button>
-        )}
-        <TagDropDown
-          refetchSearchStudents={refetchSearchStudents}
-          checkedTagList={checkedTagList}
-          setCheckedTagList={setCheckedTagList}
-        />
+            <Button
+              color={filterState.color as 'primary' | 'gray' | 'error'}
+              kind="outline"
+              onClick={openPointFilterModal}
+            >
+              {filterState.text}
+            </Button>
+          )}
+          <TagDropDown
+            refetchSearchStudents={refetchSearchStudents}
+            checkedTagList={checkedTagList}
+            setCheckedTagList={setCheckedTagList}
+          />
           <Button
             kind="outline"
             color="gray"
@@ -325,7 +328,7 @@ export function StudentList({
           >
             {SortEnum[sort]}순
           </Button>
-          <Divider width={2} height={47} margin={"0 16px 0 16px"}/>
+          <Divider width={2} height={47} margin={'0 16px 0 16px'} />
           <Button
             kind="outline"
             color="gray"
@@ -337,8 +340,8 @@ export function StudentList({
         </_Buttons>
       </_Filter>
       <_Buttons>
-        <CheckBox status={isSelectAllButton} onChange={onClickAllButton}/>
-        <Text cursor={"pointer"}>전체 선택</Text>
+        <CheckBox status={isSelectAllButton} onChange={onClickAllButton} />
+        <Text cursor={'pointer'}>전체 선택</Text>
       </_Buttons>
       <_StudentList>
         {studentList.map((item) => (
@@ -350,7 +353,6 @@ export function StudentList({
             isSelected={selectedStudentId.includes(item.id)}
             selectedStudentId={selectedStudentId}
             setSelectedStudentId={setSelectedStudentId}
-
           />
         ))}
       </_StudentList>

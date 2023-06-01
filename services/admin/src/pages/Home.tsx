@@ -152,7 +152,7 @@ export function Home() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        <_ModeButton
+        {/* <_ModeButton
           onClick={() => {
             ChangeMode();
             resetStudentId();
@@ -171,7 +171,7 @@ export function Home() {
           >
             {listViewType === 'POINTS' ? '전체 상/벌점 내역' : '학생 목록 보기'}
           </_PointListButton>
-        )}
+        )} */}
         {listViewType === 'POINTS' ? (
           <>
             <StudentList
@@ -192,20 +192,6 @@ export function Home() {
               onChangeFilterType={onChangeFilterType}
               refetchSearchStudents={refetchSearchStudents}
             />
-            <Divider />
-            <div>
-              <StudentDetail
-                mode={mode.type}
-                studentDetail={studentDetail}
-                studentList={studentList?.students || []}
-                onClickStudent={onClickStudent}
-                availableFeature={availableFeature}
-                studentPointHistory={studentPointHistory}
-                studentsPointHistoryList={
-                  studentsPointHistoryList.pointHistoryList
-                }
-              />
-            </div>
           </>
         ) : (
           <PointList />

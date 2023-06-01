@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { Button, Text } from '@team-aliens/design-system';
 import { useEffect, useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from 'react-query';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import RemainModal from '@/components/apply/remains/remainModal';
 import DeleteModal from '@/components/apply/remains/deleteModal';
 import { useGetAllRemains } from '@/hooks/useRemainApi';
 import TimeModal from '@/components/apply/remains/timeModal';
 import { getAllRemain, useGetRemainListExcel } from '@/apis/remains';
+import { queryClient } from '@/index';
 import { useModal } from '@/hooks/useModal';
 import { useForm } from '@/hooks/useForm';
 import { RemainOption } from '@/components/apply/remains/options';
@@ -32,6 +33,13 @@ export default function RemainsLists() {
     content: '',
   });
 
+  useEffect(() => {
+    getAllRemainMutate(null, {
+      onSuccess: () => {
+        queryClient.invalidateQueries('getAllRemains');
+      },
+    });
+  }, [modalState]);
   const onEdit = (id: string, title: string, content: string) => {
     setSelectModalId(id);
     setRemainKind('edit');
@@ -75,17 +83,17 @@ export default function RemainsLists() {
       </_Layout>
       {modalState.selectedModal === 'SET_REMAIN_TIME' ? <TimeModal /> : null}
       {modalState.selectedModal === 'CREATE_REMAIN_ITEM' ||
-        (modalState.selectedModal === 'EDIT_REMAIN_ITEM' && (
-          <RemainModal
-            selectModalId={selectModalId}
-            kind={remainKind}
-            initTitle={selectState.title}
-            initContent={selectState.content}
-          />
-        ))}
-      {modalState.selectedModal === 'DELETE_REMAIN_ITEM' && (
+      modalState.selectedModal === 'EDIT_REMAIN_ITEM' ? (
+        <RemainModal
+          selectModalId={selectModalId}
+          kind={remainKind}
+          initTitle={selectState.title}
+          initContent={selectState.content}
+        />
+      ) : null}
+      {modalState.selectedModal === 'DELETE_REMAIN_ITEM' ? (
         <DeleteModal selectModalId={selectModalId} />
-      )}
+      ) : null}
     </WithNavigatorBar>
   );
 }

@@ -1,13 +1,16 @@
 import { deleteTag, getAllTags } from '@/apis/tags';
-import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useToast } from './useToast';
 
 export const useTagList = () => useQuery(['tags'], getAllTags);
 
-export const useDeleteStudentTag = (student_id: string, tag_id: string) => {
+export const useDeleteStudentTag = (
+  student_id: string,
+  tag_id: string,
+  refetchSearchStudents?: () => void,
+  refetchStudentDetail?: () => void,
+) => {
   const { toastDispatch } = useToast();
-
-  const queryClient = useQueryClient();
 
   return useMutation(() => deleteTag(student_id, tag_id), {
     onSuccess: () => {
@@ -16,8 +19,8 @@ export const useDeleteStudentTag = (student_id: string, tag_id: string) => {
         message: '태그가 삭제되었습니다.',
         toastType: 'SUCCESS',
       });
-      queryClient.invalidateQueries(['studentList']);
-      queryClient.invalidateQueries(['getStudentDetail', student_id]);
+      refetchSearchStudents();
+      refetchStudentDetail();
     },
     onError: () => {
       toastDispatch({

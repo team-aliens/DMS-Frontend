@@ -15,7 +15,6 @@ import { useStudentPointHistory } from '@/hooks/usePointsApi';
 import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import { TagType } from '@/apis/tags/response';
 import { useAvailAbleFeatures } from '@/hooks/useSchoolsApi';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 
 export interface FilterState {
   name: string;
@@ -52,13 +51,7 @@ export function Home() {
   const [checkedTagList, setCheckedTagList] = useState<TagType[]>([]);
 
   const [debouncedName, setDebouncedName] = useState(filter.name);
-  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
-    useSelectedStudentIdStore((state) => [
-      state.selectedStudentId,
-      state.resetStudentId,
-      state.appendStudentId,
-      state.deleteStudentId,
-    ]);
+  const [selectedStudentId, setSelectedStudentId] = useState<string[]>(['']);
 
   const [mode, setMode] = useState<Mode>({
     type: 'GENERAL',
@@ -108,17 +101,14 @@ export function Home() {
   const onClickStudent = (id: string, modeType?: ModeType) => {
     if (modeType === 'POINTS') {
       if (selectedStudentId.includes(id)) {
-        deleteStudentId(id);
+        setSelectedStudentId(
+          selectedStudentId.filter((element) => element !== id),
+        );
       } else {
-        appendStudentId(id);
+        setSelectedStudentId([...selectedStudentId, id]);
       }
     } else {
-      if (selectedStudentId[0] === id) {
-        resetStudentId();
-      } else {
-        resetStudentId();
-        appendStudentId(id);
-      }
+      setSelectedStudentId(selectedStudentId[0] === id ? [''] : [id]);
     }
   };
 
@@ -155,7 +145,7 @@ export function Home() {
         <_ModeButton
           onClick={() => {
             ChangeMode();
-            resetStudentId();
+            setSelectedStudentId(['']);
           }}
           Icon={<Change />}
         >
@@ -177,6 +167,8 @@ export function Home() {
             <StudentList
               mode={mode.type}
               studentList={studentList?.students || []}
+              selectedStudentId={selectedStudentId}
+              setSelectedStudentId={setSelectedStudentId}
               name={filter.name}
               sort={filter.sort}
               filterType={filter.filterType}
@@ -191,6 +183,8 @@ export function Home() {
               onChangeLimitPoint={onChangeLimitPoint}
               onChangeFilterType={onChangeFilterType}
               refetchSearchStudents={refetchSearchStudents}
+              refetchStudentDetail={refetchStudentDetail}
+              refetchStudentPointHistory={refetchStudentPointHistory}
             />
             <Divider />
             <div>
@@ -198,6 +192,7 @@ export function Home() {
                 mode={mode.type}
                 studentDetail={studentDetail}
                 studentList={studentList?.students || []}
+                studentId={selectedStudentId.filter((i) => i)}
                 onClickStudent={onClickStudent}
                 availableFeature={availableFeature}
                 studentPointHistory={studentPointHistory}

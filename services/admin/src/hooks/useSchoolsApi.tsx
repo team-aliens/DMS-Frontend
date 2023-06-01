@@ -1,4 +1,4 @@
-import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from 'react-query';
 import {
   availAbleFeatures,
   changeSchoolQnA,
@@ -8,29 +8,11 @@ import {
 } from '@/apis/schools';
 import { ChangeSchoolQnARequest } from '@/apis/schools/request';
 import { queryKeys } from '@/utils/queryKeys';
-import { useToast } from './useToast';
-import { useModal } from './useModal';
 
 export const useReissueSchoolCode = () => useMutation(reIssueSchoolCode);
 
-export const useChangeQnA = (content: ChangeSchoolQnARequest) => {
-  const { toastDispatch } = useToast();
-
-  const queryClient = useQueryClient();
-  const { closeModal } = useModal();
-
-  return useMutation(() => changeSchoolQnA(content), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['getMyProfile']);
-      toastDispatch({
-        actionType: 'APPEND_TOAST',
-        toastType: 'SUCCESS',
-        message: '질문과 답변 수정에 성공하였습니다',
-      });
-      closeModal();
-    },
-  });
-};
+export const useChangeQnA = (content: ChangeSchoolQnARequest) =>
+  useMutation(() => changeSchoolQnA(content));
 
 interface PropsType {
   selectedId: string;

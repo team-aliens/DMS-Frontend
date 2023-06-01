@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { changePwd, checkPwd } from '@/apis/users';
 import { ChangePasswordRequest } from '@/apis/users/request';

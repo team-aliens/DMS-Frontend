@@ -7,12 +7,14 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { SortEnum } from '@/apis/managers';
 import { StudentBox } from '@/components/main/StudentBox';
 import { StudentInfo } from '@/apis/managers/response';
 import { useModal } from '@/hooks/useModal';
 import { PointFilterModal } from '@/components/modals/PointFilter';
 import { DeletePointListModal } from '../modals/DeletePointList';
+import { DeleteTagIdAtom, PointHistroyIdAtom } from '@/utils/atoms';
 import {
   useCancelPointHistory,
   usePointOptionList,
@@ -36,13 +38,11 @@ import { ViewAllTagModal } from '../modals/ViewAllTagModal';
 import { useDeleteTag } from '@/apis/tags';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { IsUseAbleFeature } from '@/apis/auth/response';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
-import { usePointHistoryId } from '@/store/usePointHistoryId';
-import { useQueryClient } from '@tanstack/react-query';
-import { useDeleteTagIdStore } from '@/store/useDeleteTagId';
 
 interface Props extends FilterState {
   mode: ModeType;
+  selectedStudentId: string[];
+  setSelectedStudentId: Dispatch<SetStateAction<string[]>>;
   studentList: StudentInfo[];
   startPoint: number;
   endPoint: number;
@@ -55,10 +55,14 @@ interface Props extends FilterState {
   onChangeFilterType: (type: PointType) => void;
   onChangeLimitPoint: (startPoint: number, endPoint: number) => void;
   refetchSearchStudents?: () => void;
+  refetchStudentDetail?: () => void;
+  refetchStudentPointHistory: () => void;
 }
 
 export function StudentList({
   mode,
+  selectedStudentId,
+  setSelectedStudentId,
   studentList,
   name,
   sort,
@@ -73,36 +77,45 @@ export function StudentList({
   onChangeFilterType,
   onChangeLimitPoint,
   refetchSearchStudents,
+  refetchStudentDetail,
+  refetchStudentPointHistory,
   availableFeature,
 }: Props) {
-  const [selectedStudentId] = useSelectedStudentIdStore((state) => [
-    state.selectedStudentId,
-  ]);
-  const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
-  const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal, closeModal } = useModal();
   const [tagModal, setTagModal] = useState<string>('');
   const [showGiveModal, setShowGiveModal] = useState<boolean>(false);
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const openPointFilterModal = () => selectModal('POINT_FILTER');
+  const [pointHistoryId] = useRecoilState(PointHistroyIdAtom);
 
-  const cancelPoint = useCancelPointHistory(pointHistoryId);
-  const deleteStudent = useDeleteStudent(selectedStudentId[0]);
+  const cancelPoint = useCancelPointHistory(pointHistoryId, {
+    onSuccess: () => {
+      refetchStudentPointHistory();
+      refetchStudentDetail();
+    },
+  });
+  const deleteStudent = useDeleteStudent(selectedStudentId[0], {
+    onSuccess: () => {
+      refetchSearchStudents();
+      setSelectedStudentId(['']);
+      closeModal();
+    },
+  });
 
   const [selectedPointOption, setSelectedPointOption] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');
 
-  const { data: allPointOptions } = usePointOptionList();
+  const { data: allPointOptions, refetch: refetchAllPointOptions } =
+    usePointOptionList();
+
   const { data: allTags, refetch: refetchAllTags } = useTagList();
 
   const { toastDispatch } = useToast();
 
-  const queryClient = useQueryClient();
-
   const deletePointOptionAPI = useDeletePointOption(selectedPointOption, {
     onSuccess: () => {
       selectModal('POINT_OPTIONS');
-      queryClient.invalidateQueries(['usePointList']);
+      refetchAllPointOptions();
       setSelectedPointOption('');
       toastDispatch({
         toastType: 'SUCCESS',
@@ -170,7 +183,14 @@ export function StudentList({
     setShowGiveModal(false);
   };
 
-  const deleteStudentTag = useDeleteStudentTag(selectedStudentId[0], tagId);
+  const tagId = useRecoilValue(DeleteTagIdAtom);
+
+  const deleteStudentTag = useDeleteStudentTag(
+    selectedStudentId[0],
+    tagId,
+    refetchSearchStudents,
+    refetchStudentDetail,
+  );
 
   return (
     <_Wrapper detailIsOpened={!!selectedStudentId[0]}>
@@ -308,6 +328,7 @@ export function StudentList({
           maxPoint={endPoint}
           onChangeLimitPoint={onChangeLimitPoint}
           onChangeFilterType={onChangeFilterType}
+          close={closeModal}
         />
       )}
       {modalState.selectedModal === 'DELETE_POINT_LIST' && (
@@ -325,10 +346,16 @@ export function StudentList({
           setSelectedPointOption={setSelectedPointOption}
           close={closeModal}
           allPointOptions={allPointOptions}
+          refetchAllPointOptions={refetchAllPointOptions}
         />
       )}
       {modalState.selectedModal === 'GIVE_POINT' && (
-        <GivePointOptionsModal allPointOptions={allPointOptions} />
+        <GivePointOptionsModal
+          selectedStudentId={selectedStudentId}
+          close={closeModal}
+          allPointOptions={allPointOptions}
+          refetchAllPointOptions={refetchAllPointOptions}
+        />
       )}
       {modalState.selectedModal === 'DELETE_POINT_OPTION' && (
         <DeletePointOptionModal

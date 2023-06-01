@@ -1,4 +1,4 @@
-import { MutationOptions } from '@tanstack/react-query';
+import { MutationOptions } from 'react-query';
 
 export type SeatStatusType = 'AVAILABLE' | 'UNAVAILABLE' | 'EMPTY' | 'IN_USE';
 export type SexType = 'MALE' | 'FEMALE' | 'ALL';

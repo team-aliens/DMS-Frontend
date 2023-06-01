@@ -6,16 +6,18 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useCreateSeatType } from '@/apis/studyRooms';
 import { useForm } from '@/hooks/useForm';
 import { CreatSeatTypeRequest } from '@/apis/studyRooms/request';
-import { useModal } from '@/hooks/useModal';
 
-export function AddSeatType() {
+interface PropsType {
+  closeModal: () => void;
+  refetchTypeList: () => void;
+}
+
+export function AddSeatType({ closeModal, refetchTypeList }: PropsType) {
   const [pickerOpened, setPickerOpened] = useState(false);
   const { state, onHandleChange, setState } = useForm<CreatSeatTypeRequest>({
     name: '',
     color: '#000000',
   });
-
-  const { closeModal } = useModal();
 
   const changeColor = (color: ColorResult) => {
     setState({
@@ -23,7 +25,12 @@ export function AddSeatType() {
       color: color.hex,
     });
   };
-  const createSeatType = useCreateSeatType(state);
+  const createSeatType = useCreateSeatType(state, {
+    onSuccess: () => {
+      closeModal();
+      refetchTypeList();
+    },
+  });
   return (
     <Modal
       title=""

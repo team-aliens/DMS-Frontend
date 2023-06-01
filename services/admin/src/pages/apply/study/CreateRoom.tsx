@@ -18,7 +18,6 @@ import { Seat, StudyRoomErrorMessage } from '@/apis/studyRooms/request';
 import { SeatPreview } from '@/apis/studyRooms/response';
 import { pathToKorean } from '@/router';
 import { useObj } from '@/hooks/useObj';
-import { useQueryClient } from '@tanstack/react-query';
 
 export function CreateRoom() {
   const [seatSetting, setSeatSetting] = useState<boolean>(false);
@@ -113,10 +112,8 @@ export function CreateRoom() {
     setSeatSetting(false);
   };
 
-  const queryClient = useQueryClient();
-
   const deleteType = useDeleteSeatType(deleteId, {
-    onSuccess: () => queryClient.invalidateQueries(['seatType']),
+    onSuccess: () => refetchTypeList(),
   });
 
   const deleteSeatType = async (id: string) => {
@@ -140,7 +137,12 @@ export function CreateRoom() {
 
   return (
     <WithNavigatorBar>
-      {modalState.selectedModal === 'ADD_SEAT_TYPE' && <AddSeatType />}
+      {modalState.selectedModal === 'ADD_SEAT_TYPE' && (
+        <AddSeatType
+          closeModal={closeModal}
+          refetchTypeList={refetchTypeList}
+        />
+      )}
       {seatSetting && (
         <SeatSetting
           selectModal={selectModal}

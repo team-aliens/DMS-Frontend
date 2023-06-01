@@ -154,7 +154,12 @@ export const PatchRoom = () => {
 
   return (
     <WithNavigatorBar>
-      {modalState.selectedModal === 'ADD_SEAT_TYPE' && <AddSeatType />}
+      {modalState.selectedModal === 'ADD_SEAT_TYPE' && (
+        <AddSeatType
+          closeModal={closeModal}
+          refetchTypeList={refetchTypeList}
+        />
+      )}
       {seatSetting && (
         <SeatSetting
           selectModal={selectModal}

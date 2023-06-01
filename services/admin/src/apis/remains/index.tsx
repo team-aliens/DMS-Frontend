@@ -9,7 +9,7 @@ import {
   getAllRemainTimeResponse,
   getRemainTimeResponse,
 } from '@/apis/remains/response';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from 'react-query';
 import fileSaver from 'file-saver';
 import { getFileNameFromContentDisposition } from '@/utils/decoder';
 

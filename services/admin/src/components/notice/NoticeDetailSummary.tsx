@@ -21,7 +21,7 @@ export function NoticeDetailSummary({
         {dateToString(createdDate)}
       </Text>
       <Link to={pagePath.notice.patch(noticeId)}>
-        <Button kind="outline" color="primary">
+        <Button kind="outline" onClick={() => {}} color="primary">
           수정하기
         </Button>
       </Link>

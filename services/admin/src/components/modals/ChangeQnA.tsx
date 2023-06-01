@@ -1,20 +1,24 @@
-import { useModal } from '@/hooks/useModal';
 import { Button, Input, Modal } from '@team-aliens/design-system';
 import { ChangeEvent } from 'react';
 
 interface PropsType {
+  close: () => void;
   question: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   answer: string;
   onClick: () => void;
 }
 
-export function ChangeQnA({ question, onChange, answer, onClick }: PropsType) {
-  const { closeModal } = useModal();
-
+export function ChangeQnA({
+  close,
+  question,
+  onChange,
+  answer,
+  onClick,
+}: PropsType) {
   return (
     <Modal
-      close={closeModal}
+      close={close}
       buttonList={[
         <Button kind="contained" onClick={onClick}>
           저장

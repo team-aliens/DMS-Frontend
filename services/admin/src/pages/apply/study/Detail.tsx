@@ -60,8 +60,7 @@ export function StudyRoomDetail() {
             <SeatTypeList seatTypes={typeList?.types || []} />
             <AppliedStudentList
               studentList={
-                detail?.seats.filter((item) => item.status === 'AVAILABLE') ||
-                []
+                detail?.seats.filter((item) => item.status === 'IN_USE') || []
               }
             />
           </section>

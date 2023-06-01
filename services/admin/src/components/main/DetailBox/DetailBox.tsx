@@ -9,10 +9,10 @@ import { PointType } from '@/apis/points';
 import { StudentPointHistoryResponse } from '@/apis/points/response';
 import { Tag } from '../Tag';
 import { IsUseAbleFeature } from '@/apis/auth/response';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 
 interface PropsType {
   studentPointHistory: StudentPointHistoryResponse;
+  studentId: string[];
   studentDetail: GetStudentDetailResponse;
   onClickStudent: (id: string) => void;
   availableFeature: IsUseAbleFeature;
@@ -24,18 +24,16 @@ export function DetailBox({
   studentPointHistory,
   studentDetail,
   onClickStudent,
+  studentId,
   availableFeature,
 }: PropsType) {
   const [currentPointType, setCurrentPointType] = useState<PointType>('ALL');
-  const [selectedStudentId] = useSelectedStudentIdStore((state) => [
-    state.selectedStudentId,
-  ]);
 
   return (
     <>
       <_DetailBox>
         <StudentProfile
-          student_id={selectedStudentId[0]}
+          student_id={studentId[0]}
           name={studentDetail.name}
           gcn={studentDetail.gcn}
           sex={studentDetail.sex}

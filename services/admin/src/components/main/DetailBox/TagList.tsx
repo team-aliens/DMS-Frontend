@@ -1,6 +1,8 @@
 import { Text, Trash } from '@team-aliens/design-system';
 import styled from 'styled-components';
+import { useSetRecoilState } from 'recoil';
 import { useModal } from '@/hooks/useModal';
+import { PointHistroyIdAtom } from '@/utils/atoms';
 import { AllTagListPropsType } from '@/apis/tags/response';
 
 export function TagList({

@@ -1,5 +1,6 @@
 import { Button, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
 import { useModal } from '@/hooks/useModal';
 import { DeletePointListModal } from '../modals/DeletePointList';
 import { AllPointItem } from '@/components/main/DetailBox/PointItem';
@@ -8,6 +9,7 @@ import {
   useCancelPointHistory,
   usePointOptionList,
 } from '@/hooks/usePointsApi';
+import { PointHistroyIdAtom } from '@/utils/atoms';
 import { ViewPointOptionsModal } from '../modals/ViewPointOptionsModal';
 import { useState } from 'react';
 import { DeletePointOptionModal } from '../modals/DeletePointOption';
@@ -16,37 +18,29 @@ import {
   useDownloadPointHistoryExcel,
 } from '@/apis/points';
 import { useToast } from '@/hooks/useToast';
-import { usePointHistoryId } from '@/store/usePointHistoryId';
-import { useSelectedPointOptionStore } from '@/store/useSelectedPointOption';
-import { useQueryClient } from '@tanstack/react-query';
 
 export function PointList() {
   const { modalState, closeModal, selectModal } = useModal();
-  const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
+  const [pointHistoryId] = useRecoilState(PointHistroyIdAtom);
   const { data, refetch: refetchAllPointHistory } = useAllPointHistory('ALL');
   const cancelPoint = useCancelPointHistory(pointHistoryId, {
     onSuccess: () => refetchAllPointHistory(),
   });
   const openPointOptionModal = () => selectModal('POINT_OPTIONS');
 
-  const { data: allPointOptions } = usePointOptionList();
+  const { data: allPointOptions, refetch: refetchAllPointOptions } =
+    usePointOptionList();
 
   const { toastDispatch } = useToast();
 
   const { mutate: downloadPointHistory } = useDownloadPointHistoryExcel();
 
-  const [selectedPointOption, setSelectedPointOption] =
-    useSelectedPointOptionStore((state) => [
-      state.selectedPointOption,
-      state.setSelectedPointOption,
-    ]);
-
-  const queryClient = useQueryClient();
+  const [selectedPointOption, setSelectedPointOption] = useState<string>('');
 
   const deletePointOptionAPI = useDeletePointOption(selectedPointOption, {
     onSuccess: () => {
       selectModal('POINT_OPTIONS');
-      queryClient.invalidateQueries(['usePointList']);
+      refetchAllPointOptions();
       setSelectedPointOption('');
       toastDispatch({
         toastType: 'SUCCESS',
@@ -123,6 +117,7 @@ export function PointList() {
           setSelectedPointOption={setSelectedPointOption}
           close={closeModal}
           allPointOptions={allPointOptions}
+          refetchAllPointOptions={refetchAllPointOptions}
         />
       )}
       {modalState.selectedModal === 'DELETE_POINT_OPTION' && (

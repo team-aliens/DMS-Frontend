@@ -89,6 +89,7 @@ export function MyPage() {
       </WithNavigatorBar>
       {modalState.selectedModal === 'NEW_QNA' && (
         <ChangeQnA
+          close={closeModal}
           question={question}
           onChange={onChange}
           answer={answer}

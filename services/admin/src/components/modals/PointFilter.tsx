@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import MultiRangeSlider from '@/components/MultiRangeSlider';
 import { useForm } from '@/hooks/useForm';
 import { PointEnum, PointType } from '@/apis/points';
-import { useModal } from '@/hooks/useModal';
 
 interface PropsType {
   filterType: PointType;
@@ -12,6 +11,7 @@ interface PropsType {
   maxPoint: number;
   onChangeFilterType: (type: PointType) => void;
   onChangeLimitPoint: (startPoint: number, endPoint: number) => void;
+  close: () => void;
 }
 
 export interface StartEndPoint {
@@ -26,6 +26,7 @@ export function PointFilterModal({
   minPoint,
   maxPoint,
   onChangeFilterType,
+  close,
   onChangeLimitPoint,
 }: PropsType) {
   const [pointType, setPointType] = useState<PointType>(filterType);
@@ -36,12 +37,10 @@ export function PointFilterModal({
 
   const { startPoint, endPoint } = state;
 
-  const { closeModal } = useModal();
-
   const onClick = () => {
     onChangeFilterType(pointType);
     onChangeLimitPoint(startPoint ?? 0, endPoint ?? 0);
-    closeModal();
+    close();
   };
 
   return (

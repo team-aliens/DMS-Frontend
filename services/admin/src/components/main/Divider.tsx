@@ -13,7 +13,7 @@ export function Divider({
   return <_Divider height={height} width={width} margin={margin} />;
 }
 
-const _Divider = styled.hr<{ height: number; width: number; margin: string }>`
+const _Divider = styled.hr<DividerProps>`
   margin: ${({ margin }) => margin};
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;

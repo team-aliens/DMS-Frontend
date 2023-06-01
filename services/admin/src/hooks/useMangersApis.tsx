@@ -72,7 +72,7 @@ export const useSearchStudents = ({
 
 export const useStudentDetail = (id: string) =>
   useQuery(['getStudentDetail', id], () => id && getStudentDetail(id), {
-    enabled: !!id,
+    enabled: Boolean(id),
   });
 export const useMyProfileInfo = () => useQuery(['getMyProfile'], getMyProfile);
 

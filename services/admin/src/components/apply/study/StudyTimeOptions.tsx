@@ -65,6 +65,7 @@ const _wrapper = styled.div`
 const _title = styled.p`
   font-weight: 700;
   font-size: 14px;
+  white-space: nowrap;
 `;
 const _studyTimeSlots = styled.div`
   display: flex;

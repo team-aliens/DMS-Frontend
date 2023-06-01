@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Cancel from '@team-aliens/design-system/dist/components/styleGuide/icon/Cancel';
 import { useModal } from '@/hooks/useModal';
 import { useDeleteTagIdStore } from '@/store/useDeleteTagId';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 
 interface PropsType {
   id: string;
@@ -16,10 +15,7 @@ interface PropsType {
 export function Tag({ id, color, name, canHover = false }: PropsType) {
   const [hover, setHover] = useState(false);
   const { selectModal } = useModal();
-  const [tagId, setTagId] = useDeleteTagIdStore((state) => [
-    state.deleteTagId,
-    state.setDeleteTagId,
-  ]);
+  const [setTagId] = useDeleteTagIdStore((state) => [state.setDeleteTagId]);
 
   const mouseHover = () => {
     setHover(!hover);

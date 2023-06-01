@@ -37,7 +37,7 @@ export function StudentDetail({
 
   return (
     <>
-      <_Wrapper isSelected={selectedStudentId[0] !== ''}>
+      <_Wrapper isSelected={!selectedStudentId[0]}>
         {mode === 'POINTS' && (
           <>
             <Text size="titleM" color="gray10">
@@ -50,7 +50,7 @@ export function StudentDetail({
             {mode === 'GENERAL' && '학생 상세 확인'}
           </Text>
           {mode === 'GENERAL' ? (
-            selectedStudentId.filter((i) => i).length > 0 ? (
+            selectedStudentId.length > 0 ? (
               studentDetail && (
                 <DetailBox
                   studentDetail={studentDetail}
@@ -78,7 +78,7 @@ export function StudentDetail({
           )}
         </_ScrollArea>
       </_Wrapper>
-      <_Padding isSelected={!!selectedStudentId[0]} />
+      <_Padding isSelected={Boolean(selectedStudentId[0])} />
     </>
   );
 }

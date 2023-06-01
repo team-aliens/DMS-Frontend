@@ -5,8 +5,9 @@ import {
   AllPointItemType,
   StudentPointHistoryType,
 } from '@/apis/points/response';
-import { PointEnum, PointType } from '@/apis/points';
+import { PointType } from '@/apis/points';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
+import { useState } from 'react';
 
 interface PropsType extends StudentPointHistoryType {
   isDeleteListOption?: boolean;
@@ -23,6 +24,7 @@ export function PointItem({
   onClick,
   OptionSelected,
   point_history_id,
+  date,
   name,
   score,
   type,
@@ -40,38 +42,35 @@ export function PointItem({
     selectModal('DELETE_POINT_OPTION');
   };
 
+  const [mouseOver, setMouseOver] = useState<boolean>(false);
+
   return (
     <_Wrapper
+      onMouseOver={() => {
+        setMouseOver(true);
+      }}
+      onMouseOut={() => {
+        setMouseOver(false);
+      }}
       className="grantPoint"
       canClick={canClick}
       type={type}
       onClick={() => onClick && onClick(point_history_id, name, score, type)}
       OptionSelected={OptionSelected === point_history_id}
     >
-      {canClick && OptionSelected === point_history_id ? (
-        <Text
-          className="grantPoint"
-          margin={[0, 20]}
-          color={type === 'BONUS' ? 'primary' : 'error'}
-          size="BtnM"
-        >
-          {name}
-        </Text>
-      ) : (
-        <Text className="grantPoint" margin={[0, 20]} color="gray6" size="BtnM">
-          {name}
-        </Text>
-      )}
-      <_PointType
+      <Text className="grantPoint" margin={[0, 20]} color="gray6" size="BtnM">
+        {name}
+      </Text>
+      <_PointDate
         className="grantPoint"
         margin={['left', 'auto']}
-        color={type === 'BONUS' ? 'primary' : 'error'}
+        color="gray6"
         size="bodyS"
       >
-        {PointEnum[type]}
-      </_PointType>
+        {date}
+      </_PointDate>
       <_Line className="grantPoint" />
-      {canClick && OptionSelected === point_history_id ? (
+      {!mouseOver ? (
         <Text
           className="grantPoint"
           margin={[0, 30]}
@@ -80,22 +79,15 @@ export function PointItem({
           {score}
         </Text>
       ) : (
-        <Text className="grantPoint" margin={[0, 30]} color="gray6">
-          {score}
-        </Text>
+        <_Delete
+          onClick={
+            isDeleteListOption ? openDeletePointModal : openCancelPointModal
+          }
+        >
+          <Trash colorKey="gray5" />
+        </_Delete>
       )}
-      {canDelete && (
-        <>
-          <_Line />
-          <_Delete
-            onClick={
-              isDeleteListOption ? openDeletePointModal : openCancelPointModal
-            }
-          >
-            <Trash colorKey="gray5" />
-          </_Delete>
-        </>
-      )}
+      {canDelete}
     </_Wrapper>
   );
 }
@@ -120,31 +112,40 @@ export function AllPointItem({
     setPointHistoryId(point_history_id);
   };
 
+  const [mouseOver, setMouseOver] = useState<boolean>(false);
+
   return (
-    <_AllPointWrapper>
-      <Text margin={[0, 20, 0, 30]} color="gray10" size="bodyL">
+    <_AllPointWrapper
+      onMouseOver={() => {
+        setMouseOver(true);
+      }}
+      onMouseOut={() => {
+        setMouseOver(false);
+      }}
+    >
+      <Text margin={[0, 16, 0, 30]} color="gray10" size="bodyM">
         {student_name}
       </Text>
-      <Text margin={['right', 'auto']} color="gray6" size="bodyL">
+      <Text margin={['right', 'auto']} color="gray6" size="bodyM">
         {student_gcn}
       </Text>
       <Text margin={[0, 30]} color="gray6" size="BtnM">
         {point_name}
       </Text>
       <_Line />
-      <Text
-        margin={[0, 30]}
-        color={point_type === 'BONUS' ? 'primary' : 'error'}
-        size="bodyS"
-      >
-        {point_type === 'BONUS' ? '상점' : '벌점'}
-      </Text>
-      <_Line />
-      <Text margin={[0, 30]}>{point_score}</Text>
-      <_Line />
-      <_Delete onClick={openCancelPointModal}>
-        <Trash colorKey="gray5" />
-      </_Delete>
+      {!mouseOver ? (
+        <Text
+          margin={[0, 30]}
+          color={point_type === 'BONUS' ? 'primary' : 'error'}
+          size="bodyM"
+        >
+          {point_score}
+        </Text>
+      ) : (
+        <_Delete onClick={openCancelPointModal}>
+          <Trash colorKey="gray5" />
+        </_Delete>
+      )}
     </_AllPointWrapper>
   );
 }
@@ -188,11 +189,17 @@ const _Line = styled.div`
   background-color: #eeeeee;
 `;
 
-const _PointType = styled(Text)`
-  margin-right: 30px;
+const _PointDate = styled(Text)`
+  margin-right: 20px;
 `;
 
 const _Delete = styled.div`
-  margin: 0 12px;
+  margin: 0 26px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  background-color: ${({ theme }) => theme.color.gray2};
+  border-radius: 50%;
 `;

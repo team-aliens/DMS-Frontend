@@ -103,12 +103,14 @@ export function DetailBox({
                       currentPointType === 'ALL',
                   )
                   .map((history) => {
-                    const { point_history_id, name, type, score } = history;
+                    const { point_history_id, name, type, score, date } =
+                      history;
                     return (
                       <PointItem
                         key={point_history_id}
                         point_history_id={point_history_id}
                         name={name}
+                        date={date}
                         type={type}
                         score={score}
                         canDelete={canDelete}

@@ -95,7 +95,7 @@ export function PointList() {
           return (
             <>
               {!isSameDate && (
-                <Text margin={[30, 0, 9, 0]} color="gray6" size="titleS">
+                <Text margin={[30, 0, 9, 0]} color="gray6" size="bodyL">
                   {date}
                 </Text>
               )}

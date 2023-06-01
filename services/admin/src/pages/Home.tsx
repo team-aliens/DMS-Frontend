@@ -161,6 +161,7 @@ export function Home() {
         >
           {mode.text}
         </_ModeButton>
+        {/* ModeButton 삭제하기 */}
         {mode.type === 'POINTS' && availableFeature?.point_service && (
           <_PointListButton
             onClick={() => {

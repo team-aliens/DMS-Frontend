@@ -26,7 +26,7 @@ export function ViewItem() {
         setClick(false);
       }}
     >
-      <_TagDropDown>
+      <_VieItem>
         <Button
           onClick={() => setClick(!click)}
           color={viewItemState.color as 'primary' | 'gray' | 'error'}
@@ -35,7 +35,7 @@ export function ViewItem() {
           <>항목보기{viewItemState.text}</>
         </Button>
         {click && (
-          <_Tags>
+          <Items>
             <_Item>
               <Text color="gray5" size="captionM" cursor={'pointer'}>
                 상/벌점 항목 보기
@@ -53,11 +53,11 @@ export function ViewItem() {
   );
 }
 
-const _TagDropDown = styled.div`
+const _VieItem = styled.div`
   position: relative;
 `;
 
-const _Tags = styled.div`
+const Items = styled.div`
   position: absolute;
   top: 58px;
   width: 132px;

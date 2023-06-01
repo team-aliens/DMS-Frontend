@@ -65,22 +65,7 @@ export default function StudyTimeModal({
         closeModal();
       });
     } else {
-      mutateEditTimeSlot()
-        .then(() => {
-          toastDispatch({
-            toastType: 'SUCCESS',
-            actionType: 'APPEND_TOAST',
-            message: '자습실 이용 시간이 수정되었습니다.',
-          });
-          closeModal();
-        })
-        .catch((err) => {
-          toastDispatch({
-            toastType: 'ERROR',
-            actionType: 'APPEND_TOAST',
-            message: '자습실 이용시간 수정이 실패되었습니다.',
-          });
-        });
+      mutateEditTimeSlot();
     }
   };
 

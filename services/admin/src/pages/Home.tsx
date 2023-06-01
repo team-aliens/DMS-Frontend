@@ -191,8 +191,6 @@ export function Home() {
               onChangeLimitPoint={onChangeLimitPoint}
               onChangeFilterType={onChangeFilterType}
               refetchSearchStudents={refetchSearchStudents}
-              refetchStudentDetail={refetchStudentDetail}
-              refetchStudentPointHistory={refetchStudentPointHistory}
             />
             <Divider />
             <div>

@@ -36,10 +36,10 @@ import { ViewAllTagModal } from '../modals/ViewAllTagModal';
 import { useDeleteTag } from '@/apis/tags';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { IsUseAbleFeature } from '@/apis/auth/response';
-import { useSelectedTag } from '@/store/useSelectedTag';
 import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useQueryClient } from '@tanstack/react-query';
+import { useDeleteTagIdStore } from '@/store/useDeleteTagId';
 
 interface Props extends FilterState {
   mode: ModeType;
@@ -55,8 +55,6 @@ interface Props extends FilterState {
   onChangeFilterType: (type: PointType) => void;
   onChangeLimitPoint: (startPoint: number, endPoint: number) => void;
   refetchSearchStudents?: () => void;
-  refetchStudentDetail?: () => void;
-  refetchStudentPointHistory: () => void;
 }
 
 export function StudentList({
@@ -75,15 +73,13 @@ export function StudentList({
   onChangeFilterType,
   onChangeLimitPoint,
   refetchSearchStudents,
-  refetchStudentDetail,
-  refetchStudentPointHistory,
   availableFeature,
 }: Props) {
   const [selectedStudentId] = useSelectedStudentIdStore((state) => [
     state.selectedStudentId,
   ]);
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
-  const [tagId] = useSelectedTag((state) => [state.selectedTag]);
+  const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal, closeModal } = useModal();
   const [tagModal, setTagModal] = useState<string>('');
   const [showGiveModal, setShowGiveModal] = useState<boolean>(false);

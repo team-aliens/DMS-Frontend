@@ -46,9 +46,9 @@ export function ViewItem() {
                 학생 태그 항목 보기
               </Text>
             </_Item>
-          </_Tags>
+          </Items>
         )}
-      </_TagDropDown>
+      </_VieItem>
     </OutsideClickHandler>
   );
 }

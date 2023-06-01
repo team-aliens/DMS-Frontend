@@ -84,9 +84,13 @@ export function StudentList({
   refetchSearchStudents,
   availableFeature,
 }: Props) {
-  const [selectedStudentId] = useSelectedStudentIdStore((state) => [
-    state.selectedStudentId,
-  ]);
+  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
+    useSelectedStudentIdStore((state) => [
+      state.selectedStudentId,
+      state.resetStudentId,
+      state.appendStudentId,
+      state.deleteStudentId,
+    ]);
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal, closeModal } = useModal();
@@ -183,23 +187,14 @@ export function StudentList({
 
   const onClickAllButton = () => {
     if (isSelectAllButton) {
-      setSelectedStudentId([]);
+      resetStudentId();
     } else {
       studentList.forEach((student) => {
-        setSelectedStudentId((prev) => [...prev, student.id]);
+        appendStudentId(student.id);
       });
     }
     setIsSelectAllButton((prev) => !prev);
   };
-
-  const tagId = useRecoilValue(DeleteTagIdAtom);
-
-  const deleteStudentTag = useDeleteStudentTag(
-    selectedStudentId[0],
-    tagId,
-    refetchSearchStudents,
-    refetchStudentDetail,
-  );
 
   const deleteStudentTag = useDeleteStudentTag(selectedStudentId[0], tagId);
 
@@ -340,8 +335,6 @@ export function StudentList({
             studentInfo={item}
             onClickStudent={onClickStudent}
             isSelected={selectedStudentId.includes(item.id)}
-            selectedStudentId={selectedStudentId}
-            setSelectedStudentId={setSelectedStudentId}
           />
         ))}
       </_StudentList>

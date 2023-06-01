@@ -5,25 +5,31 @@ import { StudentInfo } from '@/apis/managers/response';
 import { ModeType } from '@/pages/Home';
 import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import { Tag } from './Tag';
+import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 
 export interface StudentBoxProps {
   mode: ModeType;
   studentInfo: StudentInfo;
   onClickStudent: (id: string, modeType?: ModeType) => void;
   isSelected: boolean;
-  setSelectedStudentId: Dispatch<SetStateAction<string[]>>;
-  selectedStudentId: string[];
 }
 
 export function StudentBox({
   studentInfo,
   onClickStudent,
   isSelected,
-  selectedStudentId,
-  setSelectedStudentId,
   mode,
 }: StudentBoxProps) {
   const ref = useRef<HTMLLIElement>(null);
+
+  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
+    useSelectedStudentIdStore((state) => [
+      state.selectedStudentId,
+      state.resetStudentId,
+      state.appendStudentId,
+      state.deleteStudentId,
+    ]);
+
   useEffect(() => {
     if (selectedStudentId.includes(studentInfo.id))
       ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -32,13 +38,12 @@ export function StudentBox({
 
   const onChangeCheckBox = () => {
     if (isSelected) {
-      setSelectedStudentId((student) =>
-        student.filter((id) => id !== studentInfo.id),
-      );
+      deleteStudentId(studentInfo.id);
     } else {
-      setSelectedStudentId((prev) => [...prev, studentInfo.id]);
+      appendStudentId(studentInfo.id);
     }
   };
+
   return (
     <_Wrapper ref={ref} className="studentBox">
       <CheckBox status={isSelected} onChange={onChangeCheckBox} />

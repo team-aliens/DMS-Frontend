@@ -10,12 +10,12 @@ import { StudentPointHistoryResponse } from '@/apis/points/response';
 import { HistoryList } from './HistoryList';
 import { PointHistoryList } from '@/context/pointHistoryList';
 import { IsUseAbleFeature } from '@/apis/auth/response';
+import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 
 interface Props {
   mode: ModeType;
   studentDetail: GetStudentDetailResponse;
   studentList: StudentInfo[];
-  studentId: string[];
   onClickStudent: (id: string) => void;
   availableFeature: IsUseAbleFeature;
   studentPointHistory: StudentPointHistoryResponse;
@@ -26,19 +26,22 @@ export function StudentDetail({
   mode,
   studentDetail,
   studentList,
-  studentId,
   onClickStudent,
   availableFeature,
   studentPointHistory,
   studentsPointHistoryList,
 }: Props) {
+  const [selectedStudentId] = useSelectedStudentIdStore((state) => [
+    state.selectedStudentId,
+  ]);
+
   return (
     <>
-      <_Wrapper isSelected={studentId[0] !== ''}>
+      <_Wrapper isSelected={!selectedStudentId[0]}>
         {mode === 'POINTS' && (
           <>
             <Text size="titleM" color="gray10">
-              학생 {studentId.length}명 선택됨
+              학생 {selectedStudentId.length}명 선택됨
             </Text>
           </>
         )}
@@ -47,10 +50,9 @@ export function StudentDetail({
             {mode === 'GENERAL' && '학생 상세 확인'}
           </Text>
           {mode === 'GENERAL' ? (
-            studentId.filter((i) => i).length > 0 ? (
+            selectedStudentId.length > 0 ? (
               studentDetail && (
                 <DetailBox
-                  studentId={studentId}
                   studentDetail={studentDetail}
                   availableFeature={availableFeature}
                   onClickStudent={onClickStudent}
@@ -69,7 +71,6 @@ export function StudentDetail({
             )
           ) : (
             <HistoryList
-              studentId={studentId}
               studentList={studentList}
               pointHistoryList={studentsPointHistoryList}
               availableFeature={availableFeature}
@@ -77,7 +78,7 @@ export function StudentDetail({
           )}
         </_ScrollArea>
       </_Wrapper>
-      <_Padding isSelected={!!studentId[0]} />
+      <_Padding isSelected={Boolean(selectedStudentId[0])} />
     </>
   );
 }

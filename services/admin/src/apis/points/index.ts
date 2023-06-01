@@ -1,5 +1,9 @@
 import { getFileNameFromContentDisposition } from './../../utils/decoder';
-import { MutationOptions, useMutation, useQuery } from 'react-query';
+import {
+  MutationOptions,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '@/hooks/useModal';
 import { instance } from '..';
@@ -26,7 +30,7 @@ export const getStudentPointHistory = async (
   page?: number,
   size?: number,
 ) => {
-  if (student_id !== '') {
+  if (student_id) {
     const { data } = await instance.get<Promise<StudentPointHistoryResponse>>(
       `${router}/history/students/${student_id}${
         page || size ? `?page=${page}&size=${size}` : ''
@@ -92,7 +96,6 @@ export const useAddPointOption = (
   score: number,
   name: string,
   type: string,
-  options?: MutationOptions,
 ) => {
   const types = type === '상점' ? 'BONUS' : 'MINUS';
   const body = {
@@ -101,8 +104,26 @@ export const useAddPointOption = (
     name,
   };
 
+  const { toastDispatch } = useToast();
+
+  const queryClient = useQueryClient();
+
   return useMutation(async () => instance.post(`${router}/options`, body), {
-    ...options,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['usePointList']);
+      toastDispatch({
+        toastType: 'SUCCESS',
+        actionType: 'APPEND_TOAST',
+        message: '상/벌점 항목이 추가되었습니다.',
+      });
+    },
+    onError: () => {
+      toastDispatch({
+        toastType: 'ERROR',
+        actionType: 'APPEND_TOAST',
+        message: '상/벌점 항목 추가를 실패했습니다.',
+      });
+    },
   });
 };
 
@@ -111,7 +132,6 @@ export const useEditPointOption = (
   score: number,
   name: string,
   type: string,
-  options?: MutationOptions,
 ) => {
   const types = type === '상점' ? 'BONUS' : 'MINUS';
   const { toastDispatch } = useToast();
@@ -120,10 +140,27 @@ export const useEditPointOption = (
     score: Number(score),
     name,
   };
+
+  const queryClient = useQueryClient();
+
   return useMutation(
     async () => instance.patch(`${router}/options/${id}`, body),
     {
-      ...options,
+      onSuccess: () => {
+        queryClient.invalidateQueries(['usePointList']);
+        toastDispatch({
+          toastType: 'SUCCESS',
+          actionType: 'APPEND_TOAST',
+          message: '상/벌점 항목이 수정되었습니다.',
+        });
+      },
+      onError: () => {
+        toastDispatch({
+          toastType: 'ERROR',
+          actionType: 'APPEND_TOAST',
+          message: '상/벌점 항목 수정을 실패했습니다.',
+        });
+      },
     },
   );
 };

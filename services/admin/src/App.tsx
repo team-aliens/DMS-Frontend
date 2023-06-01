@@ -1,4 +1,3 @@
-import { RecoilRoot } from 'recoil';
 import { ToastContainer, ToastProvider } from '@team-aliens/design-system';
 import { Router } from './router';
 import { useModal } from './hooks/useModal';
@@ -26,15 +25,13 @@ export function App() {
   }, [modalState.selectedModal]);
 
   return (
-    <RecoilRoot>
-      <ToastProvider>
-        <PointListProvider>
-          <ToastContainer zIndex={20} />
-          <Outlet />
-          <GlobalStyle />
-          <RouterProvider router={Router} />
-        </PointListProvider>
-      </ToastProvider>
-    </RecoilRoot>
+    <ToastProvider>
+      <PointListProvider>
+        <ToastContainer zIndex={20} />
+        <Outlet />
+        <GlobalStyle />
+        <RouterProvider router={Router} />
+      </PointListProvider>
+    </ToastProvider>
   );
 }

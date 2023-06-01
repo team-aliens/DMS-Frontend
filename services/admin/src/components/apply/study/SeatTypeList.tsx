@@ -23,6 +23,7 @@ export function SeatTypeList({ seatTypes }: PropsType) {
 
 const _Wrapper = styled.ul`
   width: 360px;
+  height: 40px;
   display: flow;
   overflow-x: scroll;
 `;

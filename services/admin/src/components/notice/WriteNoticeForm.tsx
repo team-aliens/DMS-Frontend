@@ -22,6 +22,7 @@ export function WriteNotice({
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
   return (
     <WithNavigatorBar>
       <_BackgroundColor>

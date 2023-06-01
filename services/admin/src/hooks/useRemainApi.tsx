@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import {
   createRemain,
   deleteRemain,
@@ -13,6 +13,7 @@ import {
   EditRemainBody,
   putRemainTimeBody,
 } from '@/apis/remains/request';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useGetAllRemains = () =>
   useQuery(['getAllRemains'], () => getAllRemain(), {
@@ -53,13 +54,16 @@ export const useSetRemainTime = (body: putRemainTimeBody) => {
 export const useDeleteRemain = (id: string) => {
   const { toastDispatch } = useToast();
 
+  const queryClient = useQueryClient();
+
   return useMutation(() => deleteRemain(id), {
     onSuccess: () => {
-      toastDispatch({
-        actionType: 'APPEND_TOAST',
-        toastType: 'SUCCESS',
-        message: '잔류 항목이 삭제되었습니다.',
-      });
+      queryClient.invalidateQueries(['getAllRemains']),
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '잔류 항목이 삭제되었습니다.',
+        });
     },
   });
 };

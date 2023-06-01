@@ -1,13 +1,12 @@
 import { Text, Trash } from '@team-aliens/design-system';
 import styled from 'styled-components';
-import { useSetRecoilState } from 'recoil';
 import { useModal } from '@/hooks/useModal';
 import {
   AllPointItemType,
   StudentPointHistoryType,
 } from '@/apis/points/response';
-import { PointHistroyIdAtom } from '@/utils/atoms';
 import { PointEnum, PointType } from '@/apis/points';
+import { usePointHistoryId } from '@/store/usePointHistoryId';
 
 interface PropsType extends StudentPointHistoryType {
   isDeleteListOption?: boolean;
@@ -29,7 +28,9 @@ export function PointItem({
   type,
 }: PropsType) {
   const { selectModal } = useModal();
-  const setPointHistoryId = useSetRecoilState(PointHistroyIdAtom);
+  const [setPointHistoryId] = usePointHistoryId((state) => [
+    state.setPointHistoryId,
+  ]);
   const openCancelPointModal = () => {
     selectModal('DELETE_POINT_LIST');
     setPointHistoryId(point_history_id);
@@ -44,7 +45,7 @@ export function PointItem({
       className="grantPoint"
       canClick={canClick}
       type={type}
-      onClick={() => onClick(point_history_id, name, score, type)}
+      onClick={() => onClick && onClick(point_history_id, name, score, type)}
       OptionSelected={OptionSelected === point_history_id}
     >
       {canClick && OptionSelected === point_history_id ? (
@@ -109,7 +110,11 @@ export function AllPointItem({
   point_type,
 }: AllPointItemType) {
   const { selectModal } = useModal();
-  const setPointHistoryId = useSetRecoilState(PointHistroyIdAtom);
+  const [pointHistoryId, setPointHistoryId] = usePointHistoryId((state) => [
+    state.pointHistoryId,
+    state.setPointHistoryId,
+  ]);
+
   const openCancelPointModal = () => {
     selectModal('DELETE_POINT_LIST');
     setPointHistoryId(point_history_id);

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import {
   deleteNotice,
@@ -22,6 +22,8 @@ export const useDeleteNotice = (noticeId: string) => {
   const { closeModal } = useModal();
   const navigate = useNavigate();
   const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
   return useMutation(() => deleteNotice(noticeId), {
     onSuccess: () => {
       navigate(pagePath.notice.list);
@@ -30,6 +32,7 @@ export const useDeleteNotice = (noticeId: string) => {
         message: '공지사항이 삭제되었습니다.',
         toastType: 'SUCCESS',
       });
+      queryClient.invalidateQueries(['getNoticeList']);
       closeModal();
     },
   });
@@ -41,6 +44,7 @@ export const useNoticeDetail = (noticeId: string) =>
 export const useWriteNotice = (content: WriteNoticeRequest) => {
   const { toastDispatch } = useToast();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation(() => writeNotice(content), {
     onSuccess: (res) => {
@@ -50,6 +54,7 @@ export const useWriteNotice = (content: WriteNoticeRequest) => {
         message: '공지사항이 게시되었습니다.',
       });
       navigate(pagePath.notice.detail(res.data.notice_id));
+      queryClient.invalidateQueries(['getNoticeList']);
     },
   });
 };
@@ -60,6 +65,7 @@ export const usePatchNotice = (
 ) => {
   const { toastDispatch } = useToast();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   return useMutation(() => patchNotice(content, noticeId), {
     onSuccess: (res) => {
@@ -69,6 +75,7 @@ export const usePatchNotice = (
         message: '공지사항이 수정되었습니다.',
       });
       navigate(pagePath.notice.detail(res.data.notice_id));
+      queryClient.invalidateQueries(['noticeDetail']);
     },
   });
 };

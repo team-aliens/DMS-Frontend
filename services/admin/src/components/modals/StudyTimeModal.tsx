@@ -5,6 +5,7 @@ import { useForm } from '@/hooks/useForm';
 import { useToast } from '@/hooks/useToast';
 import { StudyTimeSlotsResponse } from '@/apis/studyRooms/response';
 import { useState } from 'react';
+import { hourToArray, minToArray } from '@/utils/timeToArray';
 
 interface PropsType {
   initTimeSlots?: StudyTimeSlotsResponse;
@@ -19,13 +20,6 @@ interface FormState {
   end_hour: string;
   end_min: string;
 }
-const hourToArray = Array(24)
-  .fill(void 0)
-  .map((_, idx) => `${idx < 10 ? '0' + String(idx) : String(idx)}`);
-
-const minToArray = Array(60)
-  .fill(void 0)
-  .map((_, idx) => `${idx < 10 ? '0' + String(idx) : String(idx)}`);
 
 export default function StudyTimeModal({
   closeModal,
@@ -71,22 +65,7 @@ export default function StudyTimeModal({
         closeModal();
       });
     } else {
-      mutateEditTimeSlot()
-        .then(() => {
-          toastDispatch({
-            toastType: 'SUCCESS',
-            actionType: 'APPEND_TOAST',
-            message: '자습실 이용 시간이 수정되었습니다.',
-          });
-          closeModal();
-        })
-        .catch((err) => {
-          toastDispatch({
-            toastType: 'ERROR',
-            actionType: 'APPEND_TOAST',
-            message: '자습실 이용시간 수정이 실패되었습니다.',
-          });
-        });
+      mutateEditTimeSlot();
     }
   };
 

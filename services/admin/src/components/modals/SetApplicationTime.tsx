@@ -1,3 +1,4 @@
+import { hourToArray, minToArray } from '@/utils/timeToArray';
 import { Modal, Button, Input, DropDown } from '@team-aliens/design-system';
 import styled from 'styled-components';
 
@@ -7,14 +8,6 @@ export interface ApplicationTime {
   endHour: string;
   endMin: string;
 }
-
-const hourToArray = Array(24)
-  .fill(void 0)
-  .map((_, idx) => `${idx < 10 ? '0' + String(idx) : String(idx)}`);
-
-const minToArray = Array(60)
-  .fill(void 0)
-  .map((_, idx) => `${idx < 10 ? '0' + String(idx) : String(idx)}`);
 
 interface PropsType {
   close: () => void;

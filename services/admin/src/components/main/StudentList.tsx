@@ -373,6 +373,7 @@ const _Filter = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 10px 0 52px 0;
   > button {
     > svg > path {
       fill: ${({ theme }) => theme.color.gray6};
@@ -395,7 +396,6 @@ const _Buttons = styled.div`
   align-items: center;
   gap: 10px;
   margin-left: 36px;
-  margin-top: 52px;
 `;
 
 const _ChooseModalBoxWrapper = styled.div`

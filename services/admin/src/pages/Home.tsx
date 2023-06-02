@@ -213,7 +213,7 @@ export function Home() {
 
 const _Wrapper = styled.div`
   display: flex;
-  margin: 160px auto 0 auto;
+  margin: 70px auto 0 auto;
   overflow-y: scroll;
 `;
 

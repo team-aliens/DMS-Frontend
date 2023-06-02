@@ -317,6 +317,7 @@ export function StudentList({
             kind="outline"
             color="gray"
             onClick={() => {}}
+            //사이드바 보이게하기
             className="filterButton"
           >
             상/벌점 내역

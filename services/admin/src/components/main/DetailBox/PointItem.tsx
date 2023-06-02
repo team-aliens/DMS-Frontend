@@ -5,7 +5,7 @@ import {
   AllPointItemType,
   StudentPointHistoryType,
 } from '@/apis/points/response';
-import { PointType } from '@/apis/points';
+import { PointEnum ,PointType } from '@/apis/points';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useState } from 'react';
 
@@ -18,6 +18,90 @@ interface PropsType extends StudentPointHistoryType {
 }
 
 export function PointItem({
+  isDeleteListOption = false,
+  canDelete = false,
+  canClick = false,
+  onClick,
+  OptionSelected,
+  point_history_id,
+  name,
+  score,
+  type,
+}: PropsType) {
+  const { selectModal } = useModal();
+  const [setPointHistoryId] = usePointHistoryId((state) => [
+    state.setPointHistoryId,
+  ]);
+  const openCancelPointModal = () => {
+    selectModal('DELETE_POINT_LIST');
+    setPointHistoryId(point_history_id);
+  };
+
+  const openDeletePointModal = () => {
+    selectModal('DELETE_POINT_OPTION');
+  };
+
+  return (
+    <_Wrapper
+      className="grantPoint"
+      canClick={canClick}
+      type={type}
+      onClick={() => onClick && onClick(point_history_id, name, score, type)}
+      OptionSelected={OptionSelected === point_history_id}
+    >
+      {canClick && OptionSelected === point_history_id ? (
+        <Text
+          className="grantPoint"
+          margin={[0, 20]}
+          color={type === 'BONUS' ? 'primary' : 'error'}
+          size="BtnM"
+        >
+          {name}
+        </Text>
+      ) : (
+        <Text className="grantPoint" margin={[0, 20]} color="gray6" size="BtnM">
+          {name}
+        </Text>
+      )}
+      <_PointType
+        className="grantPoint"
+        margin={['left', 'auto']}
+        color={type === 'BONUS' ? 'primary' : 'error'}
+        size="bodyS"
+      >
+        {PointEnum[type]}
+      </_PointType>
+      <_Line className="grantPoint" />
+      {canClick && OptionSelected === point_history_id ? (
+        <Text
+          className="grantPoint"
+          margin={[0, 30]}
+          color={type === 'BONUS' ? 'primary' : 'error'}
+        >
+          {score}
+        </Text>
+      ) : (
+        <Text className="grantPoint" margin={[0, 30]} color="gray6">
+          {score}
+        </Text>
+      )}
+      {canDelete && (
+        <>
+          <_Line />
+          <_Delete
+            onClick={
+              isDeleteListOption ? openDeletePointModal : openCancelPointModal
+            }
+          >
+            <Trash colorKey="gray5" />
+          </_Delete>
+        </>
+      )}
+    </_Wrapper>
+  );
+}
+
+export function StudentPointItem({
   isDeleteListOption = false,
   canDelete = false,
   canClick = false,
@@ -192,6 +276,8 @@ const _Line = styled.div`
 const _PointDate = styled(Text)`
   margin-right: 20px;
 `;
+
+const _PointType = styled(_PointDate)``;
 
 const _Delete = styled.div`
   margin: 0 26px;

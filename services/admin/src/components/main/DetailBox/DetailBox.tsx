@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Text } from '@team-aliens/design-system';
 import { GetStudentDetailResponse } from '@/apis/managers/response';
-import { PointItem } from './PointItem';
+import { StudentPointItem } from './PointItem';
 import { StudentProfile } from './StudentInfo';
 import { PointBox } from './PointBox';
 import { PointType } from '@/apis/points';
@@ -106,7 +106,7 @@ export function DetailBox({
                     const { point_history_id, name, type, score, date } =
                       history;
                     return (
-                      <PointItem
+                      <StudentPointItem
                         key={point_history_id}
                         point_history_id={point_history_id}
                         name={name}

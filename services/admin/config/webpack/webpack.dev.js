@@ -19,7 +19,7 @@ module.exports = {
   devServer: {
     host: 'localhost',
     static: path.join(__dirname, '../build'),
-    port: 3001,
+    port: 3000,
     historyApiFallback: true,
     hot: true,
   },

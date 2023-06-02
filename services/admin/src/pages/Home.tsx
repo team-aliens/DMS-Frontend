@@ -189,13 +189,11 @@ export function Home() {
       <SideBarPortal>
         {clickedStudentId && (
           <SideBar
+            title="학생 상세 정보"
             close={() => {
               modalState.selectedModal === '' && resetClickedStudentId();
             }}
           >
-            <Text color="gray10" size="titleL" margin={['top', 50]}>
-              학생 상세 정보
-            </Text>
             {clickedStudentId && (
               <DetailBox
                 studentPointHistory={studentPointHistory}

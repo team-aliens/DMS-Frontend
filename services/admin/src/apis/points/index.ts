@@ -30,14 +30,12 @@ export const getStudentPointHistory = async (
   page?: number,
   size?: number,
 ) => {
-  if (student_id) {
-    const { data } = await instance.get<Promise<StudentPointHistoryResponse>>(
-      `${router}/history/students/${student_id}${
-        page || size ? `?page=${page}&size=${size}` : ''
-      }`,
-    );
-    return data;
-  }
+  const { data } = await instance.get<Promise<StudentPointHistoryResponse>>(
+    `${router}/history/students/${student_id}${
+      page || size ? `?page=${page}&size=${size}` : ''
+    }`,
+  );
+  return data;
 };
 
 /** 상/벌점 전체 조회 */

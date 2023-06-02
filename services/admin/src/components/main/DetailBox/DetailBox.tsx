@@ -134,6 +134,7 @@ const _DetailBox = styled.div`
   flex-direction: column;
   box-shadow: 0px 1px 20px rgba(238, 238, 238, 0.8);
   border-radius: 4px;
+  overflow: scroll;
 `;
 
 const _PointWrapper = styled.div`

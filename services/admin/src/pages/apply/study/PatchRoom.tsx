@@ -136,9 +136,9 @@ export const PatchRoom = () => {
     if (!west_description)
       changeErrorMessage('westDescription', '공백일 수 없습니다.');
     if (!north_description)
-      changeErrorMessage('southDescription', '공백일 수 없습니다.');
-    if (!south_description)
       changeErrorMessage('northDescription', '공백일 수 없습니다.');
+    if (!south_description)
+      changeErrorMessage('southDescription', '공백일 수 없습니다.');
     if (
       floor &&
       floor !== 0 &&

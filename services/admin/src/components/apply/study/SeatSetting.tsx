@@ -57,13 +57,11 @@ export function SeatSetting({
   return (
     <SideBarPortal>
       <SideBar
+        title="자리 설정"
         close={() => {
           !addSeat && closeSeatSetting();
         }}
       >
-        <Text color="gray10" size="titleL" margin={['top', 50]}>
-          자리 설정
-        </Text>
         <DropDown
           items={seatStatus}
           placeholder="사용 가능"

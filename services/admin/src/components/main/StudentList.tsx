@@ -348,13 +348,11 @@ export function StudentList({
       <SideBarPortal>
         {openAllPointHistorySideBar && (
           <SideBar
+            title="상/벌점 내역"
             close={() => {
               setOpenAllPointHistorySideBar(false);
             }}
           >
-            <Text color="gray10" size="titleL" margin={['top', 50]}>
-              상/벌점 내역
-            </Text>
             <PointList />
           </SideBar>
         )}

@@ -1,20 +1,24 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Escape } from '@team-aliens/design-system';
+import { Escape, Text } from '@team-aliens/design-system';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 interface PropsType {
+  title?: string;
   children: React.ReactNode;
   close: () => void;
 }
 
-export function SideBar({ children, close }: PropsType) {
+export function SideBar({ title, children, close }: PropsType) {
   return (
     <OutsideClickHandler onOutsideClick={close}>
       <_Wrapper>
         <_EscapeWrapper onClick={close}>
           <Escape size={24} />
         </_EscapeWrapper>
+        <Text color="gray10" size="titleL" margin={['top', 50]}>
+          {title}
+        </Text>
         {children}
       </_Wrapper>
     </OutsideClickHandler>

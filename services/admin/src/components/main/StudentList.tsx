@@ -49,9 +49,6 @@ import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteTagIdStore } from '@/store/useDeleteTagId';
-import SideBarPortal from '../sidebar/SideBarPortal';
-import { PointList } from './PointList';
-import { SideBar } from '../sidebar';
 import StudentSelectModal from '../modals/StudentSelectModal';
 
 interface Props extends FilterState {
@@ -204,6 +201,14 @@ export function StudentList({
   };
 
   const deleteStudentTag = useDeleteStudentTag(selectedStudentId[0], tagId);
+
+  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
+    useSelectedStudentIdStore((state) => [
+      state.selectedStudentId,
+      state.resetStudentId,
+      state.appendStudentId,
+      state.deleteStudentId,
+    ]);
 
   const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
     useSelectedStudentIdStore((state) => [
@@ -427,20 +432,6 @@ export function StudentList({
           tagModal={tagModal}
         />
       )}
-      <SideBarPortal>
-        {openAllPointHistorySideBar && (
-          <SideBar
-            close={() => {
-              setOpenAllPointHistorySideBar(false);
-            }}
-          >
-            <Text color="gray10" size="titleL" margin={['top', 50]}>
-              상/벌점 내역
-            </Text>
-            <PointList />
-          </SideBar>
-        )}
-      </SideBarPortal>
       {Boolean(selectedStudentId.length) && <StudentSelectModal />}
     </_Wrapper>
   );

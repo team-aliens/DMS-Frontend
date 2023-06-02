@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Text } from '@team-aliens/design-system';
 import { GetStudentDetailResponse } from '@/apis/managers/response';
-import { StudentPointItem } from './PointItem';
+import { StudentPointItem, PointItem } from './PointItem';
 import { StudentProfile } from './StudentInfo';
 import { PointBox } from './PointBox';
 import { PointType } from '@/apis/points';

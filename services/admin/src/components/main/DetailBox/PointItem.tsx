@@ -5,7 +5,7 @@ import {
   AllPointItemType,
   StudentPointHistoryType,
 } from '@/apis/points/response';
-import { PointEnum ,PointType } from '@/apis/points';
+import { PointEnum, PointType } from '@/apis/points';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useState } from 'react';
 
@@ -126,38 +126,35 @@ export function StudentPointItem({
     selectModal('DELETE_POINT_OPTION');
   };
 
+  const [mouseOver, setMouseOver] = useState<boolean>(false);
+
   return (
     <_Wrapper
+      onMouseOver={() => {
+        setMouseOver(true);
+      }}
+      onMouseOut={() => {
+        setMouseOver(false);
+      }}
       className="grantPoint"
       canClick={canClick}
       type={type}
       onClick={() => onClick && onClick(point_history_id, name, score, type)}
       OptionSelected={OptionSelected === point_history_id}
     >
-      {canClick && OptionSelected === point_history_id ? (
-        <Text
-          className="grantPoint"
-          margin={[0, 20]}
-          color={type === 'BONUS' ? 'primary' : 'error'}
-          size="BtnM"
-        >
-          {name}
-        </Text>
-      ) : (
-        <Text className="grantPoint" margin={[0, 20]} color="gray6" size="BtnM">
-          {name}
-        </Text>
-      )}
-      {/* <_PointType
+      <Text className="grantPoint" margin={[0, 20]} color="gray6" size="BtnM">
+        {name}
+      </Text>
+      <_PointDate
         className="grantPoint"
         margin={['left', 'auto']}
-        color={type === 'BONUS' ? 'primary' : 'error'}
+        color="gray6"
         size="bodyS"
       >
-        {PointEnum[type]}
-      </_PointType> */}
+        {date}
+      </_PointDate>
       <_Line className="grantPoint" />
-      {canClick && OptionSelected === point_history_id ? (
+      {!mouseOver ? (
         <Text
           className="grantPoint"
           margin={[0, 30]}
@@ -166,100 +163,18 @@ export function StudentPointItem({
           {score}
         </Text>
       ) : (
-        <Text className="grantPoint" margin={[0, 30]} color="gray6">
-          {score}
-        </Text>
+        <_Delete
+          onClick={
+            isDeleteListOption ? openDeletePointModal : openCancelPointModal
+          }
+        >
+          <Trash colorKey="gray5" />
+        </_Delete>
       )}
-      {canDelete && (
-        <>
-          <_Line />
-          <_Delete
-            onClick={
-              isDeleteListOption ? openDeletePointModal : openCancelPointModal
-            }
-          >
-            <Trash colorKey="gray5" />
-          </_Delete>
-        </>
-      )}
+      {canDelete}
     </_Wrapper>
   );
 }
-
-// export function PointItem({
-//   isDeleteListOption = false,
-//   canDelete = false,
-//   canClick = false,
-//   onClick,
-//   OptionSelected,
-//   point_history_id,
-//   date,
-//   name,
-//   score,
-//   type,
-// }: PropsType) {
-//   const { selectModal } = useModal();
-//   const [setPointHistoryId] = usePointHistoryId((state) => [
-//     state.setPointHistoryId,
-//   ]);
-//   const openCancelPointModal = () => {
-//     selectModal('DELETE_POINT_LIST');
-//     setPointHistoryId(point_history_id);
-//   };
-
-//   const openDeletePointModal = () => {
-//     selectModal('DELETE_POINT_OPTION');
-//   };
-
-//   const [mouseOver, setMouseOver] = useState<boolean>(false);
-
-//   return (
-//     <_Wrapper
-//       onMouseOver={() => {
-//         setMouseOver(true);
-//       }}
-//       onMouseOut={() => {
-//         setMouseOver(false);
-//       }}
-//       className="grantPoint"
-//       canClick={canClick}
-//       type={type}
-//       onClick={() => onClick && onClick(point_history_id, name, score, type)}
-//       OptionSelected={OptionSelected === point_history_id}
-//     >
-//       <Text className="grantPoint" margin={[0, 20]} color="gray6" size="BtnM">
-//         {name}
-//       </Text>
-//       <_PointDate
-//         className="grantPoint"
-//         margin={['left', 'auto']}
-//         color="gray6"
-//         size="bodyS"
-//       >
-//         {date}
-//       </_PointDate>
-//       <_Line className="grantPoint" />
-//       {!mouseOver ? (
-//         <Text
-//           className="grantPoint"
-//           margin={[0, 30]}
-//           color={type === 'BONUS' ? 'primary' : 'error'}
-//         >
-//           {score}
-//         </Text>
-//       ) : (
-//         <_Delete
-//           onClick={
-//             isDeleteListOption ? openDeletePointModal : openCancelPointModal
-//           }
-//         >
-//           <Trash colorKey="gray5" />
-//         </_Delete>
-//       )}
-//       {canDelete}
-//     </_Wrapper>
-//   );
-// }
 
 // 전체내역 확인할 때 사용되는 컴포넌트
 export function AllPointItem({

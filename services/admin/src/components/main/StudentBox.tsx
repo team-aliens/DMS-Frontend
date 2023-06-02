@@ -1,11 +1,22 @@
-import { useEffect, useRef, useContext, SetStateAction, Dispatch } from 'react';
+import {
+  useEffect,
+  useRef,
+  useContext,
+  SetStateAction,
+  Dispatch,
+  ChangeEvent,
+  MouseEvent,
+} from 'react';
 import styled from 'styled-components';
 import { Text, CheckBox } from '@team-aliens/design-system';
 import { StudentInfo } from '@/apis/managers/response';
 import { ModeType } from '@/pages/Home';
 import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import { Tag } from './Tag';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import {
+  useClickedStudentIdStore,
+  useSelectedStudentIdStore,
+} from '@/store/useSelectedStudentIdStore';
 
 export interface StudentBoxProps {
   mode: ModeType;
@@ -30,6 +41,13 @@ export function StudentBox({
       state.deleteStudentId,
     ]);
 
+  const [clickedStudentId, setClickedStudentId, resetClickedStudentId] =
+    useClickedStudentIdStore((state) => [
+      state.clickedStudentId,
+      state.setClickedStudentId,
+      state.resetClickedStudentId,
+    ]);
+
   useEffect(() => {
     if (selectedStudentId.includes(studentInfo.id))
       ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -44,9 +62,26 @@ export function StudentBox({
     }
   };
 
+  const preventCheckBoxClick = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  };
+
+  const clickStudent = () => {
+    if (studentInfo.id === clickedStudentId) resetClickedStudentId();
+    else if (studentInfo.id !== clickedStudentId)
+      setClickedStudentId(studentInfo.id);
+  };
+
   return (
-    <_Wrapper ref={ref} className="studentBox">
-      <CheckBox status={isSelected} onChange={onChangeCheckBox} />
+    <_Wrapper
+      isClick={clickedStudentId === studentInfo.id}
+      ref={ref}
+      className="studentBox"
+      onClick={clickStudent}
+    >
+      <div onClick={preventCheckBoxClick}>
+        <CheckBox status={isSelected} onChange={onChangeCheckBox} />
+      </div>
       <img
         className="studentBox"
         src={studentInfo.profile_image_url}
@@ -85,7 +120,7 @@ export function StudentBox({
   );
 }
 
-const _Wrapper = styled.li`
+const _Wrapper = styled.li<{ isClick: boolean }>`
   position: relative;
   z-index: 1;
   width: 100%;
@@ -97,6 +132,8 @@ const _Wrapper = styled.li`
   display: flex;
   align-items: center;
   cursor: pointer;
+  border: ${({ theme, isClick }) =>
+    isClick && `2px solid ${theme.color.primary}`};
   > img {
     width: 36px;
     height: 36px;

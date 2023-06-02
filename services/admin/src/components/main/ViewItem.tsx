@@ -1,4 +1,5 @@
 import { TagType } from '@/apis/tags/response';
+import { useModal } from '@/hooks/useModal';
 import { useTagList } from '@/hooks/useTagsApi';
 import { Arrow, Button, CheckBox, Text } from '@team-aliens/design-system';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
@@ -7,6 +8,8 @@ import styled from 'styled-components';
 
 export function ViewItem() {
   const [click, setClick] = useState(false);
+
+  const { selectModal } = useModal();
 
   const viewItemState = useMemo(() => {
     if (click)
@@ -19,6 +22,20 @@ export function ViewItem() {
       color: 'gray',
     };
   }, [click]);
+
+  const closeOptionDropDown = () => {
+    setClick(false);
+  };
+
+  const openViewPointOptionModal = () => {
+    closeOptionDropDown();
+    selectModal('POINT_OPTIONS');
+  };
+
+  const openViewTagOptionModal = () => {
+    closeOptionDropDown();
+    selectModal('VIEW_TAG_OPTIONS');
+  };
 
   return (
     <OutsideClickHandler
@@ -36,13 +53,13 @@ export function ViewItem() {
         </Button>
         {click && (
           <Items>
-            <_Item>
-              <Text color="gray5" size="captionM" cursor={'pointer'}>
+            <_Item onClick={openViewPointOptionModal}>
+              <Text color="gray5" size="captionM" cursor="pointer">
                 상/벌점 항목 보기
               </Text>
             </_Item>
-            <_Item>
-              <Text color="gray5" size="captionM" cursor={'pointer'}>
+            <_Item onClick={openViewTagOptionModal}>
+              <Text color="gray5" size="captionM" cursor="pointer">
                 학생 태그 항목 보기
               </Text>
             </_Item>

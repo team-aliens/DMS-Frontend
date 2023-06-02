@@ -18,6 +18,8 @@ import {
 import { SeatType } from '@/apis/studyRooms/response';
 import { SelectedModalType } from '@/context/modal';
 import { useStudyRoom } from '@/hooks/useStudyRoom';
+import { SideBar } from '@/components/sidebar';
+import SideBarPortal from '@/components/sidebar/SideBarPortal';
 
 const seatStatus = ['AVAILABLE', 'UNAVAILABLE', 'EMPTY'].map(
   (i: SeatStatusType) => seatStatusToKorean(i),
@@ -53,14 +55,13 @@ export function SeatSetting({
   };
 
   return (
-    <OutsideClickHandler onOutsideClick={!addSeat && closeSeatSetting}>
-      <_Wrapper>
-        <_EscapeWrapper onClick={closeSeatSetting}>
-          <Escape size={24} />
-        </_EscapeWrapper>
-        <Text color="gray10" size="titleL" margin={['top', 50]}>
-          자리 설정
-        </Text>
+    <SideBarPortal>
+      <SideBar
+        title="자리 설정"
+        close={() => {
+          !addSeat && closeSeatSetting();
+        }}
+      >
         <DropDown
           items={seatStatus}
           placeholder="사용 가능"
@@ -155,8 +156,8 @@ export function SeatSetting({
             확인
           </Button>
         </_Buttons>
-      </_Wrapper>
-    </OutsideClickHandler>
+      </SideBar>
+    </SideBarPortal>
   );
 }
 

@@ -30,7 +30,7 @@ export function StudentDetailPointList({
       <_PointItemList>
         {availableFeature?.point_service &&
           historyList?.slice(0, 4).map((history) => {
-            const { name, point_history_id, score, type } = history;
+            const { name, point_history_id, date, score, type } = history;
             return (
               <PointItem
                 key={point_history_id}
@@ -38,6 +38,7 @@ export function StudentDetailPointList({
                 name={name}
                 point_history_id={point_history_id}
                 score={score}
+                date={date}
                 type={type}
               />
             );

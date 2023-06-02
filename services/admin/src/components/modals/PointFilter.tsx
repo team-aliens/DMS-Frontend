@@ -51,7 +51,7 @@ export function PointFilterModal({
           적용
         </Button>,
       ]}
-      close={close}
+      close={closeModal}
       title="필터"
     >
       <_Buttons>

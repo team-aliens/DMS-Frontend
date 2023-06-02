@@ -36,11 +36,11 @@ export function DetailBox({
       <_DetailBox>
         <StudentProfile
           student_id={selectedStudentId[0]}
-          name={studentDetail.name}
-          gcn={studentDetail.gcn}
-          sex={studentDetail.sex}
-          room_number={studentDetail.room_number}
-          profile_image_url={studentDetail.profile_image_url}
+          name={studentDetail?.name}
+          gcn={studentDetail?.gcn}
+          sex={studentDetail?.sex}
+          room_number={studentDetail?.room_number}
+          profile_image_url={studentDetail?.profile_image_url}
         />
         {availableFeature?.point_service && (
           <_PointWrapper>
@@ -48,13 +48,13 @@ export function DetailBox({
               currentPointType={currentPointType}
               setCurrentPointType={setCurrentPointType}
               pointType="BONUS"
-              point={studentDetail.bonus_point}
+              point={studentDetail?.bonus_point}
             />
             <PointBox
               currentPointType={currentPointType}
               setCurrentPointType={setCurrentPointType}
               pointType="MINUS"
-              point={studentDetail.minus_point}
+              point={studentDetail?.minus_point}
             />
           </_PointWrapper>
         )}
@@ -62,7 +62,7 @@ export function DetailBox({
           동일 호실 학생
         </Text>
         <_MateList>
-          {studentDetail.room_mates.map((item) => (
+          {studentDetail?.room_mates.map((item) => (
             <Button
               key={item.id}
               kind="outline"
@@ -77,7 +77,7 @@ export function DetailBox({
           학생 태그
         </Text>
         <_MateList>
-          {studentDetail.tags?.map((tag) => {
+          {studentDetail?.tags?.map((tag) => {
             return (
               <Tag
                 key={tag.id}

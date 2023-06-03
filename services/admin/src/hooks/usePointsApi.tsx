@@ -8,12 +8,14 @@ import {
   cancelPointHistory,
   getAllPointHistory,
   getAllPoints,
+  getRecentStudentPointHistory,
   getStudentPointHistory,
   PointType,
 } from '@/apis/points';
 import { usePointHistoryList } from './usePointHistoryList';
 import { useToast } from './useToast';
 import { useModal } from './useModal';
+import { RecentStudentPointResponse } from '@/apis/points/response';
 
 export const useAllPointHistory = (pointType: PointType) =>
   useQuery(
@@ -40,6 +42,22 @@ export const useStudentPointHistory = (
         addStudentPointHistory(res?.point_histories);
       },
       enabled: isActive,
+    },
+  );
+};
+
+export const useRecentStudentPointHistory = (
+  student_id: string,
+  isActive?: boolean,
+  page?: number,
+  size?: number,
+) => {
+  return useQuery(
+    [`getStudentPointHistory`, student_id],
+    () => getRecentStudentPointHistory(student_id, page, size),
+    {
+      refetchOnWindowFocus: true,
+      enabled: isActive && Boolean(student_id),
     },
   );
 };

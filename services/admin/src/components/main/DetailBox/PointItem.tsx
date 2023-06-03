@@ -7,6 +7,7 @@ import {
 } from '@/apis/points/response';
 import { PointEnum, PointType } from '@/apis/points';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
+import { useRecentStudentPointHistory } from '@/hooks/usePointsApi';
 
 interface PropsType extends StudentPointHistoryType {
   isDeleteListOption?: boolean;
@@ -97,6 +98,31 @@ export function PointItem({
         </>
       )}
     </_Wrapper>
+  );
+}
+
+export function RecentPointItem({ studentId }: { studentId: string }) {
+  const { data: recentStudentPointHistory } =
+    useRecentStudentPointHistory(studentId);
+
+  return (
+    <_Student>
+      <>
+        <Text>{recentStudentPointHistory?.student_name}</Text>
+        <Text>{recentStudentPointHistory?.student_gcn}</Text>
+      </>
+      <_Divider />
+      <>
+        <_HollowBox width={80}>
+          <Text
+            color={recentStudentPointHistory?.point_name ? 'gray10' : 'gray5'}
+          >
+            {recentStudentPointHistory?.point_name || '내역 없음'}
+          </Text>
+        </_HollowBox>
+        <Text color="primary">{recentStudentPointHistory?.point_score}</Text>
+      </>
+    </_Student>
   );
 }
 
@@ -195,4 +221,37 @@ const _PointType = styled(Text)`
 const _Delete = styled.div`
   margin: 0 12px;
   cursor: pointer;
+`;
+
+const _Student = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 57px;
+  background-color: #f9f9f9;
+  margin-bottom: 8px;
+  border: 1px solid #eeeeee;
+  border-radius: 5px;
+  padding: 0 28px;
+`;
+
+const _HollowBox = styled.div<{ width: number }>`
+  div {
+    width: ${({ width }) => width}px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+const _Divider = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  width: 1px;
+  height: 28px;
+  background-color: ${({ theme }) => theme.color.gray3};
 `;

@@ -81,12 +81,6 @@ export function Home() {
 
   const { data: availableFeature } = useAvailAbleFeatures();
 
-  const { data: studentPointHistory, refetch: refetchStudentPointHistory } =
-    useStudentPointHistory(
-      selectedStudentId[selectedStudentId.length - 1],
-      availableFeature?.point_service,
-    );
-
   const onChangeSortType = () => {
     const value: SortType = filter.sort === 'GCN' ? 'NAME' : 'GCN';
     changeObjectValue('sort', value);

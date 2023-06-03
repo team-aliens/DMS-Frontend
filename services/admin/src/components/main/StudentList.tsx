@@ -85,16 +85,14 @@ export function StudentList({
   refetchSearchStudents,
   availableFeature,
 }: Props) {
-  const [selectedStudentId] = useSelectedStudentIdStore((state) => [
-    state.selectedStudentId,
-    state.resetStudentId,
-    state.appendStudentId,
-    state.deleteStudentId,
-  ]);
+  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
+    useSelectedStudentIdStore((state) => [
+      state.selectedStudentId,
+      state.resetStudentId,
+      state.appendStudentId,
+      state.deleteStudentId,
+    ]);
 
-  const [clickedStudentId, setClickedStudentId] = useClickedStudentIdStore(
-    (state) => [state.clickedStudentId, state.setClickedStudentId],
-  );
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal, closeModal } = useModal();
@@ -201,22 +199,6 @@ export function StudentList({
   };
 
   const deleteStudentTag = useDeleteStudentTag(selectedStudentId[0], tagId);
-
-  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
-    useSelectedStudentIdStore((state) => [
-      state.selectedStudentId,
-      state.resetStudentId,
-      state.appendStudentId,
-      state.deleteStudentId,
-    ]);
-
-  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
-    useSelectedStudentIdStore((state) => [
-      state.selectedStudentId,
-      state.resetStudentId,
-      state.appendStudentId,
-      state.deleteStudentId,
-    ]);
 
   return (
     <_Wrapper>

@@ -5,8 +5,8 @@ import { Text, Button } from '@team-aliens/design-system';
 import { fadeInRight } from '../../components/animation/fade';
 import { Divider } from '../main/Divider';
 import { useModal } from '@/hooks/useModal';
-import { useStudentPointHistory } from '@/hooks/usePointsApi';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { RecentPointItem } from '../main/DetailBox/PointItem';
 
 export default function StudentSelectModal() {
   const [selectedStudentId] = useSelectedStudentIdStore((state) => [
@@ -23,25 +23,17 @@ export default function StudentSelectModal() {
     <OutsideClickHandler onOutsideClick={() => setClick(false)}>
       <_Wrapper>
         <_Header>
-          <Text color="gray6">기본정보</Text>
-          <Text color="gray6" margin={[0, 88, 0, 0]}>
+          <Text color="gray6" margin={['left', 5]}>
+            기본정보
+          </Text>
+          <Text color="gray6" margin={[0, 80, 0, 5]}>
             최근 부여 항목
           </Text>
         </_Header>
         <_StudentWrapper>
-          {selectedStudentId.map((student) => (
-            <_Student>
-              <>
-                <Text margin={[0, 16, 0, 0]}>박준수</Text>
-                <Text>1111</Text>
-              </>
-              <Divider height={28} />
-              <>
-                <Text margin={[0, 16, 0, 0]}>타호실 출입</Text>
-                <Text color="primary">+4</Text>
-              </>
-            </_Student>
-          ))}
+          {selectedStudentId.map((student) => {
+            return <RecentPointItem studentId={student} />;
+          })}
         </_StudentWrapper>
         <_UnderWrapper>
           <Text size="BtnM">
@@ -93,23 +85,11 @@ const _Header = styled.div`
 
 const _StudentWrapper = styled.div`
   width: 338px;
-  height: 260px;
+  height: 285px;
+  margin-bottom: 30px;
   position: relative;
   overflow-y: scroll;
   margin-top: 10px;
-`;
-
-const _Student = styled.div`
-  display: flex;
-  position: relative;
-  align-items: center;
-  width: 100%;
-  height: 57px;
-  background-color: #f9f9f9;
-  margin-bottom: 8px;
-  border: 1px solid #eeeeee;
-  border-radius: 5px;
-  padding: 0 28px;
 `;
 
 const _UnderWrapper = styled.div`

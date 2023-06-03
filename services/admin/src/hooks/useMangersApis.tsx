@@ -15,6 +15,9 @@ import { pagePath } from '@/utils/pagePath';
 import { TagType } from '@/apis/tags/response';
 import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 import { useQueryClient } from '@tanstack/react-query';
+import { uploadRoomInfoFile, uploadStudentInfoFile } from '@/apis/managers/index';
+import { AxiosError } from "axios";
+
 
 interface PropsType {
   selectedId: string;
@@ -88,6 +91,57 @@ export const useDeleteStudent = (student_id: string) => {
       queryClient.invalidateQueries(['studentList']);
       resetStudentId();
       closeModal();
+    },
+  });
+};
+
+
+export const useUploadStudentInfoFile = (
+  file: FileList[0],
+  closeModal: () => void,
+) => {
+  const { toastDispatch } = useToast();
+
+  return useMutation(() => uploadStudentInfoFile(file), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '엑셀이 업로드 되었습니다.',
+      });
+      closeModal();
+    },
+    onError: (e: AxiosError<{ message: string }>) => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: e.response.data.message,
+      });
+    },
+  });
+};
+
+export const useUploadRoomInfoFile = (
+  file: FileList[0],
+  closeModal: () => void,
+) => {
+  const { toastDispatch } = useToast();
+
+  return useMutation(() => uploadRoomInfoFile(file), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '엑셀이 업로드 되었습니다.',
+      });
+      closeModal();
+    },
+    onError: (e: AxiosError<{ message: string }>) => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: e.response.data.message,
+      });
     },
   });
 };

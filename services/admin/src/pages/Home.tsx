@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { ChangeEvent, useState, useEffect } from 'react';
-import { Button, Change } from '@team-aliens/design-system';
+import { Button, Change, Text } from '@team-aliens/design-system';
 import { StudentList } from '@/components/main/StudentList';
 import { Divider } from '@/components/main/Divider';
-import { StudentDetail } from '@/components/main/DetailBox/StudentDetail';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { SortType } from '@/apis/managers';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -15,7 +14,14 @@ import { useStudentPointHistory } from '@/hooks/usePointsApi';
 import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import { TagType } from '@/apis/tags/response';
 import { useAvailAbleFeatures } from '@/hooks/useSchoolsApi';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import {
+  useClickedStudentIdStore,
+  useSelectedStudentIdStore,
+} from '@/store/useSelectedStudentIdStore';
+import { SideBar } from '@/components/sidebar';
+import { DetailBox } from '@/components/main/DetailBox/DetailBox';
+import SideBarPortal from '@/components/sidebar/SideBarPortal';
+import { useModal } from '@/hooks/useModal';
 
 export interface FilterState {
   name: string;
@@ -66,8 +72,14 @@ export function Home() {
   });
   const [listViewType, setListViewType] = useState<ListViewType>('POINTS');
 
+  const [clickedStudentId, resetClickedStudentId] = useClickedStudentIdStore(
+    (state) => [state.clickedStudentId, state.resetClickedStudentId],
+  );
+
+  const { modalState } = useModal();
+
   const { data: studentDetail, refetch: refetchStudentDetail } =
-    useStudentDetail(selectedStudentId[0]);
+    useStudentDetail(clickedStudentId);
 
   const { data: studentList, refetch: refetchSearchStudents } =
     useSearchStudents({
@@ -80,6 +92,9 @@ export function Home() {
     });
 
   const { data: availableFeature } = useAvailAbleFeatures();
+
+  const { data: studentPointHistory, refetch: refetchStudentPointHistory } =
+    useStudentPointHistory(clickedStudentId, availableFeature?.point_service);
 
   const onChangeSortType = () => {
     const value: SortType = filter.sort === 'GCN' ? 'NAME' : 'GCN';
@@ -146,26 +161,6 @@ export function Home() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        {/* <_ModeButton
-          onClick={() => {
-            ChangeMode();
-            resetStudentId();
-          }}
-          Icon={<Change />}
-        >
-          {mode.text}
-        </_ModeButton>
-        {mode.type === 'POINTS' && availableFeature?.point_service && (
-          <_PointListButton
-            onClick={() => {
-              ChangeListMode();
-            }}
-            color="gray"
-            kind="outline"
-          >
-            {listViewType === 'POINTS' ? '전체 상/벌점 내역' : '학생 목록 보기'}
-          </_PointListButton>
-        )} */}
         {listViewType === 'POINTS' ? (
           <>
             <StudentList
@@ -191,13 +186,32 @@ export function Home() {
           <PointList />
         )}
       </_Wrapper>
+      <SideBarPortal>
+        {clickedStudentId && (
+          <SideBar
+            title="학생 상세 정보"
+            close={() => {
+              modalState.selectedModal === '' && resetClickedStudentId();
+            }}
+          >
+            {clickedStudentId && (
+              <DetailBox
+                studentPointHistory={studentPointHistory}
+                studentDetail={studentDetail}
+                onClickStudent={onClickStudent}
+                availableFeature={availableFeature}
+              />
+            )}
+          </SideBar>
+        )}
+      </SideBarPortal>
     </WithNavigatorBar>
   );
 }
 
 const _Wrapper = styled.div`
   display: flex;
-  margin: 160px auto 0 auto;
+  margin: 70px auto 0 auto;
   overflow-y: scroll;
 `;
 

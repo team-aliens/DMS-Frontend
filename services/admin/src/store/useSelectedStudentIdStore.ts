@@ -26,3 +26,23 @@ export const useSelectedStudentIdStore = create<SelectedStudentIdState>()(
       })),
   }),
 );
+
+interface ClickedStudentIdState {
+  clickedStudentId: string;
+  resetClickedStudentId: () => void;
+  setClickedStudentId: (studentId: string) => void;
+}
+
+export const useClickedStudentIdStore = create<ClickedStudentIdState>()(
+  (set) => ({
+    clickedStudentId: '',
+    resetClickedStudentId: () =>
+      set(() => ({
+        clickedStudentId: '',
+      })),
+    setClickedStudentId: (studentId) =>
+      set(() => ({
+        clickedStudentId: studentId,
+      })),
+  }),
+);

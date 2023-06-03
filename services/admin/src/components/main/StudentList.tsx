@@ -45,11 +45,17 @@ import { IsUseAbleFeature } from '@/apis/auth/response';
 import { Divider } from './Divider';
 import { ViewItem } from './ViewItem';
 import { usePointHistoryList } from '@/hooks/usePointHistoryList';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import {
+  useClickedStudentIdStore,
+  useSelectedStudentIdStore,
+} from '@/store/useSelectedStudentIdStore';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteTagIdStore } from '@/store/useDeleteTagId';
 import StudentSelectModal from '../modals/StudentSelectModal';
+import SideBarPortal from '../sidebar/SideBarPortal';
+import { PointList } from './PointList';
+import { SideBar } from '../sidebar';
 
 interface Props extends FilterState {
   mode: ModeType;
@@ -93,12 +99,18 @@ export function StudentList({
       state.deleteStudentId,
     ]);
 
+  const [clickedStudentId, setClickedStudentId] = useClickedStudentIdStore(
+    (state) => [state.clickedStudentId, state.setClickedStudentId],
+  );
+
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal, closeModal } = useModal();
   const [tagModal, setTagModal] = useState<string>('');
   const [showGiveModal, setShowGiveModal] = useState<boolean>(false);
   const [showViewModal, setShowViewModal] = useState<boolean>(false);
+  const [openAllPointHistorySideBar, setOpenAllPointHistorySideBar] =
+    useState(false);
   const openPointFilterModal = () => selectModal('POINT_FILTER');
 
   const cancelPoint = useCancelPointHistory(pointHistoryId);
@@ -137,13 +149,14 @@ export function StudentList({
   const deleteTagAPI = useDeleteTag(selectedTag, {
     onSuccess: () => {
       refetchAllTags();
+      queryClient.invalidateQueries(['studentList']);
       setSelectedTag('');
       toastDispatch({
         toastType: 'SUCCESS',
         actionType: 'APPEND_TOAST',
         message: '태그가 삭제되었습니다.',
       });
-      selectModal('');
+      selectModal('VIEW_TAG_OPTIONS');
     },
     onError: () => {
       toastDispatch({
@@ -198,7 +211,7 @@ export function StudentList({
     setIsSelectAllButton((prev) => !prev);
   };
 
-  const deleteStudentTag = useDeleteStudentTag(selectedStudentId[0], tagId);
+  const deleteStudentTag = useDeleteStudentTag(clickedStudentId, tagId);
 
   return (
     <_Wrapper>
@@ -209,87 +222,6 @@ export function StudentList({
           onChange={onChangeSearchName}
         />
         <_Buttons>
-          {/* {mode === 'POINTS' && (
-            <_ChooseModalBoxWrapper>
-              <Button
-                className="grantPoint"
-                onClick={() =>
-                  selectedStudentId.filter((i) => i).length > 0
-                    ? setShowGiveModalFunc()
-                    : setShowViewModalFunc()
-                }
-              >
-                {pointListText()}
-              </Button>
-              {selectedStudentId.filter((i) => i).length > 0 &&
-                showGiveModal && (
-                  <OutsideClickHandler
-                    onOutsideClick={(e) => {
-                      setShowGiveModal(false);
-                    }}
-                  >
-                    <_ChooseBox>
-                      {availableFeature?.point_service && (
-                        <>
-                          <_ChooseBoxText
-                            onClick={() => {
-                              selectModal('GIVE_POINT');
-                              setShowGiveModal(false);
-                            }}
-                          >
-                            상/벌점 부여
-                          </_ChooseBoxText>
-                          <_Line />
-                        </>
-                      )}
-                      <_ChooseBoxText
-                        onClick={() => {
-                          selectModal('GIVE_TAG_OPTIONS');
-                          setShowGiveModal(false);
-                        }}
-                      >
-                        학생 태그 부여
-                      </_ChooseBoxText>
-                    </_ChooseBox>
-                  </OutsideClickHandler>
-                )}
-              {!(selectedStudentId.filter((i) => i).length > 0) &&
-                showViewModal && (
-                  <OutsideClickHandler
-                    onOutsideClick={(e) => {
-                      if (
-                        !(e.target as Element).className.includes('grantPoint')
-                      )
-                        setShowViewModal(false);
-                    }}
-                  >
-                    <_ChooseBox>
-                      {availableFeature?.point_service && (
-                        <>
-                          <_ChooseBoxText
-                            onClick={() => {
-                              selectModal('POINT_OPTIONS');
-                              setShowViewModal(false);
-                            }}
-                          >
-                            상/벌점 항목 보기
-                          </_ChooseBoxText>
-                          <_Line />
-                        </>
-                      )}
-                      <_ChooseBoxText
-                        onClick={() => {
-                          selectModal('VIEW_TAG_OPTIONS');
-                          setShowViewModal(false);
-                        }}
-                      >
-                        학생 태그 항목 보기
-                      </_ChooseBoxText>
-                    </_ChooseBox>
-                  </OutsideClickHandler>
-                )}
-            </_ChooseModalBoxWrapper>
-          )} */}
           <ViewItem />
           {availableFeature?.point_service && (
             <Button
@@ -318,7 +250,9 @@ export function StudentList({
           <Button
             kind="outline"
             color="gray"
-            onClick={() => {}}
+            onClick={() => {
+              setOpenAllPointHistorySideBar(true);
+            }}
             className="filterButton"
           >
             상/벌점 내역
@@ -327,7 +261,7 @@ export function StudentList({
       </_Filter>
       <_Buttons>
         <CheckBox status={isSelectAllButton} onChange={onClickAllButton} />
-        <Text cursor={'pointer'}>전체 선택</Text>
+        <Text cursor="pointer">전체 선택</Text>
       </_Buttons>
       <_StudentList>
         {studentList.map((item) => (
@@ -415,6 +349,18 @@ export function StudentList({
         />
       )}
       {Boolean(selectedStudentId.length) && <StudentSelectModal />}
+      <SideBarPortal>
+        {openAllPointHistorySideBar && (
+          <SideBar
+            title="상/벌점 내역"
+            close={() => {
+              setOpenAllPointHistorySideBar(false);
+            }}
+          >
+            <PointList />
+          </SideBar>
+        )}
+      </SideBarPortal>
     </_Wrapper>
   );
 }
@@ -428,6 +374,7 @@ const _Filter = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 10px 0 52px 0;
   > button {
     > svg > path {
       fill: ${({ theme }) => theme.color.gray6};
@@ -450,7 +397,6 @@ const _Buttons = styled.div`
   align-items: center;
   gap: 10px;
   margin-left: 36px;
-  margin-top: 52px;
 `;
 
 const _ChooseModalBoxWrapper = styled.div`

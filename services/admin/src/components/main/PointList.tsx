@@ -65,21 +65,6 @@ export function PointList() {
 
   return (
     <_Wrapper>
-      <Button
-        margin={['left', 'auto']}
-        className="pointList"
-        onClick={openPointOptionModal}
-      >
-        상/벌점 항목 보기
-      </Button>
-      <_Display>
-        <Text margin={['bottom', 10]} color="gray6" size="titleL">
-          전체 학생 상/벌점
-        </Text>
-        <Button color="gray" kind="outline" onClick={downloadPointHistory}>
-          엑셀 출력
-        </Button>
-      </_Display>
       {data?.point_histories &&
         data.point_histories.map((res, i) => {
           const {
@@ -95,7 +80,7 @@ export function PointList() {
           return (
             <>
               {!isSameDate && (
-                <Text margin={[30, 0, 9, 0]} color="gray6" size="titleS">
+                <Text margin={[30, 0, 9, 0]} color="gray6" size="bodyL">
                   {date}
                 </Text>
               )}
@@ -137,10 +122,7 @@ export function PointList() {
 }
 
 const _Wrapper = styled.div`
-  width: 670px;
-  margin-right: 361px;
-  margin-left: 50px;
-  margin-bottom: 150px;
+  width: 418px;
 `;
 
 const _Display = styled.div`

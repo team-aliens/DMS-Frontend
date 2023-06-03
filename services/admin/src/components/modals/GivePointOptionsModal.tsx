@@ -33,6 +33,7 @@ interface PropsType {
 }
 
 const canClick = true;
+
 export function GivePointOptionsModal({ allPointOptions }: PropsType) {
   const [newItem, setNewItem] = useState(true);
   const [selectedStudentId] = useSelectedStudentIdStore((store) => [

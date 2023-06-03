@@ -28,6 +28,7 @@ export interface RecentStudentPointResponse {
 
 export interface StudentPointHistoryType {
   point_history_id: string;
+  date?: string;
   type: PointType;
   score: number;
   name: string;

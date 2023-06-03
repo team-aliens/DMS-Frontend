@@ -22,6 +22,7 @@ export const useGetAllRemains = () =>
 
 export const useCreateRemain = (body: createRemainBody) => {
   const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
 
   return useMutation(() => createRemain(body), {
     onSuccess: () => {
@@ -30,6 +31,7 @@ export const useCreateRemain = (body: createRemainBody) => {
         toastType: 'SUCCESS',
         message: '잔류 항목이 추가되었습니다.',
       });
+      queryClient.invalidateQueries(['getAllRemains']);
     },
   });
 };
@@ -70,6 +72,8 @@ export const useDeleteRemain = (id: string) => {
 export const useEditRemain = (id: string, body: EditRemainBody) => {
   const { toastDispatch } = useToast();
 
+  const queryClient = useQueryClient();
+
   return useMutation(() => editRemain(body, id), {
     onSuccess: () => {
       toastDispatch({
@@ -77,6 +81,7 @@ export const useEditRemain = (id: string, body: EditRemainBody) => {
         toastType: 'SUCCESS',
         message: '잔류 항목이 수정되었습니다.',
       });
+      queryClient.invalidateQueries(['getAllRemains']);
     },
   });
 };

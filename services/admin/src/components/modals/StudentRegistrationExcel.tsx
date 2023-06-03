@@ -3,14 +3,12 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useStudentAccountIssuance } from '@/hooks/useStudentRegistrationExcel';
 import { download } from '@/utils/excel';
+import { useModal } from '@/hooks/useModal';
 
-interface PropsType {
-  closeModal: () => void;
-}
-
-export const StudentRegistrationExcel = ({ closeModal }: PropsType) => {
+export const StudentRegistrationExcel = () => {
   const [uploadedFile, setUplodaedFile] = useState(null);
-  const studentAccount = useStudentAccountIssuance(uploadedFile, closeModal);
+  const studentAccount = useStudentAccountIssuance(uploadedFile);
+  const { closeModal } = useModal();
 
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUplodaedFile(e.target.files[0]);

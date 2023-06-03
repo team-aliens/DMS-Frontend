@@ -3,15 +3,13 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useUploadStudentInfoFile } from '@/hooks/useMangersApis';
 import { getStudentInfoExcel } from '@/apis/managers/index';
+import { useModal } from '@/hooks/useModal';
 
-interface PropsType {
-  closeModal: () => void;
-}
-
-export const StudentEditGrade = ({ closeModal }: PropsType) => {
+export const StudentEditGrade = () => {
   const [uploadedFile, setUplodaedFile] = useState(null);
-  const studentAccount = useUploadStudentInfoFile(uploadedFile, closeModal);
+  const studentAccount = useUploadStudentInfoFile(uploadedFile);
   const { mutate: getStudentInfo } = getStudentInfoExcel();
+  const { closeModal } = useModal();
 
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUplodaedFile(e.target.files[0]);
@@ -36,7 +34,8 @@ export const StudentEditGrade = ({ closeModal }: PropsType) => {
     >
       <Button onClick={getStudentInfo}>학생 정보 다운로드</Button>
       <_Text margin={[15, 0, 14, 0]}>
-        학생 정보 엑셀을 다운로드 받은 후<br/>학번을 수정하여 업로드 해주세요.
+        학생 정보 엑셀을 다운로드 받은 후<br />
+        학번을 수정하여 업로드 해주세요.
       </_Text>
       {uploadedFile ? (
         <>

@@ -1,21 +1,20 @@
 import { Button, Modal, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useUploadRoomInfoFile } from "@/hooks/useMangersApis";
+import { useUploadRoomInfoFile } from '@/hooks/useMangersApis';
 import { getStudentInfoExcel } from '@/apis/managers/index';
+import { useModal } from '@/hooks/useModal';
 
-interface PropsType {
-  closeModal: () => void;
-}
-
-export const StudentEditRoom = ({ closeModal }: PropsType) => {
+export const StudentEditRoom = () => {
   const [uploadedFile, setUplodaedFile] = useState(null);
-  const studentAccount = useUploadRoomInfoFile(uploadedFile, closeModal);
+  const studentAccount = useUploadRoomInfoFile(uploadedFile);
   const { mutate: getStudentInfo } = getStudentInfoExcel();
 
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUplodaedFile(e.target.files[0]);
   };
+
+  const { closeModal } = useModal();
 
   return (
     <Modal
@@ -26,7 +25,9 @@ export const StudentEditRoom = ({ closeModal }: PropsType) => {
           취소
         </Button>,
         <Button
-          onClick={() => {studentAccount.mutate();}}
+          onClick={() => {
+            studentAccount.mutate();
+          }}
         >
           확인
         </Button>,
@@ -34,8 +35,8 @@ export const StudentEditRoom = ({ closeModal }: PropsType) => {
     >
       <Button onClick={getStudentInfo}>학생 정보 다운로드</Button>
       <_Text margin={[15, 0, 14, 0]}>
-        학생 정보 엑셀을 다운로드 받은 후<br/>호실, 자리 위치를
-        수정하여 업로드 해주세요.
+        학생 정보 엑셀을 다운로드 받은 후<br />
+        호실, 자리 위치를 수정하여 업로드 해주세요.
       </_Text>
       {uploadedFile ? (
         <>

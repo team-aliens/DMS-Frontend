@@ -2,12 +2,11 @@ import { studentAccountIssuance } from '@/apis/files';
 import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from './useToast';
+import { useModal } from './useModal';
 
-export const useStudentAccountIssuance = (
-  file: FileList[0],
-  closeModal: () => void,
-) => {
+export const useStudentAccountIssuance = (file: FileList[0]) => {
   const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
 
   return useMutation(() => studentAccountIssuance(file), {
     onSuccess: () => {

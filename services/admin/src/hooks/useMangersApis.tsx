@@ -15,9 +15,11 @@ import { pagePath } from '@/utils/pagePath';
 import { TagType } from '@/apis/tags/response';
 import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 import { useQueryClient } from '@tanstack/react-query';
-import { uploadRoomInfoFile, uploadStudentInfoFile } from '@/apis/managers/index';
-import { AxiosError } from "axios";
-
+import {
+  uploadRoomInfoFile,
+  uploadStudentInfoFile,
+} from '@/apis/managers/index';
+import { AxiosError } from 'axios';
 
 interface PropsType {
   selectedId: string;
@@ -95,12 +97,9 @@ export const useDeleteStudent = (student_id: string) => {
   });
 };
 
-
-export const useUploadStudentInfoFile = (
-  file: FileList[0],
-  closeModal: () => void,
-) => {
+export const useUploadStudentInfoFile = (file: FileList[0]) => {
   const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
 
   return useMutation(() => uploadStudentInfoFile(file), {
     onSuccess: () => {
@@ -121,11 +120,9 @@ export const useUploadStudentInfoFile = (
   });
 };
 
-export const useUploadRoomInfoFile = (
-  file: FileList[0],
-  closeModal: () => void,
-) => {
+export const useUploadRoomInfoFile = (file: FileList[0]) => {
   const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
 
   return useMutation(() => uploadRoomInfoFile(file), {
     onSuccess: () => {

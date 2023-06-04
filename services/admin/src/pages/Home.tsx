@@ -198,7 +198,6 @@ export function Home() {
               <DetailBox
                 studentPointHistory={studentPointHistory}
                 studentDetail={studentDetail}
-                onClickStudent={onClickStudent}
                 availableFeature={availableFeature}
               />
             )}

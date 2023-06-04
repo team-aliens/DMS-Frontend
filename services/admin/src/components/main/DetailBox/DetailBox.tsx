@@ -9,12 +9,14 @@ import { PointType } from '@/apis/points';
 import { StudentPointHistoryResponse } from '@/apis/points/response';
 import { Tag } from '../Tag';
 import { IsUseAbleFeature } from '@/apis/auth/response';
-import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import {
+  useClickedStudentIdStore,
+  useSelectedStudentIdStore,
+} from '@/store/useSelectedStudentIdStore';
 
 interface PropsType {
   studentPointHistory: StudentPointHistoryResponse;
   studentDetail: GetStudentDetailResponse;
-  onClickStudent: (id: string) => void;
   availableFeature: IsUseAbleFeature;
 }
 
@@ -23,13 +25,16 @@ const canDelete = true;
 export function DetailBox({
   studentPointHistory,
   studentDetail,
-  onClickStudent,
   availableFeature,
 }: PropsType) {
   const [currentPointType, setCurrentPointType] = useState<PointType>('ALL');
   const [selectedStudentId] = useSelectedStudentIdStore((state) => [
     state.selectedStudentId,
   ]);
+
+  const [clickedStudentId, setClickedStudentId] = useClickedStudentIdStore(
+    (state) => [state.clickedStudentId, state.setClickedStudentId],
+  );
 
   return (
     <>
@@ -66,7 +71,7 @@ export function DetailBox({
             <Button
               key={item.id}
               kind="outline"
-              onClick={() => onClickStudent(item.id)}
+              onClick={() => setClickedStudentId(item.id)}
               color="gray"
             >
               {item.name}

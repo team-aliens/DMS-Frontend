@@ -36,9 +36,9 @@ const canClick = true;
 
 export function GivePointOptionsModal({ allPointOptions }: PropsType) {
   const [newItem, setNewItem] = useState(true);
-  const [selectedStudentId] = useSelectedStudentIdStore((store) => [
-    store.selectedStudentId,
-  ]);
+  const [selectedStudentId, reresetStudentIdset] = useSelectedStudentIdStore(
+    (store) => [store.selectedStudentId, store.resetStudentId],
+  );
   const [selectedPointOption, setSelectedPointOption] = useState<{
     id: string;
     type: PointType;
@@ -95,6 +95,7 @@ export function GivePointOptionsModal({ allPointOptions }: PropsType) {
           toastType: 'SUCCESS',
           message: `${PointEnum[selectedPointOption.type]}이 부여되었습니다.`,
         });
+        reresetStudentIdset();
         setSelectedPointOption({
           id: '',
           type: 'ALL',

@@ -40,11 +40,9 @@ import { useTagList } from '@/hooks/useTagsApi';
 import { DeleteTagModal } from '../modals/DeleteTag';
 import { ViewAllTagModal } from '../modals/ViewAllTagModal';
 import { useDeleteTag } from '@/apis/tags';
-import OutsideClickHandler from 'react-outside-click-handler';
 import { IsUseAbleFeature } from '@/apis/auth/response';
 import { Divider } from './Divider';
 import { ViewItem } from './ViewItem';
-import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import {
   useClickedStudentIdStore,
   useSelectedStudentIdStore,
@@ -91,24 +89,21 @@ export function StudentList({
   refetchSearchStudents,
   availableFeature,
 }: Props) {
-  const [selectedStudentId, resetStudentId, appendStudentId, deleteStudentId] =
+  const [selectedStudentId, resetStudentId, appendStudentId] =
     useSelectedStudentIdStore((state) => [
       state.selectedStudentId,
       state.resetStudentId,
       state.appendStudentId,
-      state.deleteStudentId,
     ]);
 
-  const [clickedStudentId, setClickedStudentId] = useClickedStudentIdStore(
-    (state) => [state.clickedStudentId, state.setClickedStudentId],
-  );
+  const [clickedStudentId] = useClickedStudentIdStore((state) => [
+    state.clickedStudentId,
+  ]);
 
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal, closeModal } = useModal();
   const [tagModal, setTagModal] = useState<string>('');
-  const [showGiveModal, setShowGiveModal] = useState<boolean>(false);
-  const [showViewModal, setShowViewModal] = useState<boolean>(false);
   const [openAllPointHistorySideBar, setOpenAllPointHistorySideBar] =
     useState(false);
   const openPointFilterModal = () => selectModal('POINT_FILTER');
@@ -176,27 +171,6 @@ export function StudentList({
       color: 'primary',
     };
   }, [startPoint, endPoint, filterType]);
-
-  const pointListText = () => {
-    if (selectedStudentId.filter((i) => i).length > 0) {
-      return '부여';
-    }
-    return '항목 보기';
-  };
-
-  const setShowGiveModalFunc = () => {
-    if (showGiveModal === false) {
-      setShowGiveModal(true);
-      setShowViewModal(false);
-    } else {
-      setShowGiveModal(false);
-    }
-  };
-
-  const setShowViewModalFunc = () => {
-    setShowViewModal((prev) => !prev);
-    setShowGiveModal(false);
-  };
 
   const [isSelectAllButton, setIsSelectAllButton] = useState(false);
 

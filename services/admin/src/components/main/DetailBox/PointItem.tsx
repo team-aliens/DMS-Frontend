@@ -121,7 +121,15 @@ export function RecentPointItem({ studentId }: { studentId: string }) {
             {recentStudentPointHistory?.point_name || '내역 없음'}
           </Text>
         </_HollowBox>
-        <Text color="primary">{recentStudentPointHistory?.point_score}</Text>
+        <Text
+          color={
+            recentStudentPointHistory?.point_type === 'BONUS'
+              ? 'primary'
+              : 'error'
+          }
+        >
+          {recentStudentPointHistory?.point_score}
+        </Text>
       </>
     </_Student>
   );

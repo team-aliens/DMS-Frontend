@@ -16,7 +16,6 @@ interface Props {
   mode: ModeType;
   studentDetail: GetStudentDetailResponse;
   studentList: StudentInfo[];
-  onClickStudent: (id: string) => void;
   availableFeature: IsUseAbleFeature;
   studentPointHistory: StudentPointHistoryResponse;
   studentsPointHistoryList: PointHistoryList[];
@@ -26,7 +25,6 @@ export function StudentDetail({
   mode,
   studentDetail,
   studentList,
-  onClickStudent,
   availableFeature,
   studentPointHistory,
   studentsPointHistoryList,
@@ -55,7 +53,6 @@ export function StudentDetail({
                 <DetailBox
                   studentDetail={studentDetail}
                   availableFeature={availableFeature}
-                  onClickStudent={onClickStudent}
                   studentPointHistory={studentPointHistory}
                 />
               )

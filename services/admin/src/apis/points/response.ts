@@ -18,6 +18,14 @@ export interface StudentPointHistoryResponse {
   point_histories: StudentPointHistoryType[];
 }
 
+export interface RecentStudentPointResponse {
+  student_name: string;
+  student_gcn: string;
+  point_type: PointType;
+  point_score: number;
+  point_name: string;
+}
+
 export interface StudentPointHistoryType {
   point_history_id: string;
   date?: string;

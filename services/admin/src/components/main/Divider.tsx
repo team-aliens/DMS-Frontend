@@ -4,11 +4,13 @@ interface DividerProps {
   width?: number;
   height?: number;
   margin?: string;
+  maxWidth?: number;
 }
 export function Divider({
   height = 500,
   margin = '0 20px 0 40px',
   width = 1,
+  maxWidth = 1300,
 }: DividerProps) {
   return <_Divider height={height} width={width} margin={margin} />;
 }

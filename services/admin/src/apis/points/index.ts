@@ -10,6 +10,7 @@ import { instance } from '..';
 import {
   AllPointListResponse,
   AllPointsOptionResponse,
+  RecentStudentPointResponse,
   StudentPointHistoryResponse,
 } from './response';
 import { useToast } from '@/hooks/useToast';
@@ -36,6 +37,22 @@ export const getStudentPointHistory = async (
     }`,
   );
   return data;
+};
+
+/** 학생 상/벌점 최근 내역 조회 */
+export const getRecentStudentPointHistory = async (
+  student_id: string,
+  page?: number,
+  size?: number,
+) => {
+  if (student_id) {
+    const { data } = await instance.get<Promise<RecentStudentPointResponse>>(
+      `${router}/history/students/${student_id}/recent${
+        page || size ? `?page=${page}&size=${size}` : ''
+      }`,
+    );
+    return data;
+  }
 };
 
 /** 상/벌점 전체 조회 */

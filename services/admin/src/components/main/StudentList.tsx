@@ -52,6 +52,7 @@ import {
 import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useQueryClient } from '@tanstack/react-query';
 import { useDeleteTagIdStore } from '@/store/useDeleteTagId';
+import StudentSelectModal from '../modals/StudentSelectModal';
 import SideBarPortal from '../sidebar/SideBarPortal';
 import { PointList } from './PointList';
 import { SideBar } from '../sidebar';
@@ -97,9 +98,11 @@ export function StudentList({
       state.appendStudentId,
       state.deleteStudentId,
     ]);
+
   const [clickedStudentId, setClickedStudentId] = useClickedStudentIdStore(
     (state) => [state.clickedStudentId, state.setClickedStudentId],
   );
+
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal, closeModal } = useModal();
@@ -345,6 +348,7 @@ export function StudentList({
           tagModal={tagModal}
         />
       )}
+      {Boolean(selectedStudentId.length) && <StudentSelectModal />}
       <SideBarPortal>
         {openAllPointHistorySideBar && (
           <SideBar
@@ -360,7 +364,6 @@ export function StudentList({
     </_Wrapper>
   );
 }
-
 const _Wrapper = styled.div`
   width: 1030px;
   transition: width 0.7s ease-in-out;

@@ -124,7 +124,9 @@ export function RecentPointItem({ studentId }: { studentId: string }) {
         <Text color="primary">{recentStudentPointHistory?.point_score}</Text>
       </>
     </_Student>
-    
+  );
+}
+
 export function StudentPointItem({
   isDeleteListOption = false,
   canDelete = false,

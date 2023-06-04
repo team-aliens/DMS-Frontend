@@ -15,12 +15,17 @@ import { useMyProfileInfo } from '@/hooks/useMangersApis';
 import { StudentRegistrationExcel } from '@/components/modals/StudentRegistrationExcel';
 import { pagePath } from '@/utils/pagePath';
 import { SchoolCheckingCodeModal } from '@/components/modals/SchoolCheckingCode';
+import { StudentEditRoom } from '@/components/modals/StudentEditRoom';
+import { StudentEditGrade } from '@/components/modals/StudentEditGrade';
 
 export function MyPage() {
-  const { modalState, selectModal, closeModal } = useModal();
+  const { modalState, selectModal } = useModal();
   const openNewQuestionModal = () => selectModal('NEW_QNA');
   const openLogoutModal = () => selectModal('LOGOUT');
   const openStudentExelModal = () => selectModal('STUDENT_EXEL');
+  const openStudentEditRoomExcel = () => selectModal('STUDENT_EDIT_ROOM_EXCEL');
+  const openStudentEditGradeExcel = () =>
+    selectModal('STUDENT_EDIT_GRADE_EXCEL');
 
   const { onHandleChange: onChange, state: qnaState } =
     useForm<ChangeSchoolQnARequest>({
@@ -79,12 +84,26 @@ export function MyPage() {
               answer={myProfileData?.answer}
             />
           </_CardWrapper>
-          <_StudentIssuance onClick={openStudentExelModal}>
-            <Text display="block" size="titleS">
-              학생 등록
-            </Text>
-            <Arrow size={24} direction="right" />
-          </_StudentIssuance>
+          <_StudentExcelWrapper>
+            <_StudentIssuance onClick={openStudentExelModal}>
+              <Text display="block" size="titleS">
+                학생 등록
+              </Text>
+              <Arrow size={24} direction="right" />
+            </_StudentIssuance>
+            <_StudentEditWrapper>
+              <_StudentEdit onClick={openStudentEditRoomExcel}>
+                <Text display="block" size="titleS">
+                  호실 정보 변경
+                </Text>
+              </_StudentEdit>
+              <_StudentGcnEdit onClick={openStudentEditGradeExcel}>
+                <Text display="block" size="titleS">
+                  학번 정보 변경
+                </Text>
+              </_StudentGcnEdit>
+            </_StudentEditWrapper>
+          </_StudentExcelWrapper>
         </_Wrapper>
       </WithNavigatorBar>
       {modalState.selectedModal === 'NEW_QNA' && (
@@ -96,16 +115,17 @@ export function MyPage() {
         />
       )}
       {modalState.selectedModal === 'SCHOOL_CHECKING_CODE' && (
-        <SchoolCheckingCodeModal
-          closeModal={closeModal}
-          onClick={getNewCode.mutate}
-        />
+        <SchoolCheckingCodeModal onClick={getNewCode.mutate} />
       )}
-      {modalState.selectedModal === 'LOGOUT' && (
-        <LogOutModal closeModal={closeModal} />
-      )}
+      {modalState.selectedModal === 'LOGOUT' && <LogOutModal />}
       {modalState.selectedModal === 'STUDENT_EXEL' && (
-        <StudentRegistrationExcel closeModal={closeModal} />
+        <StudentRegistrationExcel />
+      )}
+      {modalState.selectedModal === 'STUDENT_EDIT_ROOM_EXCEL' && (
+        <StudentEditRoom />
+      )}
+      {modalState.selectedModal === 'STUDENT_EDIT_GRADE_EXCEL' && (
+        <StudentEditGrade />
       )}
     </>
   );
@@ -137,6 +157,11 @@ const _PasswordChange = styled(Link)`
   }
 `;
 
+const _StudentExcelWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const _StudentIssuance = styled.div`
   width: 500px;
   height: 70px;
@@ -148,6 +173,29 @@ const _StudentIssuance = styled.div`
   margin-top: 25px;
   box-shadow: 0 1px 20px rgba(204, 204, 204, 0.24);
   border-radius: 4px;
+`;
+
+const _StudentEditWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+`;
+
+const _StudentEdit = styled.div`
+  width: 233px;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 24px;
+  margin-top: 25px;
+  box-shadow: 0 1px 20px rgba(204, 204, 204, 0.24);
+  border-radius: 4px;
+`;
+
+const _StudentGcnEdit = styled(_StudentEdit)`
+  width: 250px;
 `;
 
 const _Logout = styled(Text)`

@@ -1,14 +1,12 @@
+import { useModal } from '@/hooks/useModal';
 import { pagePath } from '@/utils/pagePath';
 import { Button, Modal } from '@team-aliens/design-system';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 
-interface PropsType {
-  closeModal: () => void;
-}
-
-export function LogOutModal({ closeModal }: PropsType) {
+export function LogOutModal() {
   const navigate = useNavigate();
+  const { closeModal } = useModal();
 
   const [cookies, setCookie, removeCookie] = useCookies([
     'refresh_token',

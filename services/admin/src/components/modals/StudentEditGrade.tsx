@@ -1,13 +1,14 @@
 import { Button, Modal, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useStudentAccountIssuance } from '@/hooks/useStudentRegistrationExcel';
-import { download } from '@/utils/excel';
+import { useUploadStudentInfoFile } from '@/hooks/useMangersApis';
+import { getStudentInfoExcel } from '@/apis/managers/index';
 import { useModal } from '@/hooks/useModal';
 
-export const StudentRegistrationExcel = () => {
+export const StudentEditGrade = () => {
   const [uploadedFile, setUplodaedFile] = useState(null);
-  const studentAccount = useStudentAccountIssuance(uploadedFile);
+  const studentAccount = useUploadStudentInfoFile(uploadedFile);
+  const { mutate: getStudentInfo } = getStudentInfoExcel();
   const { closeModal } = useModal();
 
   const onFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +18,7 @@ export const StudentRegistrationExcel = () => {
   return (
     <Modal
       close={closeModal}
-      title="학생 등록 엑셀 다운로드"
+      title="학번 정보 변경"
       buttonList={[
         <Button kind="outline" onClick={closeModal}>
           취소
@@ -31,10 +32,10 @@ export const StudentRegistrationExcel = () => {
         </Button>,
       ]}
     >
-      <Button onClick={download}>엑셀 양식 다운로드</Button>
+      <Button onClick={getStudentInfo}>학생 정보 다운로드</Button>
       <_Text margin={[15, 0, 14, 0]}>
-        학생을 등록하기 위해서 엑셀을 다운로드 받은 후 정보를 기입한 엑셀을
-        업로드 해주세요.
+        학생 정보 엑셀을 다운로드 받은 후<br />
+        학번을 수정하여 업로드 해주세요.
       </_Text>
       {uploadedFile ? (
         <>

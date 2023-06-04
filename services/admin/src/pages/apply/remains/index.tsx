@@ -74,15 +74,15 @@ export default function RemainsLists() {
         </_ListLayout>
       </_Layout>
       {modalState.selectedModal === 'SET_REMAIN_TIME' ? <TimeModal /> : null}
-      {modalState.selectedModal === 'CREATE_REMAIN_ITEM' ||
-        (modalState.selectedModal === 'EDIT_REMAIN_ITEM' && (
-          <RemainModal
-            selectModalId={selectModalId}
-            kind={remainKind}
-            initTitle={selectState.title}
-            initContent={selectState.content}
-          />
-        ))}
+      {(modalState.selectedModal === 'CREATE_REMAIN_ITEM' ||
+        modalState.selectedModal === 'EDIT_REMAIN_ITEM') && (
+        <RemainModal
+          selectModalId={selectModalId}
+          kind={remainKind}
+          initTitle={selectState.title}
+          initContent={selectState.content}
+        />
+      )}
       {modalState.selectedModal === 'DELETE_REMAIN_ITEM' && (
         <DeleteModal selectModalId={selectModalId} />
       )}

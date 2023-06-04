@@ -53,7 +53,7 @@ export const useRecentStudentPointHistory = (
   size?: number,
 ) => {
   return useQuery(
-    [`getStudentPointHistory`, student_id],
+    [`getRecentStudentPointHistory`, student_id],
     () => getRecentStudentPointHistory(student_id, page, size),
     {
       refetchOnWindowFocus: true,

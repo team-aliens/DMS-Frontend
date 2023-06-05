@@ -4,18 +4,16 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface PropsType {
   setSelectedOption?: Dispatch<SetStateAction<string>>;
-  closeModal: () => void;
   onClick: () => void;
   tagModal: string;
 }
 
 export function DeleteTagModal({
-  closeModal,
   onClick,
   setSelectedOption,
   tagModal,
 }: PropsType) {
-  const { selectModal } = useModal();
+  const { selectModal, closeModal } = useModal();
   const backToDeleteTagModal = () => {
     selectModal(
       tagModal === 'GIVE_TAG_OPTIONS' ? 'GIVE_TAG_OPTIONS' : 'VIEW_TAG_OPTIONS',

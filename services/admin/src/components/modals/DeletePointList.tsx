@@ -1,11 +1,13 @@
+import { useModal } from '@/hooks/useModal';
 import { Button, Modal } from '@team-aliens/design-system';
 
 interface PropsType {
-  closeModal: () => void;
   onClick: () => void;
 }
 
-export function DeletePointListModal({ closeModal, onClick }: PropsType) {
+export function DeletePointListModal({ onClick }: PropsType) {
+  const { closeModal } = useModal();
+
   const confirm = () => {
     onClick();
     closeModal();

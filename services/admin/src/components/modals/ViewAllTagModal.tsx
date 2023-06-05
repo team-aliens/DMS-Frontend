@@ -29,9 +29,9 @@ import Triangle from '../../assets/Triangle.svg';
 import { AxiosError } from 'axios';
 import { useAddTag, useEditTag, useGiveTag } from '@/apis/tags';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { useModal } from '@/hooks/useModal';
 
 interface PropsType {
-  close: () => void;
   selectedTag: string;
   setSelectedTag: Dispatch<SetStateAction<string>>;
   allTags: TagListResponse;
@@ -46,7 +46,6 @@ interface Colors {
 }
 
 export function ViewAllTagModal({
-  close,
   selectedTag,
   setSelectedTag,
   allTags,
@@ -54,6 +53,8 @@ export function ViewAllTagModal({
   setTagModal,
 }: PropsType) {
   const [newItem, setNewItem] = useState(true);
+
+  const { closeModal } = useModal();
 
   const [editColorDropDown, setEditColorDropDown] = useState<boolean>(false);
   const [editSelectedColor, setEditSelectedColor] = useState<string>('#F5F9D6');
@@ -178,7 +179,7 @@ export function ViewAllTagModal({
       content=""
       close={() => {
         setSelectedTag('');
-        close();
+        closeModal();
       }}
       buttonList={[
         selectedTag ? (

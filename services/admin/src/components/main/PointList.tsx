@@ -97,16 +97,12 @@ export function PointList() {
           );
         })}
       {modalState.selectedModal === 'DELETE_POINT_LIST' && (
-        <DeletePointListModal
-          onClick={cancelPoint.mutate}
-          closeModal={closeModal}
-        />
+        <DeletePointListModal onClick={cancelPoint.mutate} />
       )}
       {modalState.selectedModal === 'POINT_OPTIONS' && (
         <ViewPointOptionsModal
           selectedPointOption={selectedPointOption}
           setSelectedPointOption={setSelectedPointOption}
-          close={closeModal}
           allPointOptions={allPointOptions}
         />
       )}
@@ -114,7 +110,6 @@ export function PointList() {
         <DeletePointOptionModal
           setSelectedOption={setSelectedPointOption}
           onClick={deletePointOptionAPI.mutate}
-          closeModal={closeModal}
         />
       )}
     </_Wrapper>

@@ -19,10 +19,10 @@ import { useAddTag, useGiveTag } from '@/apis/tags';
 import { useToast } from '@/hooks/useToast';
 import { AxiosError } from 'axios';
 import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import { useModal } from '@/hooks/useModal';
 
 interface PropsType {
   selectedStudentId: string[];
-  close: () => void;
   allTags: TagListResponse;
   refetchAllTags: () => void;
   selectedTag: string;
@@ -37,7 +37,6 @@ interface Colors {
 }
 
 export function GiveAllTagModal({
-  close,
   allTags,
   refetchAllTags,
   selectedTag,
@@ -70,6 +69,8 @@ export function GiveAllTagModal({
   } = useForm<AddTagRequest>({
     addTagName: '',
   });
+
+  const { closeModal } = useModal();
 
   const newItemInput = () => {
     if (selectedTag) {
@@ -153,7 +154,7 @@ export function GiveAllTagModal({
       content=""
       close={() => {
         setSelectedTag('');
-        close();
+        closeModal();
       }}
       buttonList={[
         <Button

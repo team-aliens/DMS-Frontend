@@ -21,21 +21,22 @@ import { useDropDown } from '@/hooks/useDropDown';
 import { useForm } from '@/hooks/useForm';
 import { PointItem } from '../main/DetailBox/PointItem';
 import { useToast } from '@/hooks/useToast';
+import { useModal } from '@/hooks/useModal';
 
 interface PropsType {
   selectedPointOption?: string;
   setSelectedPointOption?: Dispatch<SetStateAction<string>>;
-  close: () => void;
   allPointOptions?: AllPointsOptionResponse;
 }
 
 export function ViewPointOptionsModal({
-  close,
   selectedPointOption,
   setSelectedPointOption,
   allPointOptions,
 }: PropsType) {
   const MustTrue = true;
+
+  const { closeModal } = useModal();
 
   const [newItem, setNewItem] = useState(true);
 
@@ -103,7 +104,7 @@ export function ViewPointOptionsModal({
       className="grantPoint"
       title="상/벌점 항목"
       content=""
-      close={close}
+      close={closeModal}
       buttonList={[
         selectedPointOption ? (
           <Button

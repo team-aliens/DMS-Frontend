@@ -3,6 +3,8 @@ import { instance } from '..';
 import { TagListResponse } from './response';
 import { AxiosError } from 'axios';
 import { useToast } from '@/hooks/useToast';
+import { useModal } from '@/hooks/useModal';
+import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 const router = '/tags';
 
 export const deleteTag = async (student_id: string, tag_id: string) => {
@@ -27,6 +29,10 @@ export const useGiveTag = (
     student_ids: selectedStudentId,
   };
   const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
+  const [resetStudentId] = useSelectedStudentIdStore((store) => [
+    store.resetStudentId,
+  ]);
 
   return useMutation(async () => instance.post(`${router}/students`, body), {
     onSuccess: () => {
@@ -35,6 +41,8 @@ export const useGiveTag = (
         toastType: 'SUCCESS',
         message: `태그가 부여되었습니다.`,
       });
+      resetStudentId();
+      closeModal();
     },
     onError: (e: AxiosError) => {
       if (e.request.status) {

@@ -100,6 +100,7 @@ export function GivePointOptionsModal({ allPointOptions }: PropsType) {
           id: '',
           type: 'ALL',
         });
+        closeModal();
       },
       onError: () => {
         toastDispatch({

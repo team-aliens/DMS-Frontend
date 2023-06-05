@@ -4,16 +4,14 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface PropsType {
   setSelectedOption?: Dispatch<SetStateAction<string>>;
-  closeModal: () => void;
   onClick: () => void;
 }
 
 export function DeletePointOptionModal({
-  closeModal,
   onClick,
   setSelectedOption,
 }: PropsType) {
-  const { selectModal } = useModal();
+  const { selectModal, closeModal } = useModal();
   const backToDeletePointOptionModal = () => {
     selectModal('POINT_OPTIONS');
     setSelectedOption('');

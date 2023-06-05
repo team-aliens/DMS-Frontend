@@ -102,7 +102,7 @@ export function StudentList({
 
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
-  const { modalState, selectModal, closeModal } = useModal();
+  const { modalState, selectModal } = useModal();
   const [tagModal, setTagModal] = useState<string>('');
   const [openAllPointHistorySideBar, setOpenAllPointHistorySideBar] =
     useState(false);
@@ -258,19 +258,15 @@ export function StudentList({
         />
       )}
       {modalState.selectedModal === 'DELETE_POINT_LIST' && (
-        <DeletePointListModal
-          onClick={cancelPoint.mutate}
-          closeModal={closeModal}
-        />
+        <DeletePointListModal onClick={cancelPoint.mutate} />
       )}
       {modalState.selectedModal === 'DELETE_STUDENT' && (
-        <DeleteStudentModal onClick={deleteStudent.mutate} close={closeModal} />
+        <DeleteStudentModal onClick={deleteStudent.mutate} />
       )}
       {modalState.selectedModal === 'POINT_OPTIONS' && (
         <ViewPointOptionsModal
           selectedPointOption={selectedPointOption}
           setSelectedPointOption={setSelectedPointOption}
-          close={closeModal}
           allPointOptions={allPointOptions}
         />
       )}
@@ -281,21 +277,17 @@ export function StudentList({
         <DeletePointOptionModal
           setSelectedOption={setSelectedPointOption}
           onClick={deletePointOptionAPI.mutate}
-          closeModal={closeModal}
         />
       )}
       {modalState.selectedModal === 'DELETE_STUDENT_TAG' && (
         <DeleteStudentTagModal
           onClick={() => {
             deleteStudentTag.mutate();
-            closeModal();
           }}
-          close={closeModal}
         />
       )}
       {modalState.selectedModal === 'GIVE_TAG_OPTIONS' && (
         <GiveAllTagModal
-          close={closeModal}
           selectedStudentId={selectedStudentId}
           refetchAllTags={refetchAllTags}
           allTags={allTags}
@@ -306,7 +298,6 @@ export function StudentList({
       )}
       {modalState.selectedModal === 'VIEW_TAG_OPTIONS' && (
         <ViewAllTagModal
-          close={closeModal}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}
           allTags={allTags}
@@ -318,7 +309,6 @@ export function StudentList({
         <DeleteTagModal
           setSelectedOption={setSelectedTag}
           onClick={deleteTagAPI.mutate}
-          closeModal={closeModal}
           tagModal={tagModal}
         />
       )}

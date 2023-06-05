@@ -49,9 +49,9 @@ export function StudentBox({
     ]);
 
   useEffect(() => {
-    if (selectedStudentId.includes(studentInfo.id))
+    if (clickedStudentId.includes(studentInfo.id))
       ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, [selectedStudentId]);
+  }, [clickedStudentId]);
   const { updateRecentlyStudentInfo, pointHistoryList } = usePointHistoryList();
 
   const onChangeCheckBox = () => {

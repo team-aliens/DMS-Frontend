@@ -48,6 +48,9 @@ export const pathToKorean = {
         },
       },
     },
+    remains: {
+      index: '잔류 신청',
+    },
   },
   'my-page': {
     'index': '마이페이지',

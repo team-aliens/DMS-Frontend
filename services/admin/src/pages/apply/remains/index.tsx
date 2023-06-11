@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Text } from '@team-aliens/design-system';
+import { BreadCrumb, Button, Text } from '@team-aliens/design-system';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
@@ -11,6 +11,7 @@ import { getAllRemain, useGetRemainListExcel } from '@/apis/remains';
 import { useModal } from '@/hooks/useModal';
 import { useForm } from '@/hooks/useForm';
 import { RemainOption } from '@/components/apply/remains/options';
+import { pathToKorean } from '@/router';
 
 export default function RemainsLists() {
   const { data: allRemains } = useGetAllRemains();
@@ -56,6 +57,7 @@ export default function RemainsLists() {
   return (
     <WithNavigatorBar>
       <_Layout>
+        <BreadCrumb pathToKorean={pathToKorean}></BreadCrumb>
         <_Header>
           <Button color="gray" kind="outline" onClick={downloadExcel}>
             액셀 출력

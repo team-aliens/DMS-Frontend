@@ -314,16 +314,15 @@ export function StudentList({
       )}
       {Boolean(selectedStudentId.length) && <StudentSelectModal />}
       <SideBarPortal>
-        {openAllPointHistorySideBar && (
-          <SideBar
-            title="상/벌점 내역"
-            close={() => {
-              setOpenAllPointHistorySideBar(false);
-            }}
-          >
-            <PointList />
-          </SideBar>
-        )}
+        <SideBar
+          isOpened={openAllPointHistorySideBar}
+          title="상/벌점 내역"
+          close={() => {
+            setOpenAllPointHistorySideBar(false);
+          }}
+        >
+          <PointList />
+        </SideBar>
       </SideBarPortal>
     </_Wrapper>
   );

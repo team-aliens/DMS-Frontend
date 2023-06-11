@@ -124,10 +124,11 @@ const _Wrapper = styled.li<{ isClick: boolean }>`
   position: relative;
   z-index: 1;
   width: 100%;
+  margin: 0 auto;
   height: 70px;
   background-color: ${({ theme }) => theme.color.gray1};
   box-shadow: 0 1px 20px rgba(204, 204, 204, 0.24);
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 17px 40px 17px 36px;
   display: flex;
   align-items: center;

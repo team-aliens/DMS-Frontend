@@ -27,6 +27,7 @@ const seatStatus = ['AVAILABLE', 'UNAVAILABLE', 'EMPTY'].map(
 
 interface PropsType {
   seatTypeList: SeatType[];
+  seatSetting: boolean;
   selectModal: (modal: SelectedModalType) => void;
   deleteSeatType: (id: string) => void;
   closeSeatSetting: () => void;
@@ -34,6 +35,7 @@ interface PropsType {
 }
 
 export function SeatSetting({
+  seatSetting,
   selectModal,
   seatTypeList,
   deleteSeatType,
@@ -57,6 +59,7 @@ export function SeatSetting({
   return (
     <SideBarPortal>
       <SideBar
+        isOpened={seatSetting}
         title="자리 설정"
         close={() => {
           !addSeat && closeSeatSetting();

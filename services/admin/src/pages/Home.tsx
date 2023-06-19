@@ -187,22 +187,21 @@ export function Home() {
         )}
       </_Wrapper>
       <SideBarPortal>
-        {clickedStudentId && (
-          <SideBar
-            title="학생 상세 정보"
-            close={() => {
-              modalState.selectedModal === '' && resetClickedStudentId();
-            }}
-          >
-            {clickedStudentId && (
-              <DetailBox
-                studentPointHistory={studentPointHistory}
-                studentDetail={studentDetail}
-                availableFeature={availableFeature}
-              />
-            )}
-          </SideBar>
-        )}
+        <SideBar
+          isOpened={Boolean(clickedStudentId)}
+          title="학생 상세 정보"
+          close={() => {
+            modalState.selectedModal === '' && resetClickedStudentId();
+          }}
+        >
+          {clickedStudentId && (
+            <DetailBox
+              studentPointHistory={studentPointHistory}
+              studentDetail={studentDetail}
+              availableFeature={availableFeature}
+            />
+          )}
+        </SideBar>
       </SideBarPortal>
     </WithNavigatorBar>
   );

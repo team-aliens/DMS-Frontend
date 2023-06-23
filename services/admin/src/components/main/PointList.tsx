@@ -23,17 +23,13 @@ import { useQueryClient } from '@tanstack/react-query';
 export function PointList() {
   const { modalState, closeModal, selectModal } = useModal();
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
-  const { data, refetch: refetchAllPointHistory } = useAllPointHistory('ALL');
-  const cancelPoint = useCancelPointHistory(pointHistoryId, {
-    onSuccess: () => refetchAllPointHistory(),
-  });
+  const { data } = useAllPointHistory('ALL');
+
   const openPointOptionModal = () => selectModal('POINT_OPTIONS');
 
   const { data: allPointOptions } = usePointOptionList();
 
   const { toastDispatch } = useToast();
-
-  const { mutate: downloadPointHistory } = useDownloadPointHistoryExcel();
 
   const [selectedPointOption, setSelectedPointOption] =
     useSelectedPointOptionStore((state) => [
@@ -96,22 +92,6 @@ export function PointList() {
             </>
           );
         })}
-      {modalState.selectedModal === 'DELETE_POINT_LIST' && (
-        <DeletePointListModal onClick={cancelPoint.mutate} />
-      )}
-      {modalState.selectedModal === 'POINT_OPTIONS' && (
-        <ViewPointOptionsModal
-          selectedPointOption={selectedPointOption}
-          setSelectedPointOption={setSelectedPointOption}
-          allPointOptions={allPointOptions}
-        />
-      )}
-      {modalState.selectedModal === 'DELETE_POINT_OPTION' && (
-        <DeletePointOptionModal
-          setSelectedOption={setSelectedPointOption}
-          onClick={deletePointOptionAPI.mutate}
-        />
-      )}
     </_Wrapper>
   );
 }

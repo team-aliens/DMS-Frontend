@@ -27,6 +27,7 @@ import { usePointHistoryList } from '@/hooks/usePointHistoryList';
 import { useToast } from '@/hooks/useToast';
 import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 import { useModal } from '@/hooks/useModal';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PropsType {
   allPointOptions: AllPointsOptionResponse;
@@ -79,6 +80,9 @@ export function GivePointOptionsModal({ allPointOptions }: PropsType) {
       setNewItem(true);
     }
   };
+
+  const queryClient = useQueryClient();
+
   const { addPointOptionToStudents } = usePointHistoryList();
   const givePointOptionAPI = useGivePointOption(
     selectedPointOption.id,
@@ -95,6 +99,7 @@ export function GivePointOptionsModal({ allPointOptions }: PropsType) {
           toastType: 'SUCCESS',
           message: `${PointEnum[selectedPointOption.type]}이 부여되었습니다.`,
         });
+        queryClient.invalidateQueries(['getAllPointHistory']);
         reresetStudentIdset();
         setSelectedPointOption({
           id: '',

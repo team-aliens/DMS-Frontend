@@ -318,7 +318,8 @@ export function StudentList({
           isOpened={openAllPointHistorySideBar}
           title="상/벌점 내역"
           close={() => {
-            setOpenAllPointHistorySideBar(false);
+            modalState.selectedModal === 'DELETE_POINT_LIST' ||
+              setOpenAllPointHistorySideBar(false);
           }}
         >
           <PointList />

@@ -1,11 +1,7 @@
 {
+  "extends": ["../../tsconfig.base.json"],
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "moduleResolution": "node",
     "noResolve": false,
-    "noImplicitAny": false,
-    "removeComments": false,
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react-jsx",

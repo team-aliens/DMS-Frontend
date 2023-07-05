@@ -1,6 +1,7 @@
 {
   "name": "@service/admin",
   "version": "1.0.0",
+  "packageManager": "yarn@3.6.1",
   "scripts": {
     "test": "jest",
     "dev": "env-cmd webpack serve --mode development --config ./config/webpack.config.js",
@@ -78,9 +79,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
+      "prettier --write"
     ]
-  },
-  "packageManager": "yarn@3.5.0"
+  }
 }

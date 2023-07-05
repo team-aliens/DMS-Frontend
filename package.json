@@ -1,15 +1,26 @@
 {
-  "name": "dms",
-  "packageManager": "yarn@3.5.0",
-  "workspaces": {
-    "packages": [
-      "./services/*",
-      "./packages/*"
-    ]
-  },
-  "devDependencies": {
-    "eslint": "^8.41.0",
-    "prettier": "^2.8.8",
-    "typescript": "^5.0.4"
-  }
+    "name": "DMS",
+    "packageManager": "yarn@3.5.0",
+    "workspaces": {
+        "packages": [
+            "./services/*",
+            "./packages/*"
+        ]
+    },
+    "devDependencies": {
+        "eslint": "^8.41.0",
+        "husky": ">=6",
+        "lint-staged": ">=10",
+        "pinst": ">=2",
+        "prettier": "^2.8.8",
+        "typescript": "^5.0.4"
+    },
+    "lint-staged": {
+        "{services,packages}/**/*.{js,ts,jsx,tsx}": "prettier --write"
+    },
+    "scripts": {
+        "postinstall": "husky install",
+        "prepublishOnly": "pinst --disable",
+        "postpublish": "pinst --enable"
+    }
 }

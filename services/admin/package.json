@@ -1,5 +1,5 @@
 {
-  "name": "@services/admin",
+  "name": "@service/admin",
   "version": "1.0.0",
   "scripts": {
     "test": "jest",
@@ -28,7 +28,6 @@
     "@types/react-dom": "^18.0.10",
     "@types/react-outside-click-handler": "^1.3.1",
     "@types/styled-components": "^5.1.26",
-    "@yarnpkg/sdks": "^3.0.0-rc.44",
     "babel-loader": "^8.2.5",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "clean-webpack-plugin": "^4.0.0",
@@ -71,7 +70,6 @@
     "react-color": "^2.19.3",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
-    "react-is": "^18.2.0",
     "react-outside-click-handler": "^1.3.0",
     "react-router-dom": "^6.4.2",
     "styled-components": "^5.3.6",

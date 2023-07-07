@@ -1,11 +1,7 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "moduleResolution": "node",
     "noResolve": false,
-    "noImplicitAny": false,
-    "removeComments": false,
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react-jsx",
@@ -15,14 +11,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "typeRoots": ["node_modules/@types", "src/@types"],
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "config/webpack",
-    "src/setupTests.ts",
-    "./node_modules/**/*"
-  ],
-  "include": ["./src/**/*", "@types", "__tests__"]
+  "typeRoots": ["src/@types"],
+  "include": ["./src/**/*", "@types"]
 }

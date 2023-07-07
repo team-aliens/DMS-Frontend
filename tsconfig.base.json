@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "strict": false,
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "node"
+    }
+}

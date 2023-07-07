@@ -68,6 +68,7 @@ const _Circle = styled.div<{ color: string }>`
   margin: 4px;
   border-radius: 50px;
   background-color: ${({ color, theme }) =>
+    //@ts-ignore
     tagTextColor[color] ?? theme.color.gray10};
 `;
 

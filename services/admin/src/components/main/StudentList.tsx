@@ -289,7 +289,7 @@ export function StudentList({
       {modalState.selectedModal === 'GIVE_TAG_OPTIONS' && (
         <GiveAllTagModal
           selectedStudentId={selectedStudentId}
-          refetchAllTags={refetchAllTags}
+          refetchSearchStudents={refetchSearchStudents}
           allTags={allTags}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}

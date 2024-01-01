@@ -345,7 +345,7 @@ const _Filter = styled.section`
   }
 `;
 const _StudentList = styled.ul`
-  padding: 20px 0 20px 0;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px 0;

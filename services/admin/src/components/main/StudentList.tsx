@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import {
   Button,
   SearchBox,
@@ -103,6 +104,10 @@ export function StudentList({
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal } = useModal();
+  useEffect(() => {
+    refetchSearchStudents()
+  }, [modalState]);
+  
   const [tagModal, setTagModal] = useState<string>('');
   const [openAllPointHistorySideBar, setOpenAllPointHistorySideBar] =
     useState(false);

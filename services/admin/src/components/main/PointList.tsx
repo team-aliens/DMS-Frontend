@@ -9,7 +9,7 @@ import {
   usePointOptionList,
 } from '@/hooks/usePointsApi';
 import { ViewPointOptionsModal } from '../modals/ViewPointOptionsModal';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { DeletePointOptionModal } from '../modals/DeletePointOption';
 import {
   useDeletePointOption,
@@ -20,13 +20,21 @@ import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useSelectedPointOptionStore } from '@/store/useSelectedPointOption';
 import { useQueryClient } from '@tanstack/react-query';
 
-export function PointList() {
+interface PropsType {
+  isOpened?: boolean;
+}
+
+export function PointList({ isOpened }: PropsType) {
   const { modalState, closeModal, selectModal } = useModal();
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const { data, refetch: refetchAllPointHistory } = useAllPointHistory('ALL');
+  useEffect(() => {
+    refetchAllPointHistory()
+  }, [isOpened]);
   const cancelPoint = useCancelPointHistory(pointHistoryId, {
     onSuccess: () => refetchAllPointHistory(),
   });
+
   const openPointOptionModal = () => selectModal('POINT_OPTIONS');
 
   const { data: allPointOptions } = usePointOptionList();

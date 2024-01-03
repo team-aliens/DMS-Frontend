@@ -326,7 +326,7 @@ export function StudentList({
             setOpenAllPointHistorySideBar(false);
           }}
         >
-          <PointList />
+          <PointList isOpened={openAllPointHistorySideBar} />
         </SideBar>
       </SideBarPortal>
     </_Wrapper>

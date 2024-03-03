@@ -49,7 +49,7 @@ export const searchStudentList = async (
 ) => {
   const tagIds = tag_id.map((res) => res.id).join('&tag_id=');
   const { data } = await instance.get<SearchStudentListResponse>(
-    `${changeRouter}/?name=${name}&sort=${sort}&filter_type=${filter_type}&min_point=${min_point}&max_point=${max_point}${
+    `${changeRouter}/${router}/?name=${name}&sort=${sort}&filter_type=${filter_type}&min_point=${min_point}&max_point=${max_point}${
       tagIds && '&tag_id='
     }${tagIds}`
   );
@@ -58,18 +58,18 @@ export const searchStudentList = async (
 
 export const getStudentDetail = async (student_id: string) => {
   const { data } = await instance.get<Promise<GetStudentDetailResponse>>(
-    `${changeRouter}/${student_id}`
+    `${changeRouter}/${router}/${student_id}`
   );
   return data;
 };
 
 export const deleteStudent = async (student_id: string) => {
-  await instance.delete(`${changeRouter}/${student_id}`);
+  await instance.delete(`${changeRouter}/${router}/${student_id}`);
 };
 
 export const getMyProfile = async () => {
   const { data } = await instance.get<GetMyProfileResponse>(
-    `${changeRouter}/profile`
+    `${changeRouter}/${router}/profile`
   );
   return data;
 };
@@ -77,7 +77,7 @@ export const getMyProfile = async () => {
 export const getStudentInfoExcel = () =>
   useMutation(
     () =>
-      instance.get(`${changeRouter}/file`, {
+      instance.get(`${changeRouter}/${router}/file`, {
         responseType: 'blob',
       }),
     {
@@ -95,7 +95,10 @@ export const getStudentInfoExcel = () =>
 export const uploadStudentInfoFile = async (file: FileList[0]) => {
   const reqeustFile = new FormData();
   reqeustFile.append('file', file);
-  const { data } = await instance.post(`${changeRouter}/file/gcn`, reqeustFile);
+  const { data } = await instance.post(
+    `${changeRouter}/${router}/file/gcn`,
+    reqeustFile
+  );
   return data;
 };
 
@@ -103,7 +106,7 @@ export const uploadRoomInfoFile = async (file: FileList[0]) => {
   const reqeustFile = new FormData();
   reqeustFile.append('file', file);
   const { data } = await instance.post(
-    `${changeRouter}/file/room`,
+    `${changeRouter}/${router}/file/room`,
     reqeustFile
   );
   return data;

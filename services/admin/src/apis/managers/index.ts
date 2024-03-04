@@ -49,7 +49,7 @@ export const searchStudentList = async (
 ) => {
   const tagIds = tag_id.map((res) => res.id).join('&tag_id=');
   const { data } = await instance.get<SearchStudentListResponse>(
-    `${changeRouter}${router}/?name=${name}&sort=${sort}&filter_type=${filter_type}&min_point=${min_point}&max_point=${max_point}${
+    `${changeRouter}${router}?name=${name}&sort=${sort}&filter_type=${filter_type}&min_point=${min_point}&max_point=${max_point}${
       tagIds && '&tag_id='
     }${tagIds}`
   );

@@ -93,13 +93,13 @@ export const getStudentInfoExcel = () =>
 export const uploadStudentInfoFile = async (file: FileList[0]) => {
     const reqeustFile = new FormData();
     reqeustFile.append('file', file);
-    const { data } = await instance.post(`${changeRouter}${router}/file/gcn`, reqeustFile);
+    const { data } = await instance.post(`${changeRouter}/file/gcn`, reqeustFile);
     return data;
 };
 
 export const uploadRoomInfoFile = async (file: FileList[0]) => {
     const reqeustFile = new FormData();
     reqeustFile.append('file', file);
-    const { data } = await instance.post(`${changeRouter}${router}/file/room`, reqeustFile);
+    const { data } = await instance.post(`${changeRouter}/file/room`, reqeustFile);
     return data;
 };

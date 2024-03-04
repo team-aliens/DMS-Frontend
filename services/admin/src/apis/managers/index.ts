@@ -68,14 +68,14 @@ export const deleteStudent = async (student_id: string) => {
 };
 
 export const getMyProfile = async () => {
-    const { data } = await instance.get<GetMyProfileResponse>(`${changeRouter}${router}/profile`);
+    const { data } = await instance.get<GetMyProfileResponse>(`${router}s/profile`);
     return data;
 };
 
 export const getStudentInfoExcel = () =>
     useMutation(
         () =>
-            instance.get(`${changeRouter}${router}/file`, {
+            instance.get(`${changeRouter}/file`, {
                 responseType: 'blob',
             }),
         {

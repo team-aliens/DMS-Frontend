@@ -16,10 +16,10 @@ interface PagePath {
       list: '/apply/study';
       create: '/apply/study/create';
       deatail: (
-        studyRoomId: number | string,
+        studyRoomId: number | string
       ) => `/apply/study/detail/${typeof studyRoomId}`;
       patch: (
-        studyRoomId: number | string,
+        studyRoomId: number | string
       ) => `/apply/study/detail/patch/${typeof studyRoomId}`;
     };
   };
@@ -28,9 +28,10 @@ interface PagePath {
     write: '/notice/write';
     detail: (noticeId: number | string) => `/notice/detail/${typeof noticeId}`;
     patch: (
-      noticeId: number | string,
+      noticeId: number | string
     ) => `/notice/detail/patch/${typeof noticeId}`;
   };
+  outing: '/outing';
 }
 
 export const pagePath: PagePath = {
@@ -62,4 +63,5 @@ export const pagePath: PagePath = {
         `/apply/study/detail/patch/${studyRoomId}`,
     },
   },
+  outing: '/outing',
 } as const;

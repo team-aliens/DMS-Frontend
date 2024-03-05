@@ -4,7 +4,7 @@ import {
   OutingApplicationsResponse,
 } from './response';
 
-const router = '/outins';
+const router = '/outings';
 
 export type OutingStatusType = 'APPROVED' | 'REJECTED' | 'OUTING' | 'DONE';
 

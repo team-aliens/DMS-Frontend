@@ -8,11 +8,19 @@ import {
 import { queryKeys } from '@/utils/queryKeys';
 import { useToast } from '@/hooks/useToast';
 
-export const useOutingApplicationDetail = () =>
-  useQuery([queryKeys.외출신청내역상세보기], fetchOutingApplicationDetail);
+export const useOutingApplicationDetail = (outingApplicationId: string) =>
+  useQuery([queryKeys.외출신청내역상세보기], () =>
+    fetchOutingApplicationDetail(outingApplicationId),
+  );
 
-export const useOutingApplications = () =>
-  useQuery([queryKeys.외출신청내역조회], fetchOutingApplications);
+export const useOutingApplications = (
+  outing_status: OutingStatusType,
+  name: string,
+  date: string,
+) =>
+  useQuery([queryKeys.외출신청내역조회], () =>
+    fetchOutingApplications(outing_status, name, date),
+  );
 
 export const useUpdateOutingApplicationStatus = (
   outingApplicationId: string,

@@ -26,6 +26,7 @@ interface RoomMatesInfo {
 export type GenderType = 'FEMALE' | 'MALE';
 
 export interface GetStudentDetailResponse {
+  id: string;
   name: string;
   gcn: string;
   room_number: string;

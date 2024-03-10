@@ -104,17 +104,18 @@ export function StudentList({
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal } = useModal();
+
   useEffect(() => {
-    refetchSearchStudents()
+    refetchSearchStudents();
   }, [modalState]);
-  
+
   const [tagModal, setTagModal] = useState<string>('');
   const [openAllPointHistorySideBar, setOpenAllPointHistorySideBar] =
     useState(false);
   const openPointFilterModal = () => selectModal('POINT_FILTER');
 
   const cancelPoint = useCancelPointHistory(pointHistoryId);
-  const deleteStudent = useDeleteStudent(selectedStudentId[0]);
+  const deleteStudent = useDeleteStudent(clickedStudentId);
 
   const [selectedPointOption, setSelectedPointOption] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');

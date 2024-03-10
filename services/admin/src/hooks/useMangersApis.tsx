@@ -87,6 +87,7 @@ export const useDeleteStudent = (student_id: string) => {
     (state) => [state.selectedStudentId, state.resetStudentId],
   );
   const queryClient = useQueryClient();
+  console.log("TEST4",student_id)
 
   return useMutation(() => deleteStudent(student_id), {
     onSuccess: () => {

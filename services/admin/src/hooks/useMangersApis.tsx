@@ -93,6 +93,7 @@ export const useDeleteStudent = (student_id: string) => {
       queryClient.invalidateQueries(['studentList']);
       resetStudentId();
       closeModal();
+      console.log("TEST3",student_id);
     },
   });
 };

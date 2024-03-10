@@ -115,8 +115,6 @@ export function StudentList({
 
   const cancelPoint = useCancelPointHistory(pointHistoryId);
   const deleteStudent = useDeleteStudent(selectedStudentId[0]);
-  console.log("TEST1",selectedStudentId)
-  console.log("TEST2",selectedStudentId[0])
 
   const [selectedPointOption, setSelectedPointOption] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');

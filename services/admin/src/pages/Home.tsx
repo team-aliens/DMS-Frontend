@@ -118,7 +118,6 @@ export function Home() {
     if (modeType === 'POINTS') {
       if (selectedStudentId.includes(id)) {
         deleteStudentId(id);
-        console.log("TEST6",deleteStudentId);
       } else {
         appendStudentId(id);
       }

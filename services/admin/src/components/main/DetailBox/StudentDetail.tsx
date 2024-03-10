@@ -32,6 +32,7 @@ export function StudentDetail({
   const [selectedStudentId] = useSelectedStudentIdStore((state) => [
     state.selectedStudentId,
   ]);
+console.log("TEST5",selectedStudentId[0]);
 
   return (
     <>

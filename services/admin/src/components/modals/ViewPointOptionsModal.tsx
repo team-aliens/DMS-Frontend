@@ -20,7 +20,6 @@ import {
 import { useDropDown } from '@/hooks/useDropDown';
 import { useForm } from '@/hooks/useForm';
 import { PointItem } from '../main/DetailBox/PointItem';
-import { useToast } from '@/hooks/useToast';
 import { useModal } from '@/hooks/useModal';
 
 interface PropsType {
@@ -34,11 +33,10 @@ export function ViewPointOptionsModal({
   setSelectedPointOption,
   allPointOptions,
 }: PropsType) {
+  const [newItem, setNewItem] = useState(true);
   const MustTrue = true;
 
   const { closeModal } = useModal();
-
-  const [newItem, setNewItem] = useState(true);
 
   const { onDropDownChange: AddChange, sort: AddState } =
     useDropDown<string>('');
@@ -59,12 +57,12 @@ export function ViewPointOptionsModal({
     name_: '',
   });
 
+  const ItemInputClick = () => {
+    setNewItem((prev) => !prev);
+  };
+
   const { score: addPointScore, name: addPointName } = addPointOption;
   const { score_, name_ } = editPointOption;
-
-  const newItemInput = () => {
-    setNewItem(!newItem);
-  };
 
   const onClickPointOption = (
     option_id: string,
@@ -101,10 +99,12 @@ export function ViewPointOptionsModal({
 
   return (
     <Modal
-      className="grantPoint"
       title="상/벌점 항목"
       content=""
-      close={closeModal}
+      close={() => {
+        closeModal();
+        setSelectedPointOption('');
+      }}
       buttonList={[
         selectedPointOption ? (
           <Button
@@ -147,6 +147,7 @@ export function ViewPointOptionsModal({
           onChange={onHandleChange}
         />
       </_SearchWrapper>
+
       <_PointOptionList>
         {allPointOptions?.point_options
           .filter((options) =>
@@ -170,6 +171,7 @@ export function ViewPointOptionsModal({
             );
           })}
       </_PointOptionList>
+
       {selectedPointOption ? (
         <>
           <_AddImgWrapper newItem={newItem}>
@@ -210,7 +212,7 @@ export function ViewPointOptionsModal({
         </>
       ) : (
         <>
-          <_AddImgWrapper onClick={newItemInput} newItem={newItem}>
+          <_AddImgWrapper onClick={ItemInputClick} newItem={newItem}>
             {newItem ? (
               <Add className="addImg" />
             ) : (

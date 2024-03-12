@@ -29,7 +29,7 @@ export function PointList({ isOpened }: PropsType) {
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const { data, refetch: refetchAllPointHistory } = useAllPointHistory('ALL');
   useEffect(() => {
-    refetchAllPointHistory()
+    refetchAllPointHistory();
   }, [isOpened]);
   const cancelPoint = useCancelPointHistory(pointHistoryId, {
     onSuccess: () => refetchAllPointHistory(),
@@ -106,13 +106,6 @@ export function PointList({ isOpened }: PropsType) {
         })}
       {modalState.selectedModal === 'DELETE_POINT_LIST' && (
         <DeletePointListModal onClick={cancelPoint.mutate} />
-      )}
-      {modalState.selectedModal === 'POINT_OPTIONS' && (
-        <ViewPointOptionsModal
-          selectedPointOption={selectedPointOption}
-          setSelectedPointOption={setSelectedPointOption}
-          allPointOptions={allPointOptions}
-        />
       )}
       {modalState.selectedModal === 'DELETE_POINT_OPTION' && (
         <DeletePointOptionModal

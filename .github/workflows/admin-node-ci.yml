@@ -1,0 +1,52 @@
+name: admin-node-ci
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - 'packages/**'
+            - 'services/admin/**'
+            - 'package.json'
+            - '*.lock'
+            - '.yarnrc.yml'
+            - 'tsconfig.base.json'
+            - '.prettier*'
+            - '.github/**'
+
+    pull_request:
+        types: [opened, synchronize, reopened]
+        paths:
+            - 'packages/**'
+            - 'services/admin/**'
+            - 'package.json'
+            - '*.lock'
+            - '.yarnrc.yml'
+            - 'tsconfig.base.json'
+            - '.prettier*'
+            - '.github/**'
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    admin-node-ci:
+        name: admin-node-ci
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18]
+
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v3
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: 'yarn'
+
+            - name: Install Dependencies
+              run: yarn install --immutable --immutable-cache
+
+            - name: Build Admin Service
+              run: yarn workspace @service/admin build

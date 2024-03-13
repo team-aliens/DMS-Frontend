@@ -91,6 +91,7 @@ export function StudyRoomList() {
   const [selectTimeCardId, setSelectTimeCardId] = useState('');
   const [clickTimeCardId, setClickTimeCardId] = useState('');
   const { data: list, mutate: mutateStudyRoomList } = useStudyRoomList({
+    //@ts-ignore
     time_slot: selectTimeCardId ?? studyTimeSlots[0],
   });
 

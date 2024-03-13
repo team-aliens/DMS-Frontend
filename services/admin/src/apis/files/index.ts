@@ -16,7 +16,7 @@ export const studentAccountIssuance = async (file: FileList[0]) => {
   const reqeustFile = new FormData();
   reqeustFile.append('file', file);
   const { data } = await instance.post<AxiosResponse>(
-    `${router}/verified-student`,
+    `/students/verified-student`,
     reqeustFile,
   );
   return data;

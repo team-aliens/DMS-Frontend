@@ -24,7 +24,7 @@ import { useModal } from '@/hooks/useModal';
 interface PropsType {
   selectedStudentId: string[];
   allTags: TagListResponse;
-  refetchAllTags: () => void;
+  refetchSearchStudents: () => void;
   selectedTag: string;
   setSelectedTag: Dispatch<SetStateAction<string>>;
   setTagModal: Dispatch<SetStateAction<string>>;
@@ -38,7 +38,7 @@ interface Colors {
 
 export function GiveAllTagModal({
   allTags,
-  refetchAllTags,
+  refetchSearchStudents,
   selectedTag,
   setSelectedTag,
   setTagModal,
@@ -98,7 +98,7 @@ export function GiveAllTagModal({
 
   const addTagAPI = useAddTag(addTag.addTagName, selectedColor, {
     onSuccess: () => {
-      refetchAllTags();
+      refetchSearchStudents();
       setselectedColor('');
       setAddTag({ addTagName: '' });
       setNewItem(true);

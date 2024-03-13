@@ -1,67 +1,19 @@
-import { Button, Text } from '@team-aliens/design-system';
+import { Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
-import { useModal } from '@/hooks/useModal';
-import { DeletePointListModal } from '../modals/DeletePointList';
 import { AllPointItem } from '@/components/main/DetailBox/PointItem';
-import {
-  useAllPointHistory,
-  useCancelPointHistory,
-  usePointOptionList,
-} from '@/hooks/usePointsApi';
-import { ViewPointOptionsModal } from '../modals/ViewPointOptionsModal';
-import { useState } from 'react';
-import { DeletePointOptionModal } from '../modals/DeletePointOption';
-import {
-  useDeletePointOption,
-  useDownloadPointHistoryExcel,
-} from '@/apis/points';
-import { useToast } from '@/hooks/useToast';
-import { usePointHistoryId } from '@/store/usePointHistoryId';
-import { useSelectedPointOptionStore } from '@/store/useSelectedPointOption';
-import { useQueryClient } from '@tanstack/react-query';
+import { useAllPointHistory } from '@/hooks/usePointsApi';
+import { useEffect } from 'react';
 
-export function PointList() {
-  const { modalState, closeModal, selectModal } = useModal();
-  const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
+interface PropsType {
+  isOpened?: boolean;
+}
+
+export function PointList({ isOpened }: PropsType) {
   const { data, refetch: refetchAllPointHistory } = useAllPointHistory('ALL');
-  const cancelPoint = useCancelPointHistory(pointHistoryId, {
-    onSuccess: () => refetchAllPointHistory(),
-  });
-  const openPointOptionModal = () => selectModal('POINT_OPTIONS');
 
-  const { data: allPointOptions } = usePointOptionList();
-
-  const { toastDispatch } = useToast();
-
-  const { mutate: downloadPointHistory } = useDownloadPointHistoryExcel();
-
-  const [selectedPointOption, setSelectedPointOption] =
-    useSelectedPointOptionStore((state) => [
-      state.selectedPointOption,
-      state.setSelectedPointOption,
-    ]);
-
-  const queryClient = useQueryClient();
-
-  const deletePointOptionAPI = useDeletePointOption(selectedPointOption, {
-    onSuccess: () => {
-      selectModal('POINT_OPTIONS');
-      queryClient.invalidateQueries(['usePointList']);
-      setSelectedPointOption('');
-      toastDispatch({
-        toastType: 'SUCCESS',
-        actionType: 'APPEND_TOAST',
-        message: '상/벌점 항목이 삭제되었습니다.',
-      });
-    },
-    onError: () => {
-      toastDispatch({
-        toastType: 'ERROR',
-        actionType: 'APPEND_TOAST',
-        message: '상/벌점 항목 삭제를 실패했습니다.',
-      });
-    },
-  });
+  useEffect(() => {
+    refetchAllPointHistory();
+  }, [isOpened]);
 
   return (
     <_Wrapper>
@@ -96,33 +48,10 @@ export function PointList() {
             </>
           );
         })}
-      {modalState.selectedModal === 'DELETE_POINT_LIST' && (
-        <DeletePointListModal onClick={cancelPoint.mutate} />
-      )}
-      {modalState.selectedModal === 'POINT_OPTIONS' && (
-        <ViewPointOptionsModal
-          selectedPointOption={selectedPointOption}
-          setSelectedPointOption={setSelectedPointOption}
-          allPointOptions={allPointOptions}
-        />
-      )}
-      {modalState.selectedModal === 'DELETE_POINT_OPTION' && (
-        <DeletePointOptionModal
-          setSelectedOption={setSelectedPointOption}
-          onClick={deletePointOptionAPI.mutate}
-        />
-      )}
     </_Wrapper>
   );
 }
 
 const _Wrapper = styled.div`
   width: 418px;
-`;
-
-const _Display = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 30px 0 10px 0;
 `;

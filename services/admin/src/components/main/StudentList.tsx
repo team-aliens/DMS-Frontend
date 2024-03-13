@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import {
   Button,
   SearchBox,
@@ -103,13 +104,18 @@ export function StudentList({
   const [pointHistoryId] = usePointHistoryId((state) => [state.pointHistoryId]);
   const [tagId] = useDeleteTagIdStore((state) => [state.deleteTagId]);
   const { modalState, selectModal } = useModal();
+
+  useEffect(() => {
+    refetchSearchStudents();
+  }, [modalState]);
+
   const [tagModal, setTagModal] = useState<string>('');
   const [openAllPointHistorySideBar, setOpenAllPointHistorySideBar] =
     useState(false);
   const openPointFilterModal = () => selectModal('POINT_FILTER');
 
   const cancelPoint = useCancelPointHistory(pointHistoryId);
-  const deleteStudent = useDeleteStudent(selectedStudentId[0]);
+  const deleteStudent = useDeleteStudent(clickedStudentId);
 
   const [selectedPointOption, setSelectedPointOption] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');
@@ -289,7 +295,7 @@ export function StudentList({
       {modalState.selectedModal === 'GIVE_TAG_OPTIONS' && (
         <GiveAllTagModal
           selectedStudentId={selectedStudentId}
-          refetchAllTags={refetchAllTags}
+          refetchSearchStudents={refetchSearchStudents}
           allTags={allTags}
           selectedTag={selectedTag}
           setSelectedTag={setSelectedTag}
@@ -314,16 +320,15 @@ export function StudentList({
       )}
       {Boolean(selectedStudentId.length) && <StudentSelectModal />}
       <SideBarPortal>
-        {openAllPointHistorySideBar && (
-          <SideBar
-            title="상/벌점 내역"
-            close={() => {
-              setOpenAllPointHistorySideBar(false);
-            }}
-          >
-            <PointList />
-          </SideBar>
-        )}
+        <SideBar
+          isOpened={openAllPointHistorySideBar}
+          title="상/벌점 내역"
+          close={() => {
+            setOpenAllPointHistorySideBar(false);
+          }}
+        >
+          <PointList isOpened={openAllPointHistorySideBar} />
+        </SideBar>
       </SideBarPortal>
     </_Wrapper>
   );
@@ -346,7 +351,7 @@ const _Filter = styled.section`
   }
 `;
 const _StudentList = styled.ul`
-  padding: 20px 0 20px 0;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 16px 0;

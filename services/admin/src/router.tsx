@@ -1,9 +1,4 @@
-import {
-  Route,
-  Routes,
-  BrowserRouter,
-  createBrowserRouter,
-} from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import { LoginPage } from '@/pages/LoginPage';
 import { FindIdPage } from './pages/FindId';
 import { Home } from '@/pages/Home';
@@ -22,6 +17,7 @@ import Index from '@/pages/apply';
 import RemainsLists from '@/pages/apply/remains';
 import { pagePath } from './utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
+import { Outing } from './pages/goOut';
 
 export const pathToKorean = {
   'notice': {
@@ -47,6 +43,9 @@ export const pathToKorean = {
           dynamic: '자습실 수정하기',
         },
       },
+    },
+    remains: {
+      index: '잔류 신청',
     },
   },
   'my-page': {
@@ -110,6 +109,10 @@ export const Router = createBrowserRouter([
             children: [{ index: true, element: <RemainsLists /> }],
           },
         ],
+      },
+      {
+        path: pagePath.outings,
+        children: [{ index: true, element: <Outing /> }],
       },
     ],
   },

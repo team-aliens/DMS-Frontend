@@ -155,15 +155,14 @@ export const PatchRoom = () => {
   return (
     <WithNavigatorBar>
       {modalState.selectedModal === 'ADD_SEAT_TYPE' && <AddSeatType />}
-      {seatSetting && (
-        <SeatSetting
-          selectModal={selectModal}
-          seatTypeList={seatTypeList?.types || []}
-          deleteSeatType={deleteSeatType}
-          closeSeatSetting={closeSeatSetting}
-          addSeat={modalState.selectedModal === 'ADD_SEAT_TYPE' ? true : false}
-        />
-      )}
+      <SeatSetting
+        seatSetting={seatSetting}
+        selectModal={selectModal}
+        seatTypeList={seatTypeList?.types || []}
+        deleteSeatType={deleteSeatType}
+        closeSeatSetting={closeSeatSetting}
+        addSeat={modalState.selectedModal === 'ADD_SEAT_TYPE' ? true : false}
+      />
       <_Wrapper>
         <BreadCrumb left={351} pathToKorean={pathToKorean} />
         <CreateStudyRoomOptions

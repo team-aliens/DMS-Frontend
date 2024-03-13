@@ -111,7 +111,7 @@ export const Router = createBrowserRouter([
         ],
       },
       {
-        path: pagePath.outings,
+        path: pagePath.outing,
         children: [{ index: true, element: <Outing /> }],
       },
     ],

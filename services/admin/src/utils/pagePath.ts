@@ -31,7 +31,7 @@ interface PagePath {
       noticeId: number | string,
     ) => `/notice/detail/patch/${typeof noticeId}`;
   };
-  outings: '/outings';
+  outing: '/outing';
 }
 
 export const pagePath: PagePath = {
@@ -63,5 +63,5 @@ export const pagePath: PagePath = {
         `/apply/study/detail/patch/${studyRoomId}`,
     },
   },
-  outings: '/outings',
+  outing: '/outing',
 } as const;

@@ -53,6 +53,7 @@ const Type = styled.div<{ isDelay: boolean }>`
   font-size: 14px;
   color: ${(props) => (props.isDelay ? 'rgba(194, 53, 53, 0.5)' : '#999999')};
   margin-left: 23px;
+  margin-right: 108px;
 `;
 
 const TimeWrapper = styled.div`
@@ -60,6 +61,7 @@ const TimeWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  align-items: center;
 `;
 
 const Time = styled.div<{ isDelay: boolean; isComplete?: boolean }>`
@@ -70,14 +72,12 @@ const Time = styled.div<{ isDelay: boolean; isComplete?: boolean }>`
     if (props.isDelay) return 'rgba(194, 53, 53, 0.5)';
     return '#000';
   }};
-  margin-right: 64px;
 `;
 
 const DelayTime = styled.div`
   font-weight: 400;
   font-size: 14px;
   color: rgba(194, 53, 53, 0.5);
-  margin-right: 64px;
 `;
 
 const Complete = styled.div`

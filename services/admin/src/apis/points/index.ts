@@ -190,3 +190,23 @@ export const useDeletePointOption = (id: string, options?: MutationOptions) => {
     },
   );
 };
+
+/** 전체 상벌점 내역 엑셀 */
+export const useAllPointHistoryExcel = () => {
+  return useMutation(
+    async () =>
+      await instance.get(`${router}/history/excel`, {
+        responseType: 'blob',
+      }),
+    {
+      onSuccess: (res) => {
+        const blob = new Blob([res.data], {
+          type: res.headers['content-type'],
+        });
+        const fileName = res.headers['content-disposition'];
+
+        fileSaver.saveAs(blob, getFileNameFromContentDisposition(fileName));
+      },
+    },
+  );
+};

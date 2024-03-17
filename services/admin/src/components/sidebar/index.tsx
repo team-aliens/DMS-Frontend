@@ -1,26 +1,36 @@
 import styled from 'styled-components';
 import React from 'react';
-import { Escape, Text } from '@team-aliens/design-system';
+import { Button, Escape, Text } from '@team-aliens/design-system';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useClickedStudentIdStore } from '@/store/useSelectedStudentIdStore';
 
 interface PropsType {
   isOpened: boolean;
   title?: string;
+  button?: React.ReactNode;
   children: React.ReactNode;
   close: () => void;
 }
 
-export function SideBar({ isOpened, title, children, close }: PropsType) {
+export function SideBar({
+  isOpened,
+  title,
+  children,
+  close,
+  button,
+}: PropsType) {
   return (
     <OutsideClickHandler onOutsideClick={close}>
       <_Wrapper className={isOpened && 'open'}>
         <_EscapeWrapper onClick={close}>
           <Escape size={24} />
         </_EscapeWrapper>
-        <Text color="gray10" size="titleL" margin={['top', 50]}>
-          {title}
-        </Text>
+        <_SideBarTitleWrapper>
+          <Text color="gray10" size="titleL" margin={['top', 50]}>
+            {title}
+          </Text>
+          {button}
+        </_SideBarTitleWrapper>
         {children}
       </_Wrapper>
     </OutsideClickHandler>
@@ -49,4 +59,9 @@ const _Wrapper = styled.div`
 const _EscapeWrapper = styled.div`
   height: 24px;
   cursor: pointer;
+`;
+
+const _SideBarTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

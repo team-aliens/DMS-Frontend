@@ -25,7 +25,12 @@ import {
   usePointOptionList,
 } from '@/hooks/usePointsApi';
 import { FilterState, ModeType } from '@/pages/Home';
-import { PointEnum, PointType, useDeletePointOption } from '@/apis/points';
+import {
+  PointEnum,
+  PointType,
+  useAllPointHistoryExcel,
+  useDeletePointOption,
+} from '@/apis/points';
 import { DeleteStudentModal } from '../modals/DeleteStudent';
 import { useDeleteStudent } from '@/hooks/useMangersApis';
 import { GivePointOptionsModal } from '../modals/GivePointOptionsModal';
@@ -116,6 +121,7 @@ export function StudentList({
 
   const cancelPoint = useCancelPointHistory(pointHistoryId);
   const deleteStudent = useDeleteStudent(clickedStudentId);
+  const allPointHistoryExcel = useAllPointHistoryExcel();
 
   const [selectedPointOption, setSelectedPointOption] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');
@@ -326,6 +332,11 @@ export function StudentList({
           close={() => {
             setOpenAllPointHistorySideBar(false);
           }}
+          button={
+            <Button margin={['top', 50]} onClick={allPointHistoryExcel.mutate}>
+              엑셀 출력하기
+            </Button>
+          }
         >
           <PointList isOpened={openAllPointHistorySideBar} />
         </SideBar>

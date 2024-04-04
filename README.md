@@ -23,6 +23,6 @@ DMS는 기숙사를 위한 편의 시스템을 목표로 하고 있기 때문에
 ![image](https://github.com/team-aliens/DMS/assets/103497968/d4658aba-c48e-4257-87a5-c8c84891a37b)
 
 ## 외출 신청 관리 & 상 벌점 부여
-- 학생들이 외출 현황을 관리할 수 있어요.
+- 학생들이 신청한 외출 현황을 관리할 수 있어요.
 - 학생들에게 상 벌점을 부여할 수 있어요.
 ![image](https://github.com/team-aliens/DMS/assets/103497968/68de2fe6-5c37-4fe4-9bf3-08c06620f451)

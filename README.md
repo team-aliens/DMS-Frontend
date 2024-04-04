@@ -15,14 +15,14 @@ DMS는 기숙사를 위한 편의 시스템을 목표로 하고 있기 때문에
 ![image](https://github.com/team-aliens/DMS/assets/103497968/ea5d1f69-33c2-4bf5-b867-0708c632b54f)
 
 ## 사감선생님 공지 등록
-![image](https://github.com/team-aliens/DMS/assets/103497968/a9843169-3a4b-4e9d-bff7-7aa4bab28755)
 - 사감선생님께서 학생들에게 공지할 내용을 작성하고 내역을 볼 수 있어요.
+![image](https://github.com/team-aliens/DMS/assets/103497968/a9843169-3a4b-4e9d-bff7-7aa4bab28755)
 
 ## 자습실 신청 & 잔류 신청 확인
-![image](https://github.com/team-aliens/DMS/assets/103497968/d4658aba-c48e-4257-87a5-c8c84891a37b)
 - 학생들이 자습실을 신청하거나 주말 잔류 신청 여부를 확인 및 관리할 수 있어요.
+![image](https://github.com/team-aliens/DMS/assets/103497968/d4658aba-c48e-4257-87a5-c8c84891a37b)
 
 ## 외출 신청 관리 & 상 벌점 부여
-![image](https://github.com/team-aliens/DMS/assets/103497968/68de2fe6-5c37-4fe4-9bf3-08c06620f451)
 - 학생들이 외출 현황을 관리할 수 있어요.
 - 학생들에게 상 벌점을 부여할 수 있어요.
+![image](https://github.com/team-aliens/DMS/assets/103497968/68de2fe6-5c37-4fe4-9bf3-08c06620f451)

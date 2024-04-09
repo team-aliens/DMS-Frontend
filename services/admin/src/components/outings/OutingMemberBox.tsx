@@ -1,7 +1,9 @@
+import { OutingApplication } from '@/apis/outing/response';
 import styled from 'styled-components';
 
 interface OutingMemberBoxProps {
   type?: string;
+  outingApplyList: OutingApplication[];
 }
 
 export function OutingMemberBox({ type }: OutingMemberBoxProps) {

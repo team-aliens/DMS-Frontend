@@ -31,6 +31,9 @@ export type SelectedModalType =
   | 'DELETE_TAG'
   | 'STUDENT_EDIT_ROOM_EXCEL'
   | 'STUDENT_EDIT_GRADE_EXCEL'
+  | 'OUTING_REQUESTED'
+  | 'OUTING_DONE'
+  | 'DONE_MODAL'
   | '';
 
 interface ModalState {

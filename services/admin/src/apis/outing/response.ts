@@ -9,6 +9,8 @@ export interface Student {
 
 export interface OutingApplicationDetailResponse {
   student_name: string;
+  student_gcn: string;
+  student_room_number: number;
   outing_time: string;
   arrival_time: string;
   outing_status: OutingStatusType;

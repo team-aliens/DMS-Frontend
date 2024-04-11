@@ -30,10 +30,7 @@ instance.interceptors.response.use(
     if (axios.isAxiosError(error) && error.response) {
       const { config } = error;
       const refreshToken = getCookie('refresh_token');
-      if (
-        error.response.data.message === 'Expired Token' ||
-        error.response.data.message === 'Can Not Access'
-      ) {
+      if (error.response.data.message === 'Expired Token') {
         if (refreshToken) {
           reIssueToken(refreshToken).then((res) => {
             const accessExpired = new Date(res.access_token_expired_at);

@@ -70,15 +70,17 @@ export function Outing() {
       date: dateStr,
     });
 
-  const outingStatus = outingApplyList?.outings
-    ?.map((item) => `'${item.outing_status}'`)
-    .join(' ');
+  const approvedStatus = outingApplyList?.outings.filter(
+    (item) => item.outing_status === 'APPROVED',
+  );
+
+  const doneStatus = outingApplyList?.outings.filter(
+    (item) => item.outing_status === 'DONE',
+  );
 
   useEffect(() => {
     refetchOutingApplyLists();
   }, [dateStr]);
-
-  console.log(outingApplyList?.outings);
 
   return (
     <>
@@ -95,19 +97,13 @@ export function Outing() {
                   onChange={onChangeReqeustSearchName}
                 />
 
-                <div onClick={openOutingApplyModal} className="modal-wrapper">
-                  {outingApplyList?.outings.length === 0 ? (
+                <div onClick={openOutingApplyModal}>
+                  {approvedStatus?.length === 0 ? (
                     <Text>외출 신청이 없거나 검색 결과가 없어요.</Text>
                   ) : (
-                    <>
-                      {outingStatus?.includes('APPROVED') && (
-                        <_OutingWrapper>
-                          <MemberBox
-                            outingApplyList={outingApplyList.outings}
-                          />
-                        </_OutingWrapper>
-                      )}
-                    </>
+                    <_OutingWrapper>
+                      <MemberBox outingApplyList={approvedStatus} />
+                    </_OutingWrapper>
                   )}
                 </div>
               </_Container>
@@ -120,19 +116,13 @@ export function Outing() {
                   value={filter.outnig_name}
                   onChange={onChangeOutingSearchName}
                 />
-                <div onClick={openDoneModal} className="modal-wrapper">
-                  {outingApplyList?.outings.length === 0 ? (
+                <div onClick={openDoneModal}>
+                  {doneStatus?.length === 0 ? (
                     <Text>외출 신청이 없거나 검색 결과가 없어요.</Text>
                   ) : (
-                    <>
-                      {outingStatus?.includes('DONE') && (
-                        <_OutingWrapper>
-                          <MemberBox
-                            outingApplyList={outingApplyList?.outings}
-                          />
-                        </_OutingWrapper>
-                      )}
-                    </>
+                    <_OutingWrapper>
+                      <MemberBox outingApplyList={doneStatus} />
+                    </_OutingWrapper>
                   )}
                 </div>
               </_Container>

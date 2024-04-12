@@ -26,8 +26,8 @@ export function OutingStudentList({ detailInfoData }: ListPropsType) {
         </_CenterWrapper>
       </_Wrapper>
       {detailInfoData?.students.map((item) => (
-        <_Wrapper>
-          <_CenterWrapper key={item.student_gcn}>
+        <_Wrapper key={item.id}>
+          <_CenterWrapper>
             <Text size="bodyM">{item.student_name}</Text>
             <Text size="bodyS" color="gray5">
               {item.student_gcn}

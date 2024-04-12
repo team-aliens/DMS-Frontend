@@ -39,6 +39,6 @@ export const updateOutingApplicationStatus = async (
   outing_status: OutingStatusType,
 ) => {
   return await instance.patch(
-    `${router}/${outingApplicationId}/?outing_status=${outing_status}`,
+    `${router}/${outingApplicationId}?outing_status=${outing_status}`,
   );
 };

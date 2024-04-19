@@ -10,6 +10,7 @@ import { useOutingApplications } from '@/hooks/useOutingApi';
 import { useObj } from '@/hooks/useObj';
 import { useDebounce } from '@/hooks/useDebounce';
 import { OutingStatusType } from '@/apis/outing';
+import { OutingDoneList } from '@/components/modals/OutingDoneList';
 
 interface FilterState {
   reqeust_name: string;
@@ -143,6 +144,7 @@ export function Outing() {
           text="외출 완료"
         />
       )}
+      {modalState.selectedModal === 'DONE_MODAL' && <OutingDoneList />}
     </>
   );
 }

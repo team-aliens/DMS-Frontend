@@ -15,6 +15,7 @@ export const fetchOutingApplicationDetail = async (
   const { data } = await instance.get<OutingApplicationDetailResponse>(
     `${router}/history/${outingApplicationId}`,
   );
+  console.log(data);
   return data;
 };
 

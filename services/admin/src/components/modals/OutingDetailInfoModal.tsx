@@ -7,6 +7,7 @@ import { SelectedModalType } from '@/context/modal';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useOutingApplicationDetail } from '@/hooks/useOutingApi';
+import { fetchOutingApplicationDetail } from '@/apis/outing';
 
 interface PropsType {
   tagColor: string;

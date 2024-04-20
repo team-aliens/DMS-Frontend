@@ -8,6 +8,8 @@ export interface StudentInfo {
   id: string;
   name: string;
   gcn: string;
+  bonus_point: number;
+  minus_point: number;
   room_number: string;
   profile_image_url: string;
   tags: TagType[];

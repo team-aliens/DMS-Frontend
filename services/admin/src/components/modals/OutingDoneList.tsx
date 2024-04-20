@@ -9,28 +9,20 @@ import { OutingApplicationDetailResponse } from '@/apis/outing/response';
 export function OutingDoneList() {
   const { closeModal } = useModal();
   const { id } = useParams();
-  const [outingDetail, setOutigDetail] =
+  const [outingDetail, setOutingDetail] =
     useState<OutingApplicationDetailResponse | null>(null);
 
+  const fetchOutingDetail = async () => {
+    const data = await fetchOutingApplicationDetail(id);
+    setOutingDetail(data);
+  };
   useEffect(() => {
-    const fetchOutingDetail = async () => {
-      try {
-        const data = await fetchOutingApplicationDetail(id);
-        setOutigDetail(data);
-      } catch (error) {
-        console.error('외출 상세 정보 가져오기 에러: ', error);
-      }
-    };
     fetchOutingDetail();
   }, [id]);
 
   const handleStatus = async () => {
-    try {
-      await updateOutingApplicationStatus(id, 'DONE');
-      closeModal();
-    } catch (error) {
-      console.error('외출 상태 변경 에러: ', error);
-    }
+    await updateOutingApplicationStatus(id, 'DONE');
+    closeModal();
   };
 
   return (

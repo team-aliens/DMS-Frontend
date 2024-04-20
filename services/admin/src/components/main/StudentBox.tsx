@@ -104,6 +104,8 @@ export function StudentBox({
         {studentInfo.gcn}
       </Text>
       <_Tags>
+        <_BonusPoints>+ {studentInfo.bonus_point}</_BonusPoints>
+        <_MinusPoints>- {studentInfo.minus_point}</_MinusPoints>
         {studentInfo.tags?.map((tag) => (
           <Tag key={tag.id} id={tag.id} color={tag.color} name={tag.name} />
         ))}
@@ -149,8 +151,34 @@ const _Tags = styled.div`
   display: flex;
   align-items: center;
   margin-left: 24px;
-  gap: 10px;
+  gap: 12px;
   white-space: nowrap;
   overflow: hidden;
   opacity: 1;
+`;
+
+const _BonusPoints = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  border-radius: 13px;
+  padding: 10px;
+  gap: 4px;
+  background-color: #ecf9ff;
+  color: #0c408a;
+  font-size: 14px;
+`;
+
+const _MinusPoints = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 26px;
+  border-radius: 13px;
+  padding: 10px;
+  gap: 4px;
+  background-color: #fff1f0;
+  color: #cf1322;
+  font-size: 14px;
 `;

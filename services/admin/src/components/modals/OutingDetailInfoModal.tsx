@@ -2,14 +2,12 @@ import { Button, Modal, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { OutingInfoWrapper } from '../outings/OutingDataInfo';
 import { OutingStudentList } from '../main/DetailBox/OutingStudentList';
-import { useEffect, useState } from 'react';
-import { OutingStatusType } from '@/apis/outing';
 import { useModal } from '@/hooks/useModal';
 import { SelectedModalType } from '@/context/modal';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useOutingApplicationDetail } from '@/hooks/useOutingApi';
-import { OutingDoneList } from './OutingDoneList';
+import { fetchOutingApplicationDetail } from '@/apis/outing';
 
 interface PropsType {
   tagColor: string;
@@ -26,7 +24,6 @@ export function OutingDetailInfoModal({
   const { closeModal, selectModal, modalState } = useModal();
   const { id } = useParams();
   const navigate = useNavigate();
-
   const { data: outingDetailInfo } = useOutingApplicationDetail(id);
 
   const openDoneModal = () => {
@@ -46,8 +43,8 @@ export function OutingDetailInfoModal({
       close={onClick}
       buttonList={[
         outingDetailInfo?.outing_status === 'DONE' ? (
-          <Button onClick={openDoneModal} color="primary">
-            복귀
+          <Button onClick={onClick} color="primary">
+            확인
           </Button>
         ) : (
           <>

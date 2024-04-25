@@ -3,7 +3,8 @@ export type Features =
   | 'point_service'
   | 'meal_service'
   | 'remain_service'
-  | 'study_room_service';
+  | 'study_room_service'
+  | 'outing_service';
 
 export type IsUseAbleFeature = {
   [key in Features]: boolean;

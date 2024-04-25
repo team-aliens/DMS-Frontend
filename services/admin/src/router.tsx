@@ -17,7 +17,7 @@ import Index from '@/pages/apply';
 import RemainsLists from '@/pages/apply/remains';
 import { pagePath } from './utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
-import { Outing } from './pages/goOut';
+import { Outing } from './pages/outing';
 
 export const pathToKorean = {
   'notice': {
@@ -112,7 +112,10 @@ export const Router = createBrowserRouter([
       },
       {
         path: pagePath.outing,
-        children: [{ index: true, element: <Outing /> }],
+        children: [
+          { index: true, element: <Outing /> },
+          { path: ':id', element: <Outing /> },
+        ],
       },
     ],
   },

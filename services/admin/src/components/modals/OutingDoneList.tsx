@@ -31,7 +31,7 @@ export function OutingDoneList() {
       close={closeModal}
       content={
         outingDetail
-          ? `${outingDetail.student_name}외 ${outingDetail.students.length}명의 ${outingDetail.outing_type} (${outingDetail.outing_time} ~ ${outingDetail.arrival_time})을 복귀 처리하시겠습니까?`
+          ? `${outingDetail.student_name} 외 ${outingDetail.students.length}명의 ${outingDetail.outing_type} (${outingDetail.outing_time} ~ ${outingDetail.arrival_time})을 복귀 처리하시겠습니까?`
           : ''
       }
       buttonList={[

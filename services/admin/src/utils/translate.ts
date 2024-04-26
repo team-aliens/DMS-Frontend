@@ -91,7 +91,7 @@ export const seatStatusKoreanToEng = (
   }
 };
 
-export type ServiceToKorean = '홈' | '신청' | '공지' | '마이페이지';
+export type ServiceToKorean = '홈' | '신청' | '공지' | '마이페이지' | '설문';
 
 export interface ServiceObject {
   service: ServiceToKorean | '';

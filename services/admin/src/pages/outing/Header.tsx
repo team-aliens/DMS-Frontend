@@ -1,17 +1,19 @@
-import { Arrow, Button, Text } from '@team-aliens/design-system';
+import { Button, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { Divider } from '@/components/main/Divider';
 import { useToast } from '@/hooks/useToast';
 import { ArrowLeft, ArrowRight } from '@/assets';
-
+import { useModal } from '@/hooks/useModal';
+import OutingListExcel from '@/components/modals/OutingListExcel';
 interface HeaderProps {
   date: string;
   onArrowClick: (increase: number) => void;
 }
 
 const Header = ({ date, onArrowClick }: HeaderProps) => {
+  const { selectModal, modalState } = useModal();
+  const downloadExcelModal = () => selectModal('OUTING_EXCEL');
   const { toastDispatch } = useToast();
-
   const outingTileClick = () => {
     toastDispatch({
       actionType: 'APPEND_TOAST',
@@ -29,16 +31,19 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
         </Text>
         <img src={ArrowRight} onClick={() => onArrowClick(+1)} />
       </_DateBox>
-      <_ButtonWrapper onClick={outingTileClick}>
-        <Button kind="outline" color="gray">
+      <_ButtonWrapper>
+        <Button kind="outline" color="gray" onClick={downloadExcelModal}>
           엑셀 출력
         </Button>
-        <Button kind="outline" color="gray">
+        <Button kind="outline" color="gray" onClick={outingTileClick}>
           외출 유형
         </Button>
         <Divider height={43} width={2} margin="0" />
-        <Button>외출 시간 설정</Button>
+        <Button onClick={outingTileClick}>외출 시간 설정</Button>
       </_ButtonWrapper>
+      {modalState.selectedModal === 'OUTING_EXCEL' ? (
+        <OutingListExcel todayDate={date} />
+      ) : null}
     </_Container>
   );
 };

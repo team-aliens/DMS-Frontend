@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { MemberBox } from '@/components/outings/MemberBox';
@@ -11,7 +11,8 @@ import { useObj } from '@/hooks/useObj';
 import { useDebounce } from '@/hooks/useDebounce';
 import { OutingStatusType } from '@/apis/outing';
 import { OutingDoneList } from '@/components/modals/OutingDoneList';
-
+import { BreadCrumb } from '@team-aliens/design-system';
+import { pathToKorean } from '@/router';
 interface FilterState {
   reqeust_name: string;
   outnig_name: string;
@@ -35,9 +36,9 @@ export function Outing() {
     setDate(newDate);
   };
 
+  const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
-  const year = date.getFullYear();
 
   const dateStr = `${year}-${month}-${day}`;
 
@@ -86,6 +87,7 @@ export function Outing() {
     <>
       <WithNavigatorBar>
         <_Wrapper>
+          <BreadCrumb pathToKorean={pathToKorean}></BreadCrumb>
           <Header date={dateStr} onArrowClick={handleArrowClick} />
           <_BoxWrapper>
             <_Box>

@@ -40,6 +40,7 @@ export const useGetRemainTime = () =>
   useQuery(['getRemainTime'], getRemainTime, {
     refetchOnWindowFocus: true,
   });
+
 export const useSetRemainTime = (body: putRemainTimeBody) => {
   const { toastDispatch } = useToast();
 

@@ -47,6 +47,9 @@ export const pathToKorean = {
     remains: {
       index: '잔류 신청',
     },
+    outing: {
+      index: '외출 목록',
+    },
   },
   'my-page': {
     'index': '마이페이지',

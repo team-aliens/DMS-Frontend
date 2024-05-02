@@ -44,6 +44,7 @@ export const useStudyRoom = () => {
       },
     });
   };
+
   const onChangeSex = (sex: SexToKorean) => {
     dispatch({
       type: 'SET_STUDY_ROOM_OPTION',

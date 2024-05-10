@@ -105,7 +105,11 @@ export function StudentBox({
       </Text>
       <_Tags>
         <_BonusPoints>+ {studentInfo.bonus_point}</_BonusPoints>
-        <_MinusPoints>- {studentInfo.minus_point}</_MinusPoints>
+        <_MinusPoints>
+          {studentInfo.minus_point < 0
+            ? `- (${studentInfo.minus_point})`
+            : `- ${studentInfo.minus_point}`}
+        </_MinusPoints>
         {studentInfo.tags?.map((tag) => (
           <Tag key={tag.id} id={tag.id} color={tag.color} name={tag.name} />
         ))}

@@ -18,6 +18,7 @@ import RemainsLists from '@/pages/apply/remains';
 import { pagePath } from './utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
 import { Outing } from './pages/outing';
+import { OutingTimeSet } from './components/outings/OutingTimeSet';
 
 export const pathToKorean = {
   'notice': {
@@ -118,6 +119,7 @@ export const Router = createBrowserRouter([
         children: [
           { index: true, element: <Outing /> },
           { path: ':id', element: <Outing /> },
+          { path: 'time', element: <OutingTimeSet /> },
         ],
       },
     ],

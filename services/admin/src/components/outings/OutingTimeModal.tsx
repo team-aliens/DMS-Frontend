@@ -74,7 +74,7 @@ export default function OutingTimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'startHour')}
             value={timeState.startHour}
-            width={70}
+            width={65}
           />
           <p className="day">:</p>
           <DropDown
@@ -82,7 +82,7 @@ export default function OutingTimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'startMin')}
             value={timeState.startMin}
-            width={70}
+            width={65}
           />
           <p className="to">~</p>
           <DropDown
@@ -98,7 +98,7 @@ export default function OutingTimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'endHour')}
             value={timeState.endHour}
-            width={70}
+            width={65}
           />
           <p className="day">:</p>
           <DropDown
@@ -106,7 +106,7 @@ export default function OutingTimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'endMin')}
             value={timeState.endMin}
-            width={70}
+            width={65}
           />
         </_TimeWrapper>,
       ]}

@@ -1,6 +1,6 @@
 import { Text } from '@team-aliens/design-system';
-import { WithNavigatorBar } from '../WithNavigatorBar';
-import { ListOptions } from './ListOptions';
+import { WithNavigatorBar } from '../../components/WithNavigatorBar';
+import { OutingOptions } from './OutingOptions';
 import styled from 'styled-components';
 
 export function OutingTimeSet() {
@@ -8,7 +8,7 @@ export function OutingTimeSet() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        <ListOptions />
+        <OutingOptions />
         <_WeeklyBox>
           <>
             {daysOfWeek.map((item: string) => (

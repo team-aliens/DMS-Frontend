@@ -18,7 +18,7 @@ import RemainsLists from '@/pages/apply/remains';
 import { pagePath } from './utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
 import { Outing } from './pages/outing';
-import { OutingTimeSet } from './components/outings/OutingTimeSet';
+import { OutingTimeSet } from './pages/outing/OutingTimeSet';
 
 export const pathToKorean = {
   'notice': {

@@ -1,8 +1,12 @@
 import { MegaPhone, Text, Button } from '@team-aliens/design-system';
-import { Divider } from '../main/Divider';
+import { Divider } from '../../components/main/Divider';
 import styled from 'styled-components';
+import { useModal } from '@/hooks/useModal';
+import OutingTimeModal from '../../components/outings/OutingTimeModal';
+import OutingAddTimeModal from '@/components/outings/OutingAddTimeModal';
 
-export function ListOptions() {
+export function OutingOptions() {
+  const { selectModal, closeModal, modalState } = useModal();
   return (
     <>
       <_Wrapper>
@@ -12,18 +16,32 @@ export function ListOptions() {
             {/* TODO: 외출 시간 설정 모달  */}
             외출 시간 설정을 입력해 주세요.
           </Text>
-          <Button kind="text" color="primary" margin={['left', 'auto']}>
+          {/* TODO: TimeModal 수정 필요  */}
+          <Button
+            kind="text"
+            color="primary"
+            margin={['left', 'auto']}
+            onClick={() => selectModal('OUTING_TIME')}
+          >
             작성
           </Button>
         </_ApplyAbleTime>
         <div className="buttonWrapper">
-          <Button kind="outline" color="gray">
+          <Button
+            kind="outline"
+            color="gray"
+            onClick={() => selectModal('OUTING_ADD_TIME')}
+          >
             항목 추가
           </Button>
           <Divider height={43} width={2} margin="0" />
           <Button>외출 현황</Button>
         </div>
       </_Wrapper>
+      {modalState.selectedModal === 'OUTING_TIME' && <OutingTimeModal />}
+      {modalState.selectedModal === 'OUTING_ADD_TIME' && (
+        <OutingAddTimeModal closeModal={closeModal} />
+      )}
     </>
   );
 }

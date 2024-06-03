@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import fileSaver from 'file-saver';
 import { getFileNameFromContentDisposition } from '@/utils/decoder';
 import { useToast } from '@/hooks/useToast';
+import { SettingOutingRequestType } from './request';
 
 const router = '/outings';
 
@@ -83,4 +84,11 @@ export const useGetOutingListExcel = ({
       },
     },
   );
+};
+
+/** 외출 가능 시간 설정 */
+export const fetchOutingTimeSetting = async (
+  body: SettingOutingRequestType,
+) => {
+  await instance.post(`${router}/available-time`, body);
 };

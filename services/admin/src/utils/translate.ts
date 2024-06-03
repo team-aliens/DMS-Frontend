@@ -136,7 +136,7 @@ export const getDayWithText = (text: string): DAY => {
 
 export const getTextWithDay = (day: DAY) => {
   switch (day) {
-    case 'WEDNESDAY':
+    case 'MONDAY':
       return '월';
     case 'TUESDAY':
       return '화';

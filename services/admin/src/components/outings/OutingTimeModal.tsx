@@ -6,6 +6,9 @@ import { getDayWithText, getTextWithDay } from '@/utils/translate';
 import { useModal } from '@/hooks/useModal';
 import { useForm } from '@/hooks/useForm';
 import { hourToArray, minToArray } from '@/utils/timeToArray';
+import { fetchOutingTimeSetting } from '@/apis/outing';
+import { SettingOutingRequestType } from '@/apis/outing/request';
+import { useToast } from '@/hooks/useToast';
 
 interface ITimeState {
   startDay: string;
@@ -28,12 +31,8 @@ export default function OutingTimeModal() {
     endMin: remainTime?.end_time.slice(3, 5),
   });
   const { closeModal } = useModal();
-  const { mutate } = useSetRemainTime({
-    start_day_of_week: getDayWithText(timeState.startDay),
-    start_time: `${timeState.startHour}:${timeState.startMin}:00`,
-    end_day_of_week: getDayWithText(timeState.endDay),
-    end_time: `${timeState.endHour}:${timeState.endMin}:00`,
-  });
+  const { toastDispatch } = useToast();
+
   useEffect(() => {
     setTimeState({
       startDay: getTextWithDay(remainTime?.start_day_of_week),
@@ -43,10 +42,30 @@ export default function OutingTimeModal() {
       endHour: remainTime?.end_time.slice(0, 2),
       endMin: remainTime?.end_time.slice(3, 5),
     });
-  }, [remainTime]);
+  }, [remainTime, setTimeState]);
+
   const onClick = () => {
-    mutate();
-    closeModal();
+    const requestBody: SettingOutingRequestType = {
+      day_of_week: getDayWithText(timeState.startDay),
+      outing_time: `${timeState.startHour}:${timeState.startMin}:00`,
+      arrival_time: `${timeState.endHour}:${timeState.endMin}:00`,
+    };
+
+    fetchOutingTimeSetting(requestBody)
+      .then(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '외출 시간이 성공적으로 설정되었습니다.',
+        });
+      })
+      .catch(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: '외출 시간 설정에 실패했습니다.',
+        });
+      });
   };
 
   const onChangeDropDown = (value: string, key: string) => {

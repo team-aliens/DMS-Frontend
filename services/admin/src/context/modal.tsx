@@ -39,6 +39,8 @@ export type SelectedModalType =
   | 'DELETE_OUTING_LIST_TYPE'
   | 'OUTING_TIME'
   | 'OUTING_ADD_TIME'
+  | 'OUTING_EDIT_TIME'
+  | 'DELETE_OUTING_TIME'
   | '';
 
 interface ModalState {

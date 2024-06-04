@@ -26,8 +26,7 @@ const DAYS = {
   COMMON: 'COMMON',
 } as const;
 
-type Union<T> = T[keyof T];
-export type DAY = Union<typeof DAYS>;
+export type DAY = keyof typeof DAYS;
 
 export const putRemainTime = async (body: putRemainTimeBody) => {
   await instance.put(`${router}/available-time`, body);

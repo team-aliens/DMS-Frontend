@@ -1,8 +1,36 @@
+import { deleteOutingApplicationTime } from '@/apis/outing';
 import { useModal } from '@/hooks/useModal';
+import { useToast } from '@/hooks/useToast';
 import { Button, Modal } from '@team-aliens/design-system';
 
-export default function DeleteOutingTime() {
+interface DeleteOutingTimeProps {
+  outingAvailableTimeId: string;
+}
+
+export default function DeleteOutingTime({
+  outingAvailableTimeId,
+}: DeleteOutingTimeProps) {
   const { closeModal } = useModal();
+  const { toastDispatch } = useToast();
+
+  const onDelete = () => {
+    deleteOutingApplicationTime(outingAvailableTimeId)
+      .then(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '외출 시간이 성공적으로 삭제되었습니다.',
+        });
+        closeModal();
+      })
+      .catch(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: '외출 시간 삭제에 실패했습니다.',
+        });
+      });
+  };
 
   return (
     <Modal
@@ -18,7 +46,12 @@ export default function DeleteOutingTime() {
         >
           취소
         </Button>,
-        <Button className="modalButton" kind="contained" color="primary">
+        <Button
+          onClick={onDelete}
+          className="modalButton"
+          kind="contained"
+          color="error"
+        >
           확인
         </Button>,
       ]}

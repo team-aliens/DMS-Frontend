@@ -9,6 +9,11 @@ export interface SettingOutingRequestType {
   arrival_time: string;
 }
 
+export interface EditOutingRequestType {
+  outing_time: string;
+  arrival_time: string;
+}
+
 export type Week =
   | 'MONDAY'
   | 'TUESDAY'

@@ -8,7 +8,7 @@ import { hourToArray, minToArray } from '@/utils/timeToArray';
 import { getTextWithDay } from '@/utils/translate';
 import { useGetRemainTime } from '@/hooks/useRemainApi';
 import { useModal } from '@/hooks/useModal';
-import DeleteOutingTime from './DeleteOutingTime';
+import { editOutingApplicationTime } from '@/apis/outing';
 
 interface PropsType {
   initTimeSlots?: StudyTimeSlotsResponse;
@@ -57,7 +57,34 @@ export default function OutingEditTimeModal({
     end_min: timeSlot[0]?.end_time.slice(3, 5) ?? '00',
   });
 
-  const onClickEdit = () => {};
+  const { toastDispatch } = useToast();
+
+  const onClickEdit = () => {
+    const { start_hour, start_min, end_hour, end_min } = outingTimeState;
+
+    const updatedTime = {
+      outing_time: `${start_hour}:${start_min}`,
+      arrival_time: `${end_hour}:${end_min}`,
+    };
+
+    editOutingApplicationTime(timeSlotId, updatedTime)
+      .then(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '외출 시간이 성공적으로 수정되었습니다.',
+        });
+        closeModal();
+      })
+      .catch(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: '외출 시간 수정에 실패했습니다.',
+        });
+      });
+  };
+
   const onClickDelete = () => {
     selectModal('DELETE_OUTING_TIME');
   };

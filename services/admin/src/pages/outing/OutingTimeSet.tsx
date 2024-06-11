@@ -2,9 +2,9 @@ import { Text } from '@team-aliens/design-system';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
 import { OutingOptions } from './OutingOptions';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 import { useModal } from '@/hooks/useModal';
+import DeleteOutingTime from '@/components/outings/DeleteOutingTime';
 
 export function OutingTimeSet() {
   const { selectModal, closeModal, modalState } = useModal();
@@ -35,6 +35,9 @@ export function OutingTimeSet() {
       </_Wrapper>
       {modalState.selectedModal === 'OUTING_EDIT_TIME' && (
         <OutingEditTimeModal closeModal={closeModal} />
+      )}
+      {modalState.selectedModal === 'DELETE_OUTING_TIME' && (
+        <DeleteOutingTime closeModal={closeModal} outingAvailableTimeId="" />
       )}
     </WithNavigatorBar>
   );
@@ -93,4 +96,5 @@ const _TimeBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;

@@ -86,6 +86,7 @@ export default function OutingEditTimeModal({
   };
 
   const onClickDelete = () => {
+    closeModal();
     selectModal('DELETE_OUTING_TIME');
   };
 
@@ -97,67 +98,69 @@ export default function OutingEditTimeModal({
   };
 
   return (
-    <Modal
-      title="외출 시간 수정"
-      inputList={[
-        <>
-          <_Container>
-            <DropDown
-              items={dayToArray}
-              placeholder={''}
-              onChange={(value) => onChange(value, 'dayOfWeek')}
-              width={110}
-              label="요일"
-            />
-          </_Container>
-          <div style={{ position: 'relative' }}>
-            <_Label>시간</_Label>
-            <_Wrapper>
+    <>
+      <Modal
+        title="외출 시간 수정"
+        inputList={[
+          <>
+            <_Container>
               <DropDown
-                placeholder="00"
-                value={outingTimeState.start_hour}
-                items={hourToArray}
-                onChange={(value) => onChange('start_hour', value)}
-                width={80}
-              ></DropDown>
-              <p>:</p>
-              <DropDown
-                placeholder="00"
-                value={outingTimeState.start_min}
-                items={minToArray}
-                onChange={(value) => onChange('start_min', value)}
-                width={80}
-              ></DropDown>
-              <p className="to">~</p>
-              <DropDown
-                placeholder="00"
-                value={outingTimeState.end_hour}
-                items={hourToArray}
-                onChange={(value) => onChange('end_hour', value)}
-                width={80}
-              ></DropDown>
-              <p>:</p>
-              <DropDown
-                placeholder="00"
-                value={outingTimeState.end_min}
-                items={minToArray}
-                onChange={(value) => onChange('end_min', value)}
-                width={80}
-              ></DropDown>
-            </_Wrapper>
-          </div>
-        </>,
-      ]}
-      buttonList={[
-        <Button color="gray" onClick={onClickDelete}>
-          삭제
-        </Button>,
-        <Button color="primary" onClick={onClickEdit}>
-          수정
-        </Button>,
-      ]}
-      close={closeModal}
-    />
+                items={dayToArray}
+                placeholder={''}
+                onChange={(value) => onChange(value, 'dayOfWeek')}
+                width={110}
+                label="요일"
+              />
+            </_Container>
+            <div style={{ position: 'relative' }}>
+              <_Label>시간</_Label>
+              <_Wrapper>
+                <DropDown
+                  placeholder="00"
+                  value={outingTimeState.start_hour}
+                  items={hourToArray}
+                  onChange={(value) => onChange('start_hour', value)}
+                  width={80}
+                ></DropDown>
+                <p>:</p>
+                <DropDown
+                  placeholder="00"
+                  value={outingTimeState.start_min}
+                  items={minToArray}
+                  onChange={(value) => onChange('start_min', value)}
+                  width={80}
+                ></DropDown>
+                <p className="to">~</p>
+                <DropDown
+                  placeholder="00"
+                  value={outingTimeState.end_hour}
+                  items={hourToArray}
+                  onChange={(value) => onChange('end_hour', value)}
+                  width={80}
+                ></DropDown>
+                <p>:</p>
+                <DropDown
+                  placeholder="00"
+                  value={outingTimeState.end_min}
+                  items={minToArray}
+                  onChange={(value) => onChange('end_min', value)}
+                  width={80}
+                ></DropDown>
+              </_Wrapper>
+            </div>
+          </>,
+        ]}
+        buttonList={[
+          <Button color="gray" onClick={onClickDelete}>
+            삭제
+          </Button>,
+          <Button color="primary" onClick={onClickEdit}>
+            수정
+          </Button>,
+        ]}
+        close={closeModal}
+      />
+    </>
   );
 }
 

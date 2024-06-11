@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useModal } from '@/hooks/useModal';
 import OutingTimeModal from '../../components/outings/OutingTimeModal';
 import OutingAddTimeModal from '@/components/outings/OutingAddTimeModal';
+import { Link } from 'react-router-dom';
 
 export function OutingOptions() {
   const { selectModal, closeModal, modalState } = useModal();
@@ -35,7 +36,9 @@ export function OutingOptions() {
             항목 추가
           </Button>
           <Divider height={43} width={2} margin="0" />
-          <Button>외출 현황</Button>
+          <Link to={'/outing'}>
+            <Button>외출 현황</Button>
+          </Link>
         </div>
       </_Wrapper>
       {modalState.selectedModal === 'OUTING_TIME' && <OutingTimeModal />}

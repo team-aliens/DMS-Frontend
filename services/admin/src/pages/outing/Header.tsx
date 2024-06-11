@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/useToast';
 import { ArrowLeft, ArrowRight } from '@/assets';
 import { useModal } from '@/hooks/useModal';
 import OutingListExcel from '@/components/modals/OutingListExcel';
+import { Link } from 'react-router-dom';
 interface HeaderProps {
   date: string;
   onArrowClick: (increase: number) => void;
@@ -39,7 +40,9 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
           외출 유형
         </Button>
         <Divider height={43} width={2} margin="0" />
-        <Button onClick={outingTileClick}>외출 시간 설정</Button>
+        <Link to={'/outing/time'}>
+          <Button>외출 시간 설정</Button>
+        </Link>
       </_ButtonWrapper>
       {modalState.selectedModal === 'OUTING_EXCEL' ? (
         <OutingListExcel todayDate={date} />

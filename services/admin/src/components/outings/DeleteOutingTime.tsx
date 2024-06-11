@@ -1,16 +1,16 @@
 import { deleteOutingApplicationTime } from '@/apis/outing';
-import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
 import { Button, Modal } from '@team-aliens/design-system';
 
 interface DeleteOutingTimeProps {
   outingAvailableTimeId: string;
+  closeModal: () => void;
 }
 
 export default function DeleteOutingTime({
   outingAvailableTimeId,
+  closeModal,
 }: DeleteOutingTimeProps) {
-  const { closeModal } = useModal();
   const { toastDispatch } = useToast();
 
   const onDelete = () => {

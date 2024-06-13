@@ -114,7 +114,6 @@ export function StudentList({
     refetchSearchStudents();
   }, [modalState]);
 
-  const [tagModal, setTagModal] = useState<string>('');
   const [openAllPointHistorySideBar, setOpenAllPointHistorySideBar] =
     useState(false);
   const openPointFilterModal = () => selectModal('POINT_FILTER');
@@ -125,6 +124,7 @@ export function StudentList({
 
   const [selectedPointOption, setSelectedPointOption] = useState<string>('');
   const [selectedTag, setSelectedTag] = useState<string>('');
+  const [tagModal, setTagModal] = useState<string>('');
 
   const { data: allPointOptions } = usePointOptionList();
   const { data: allTags, refetch: refetchAllTags } = useTagList();

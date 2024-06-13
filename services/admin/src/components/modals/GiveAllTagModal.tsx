@@ -175,8 +175,8 @@ export function GiveAllTagModal({
         <_SearchInput
           type="text"
           placeholder="ex) 봉사활동"
-          name="SearchTagName"
           value={tagState.searchTagName}
+          name="searchTagNames"
           onChange={tagStateHandler}
         />
       </_SearchWrapper>

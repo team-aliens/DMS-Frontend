@@ -39,6 +39,7 @@ export default function DeleteOutingTime({
       content={'외출 시간을 삭제하시겠습니까?'}
       buttonList={[
         <Button
+          key="cancel"
           className="modalButton"
           onClick={closeModal}
           kind="outline"
@@ -47,6 +48,7 @@ export default function DeleteOutingTime({
           취소
         </Button>,
         <Button
+          key="confirm"
           onClick={onDelete}
           className="modalButton"
           kind="contained"

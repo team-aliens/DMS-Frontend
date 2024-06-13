@@ -6,13 +6,17 @@ import { SearchBox, Text } from '@team-aliens/design-system';
 import { OutingDetailInfoModal } from '@/components/modals/OutingDetailInfoModal';
 import { useModal } from '@/hooks/useModal';
 import Header from './Header';
-import { useOutingApplications } from '@/hooks/useOutingApi';
+import { useOutingApplications, useOutingTypeList } from '@/hooks/useOutingApi';
 import { useObj } from '@/hooks/useObj';
 import { useDebounce } from '@/hooks/useDebounce';
-import { OutingStatusType } from '@/apis/outing';
+import { OutingStatusType, useDeleteOutingListOption } from '@/apis/outing';
 import { OutingDoneList } from '@/components/modals/OutingDoneList';
 import { BreadCrumb } from '@team-aliens/design-system';
 import { pathToKorean } from '@/router';
+import { ViewOutingTypeModal } from '@/components/modals/ViewOutingTypeModal';
+import { DeleteOutingListModal } from '@/components/modals/DeleteOutingList';
+import { queryClient } from '@/index';
+import { useToast } from '@/hooks/useToast';
 interface FilterState {
   reqeust_name: string;
   outnig_name: string;
@@ -21,6 +25,7 @@ interface FilterState {
 export function Outing() {
   const { selectModal, modalState } = useModal();
   const { debounce } = useDebounce();
+  const { toastDispatch } = useToast();
   const { obj: filter, changeObjectValue } = useObj<FilterState>({
     reqeust_name: '',
     outnig_name: '',
@@ -29,6 +34,8 @@ export function Outing() {
   const [activeSearchBar, setActiveSearchBar] =
     useState<OutingStatusType>('APPROVED');
   const [date, setDate] = useState(new Date());
+  const [selectedTag, setSelectedTag] = useState<string>('');
+  const [tagModal, setTagModal] = useState<string>('');
 
   const handleArrowClick = (increment: number): void => {
     const newDate = new Date(date);
@@ -48,7 +55,6 @@ export function Outing() {
   const [approveSearchdName, setApproveSearchdName] = useState(
     filter.reqeust_name,
   );
-  const [doneSearchName, setDoneSearchName] = useState(filter.outnig_name);
 
   const onChangeReqeustSearchName = (e: ChangeEvent<HTMLInputElement>) => {
     changeObjectValue('reqeust_name', e.target.value);
@@ -56,20 +62,14 @@ export function Outing() {
     debounce(() => setApproveSearchdName(e.target.value), 250);
   };
 
-  const onChangeOutingSearchName = (e: ChangeEvent<HTMLInputElement>) => {
-    changeObjectValue('outnig_name', e.target.value);
-    setActiveSearchBar('DONE');
-    debounce(() => setDoneSearchName(e.target.value), 250);
-  };
-
-  const studentName =
-    activeSearchBar === 'APPROVED' ? approveSearchdName : doneSearchName;
-
   const { data: outingApplyList, refetch: refetchOutingApplyLists } =
     useOutingApplications({
-      student_name: studentName,
+      student_name: approveSearchdName,
       date: dateStr,
     });
+
+  const { data: outingTypeList, refetch: refetchOutingTypeList } =
+    useOutingTypeList();
 
   const approvedStatus = outingApplyList?.outings.filter(
     (item) => item.outing_status === 'APPROVED',
@@ -82,6 +82,26 @@ export function Outing() {
   useEffect(() => {
     refetchOutingApplyLists();
   }, [dateStr]);
+
+  const deleteOutingType = useDeleteOutingListOption(selectedTag, {
+    onSuccess: () => {
+      selectModal('OUTING_TYPE');
+      refetchOutingTypeList();
+      setSelectedTag('');
+      toastDispatch({
+        toastType: 'SUCCESS',
+        actionType: 'APPEND_TOAST',
+        message: '외출 유형이 삭제되었습니다.',
+      });
+    },
+    onError: () => {
+      toastDispatch({
+        toastType: 'ERROR',
+        actionType: 'APPEND_TOAST',
+        message: '외출 유형 삭제를 실패했습니다.',
+      });
+    },
+  });
 
   return (
     <>
@@ -116,7 +136,7 @@ export function Outing() {
                 <SearchBox
                   className="searchBox"
                   value={filter.outnig_name}
-                  onChange={onChangeOutingSearchName}
+                  onChange={onChangeReqeustSearchName}
                 />
                 <div onClick={openDoneModal}>
                   {doneStatus?.length === 0 ? (
@@ -147,6 +167,21 @@ export function Outing() {
         />
       )}
       {modalState.selectedModal === 'DONE_MODAL' && <OutingDoneList />}
+      {modalState.selectedModal === 'OUTING_TYPE' && (
+        <ViewOutingTypeModal
+          selectedTag={selectedTag}
+          setSelectedTag={setSelectedTag}
+          outingTypeList={outingTypeList}
+          refetchOutingTypeList={refetchOutingTypeList}
+        />
+      )}
+      {modalState.selectedModal === 'DELETE_OUTING_LIST_TYPE' && (
+        <DeleteOutingListModal
+          tagModal={tagModal}
+          setSelectedOption={setSelectedTag}
+          onClick={deleteOutingType.mutate}
+        />
+      )}
     </>
   );
 }

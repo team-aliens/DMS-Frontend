@@ -3,6 +3,24 @@ export interface ApplyOutingReqeustType {
   date: string;
 }
 
+export interface OutingListExcelQueryStringType {
+  startDates: string;
+  endDates: string;
+}
+
+export interface OutingTypeReqeustType {
+  titles: string[];
+}
+
+export interface AddOutingTypeReqeust {
+  outing_list_type_search_name?: string;
+  title: string;
+}
+
+export interface SearchOutingTypeReqeust {
+  outing_list_type: string;
+}
+
 export interface SettingOutingRequestType {
   day_of_week: Week;
   outing_time: string;

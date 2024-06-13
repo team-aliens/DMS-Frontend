@@ -3,19 +3,19 @@ import {
   OutingApplicationDetailResponse,
   OutingApplicationsResponse,
 } from './response';
-import { useMutation } from '@tanstack/react-query';
+import { MutationOptions, useMutation } from '@tanstack/react-query';
 import fileSaver from 'file-saver';
 import { getFileNameFromContentDisposition } from '@/utils/decoder';
 import { useToast } from '@/hooks/useToast';
+import {
+  OutingListExcelQueryStringType,
+  OutingTypeReqeustType,
+} from './request';
 import { EditOutingRequestType, SettingOutingRequestType } from './request';
 
 const router = '/outings';
 
 export type OutingStatusType = 'APPROVED' | 'DONE';
-interface OutingListExcelQueryStringType {
-  startDates: string;
-  endDates: string;
-}
 
 /** 외출 신청 내역 상세 보기 */
 export const fetchOutingApplicationDetail = async (
@@ -49,6 +49,41 @@ export const updateOutingApplicationStatus = async (
 ) => {
   return await instance.patch(
     `${router}/${outingApplicationId}?outing_status=${outing_status}`,
+  );
+};
+
+/** 외출 유형 조회 */
+export const getOutingType = async () => {
+  const { data } = await instance.get<Promise<OutingTypeReqeustType>>(
+    `${router}/types`,
+  );
+  return data;
+};
+
+/** 외출 유형 삭제 */
+export const useDeleteOutingListOption = (
+  title: string,
+  options?: MutationOptions,
+) => {
+  return useMutation(
+    async () => await instance.delete(`${router}/types/${title}`),
+    {
+      ...options,
+    },
+  );
+};
+
+/** 외출 유형 추가 */
+
+export const useAddOutingType = (title: string, options?: MutationOptions) => {
+  return useMutation(
+    async () =>
+      await instance.post(`${router}/types`, {
+        title,
+      }),
+    {
+      ...options,
+    },
   );
 };
 

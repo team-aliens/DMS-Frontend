@@ -72,7 +72,7 @@ export default function OutingAddTimeModal({
       title="외출 시간 추가"
       inputList={[
         <>
-          <_Container>
+          <div>
             <DropDown
               items={dayToArray}
               placeholder={''}
@@ -81,7 +81,7 @@ export default function OutingAddTimeModal({
               width={110}
               label="요일"
             />
-          </_Container>
+          </div>
           <div style={{ position: 'relative' }}>
             <_Label>시간</_Label>
             <_Wrapper>
@@ -90,7 +90,7 @@ export default function OutingAddTimeModal({
                 value={outingTimeState.start_hour}
                 items={hourToArray}
                 onChange={(value) => onChange('start_hour', value)}
-                width={80}
+                width={90}
               ></DropDown>
               <p>:</p>
               <DropDown
@@ -98,7 +98,7 @@ export default function OutingAddTimeModal({
                 value={outingTimeState.start_min}
                 items={minToArray}
                 onChange={(value) => onChange('start_min', value)}
-                width={80}
+                width={90}
               ></DropDown>
               <p className="to">~</p>
               <DropDown
@@ -106,7 +106,7 @@ export default function OutingAddTimeModal({
                 value={outingTimeState.end_hour}
                 items={hourToArray}
                 onChange={(value) => onChange('end_hour', value)}
-                width={80}
+                width={90}
               ></DropDown>
               <p>:</p>
               <DropDown
@@ -114,7 +114,7 @@ export default function OutingAddTimeModal({
                 value={outingTimeState.end_min}
                 items={minToArray}
                 onChange={(value) => onChange('end_min', value)}
-                width={80}
+                width={90}
               ></DropDown>
             </_Wrapper>
           </div>
@@ -127,11 +127,10 @@ export default function OutingAddTimeModal({
 
 const _Wrapper = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
   padding-top: 50px;
   > p {
-    margin: 0 8px;
+    margin: 0 9px;
   }
   > .to {
     margin: 0 32px;
@@ -141,16 +140,12 @@ const _Wrapper = styled.div`
   }
 `;
 
-const _Container = styled.div`
-  padding-left: 25px;
-`;
-
 const _Label = styled.label`
   color: rgb(85, 85, 85);
   font-weight: 400;
   line-height: 26px;
   font-size: 16px;
-  padding-left: 25px;
+  /* padding-left: 25px; */
   position: absolute;
   top: 20px;
 `;

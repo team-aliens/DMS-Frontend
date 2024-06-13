@@ -1,10 +1,11 @@
-import { Button, Text } from '@team-aliens/design-system';
+import { Button, Information, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { Divider } from '@/components/main/Divider';
 import { useToast } from '@/hooks/useToast';
 import { ArrowLeft, ArrowRight } from '@/assets';
 import { useModal } from '@/hooks/useModal';
 import OutingListExcel from '@/components/modals/OutingListExcel';
+import { Link } from 'react-router-dom';
 interface HeaderProps {
   date: string;
   onArrowClick: (increase: number) => void;
@@ -13,8 +14,10 @@ interface HeaderProps {
 const Header = ({ date, onArrowClick }: HeaderProps) => {
   const { selectModal, modalState } = useModal();
   const downloadExcelModal = () => selectModal('OUTING_EXCEL');
+  const openOutingListType = () => selectModal('OUTING_TYPE');
   const { toastDispatch } = useToast();
-  const outingTileClick = () => {
+
+  const developmentClick = () => {
     toastDispatch({
       actionType: 'APPEND_TOAST',
       toastType: 'INFORMATION',
@@ -35,11 +38,11 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
         <Button kind="outline" color="gray" onClick={downloadExcelModal}>
           엑셀 출력
         </Button>
-        <Button kind="outline" color="gray" onClick={outingTileClick}>
+        <Button kind="outline" color="gray" onClick={openOutingListType}>
           외출 유형
         </Button>
         <Divider height={43} width={2} margin="0" />
-        <Button onClick={outingTileClick}>외출 시간 설정</Button>
+        <Button onClick={developmentClick}>외출 시간 설정</Button>
       </_ButtonWrapper>
       {modalState.selectedModal === 'OUTING_EXCEL' ? (
         <OutingListExcel todayDate={date} />

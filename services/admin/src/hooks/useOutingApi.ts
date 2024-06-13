@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   fetchOutingApplicationDetail,
   fetchOutingApplications,
+  getOutingType,
 } from '@/apis/outing';
 import { queryKeys } from '@/utils/queryKeys';
 import { ApplyOutingReqeustType } from '@/apis/outing/request';
@@ -29,3 +30,8 @@ export const useOutingApplications = ({
       refetchOnWindowFocus: true,
     },
   );
+
+export const useOutingTypeList = () =>
+  useQuery(['useOutingType'], () => getOutingType(), {
+    refetchOnWindowFocus: true,
+  });

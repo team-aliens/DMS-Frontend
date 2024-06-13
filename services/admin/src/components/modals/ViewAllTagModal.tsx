@@ -9,13 +9,6 @@ import {
 } from '@team-aliens/design-system';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useAddPointOption, useEditPointOption } from '@/apis/points';
-import {
-  PointOptionRequest,
-  PointOptionUnderBarRequest,
-  SearchPointOptionsRequest,
-} from '@/apis/points/request';
-import { useDropDown } from '@/hooks/useDropDown';
 import { useForm } from '@/hooks/useForm';
 import { useToast } from '@/hooks/useToast';
 import { TagListResponse } from '@/apis/tags/response';
@@ -27,7 +20,7 @@ import {
 } from '@/apis/tags/request';
 import Triangle from '../../assets/Triangle.svg';
 import { AxiosError } from 'axios';
-import { useAddTag, useEditTag, useGiveTag } from '@/apis/tags';
+import { useAddTag, useEditTag } from '@/apis/tags';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useModal } from '@/hooks/useModal';
 
@@ -206,7 +199,7 @@ export function ViewAllTagModal({
         <_SearchInput
           type="text"
           placeholder="ex) 봉사활동"
-          name="SearchTagName"
+          name="searchTagName"
           value={tagState.searchTagName}
           onChange={tagStateHandler}
         />

@@ -15,15 +15,19 @@ import { getFileNameFromContentDisposition } from '@/utils/decoder';
 
 const router = '/remains';
 
-export enum DAY {
-  MONDAY = 'MONDAY',
-  TUESDAY = 'TUESDAY',
-  WEDNESDAY = 'WEDNESDAY',
-  THURSDAY = 'THURSDAY',
-  FRIDAY = 'FRIDAY',
-  SATURDAY = 'SATURDAY',
-  SUNDAY = 'SUNDAY',
-}
+const DAYS = {
+  MONDAY: 'MONDAY',
+  TUESDAY: 'TUESDAY',
+  WEDNESDAY: 'WEDNESDAY',
+  THURSDAY: 'THURSDAY',
+  FRIDAY: 'FRIDAY',
+  SATURDAY: 'SATURDAY',
+  SUNDAY: 'SUNDAY',
+  COMMON: 'COMMON',
+} as const;
+
+export type DAY = keyof typeof DAYS;
+
 export const putRemainTime = async (body: putRemainTimeBody) => {
   await instance.put(`${router}/available-time`, body);
 };

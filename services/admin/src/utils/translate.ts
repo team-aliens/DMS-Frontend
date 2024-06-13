@@ -114,41 +114,41 @@ export const serviceToKorean = (service: Features): ServiceObject => {
       };
   }
 };
-export const getDayWithText = (text: string) => {
+export const getDayWithText = (text: string): DAY => {
   switch (text) {
     case '월':
-      return DAY.MONDAY;
+      return 'MONDAY';
     case '화':
-      return DAY.TUESDAY;
+      return 'TUESDAY';
     case '수':
-      return DAY.WEDNESDAY;
+      return 'WEDNESDAY';
     case '목':
-      return DAY.THURSDAY;
+      return 'THURSDAY';
     case '금':
-      return DAY.FRIDAY;
+      return 'FRIDAY';
     case '토':
-      return DAY.SATURDAY;
+      return 'SATURDAY';
     case '일':
-      return DAY.SUNDAY;
+      return 'SUNDAY';
     default:
   }
 };
 
 export const getTextWithDay = (day: DAY) => {
   switch (day) {
-    case DAY.MONDAY:
+    case 'MONDAY':
       return '월';
-    case DAY.TUESDAY:
+    case 'TUESDAY':
       return '화';
-    case DAY.WEDNESDAY:
+    case 'WEDNESDAY':
       return '수';
-    case DAY.THURSDAY:
+    case 'THURSDAY':
       return '목';
-    case DAY.FRIDAY:
+    case 'FRIDAY':
       return '금';
-    case DAY.SATURDAY:
+    case 'SATURDAY':
       return '토';
-    case DAY.SUNDAY:
+    case 'SUNDAY':
       return '일';
     default:
   }

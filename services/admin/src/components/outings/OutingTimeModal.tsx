@@ -6,6 +6,10 @@ import { getDayWithText, getTextWithDay } from '@/utils/translate';
 import { useModal } from '@/hooks/useModal';
 import { useForm } from '@/hooks/useForm';
 import { hourToArray, minToArray } from '@/utils/timeToArray';
+import { fetchOutingTimeSetting } from '@/apis/outing';
+import { SettingOutingRequestType } from '@/apis/outing/request';
+import { useToast } from '@/hooks/useToast';
+
 interface ITimeState {
   startDay: string;
   startHour: string;
@@ -16,7 +20,7 @@ interface ITimeState {
 }
 
 const dayToArray = ['월', '화', '수', '목', '금', '토', '일'];
-export default function TimeModal() {
+export default function OutingTimeModal() {
   const { data: remainTime } = useGetRemainTime();
   const { state: timeState, setState: setTimeState } = useForm<ITimeState>({
     startDay: getTextWithDay(remainTime?.start_day_of_week),
@@ -27,12 +31,8 @@ export default function TimeModal() {
     endMin: remainTime?.end_time.slice(3, 5),
   });
   const { closeModal } = useModal();
-  const { mutate } = useSetRemainTime({
-    start_day_of_week: getDayWithText(timeState.startDay),
-    start_time: `${timeState.startHour}:${timeState.startMin}:00`,
-    end_day_of_week: getDayWithText(timeState.endDay),
-    end_time: `${timeState.endHour}:${timeState.endMin}:00`,
-  });
+  const { toastDispatch } = useToast();
+
   useEffect(() => {
     setTimeState({
       startDay: getTextWithDay(remainTime?.start_day_of_week),
@@ -42,10 +42,30 @@ export default function TimeModal() {
       endHour: remainTime?.end_time.slice(0, 2),
       endMin: remainTime?.end_time.slice(3, 5),
     });
-  }, [remainTime]);
+  }, [remainTime, setTimeState]);
+
   const onClick = () => {
-    mutate();
-    closeModal();
+    const requestBody: SettingOutingRequestType = {
+      day_of_week: getDayWithText(timeState.startDay),
+      outing_time: `${timeState.startHour}:${timeState.startMin}:00`,
+      arrival_time: `${timeState.endHour}:${timeState.endMin}:00`,
+    };
+
+    fetchOutingTimeSetting(requestBody)
+      .then(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '외출 시간이 성공적으로 설정되었습니다.',
+        });
+      })
+      .catch(() => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: '외출 시간 설정에 실패했습니다.',
+        });
+      });
   };
 
   const onChangeDropDown = (value: string, key: string) => {
@@ -57,7 +77,7 @@ export default function TimeModal() {
 
   return (
     <Modal
-      title="잔류 신청 시간 설정"
+      title="외출 신청 시간 설정"
       inputList={[
         <_TimeWrapper key={'time'}>
           <DropDown
@@ -73,7 +93,7 @@ export default function TimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'startHour')}
             value={timeState.startHour}
-            width={70}
+            width={65}
           />
           <p className="day">:</p>
           <DropDown
@@ -81,7 +101,7 @@ export default function TimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'startMin')}
             value={timeState.startMin}
-            width={70}
+            width={65}
           />
           <p className="to">~</p>
           <DropDown
@@ -97,7 +117,7 @@ export default function TimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'endHour')}
             value={timeState.endHour}
-            width={70}
+            width={65}
           />
           <p className="day">:</p>
           <DropDown
@@ -105,7 +125,7 @@ export default function TimeModal() {
             placeholder={''}
             onChange={(value) => onChangeDropDown(value, 'endMin')}
             value={timeState.endMin}
-            width={70}
+            width={65}
           />
         </_TimeWrapper>,
       ]}
@@ -124,11 +144,6 @@ const _TimeWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  .day {
-    color: #555555;
-    font-weight: 400;
-    font-size: 14px;
-  }
   > .to {
     margin: 0 12px;
   }

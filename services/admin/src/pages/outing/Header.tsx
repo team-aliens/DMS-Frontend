@@ -1,4 +1,4 @@
-import { Button, Text } from '@team-aliens/design-system';
+import { Button, Information, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { Divider } from '@/components/main/Divider';
 import { useToast } from '@/hooks/useToast';
@@ -17,6 +17,14 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
   const openOutingListType = () => selectModal('OUTING_TYPE');
   const { toastDispatch } = useToast();
 
+  const developmentClick = () => {
+    toastDispatch({
+      actionType: 'APPEND_TOAST',
+      toastType: 'INFORMATION',
+      message: '개발 중인 기능입니다.',
+    });
+  };
+
   return (
     <_Container>
       <_DateBox>
@@ -34,9 +42,7 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
           외출 유형
         </Button>
         <Divider height={43} width={2} margin="0" />
-        <Link to={'/outing/time'}>
-          <Button>외출 시간 설정</Button>
-        </Link>
+        <Button onClick={developmentClick}>외출 시간 설정</Button>
       </_ButtonWrapper>
       {modalState.selectedModal === 'OUTING_EXCEL' ? (
         <OutingListExcel todayDate={date} />

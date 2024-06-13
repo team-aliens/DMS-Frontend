@@ -9,9 +9,11 @@ import DeleteOutingTime from '@/components/outings/DeleteOutingTime';
 export function OutingTimeSet() {
   const { selectModal, closeModal, modalState } = useModal();
   const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
-  const onClick = () => {
+
+  const onClickOutingEditTime = () => {
     selectModal('OUTING_EDIT_TIME');
   };
+
   return (
     <WithNavigatorBar>
       <_Wrapper>
@@ -22,7 +24,7 @@ export function OutingTimeSet() {
               <_DayOfTheWeek key={item}>
                 <_Text>{item}</_Text>
                 {item !== '일' && <_Line />}
-                <_TimeBox onClick={onClick}>
+                <_TimeBox onClick={onClickOutingEditTime}>
                   <Text color="primary" size="bodyS">
                     공통 <br />
                     00:00 ~ 00:00

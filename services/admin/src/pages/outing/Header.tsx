@@ -14,14 +14,8 @@ interface HeaderProps {
 const Header = ({ date, onArrowClick }: HeaderProps) => {
   const { selectModal, modalState } = useModal();
   const downloadExcelModal = () => selectModal('OUTING_EXCEL');
+  const openOutingListType = () => selectModal('OUTING_TYPE');
   const { toastDispatch } = useToast();
-  const outingTileClick = () => {
-    toastDispatch({
-      actionType: 'APPEND_TOAST',
-      toastType: 'INFORMATION',
-      message: '개발 중인 기능입니다.',
-    });
-  };
 
   return (
     <_Container>
@@ -36,7 +30,7 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
         <Button kind="outline" color="gray" onClick={downloadExcelModal}>
           엑셀 출력
         </Button>
-        <Button kind="outline" color="gray" onClick={outingTileClick}>
+        <Button kind="outline" color="gray" onClick={openOutingListType}>
           외출 유형
         </Button>
         <Divider height={43} width={2} margin="0" />

@@ -1,11 +1,5 @@
 import { Button, DropDown, Input, Modal } from '@team-aliens/design-system';
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useGetRemainTime, useSetRemainTime } from '@/hooks/useRemainApi';
 import { getDayWithText, getTextWithDay } from '@/utils/translate';
@@ -61,7 +55,6 @@ export default function TimeModal() {
     }));
   };
 
-  const onHandleChange = () => {};
   return (
     <Modal
       title="잔류 신청 시간 설정"

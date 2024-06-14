@@ -1,38 +1,23 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { MemberBox } from '@/components/outings/MemberBox';
-import { SearchBox, Text } from '@team-aliens/design-system';
+import { Text, Search } from '@team-aliens/design-system';
 import { OutingDetailInfoModal } from '@/components/modals/OutingDetailInfoModal';
 import { useModal } from '@/hooks/useModal';
 import Header from './Header';
 import { useOutingApplications, useOutingTypeList } from '@/hooks/useOutingApi';
-import { useObj } from '@/hooks/useObj';
-import { useDebounce } from '@/hooks/useDebounce';
-import { OutingStatusType, useDeleteOutingListOption } from '@/apis/outing';
+import { useDeleteOutingListOption } from '@/apis/outing';
 import { OutingDoneList } from '@/components/modals/OutingDoneList';
-import { BreadCrumb } from '@team-aliens/design-system';
-import { pathToKorean } from '@/router';
 import { ViewOutingTypeModal } from '@/components/modals/ViewOutingTypeModal';
 import { DeleteOutingListModal } from '@/components/modals/DeleteOutingList';
-import { queryClient } from '@/index';
 import { useToast } from '@/hooks/useToast';
-interface FilterState {
-  reqeust_name: string;
-  outnig_name: string;
-}
+import { useForm } from '@/hooks/useForm';
 
 export function Outing() {
   const { selectModal, modalState } = useModal();
-  const { debounce } = useDebounce();
   const { toastDispatch } = useToast();
-  const { obj: filter, changeObjectValue } = useObj<FilterState>({
-    reqeust_name: '',
-    outnig_name: '',
-  });
 
-  const [activeSearchBar, setActiveSearchBar] =
-    useState<OutingStatusType>('APPROVED');
   const [date, setDate] = useState(new Date());
   const [selectedTag, setSelectedTag] = useState<string>('');
   const [tagModal, setTagModal] = useState<string>('');
@@ -43,28 +28,26 @@ export function Outing() {
     setDate(newDate);
   };
 
+  const MustTrue = true;
+  const MustFalse = false;
+
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
 
   const dateStr = `${year}-${month}-${day}`;
 
-  const openOutingApplyModal = () => selectModal('OUTING_REQUESTED');
-  const openDoneModal = () => selectModal('OUTING_DONE');
+  const { state: outingOptionState, onHandleChange } = useForm({
+    outing_option_name: '',
+  });
 
-  const [approveSearchdName, setApproveSearchdName] = useState(
-    filter.reqeust_name,
-  );
-
-  const onChangeReqeustSearchName = (e: ChangeEvent<HTMLInputElement>) => {
-    changeObjectValue('reqeust_name', e.target.value);
-    setActiveSearchBar('APPROVED');
-    debounce(() => setApproveSearchdName(e.target.value), 250);
-  };
+  const { state: outingDoneOptionState, onHandleChange: onHandleChanges } =
+    useForm({
+      outing_done_option_name: '',
+    });
 
   const { data: outingApplyList, refetch: refetchOutingApplyLists } =
     useOutingApplications({
-      student_name: approveSearchdName,
       date: dateStr,
     });
 
@@ -107,46 +90,98 @@ export function Outing() {
     <>
       <WithNavigatorBar>
         <_Wrapper>
-          <BreadCrumb pathToKorean={pathToKorean}></BreadCrumb>
           <Header date={dateStr} onArrowClick={handleArrowClick} />
           <_BoxWrapper>
             <_Box>
               <_Container>
                 <Text size="titleS">외출 신청</Text>
-                <SearchBox
-                  className="searchBox"
-                  value={filter.reqeust_name}
-                  onChange={onChangeReqeustSearchName}
-                />
-
-                <div onClick={openOutingApplyModal}>
-                  {approvedStatus?.length === 0 ? (
-                    <Text>외출 신청이 없거나 검색 결과가 없어요.</Text>
-                  ) : (
-                    <_OutingWrapper>
-                      <MemberBox outingApplyList={approvedStatus} />
-                    </_OutingWrapper>
-                  )}
-                </div>
+                <_SearchWrapper>
+                  <Search className="Search" />
+                  <_SearchInput
+                    type="text"
+                    name="outing_option_name"
+                    value={outingOptionState.outing_option_name}
+                    onChange={onHandleChange}
+                  />
+                </_SearchWrapper>
+                {approvedStatus && approvedStatus.length === 0 ? (
+                  <Text size="bodyM">외출 신청자가 없습니다.</Text>
+                ) : (
+                  <_OutingWrapper>
+                    {approvedStatus
+                      ?.filter((options) =>
+                        options.student_name.includes(
+                          outingOptionState.outing_option_name,
+                        ),
+                      )
+                      .map((options) => {
+                        const {
+                          outing_application_id,
+                          outing_type,
+                          student_name,
+                          outing_time,
+                          arrival_time,
+                        } = options;
+                        return (
+                          <MemberBox
+                            key={outing_application_id}
+                            outing_application_id={outing_application_id}
+                            outing_type={outing_type}
+                            student_name={student_name}
+                            outing_time={outing_time}
+                            arrival_time={arrival_time}
+                            isReqeustModal={MustTrue}
+                          />
+                        );
+                      })}
+                  </_OutingWrapper>
+                )}
               </_Container>
             </_Box>
             <_Box>
               <_Container>
                 <Text size="titleS">외출 완료</Text>
-                <SearchBox
-                  className="searchBox"
-                  value={filter.outnig_name}
-                  onChange={onChangeReqeustSearchName}
-                />
-                <div onClick={openDoneModal}>
-                  {doneStatus?.length === 0 ? (
-                    <Text>외출 신청이 없거나 검색 결과가 없어요.</Text>
-                  ) : (
-                    <_OutingWrapper>
-                      <MemberBox outingApplyList={doneStatus} />
-                    </_OutingWrapper>
-                  )}
-                </div>
+                <_SearchWrapper>
+                  <Search className="Search" />
+                  <_SearchInput
+                    type="text"
+                    name="outing_done_option_name"
+                    value={outingDoneOptionState.outing_done_option_name}
+                    onChange={onHandleChanges}
+                  />
+                </_SearchWrapper>
+                {doneStatus && doneStatus.length === 0 ? (
+                  <Text size="bodyM">외출 신청자가 없습니다.</Text>
+                ) : (
+                  <_OutingWrapper>
+                    {doneStatus
+                      ?.filter((options) =>
+                        options.student_name.includes(
+                          outingDoneOptionState.outing_done_option_name,
+                        ),
+                      )
+                      .map((options) => {
+                        const {
+                          outing_application_id,
+                          outing_type,
+                          student_name,
+                          outing_time,
+                          arrival_time,
+                        } = options;
+                        return (
+                          <MemberBox
+                            key={outing_application_id}
+                            outing_application_id={outing_application_id}
+                            outing_type={outing_type}
+                            student_name={student_name}
+                            outing_time={outing_time}
+                            arrival_time={arrival_time}
+                            isReqeustModal={MustFalse}
+                          />
+                        );
+                      })}
+                  </_OutingWrapper>
+                )}
               </_Container>
             </_Box>
           </_BoxWrapper>
@@ -198,11 +233,14 @@ const _Box = styled.div`
   overflow-x: hidden;
 `;
 
-const _OutingWrapper = styled.ul`
+const _OutingWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const _Wrapper = styled.div`
@@ -219,6 +257,22 @@ const _Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const _SearchWrapper = styled.div`
+  position: relative;
+  .Search {
+    position: absolute;
+    top: 8px;
+  }
+`;
+
+const _SearchInput = styled.input`
+  width: 202px;
+  height: 40px;
+  border-bottom: 1px solid #dddddd;
+  padding: 0px 0px 0px 30px;
+  font-size: 16px;
 `;
 
 export default Outing;

@@ -54,11 +54,11 @@ export function Outing() {
   const { data: outingTypeList, refetch: refetchOutingTypeList } =
     useOutingTypeList();
 
-  const approvedStatus = outingApplyList?.outings.filter(
+  const approvedStatusLists = outingApplyList?.outings.filter(
     (item) => item.outing_status === 'APPROVED',
   );
 
-  const doneStatus = outingApplyList?.outings.filter(
+  const doneStatusLists = outingApplyList?.outings.filter(
     (item) => item.outing_status === 'DONE',
   );
 
@@ -104,11 +104,11 @@ export function Outing() {
                     onChange={onHandleChange}
                   />
                 </_SearchWrapper>
-                {approvedStatus && approvedStatus.length === 0 ? (
+                {approvedStatusLists && approvedStatusLists.length === 0 ? (
                   <Text size="bodyM">외출 신청자가 없습니다.</Text>
                 ) : (
                   <_OutingWrapper>
-                    {approvedStatus
+                    {approvedStatusLists
                       ?.filter((options) =>
                         options.student_name.includes(
                           outingOptionState.outing_option_name,
@@ -150,11 +150,11 @@ export function Outing() {
                     onChange={onHandleChanges}
                   />
                 </_SearchWrapper>
-                {doneStatus && doneStatus.length === 0 ? (
+                {doneStatusLists && doneStatusLists.length === 0 ? (
                   <Text size="bodyM">외출 신청자가 없습니다.</Text>
                 ) : (
                   <_OutingWrapper>
-                    {doneStatus
+                    {doneStatusLists
                       ?.filter((options) =>
                         options.student_name.includes(
                           outingDoneOptionState.outing_done_option_name,

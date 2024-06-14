@@ -23,8 +23,8 @@ export interface OutingApplication {
   outing_application_id: string;
   student_name: string;
   outing_type: string;
-  outing_status: OutingStatusType;
-  outing_companion_count: number;
+  outing_status?: OutingStatusType;
+  outing_companion_count?: number;
   outing_time: string;
   arrival_time: string;
 }

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useForm } from '@/hooks/useForm';
 import { useToast } from '@/hooks/useToast';
 import { StudyTimeSlotsResponse } from '@/apis/studyRooms/response';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { hourToArray, minToArray } from '@/utils/timeToArray';
 import { getTextWithDay } from '@/utils/translate';
 import { useGetRemainTime } from '@/hooks/useRemainApi';

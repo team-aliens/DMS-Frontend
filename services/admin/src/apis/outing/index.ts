@@ -12,18 +12,11 @@ import {
   OutingTypeReqeustType,
 } from './request';
 import { EditOutingRequestType, SettingOutingRequestType } from './request';
+import { DAY } from '../remains';
 
 const router = '/outings';
 
 export type OutingStatusType = 'APPROVED' | 'DONE';
-export type DayOfWeekType =
-  | 'MONDAY'
-  | 'TUESDAY'
-  | 'WEDNESDAY'
-  | 'THURSDAY'
-  | 'FRIDAY'
-  | 'SATURDAY'
-  | 'SUNDAY';
 
 /** 외출 신청 내역 상세 보기 */
 export const fetchOutingApplicationDetail = async (
@@ -157,6 +150,6 @@ export const deleteOutingApplicationTime = async (
 };
 
 /** 외출 가능 시간 조회 */
-export const getOutingApplicationTime = async (dayOfWeek: DayOfWeekType) => {
+export const getOutingApplicationTime = async (dayOfWeek: DAY) => {
   return await instance.get(`${router}/available-time?dayOfWeek=${dayOfWeek}`);
 };

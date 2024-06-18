@@ -5,17 +5,10 @@ import styled from 'styled-components';
 import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 import { useModal } from '@/hooks/useModal';
 import DeleteOutingTime from '@/components/outings/DeleteOutingTime';
-import { DayOfWeekType, getOutingApplicationTime } from '@/apis/outing';
+import { getOutingApplicationTime } from '@/apis/outing';
 import { useEffect, useState } from 'react';
-
-interface OutingTime {
-  id: string;
-  school_id: string;
-  outing_time: string;
-  arrival_time: string;
-  enabled: boolean;
-  day_of_week: DayOfWeekType;
-}
+import { DAY } from '@/apis/remains';
+import { OutingApplicationTimeResponse } from '@/apis/outing/response';
 
 export function OutingTimeSet() {
   const { selectModal, closeModal, modalState } = useModal();
@@ -23,7 +16,7 @@ export function OutingTimeSet() {
     string | null
   >(null);
   const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
-  const daysOfWeekMap: { [key: string]: DayOfWeekType } = {
+  const daysOfWeekMap: { [key: string]: DAY } = {
     월: 'MONDAY',
     화: 'TUESDAY',
     수: 'WEDNESDAY',
@@ -33,7 +26,9 @@ export function OutingTimeSet() {
     일: 'SUNDAY',
   };
 
-  const [outingTimes, setOutingTimes] = useState<OutingTime[]>([]);
+  const [outingTimes, setOutingTimes] = useState<
+    OutingApplicationTimeResponse[]
+  >([]);
 
   useEffect(() => {
     const fetchOutingTimes = async () => {
@@ -51,7 +46,7 @@ export function OutingTimeSet() {
     fetchOutingTimes();
   }, []);
 
-  const getTimeForDay = (day: string) => {
+  const getTimeForDay = (day: DAY) => {
     const outingTime = outingTimes.find(
       (time) => time.day_of_week === daysOfWeekMap[day],
     );
@@ -60,7 +55,7 @@ export function OutingTimeSet() {
       : '00:00 ~ 00:00';
   };
 
-  const getIdForDay = (day: string) => {
+  const getIdForDay = (day: DAY) => {
     const outingTime = outingTimes.find(
       (time) => time.day_of_week === daysOfWeekMap[day],
     );
@@ -68,10 +63,7 @@ export function OutingTimeSet() {
   };
 
   const onClickOutingEditTime = (id: string | null) => {
-    if (id) {
-      setSelectedOutingTimeId(id);
-      selectModal('OUTING_EDIT_TIME');
-    }
+    id && (setSelectedOutingTimeId(id), selectModal('OUTING_EDIT_TIME'));
   };
 
   return (
@@ -80,11 +72,11 @@ export function OutingTimeSet() {
         <OutingOptions />
         <_WeeklyBox>
           <>
-            {daysOfWeek.map((item: string) => (
+            {daysOfWeek.map((item: DAY) => (
               <_DayOfTheWeek key={item}>
                 <_Text>{item}</_Text>
-                {item !== '일' && <_Line />}
-                <_TimeBoxWrapper>
+                {item !== 'SUNDAY' && <_Line />}
+                <div>
                   <_TimeBox
                     onClick={() => onClickOutingEditTime(getIdForDay(item))}
                   >
@@ -92,7 +84,7 @@ export function OutingTimeSet() {
                       {getTimeForDay(item)}
                     </Text>
                   </_TimeBox>
-                </_TimeBoxWrapper>
+                </div>
               </_DayOfTheWeek>
             ))}
           </>
@@ -157,8 +149,6 @@ const _Text = styled.p`
   line-height: 22px;
   color: #999;
 `;
-
-const _TimeBoxWrapper = styled.div``;
 
 const _TimeBox = styled.div`
   width: 112px;

@@ -1,4 +1,5 @@
 import { OutingStatusType } from '.';
+import { DAY } from '../remains';
 
 export interface Student {
   id: string;
@@ -31,4 +32,13 @@ export interface OutingApplication {
 
 export interface OutingApplicationsResponse {
   outings: OutingApplication[];
+}
+
+export interface OutingApplicationTimeResponse {
+  id: string;
+  school_id: string;
+  outing_time: string;
+  arrival_time: string;
+  enabled: boolean;
+  day_of_week: DAY;
 }

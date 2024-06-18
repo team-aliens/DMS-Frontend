@@ -121,6 +121,7 @@ export function Outing() {
                           student_name,
                           outing_time,
                           arrival_time,
+                          outing_companion_count,
                         } = options;
                         return (
                           <MemberBox
@@ -130,6 +131,7 @@ export function Outing() {
                             student_name={student_name}
                             outing_time={outing_time}
                             arrival_time={arrival_time}
+                            outing_companion_count={outing_companion_count}
                             isReqeustModal={MustTrue}
                           />
                         );
@@ -167,6 +169,7 @@ export function Outing() {
                           student_name,
                           outing_time,
                           arrival_time,
+                          outing_companion_count,
                         } = options;
                         return (
                           <MemberBox
@@ -176,6 +179,7 @@ export function Outing() {
                             student_name={student_name}
                             outing_time={outing_time}
                             arrival_time={arrival_time}
+                            outing_companion_count={outing_companion_count}
                             isReqeustModal={MustFalse}
                           />
                         );

@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import {
-  OutingApplicationsResponse,
-  OutingApplication,
-} from '@/apis/outing/response';
+import { OutingApplication } from '@/apis/outing/response';
 import { Text } from '@team-aliens/design-system';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '@/hooks/useModal';
@@ -18,6 +15,7 @@ export function MemberBox({
   arrival_time,
   outing_type,
   student_name,
+  outing_companion_count,
 }: PropsType) {
   const navigate = useNavigate();
   const { selectModal } = useModal();
@@ -35,7 +33,7 @@ export function MemberBox({
       >
         <_DetailWrapper>
           <Text className="name" size="bodyM" margin={['right', 22]}>
-            {student_name}
+            {student_name} 외 {outing_companion_count}명
           </Text>
           <Text
             className="outing-type"

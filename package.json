@@ -22,5 +22,8 @@
         "postinstall": "husky install",
         "prepublishOnly": "pinst --disable",
         "postpublish": "pinst --enable"
+    },
+    "dependencies": {
+        "@team-aliens/design-system": "^1.5.0"
     }
 }

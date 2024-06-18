@@ -5,13 +5,65 @@ import styled from 'styled-components';
 import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 import { useModal } from '@/hooks/useModal';
 import DeleteOutingTime from '@/components/outings/DeleteOutingTime';
+import { getOutingApplicationTime } from '@/apis/outing';
+import { useEffect, useState } from 'react';
+import { DAY } from '@/apis/remains';
+import { OutingApplicationTimeResponse } from '@/apis/outing/response';
 
 export function OutingTimeSet() {
   const { selectModal, closeModal, modalState } = useModal();
+  const [selectedOutingTimeId, setSelectedOutingTimeId] = useState<
+    string | null
+  >(null);
   const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
+  const daysOfWeekMap: { [key: string]: DAY } = {
+    월: 'MONDAY',
+    화: 'TUESDAY',
+    수: 'WEDNESDAY',
+    목: 'THURSDAY',
+    금: 'FRIDAY',
+    토: 'SATURDAY',
+    일: 'SUNDAY',
+  };
 
-  const onClickOutingEditTime = () => {
-    selectModal('OUTING_EDIT_TIME');
+  const [outingTimes, setOutingTimes] = useState<
+    OutingApplicationTimeResponse[]
+  >([]);
+
+  useEffect(() => {
+    const fetchOutingTimes = async () => {
+      const response = await Promise.all(
+        Object.values(daysOfWeekMap).map((day) =>
+          getOutingApplicationTime(day),
+        ),
+      );
+      const times = response.flatMap(
+        (response) => response.data.outing_available_times,
+      );
+      setOutingTimes(times);
+    };
+
+    fetchOutingTimes();
+  }, []);
+
+  const getTimeForDay = (day: DAY) => {
+    const outingTime = outingTimes.find(
+      (time) => time.day_of_week === daysOfWeekMap[day],
+    );
+    return outingTime
+      ? `${outingTime.outing_time} ~ ${outingTime.arrival_time}`
+      : '00:00 ~ 00:00';
+  };
+
+  const getIdForDay = (day: DAY) => {
+    const outingTime = outingTimes.find(
+      (time) => time.day_of_week === daysOfWeekMap[day],
+    );
+    return outingTime ? outingTime.id : null;
+  };
+
+  const onClickOutingEditTime = (id: string | null) => {
+    id && (setSelectedOutingTimeId(id), selectModal('OUTING_EDIT_TIME'));
   };
 
   return (
@@ -20,27 +72,38 @@ export function OutingTimeSet() {
         <OutingOptions />
         <_WeeklyBox>
           <>
-            {daysOfWeek.map((item: string) => (
+            {daysOfWeek.map((item: DAY) => (
               <_DayOfTheWeek key={item}>
                 <_Text>{item}</_Text>
-                {item !== '일' && <_Line />}
-                <_TimeBox onClick={onClickOutingEditTime}>
-                  <Text color="primary" size="bodyS">
-                    공통 <br />
-                    00:00 ~ 00:00
-                  </Text>
-                </_TimeBox>
+                {item !== 'SUNDAY' && <_Line />}
+                <div>
+                  <_TimeBox
+                    onClick={() => onClickOutingEditTime(getIdForDay(item))}
+                  >
+                    <Text color="gray10" size="bodyS">
+                      {getTimeForDay(item)}
+                    </Text>
+                  </_TimeBox>
+                </div>
               </_DayOfTheWeek>
             ))}
           </>
         </_WeeklyBox>
       </_Wrapper>
-      {modalState.selectedModal === 'OUTING_EDIT_TIME' && (
-        <OutingEditTimeModal closeModal={closeModal} />
-      )}
-      {modalState.selectedModal === 'DELETE_OUTING_TIME' && (
-        <DeleteOutingTime closeModal={closeModal} outingAvailableTimeId="" />
-      )}
+      {modalState.selectedModal === 'OUTING_EDIT_TIME' &&
+        selectedOutingTimeId && (
+          <OutingEditTimeModal
+            closeModal={closeModal}
+            timeSlotId={selectedOutingTimeId}
+          />
+        )}
+      {modalState.selectedModal === 'DELETE_OUTING_TIME' &&
+        selectedOutingTimeId && (
+          <DeleteOutingTime
+            closeModal={closeModal}
+            outingAvailableTimeId={selectedOutingTimeId}
+          />
+        )}
     </WithNavigatorBar>
   );
 }
@@ -54,7 +117,7 @@ const _Wrapper = styled.div`
 const _WeeklyBox = styled.div`
   width: 100%;
   max-width: 1030px;
-  height: 300px;
+  height: 400px;
   flex-shrink: 0;
   border-radius: 8px;
   background: #fff;
@@ -89,7 +152,7 @@ const _Text = styled.p`
 
 const _TimeBox = styled.div`
   width: 112px;
-  height: 50px;
+  height: 31px;
   flex-shrink: 0;
   border-radius: 5px;
   background: #fff;

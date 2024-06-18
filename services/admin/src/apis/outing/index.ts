@@ -12,6 +12,7 @@ import {
   OutingTypeReqeustType,
 } from './request';
 import { EditOutingRequestType, SettingOutingRequestType } from './request';
+import { DAY } from '../remains';
 
 const router = '/outings';
 
@@ -146,4 +147,9 @@ export const deleteOutingApplicationTime = async (
   return await instance.delete(
     `${router}/available-time/${outingAvailableTimeId}`,
   );
+};
+
+/** 외출 가능 시간 조회 */
+export const getOutingApplicationTime = async (dayOfWeek: DAY) => {
+  return await instance.get(`${router}/available-time?dayOfWeek=${dayOfWeek}`);
 };

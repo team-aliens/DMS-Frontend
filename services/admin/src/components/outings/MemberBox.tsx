@@ -1,47 +1,60 @@
 import styled from 'styled-components';
-import { OutingApplication } from '@/apis/outing/response';
+import {
+  OutingApplicationsResponse,
+  OutingApplication,
+} from '@/apis/outing/response';
 import { Text } from '@team-aliens/design-system';
 import { useNavigate } from 'react-router-dom';
-import { OutingStatusType } from '@/apis/outing/index';
-import { useRef } from 'react';
+import { useModal } from '@/hooks/useModal';
 
-interface PropsType {
-  outingApplyList: OutingApplication[];
+interface PropsType extends OutingApplication {
+  isReqeustModal?: boolean;
 }
 
-export function MemberBox({ outingApplyList }: PropsType) {
+export function MemberBox({
+  isReqeustModal,
+  outing_application_id,
+  outing_time,
+  arrival_time,
+  outing_type,
+  student_name,
+}: PropsType) {
   const navigate = useNavigate();
+  const { selectModal } = useModal();
+
+  const openOutingApplyModal = () => selectModal('OUTING_REQUESTED');
+  const openDoneModal = () => selectModal('OUTING_DONE');
+
+  const modalPropsType = isReqeustModal ? openOutingApplyModal : openDoneModal;
 
   return (
-    <_Wrapper>
-      {outingApplyList?.map((item) => (
-        <InfoContainer
-          key={item.outing_application_id}
-          onClick={() => navigate(`/outing/${item.outing_application_id}`)}
-        >
-          <_DetailWrapper>
-            <Text className="name" size="bodyM" margin={['right', 22]}>
-              {item.student_name}
-            </Text>
-            <Text
-              className="outing-type"
-              size="bodyS"
-              color="gray5"
-              margin={['right', 70]}
-            >
-              {item.outing_type}
-            </Text>
-            <Text className="time" size="bodyS">
-              {item.outing_time} ~ {item.arrival_time}
-            </Text>
-          </_DetailWrapper>
-        </InfoContainer>
-      ))}
+    <_Wrapper onClick={modalPropsType}>
+      <InfoContainer
+        key={outing_application_id}
+        onClick={() => navigate(`/outing/${outing_application_id}`)}
+      >
+        <_DetailWrapper>
+          <Text className="name" size="bodyM" margin={['right', 22]}>
+            {student_name}
+          </Text>
+          <Text
+            className="outing-type"
+            size="bodyS"
+            color="gray5"
+            margin={['right', 70]}
+          >
+            {outing_type}
+          </Text>
+          <Text className="time" size="bodyS">
+            {outing_time} ~ {arrival_time}
+          </Text>
+        </_DetailWrapper>
+      </InfoContainer>
     </_Wrapper>
   );
 }
 
-const _Wrapper = styled.li`
+const _Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;

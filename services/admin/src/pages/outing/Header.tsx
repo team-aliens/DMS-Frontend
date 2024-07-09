@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight } from '@/assets';
 import { useModal } from '@/hooks/useModal';
 import OutingListExcel from '@/components/modals/OutingListExcel';
 import { Link } from 'react-router-dom';
+
 interface HeaderProps {
   date: string;
   onArrowClick: (increase: number) => void;
@@ -16,14 +17,6 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
   const downloadExcelModal = () => selectModal('OUTING_EXCEL');
   const openOutingListType = () => selectModal('OUTING_TYPE');
   const { toastDispatch } = useToast();
-
-  const developmentClick = () => {
-    toastDispatch({
-      actionType: 'APPEND_TOAST',
-      toastType: 'INFORMATION',
-      message: '개발 중인 기능입니다.',
-    });
-  };
 
   return (
     <_Container>
@@ -42,7 +35,9 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
           외출 유형
         </Button>
         <Divider height={43} width={2} margin="0" />
-        <Button onClick={developmentClick}>외출 시간 설정</Button>
+        <Link to={'/outing/time'}>
+          <Button>외출 시간 설정</Button>
+        </Link>
       </_ButtonWrapper>
       {modalState.selectedModal === 'OUTING_EXCEL' ? (
         <OutingListExcel todayDate={date} />

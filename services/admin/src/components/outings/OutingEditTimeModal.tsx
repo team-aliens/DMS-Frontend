@@ -75,6 +75,7 @@ export default function OutingEditTimeModal({
           message: '외출 시간이 성공적으로 수정되었습니다.',
         });
         closeModal();
+        window.location.reload();
       })
       .catch(() => {
         toastDispatch({
@@ -88,6 +89,7 @@ export default function OutingEditTimeModal({
   const onClickDelete = () => {
     closeModal();
     selectModal('DELETE_OUTING_TIME');
+    window.location.reload();
   };
 
   const onChange = (name: string, value: string) => {

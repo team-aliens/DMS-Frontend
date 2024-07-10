@@ -33,7 +33,15 @@ export function MemberBox({
       >
         <_DetailWrapper>
           <Text className="name" size="bodyM" margin={['right', 22]}>
-            {student_name} 외 {outing_companion_count}명
+            <>
+              {outing_companion_count !== 0 ? (
+                <>
+                  {student_name} 외 {outing_companion_count}명
+                </>
+              ) : (
+                student_name
+              )}
+            </>
           </Text>
           <Text
             className="outing-type"

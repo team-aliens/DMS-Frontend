@@ -9,9 +9,10 @@ import { getFileNameFromContentDisposition } from '@/utils/decoder';
 import { useToast } from '@/hooks/useToast';
 import {
   OutingListExcelQueryStringType,
-  OutingTypeReqeustType,
+  OutingTypeRequestType,
+  EditOutingRequestType,
+  SettingOutingRequestType,
 } from './request';
-import { EditOutingRequestType, SettingOutingRequestType } from './request';
 import { DAY } from '../remains';
 
 const router = '/outings';
@@ -55,7 +56,7 @@ export const updateOutingApplicationStatus = async (
 
 /** 외출 유형 조회 */
 export const getOutingType = async () => {
-  const { data } = await instance.get<Promise<OutingTypeReqeustType>>(
+  const { data } = await instance.get<Promise<OutingTypeRequestType>>(
     `${router}/types`,
   );
   return data;
@@ -129,6 +130,8 @@ export const fetchOutingTimeSetting = async (
   await instance.post(`${router}/available-time`, body);
 };
 
+type ResponseTypes = Awaited<ReturnType<typeof fetchOutingTimeSetting>>;
+
 /** 외출 가능 시간 수정 */
 export const editOutingApplicationTime = async (
   availableTimeId: string,
@@ -153,3 +156,9 @@ export const deleteOutingApplicationTime = async (
 export const getOutingApplicationTime = async (dayOfWeek: DAY) => {
   return await instance.get(`${router}/available-time?dayOfWeek=${dayOfWeek}`);
 };
+
+interface Person {
+  name: string;
+  age: number;
+  language: string;
+}

@@ -10,8 +10,6 @@ export const useObj = <T extends object>(initialState: T) => {
         [name]: value,
       };
     });
-    console.log(name, value);
-    console.log(obj);
   };
   return {
     obj,

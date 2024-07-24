@@ -5,7 +5,7 @@ import {
   getOutingType,
 } from '@/apis/outing';
 import { queryKeys } from '@/utils/queryKeys';
-import { ApplyOutingReqeustType } from '@/apis/outing/request';
+import { ApplyOutingRequestType } from '@/apis/outing/request';
 
 export const useOutingApplicationDetail = (outingApplicationId: string) =>
   useQuery(
@@ -22,7 +22,7 @@ export const useOutingApplicationDetail = (outingApplicationId: string) =>
 export const useOutingApplications = ({
   date,
   student_name = '',
-}: ApplyOutingReqeustType) =>
+}: ApplyOutingRequestType) =>
   useQuery(
     [queryKeys.외출신청내역조회, student_name, date],
     () => fetchOutingApplications(date, student_name),

@@ -102,38 +102,51 @@ export function Outing() {
                     name="outing_option_name"
                     value={outingOptionState.outing_option_name}
                     onChange={onHandleChange}
+                    disabled={
+                      approvedStatusLists && approvedStatusLists.length === 0
+                    }
                   />
                 </_SearchWrapper>
                 {approvedStatusLists && approvedStatusLists.length === 0 ? (
                   <Text size="bodyM">외출 신청자가 없습니다.</Text>
                 ) : (
                   <_OutingWrapper>
-                    {approvedStatusLists
-                      ?.filter((options) =>
-                        options.student_name.includes(
-                          outingOptionState.outing_option_name,
-                        ),
-                      )
-                      .map((options) => {
-                        const {
-                          outing_application_id,
-                          outing_type,
-                          student_name,
-                          outing_time,
-                          arrival_time,
-                        } = options;
-                        return (
-                          <MemberBox
-                            key={outing_application_id}
-                            outing_application_id={outing_application_id}
-                            outing_type={outing_type}
-                            student_name={student_name}
-                            outing_time={outing_time}
-                            arrival_time={arrival_time}
-                            isReqeustModal={MustTrue}
-                          />
-                        );
-                      })}
+                    {approvedStatusLists?.filter((options) =>
+                      options.student_name.includes(
+                        outingOptionState.outing_option_name,
+                      ),
+                    ).length === 0 ? (
+                      <Text size="bodyM">검색 결과가 없습니다.</Text>
+                    ) : (
+                      approvedStatusLists
+                        ?.filter((options) =>
+                          options.student_name.includes(
+                            outingOptionState.outing_option_name,
+                          ),
+                        )
+                        .map((options) => {
+                          const {
+                            outing_application_id,
+                            outing_type,
+                            student_name,
+                            outing_time,
+                            arrival_time,
+                            outing_companion_count,
+                          } = options;
+                          return (
+                            <MemberBox
+                              key={outing_application_id}
+                              outing_application_id={outing_application_id}
+                              outing_type={outing_type}
+                              student_name={student_name}
+                              outing_time={outing_time}
+                              arrival_time={arrival_time}
+                              outing_companion_count={outing_companion_count}
+                              isReqeustModal={MustTrue}
+                            />
+                          );
+                        })
+                    )}
                   </_OutingWrapper>
                 )}
               </_Container>
@@ -148,6 +161,9 @@ export function Outing() {
                     name="outing_done_option_name"
                     value={outingDoneOptionState.outing_done_option_name}
                     onChange={onHandleChanges}
+                    disabled={
+                      approvedStatusLists && approvedStatusLists.length === 0
+                    }
                   />
                 </_SearchWrapper>
                 {doneStatusLists && doneStatusLists.length === 0 ? (
@@ -167,6 +183,7 @@ export function Outing() {
                           student_name,
                           outing_time,
                           arrival_time,
+                          outing_companion_count,
                         } = options;
                         return (
                           <MemberBox
@@ -176,6 +193,7 @@ export function Outing() {
                             student_name={student_name}
                             outing_time={outing_time}
                             arrival_time={arrival_time}
+                            outing_companion_count={outing_companion_count}
                             isReqeustModal={MustFalse}
                           />
                         );

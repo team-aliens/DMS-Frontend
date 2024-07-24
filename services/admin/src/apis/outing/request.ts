@@ -1,6 +1,6 @@
 import { DAY } from '../remains';
 
-export interface ApplyOutingReqeustType {
+export interface ApplyOutingRequestType {
   student_name?: string;
   date: string;
 }
@@ -10,16 +10,16 @@ export interface OutingListExcelQueryStringType {
   endDates: string;
 }
 
-export interface OutingTypeReqeustType {
+export interface OutingTypeRequestType {
   titles: string[];
 }
 
-export interface AddOutingTypeReqeust {
+export interface AddOutingTypeRequest {
   outing_list_type_search_name?: string;
   title: string;
 }
 
-export interface SearchOutingTypeReqeust {
+export interface SearchOutingTypeRequest {
   outing_list_type: string;
 }
 

@@ -11,9 +11,9 @@ import { useModal } from '@/hooks/useModal';
 import styled from 'styled-components';
 import { useForm } from '@/hooks/useForm';
 import {
-  OutingTypeReqeustType,
-  SearchOutingTypeReqeust,
-  AddOutingTypeReqeust,
+  OutingTypeRequestType,
+  SearchOutingTypeRequest,
+  AddOutingTypeRequest,
 } from '@/apis/outing/request';
 import { useAddOutingType } from '@/apis/outing';
 import { useToast } from '@/hooks/useToast';
@@ -23,7 +23,7 @@ import { OutingItemBox } from '../main/DetailBox/OutingItemBox';
 interface PropsType {
   selectedTag: string;
   setSelectedTag: Dispatch<SetStateAction<string>>;
-  outingTypeList: OutingTypeReqeustType;
+  outingTypeList: OutingTypeRequestType;
   refetchOutingTypeList: () => void;
 }
 
@@ -50,13 +50,13 @@ export function ViewOutingTypeModal({
     state: addTypeList,
     setState: setAddTypeList,
     onHandleChange,
-  } = useForm<AddOutingTypeReqeust>({
+  } = useForm<AddOutingTypeRequest>({
     outing_list_type_search_name: '',
     title: '',
   });
 
   const { state: searchType, onHandleChange: searchHandleChange } =
-    useForm<SearchOutingTypeReqeust>({
+    useForm<SearchOutingTypeRequest>({
       outing_list_type: '',
     });
 

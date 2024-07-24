@@ -64,9 +64,9 @@ function Info({ label, ...props }: InfoDataProps) {
           {props.text}
         </_Tag>
       ) : (
-        <_DetailDelayWrapper>
+        <div>
           <_Detail>{props.detail}</_Detail>
-        </_DetailDelayWrapper>
+        </div>
       )}
     </_DataInfo>
   );
@@ -83,8 +83,6 @@ const _DataInfo = styled.div`
   gap: 20px;
   align-items: center;
 `;
-
-const _DetailDelayWrapper = styled.div``;
 
 const _Detail = styled.p`
   display: flex;

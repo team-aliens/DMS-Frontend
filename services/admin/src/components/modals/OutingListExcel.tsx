@@ -49,7 +49,7 @@ export default function OutingListExcel({ todayDate }: IProps) {
   const startDateInput = `${timeState.startYear}${timeState.startMonth}${timeState.startDays}`;
   const endDateInput = `${timeState.endYear}${timeState.endMonth}${timeState.endDays}`;
 
-  const startDate = regexFunction(startDateInput) || '2024-04-01';
+  const startDate = regexFunction(startDateInput) || '2024-06-01';
   const endDate = regexFunction(endDateInput) || todayDate;
 
   const outingListExcel = useGetOutingListExcel({
@@ -69,7 +69,7 @@ export default function OutingListExcel({ todayDate }: IProps) {
       inputList={[
         <>
           <Text size="bodyS" color="error">
-            값을 입력하지 않으면 4월 1일 ~ <strong>오늘 날짜</strong>로 입력
+            값을 입력하지 않으면 6월 1일 ~ <strong>설정한 날짜</strong>로 입력
             됩니다.
           </Text>
           <_TimeWrapper>

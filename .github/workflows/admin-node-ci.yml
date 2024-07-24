@@ -49,4 +49,4 @@ jobs:
               run: yarn install --immutable --immutable-cache
 
             - name: Build Admin Service
-              run: yarn workspace @service/admin build
+              run: yarn workspace service/admin build

@@ -130,8 +130,6 @@ export const fetchOutingTimeSetting = async (
   await instance.post(`${router}/available-time`, body);
 };
 
-type ResponseTypes = Awaited<ReturnType<typeof fetchOutingTimeSetting>>;
-
 /** 외출 가능 시간 수정 */
 export const editOutingApplicationTime = async (
   availableTimeId: string,
@@ -156,9 +154,3 @@ export const deleteOutingApplicationTime = async (
 export const getOutingApplicationTime = async (dayOfWeek: DAY) => {
   return await instance.get(`${router}/available-time?dayOfWeek=${dayOfWeek}`);
 };
-
-interface Person {
-  name: string;
-  age: number;
-  language: string;
-}

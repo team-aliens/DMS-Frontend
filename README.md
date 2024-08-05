@@ -1,17 +1,16 @@
 ![png](https://user-images.githubusercontent.com/68860610/233824618-8b764a7f-51dc-41ca-aa84-fd9ee3b76849.png)
 
-# DMS
+## DMS
 
 DMS는 Dormitory Management System의 약자로, 학교와 학생의 기숙사 생활을 편리하게 하기 위한 서비스입니다.
 저희는 학생들의 편리한 기숙사 생활을 위한 기능을 제공합니다.
 
 DMS는 기숙사를 위한 편의 시스템을 목표로 하고 있기 때문에, 사용자의 의견을 적극 수용하여 기숙사 생활을 개선하는 데 전념하고 있습니다.
 
-**DMS Admin**은 사감 선생님을 위한 웹 서비스 입니다. 사감선생님과 학생들의 의견에 귀기울이며 노력하고 유지보수 하며 개선하기 위해 노력합니다.
+## DMS-FrontEnd
+**Team aliens의 DMS-FrontEnd 레포지토리 입니다.** <br />
 
-# DMS-FrontEnd
-
-**Team aliens의 DMS-FrontEnd 레포지토리 입니다.**
+**DMS Admin(FrontEnd)는** 사감 선생님을 위한 웹 서비스 입니다. 사감선생님의 의견에 귀기울이며 서비스를 개선 및 유지보수하며 더 나은 서비스를 위해 노력합니다.
 
 ## 서비스 소개
 ### 홈 & 마이페이지

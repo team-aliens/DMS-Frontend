@@ -42,3 +42,5 @@ yarn install
 ```
 yarn workspace @service/admin dev
 ````
+### 개발 wiki 바로가기
+> https://github.com/team-aliens/DMS-Frontend/wiki

@@ -5,9 +5,11 @@ import { useModal } from '@/hooks/useModal';
 import OutingTimeModal from '../../components/outings/OutingTimeModal';
 import OutingAddTimeModal from '@/components/outings/OutingAddTimeModal';
 import { Link } from 'react-router-dom';
+import OutingDisabledTime from '@/components/outings/OutingDisabledTime';
 
 export function OutingOptions() {
   const { selectModal, closeModal, modalState } = useModal();
+
   return (
     <>
       <_Wrapper>
@@ -29,6 +31,12 @@ export function OutingOptions() {
         </_ApplyAbleTime>
         <div className="buttonWrapper">
           <Button
+            color="gray"
+            onClick={() => selectModal('OUTING_DISABLED_TIME')}
+          >
+            외출 비활성화
+          </Button>
+          <Button
             kind="outline"
             color="gray"
             onClick={() => selectModal('OUTING_ADD_TIME')}
@@ -44,6 +52,9 @@ export function OutingOptions() {
       {modalState.selectedModal === 'OUTING_TIME' && <OutingTimeModal />}
       {modalState.selectedModal === 'OUTING_ADD_TIME' && (
         <OutingAddTimeModal closeModal={closeModal} />
+      )}
+      {modalState.selectedModal === 'OUTING_DISABLED_TIME' && (
+        <OutingDisabledTime />
       )}
     </>
   );

@@ -6,13 +6,9 @@ import OutingTimeModal from '../../components/outings/OutingTimeModal';
 import OutingAddTimeModal from '@/components/outings/OutingAddTimeModal';
 import { Link } from 'react-router-dom';
 import OutingDisabledTime from '@/components/outings/OutingDisabledTime';
-import { useState } from 'react';
 
 export function OutingOptions() {
   const { selectModal, closeModal, modalState } = useModal();
-  const [selectedOutingTimeId, setSelectedOutingTimeId] = useState<
-    string | null
-  >(null);
 
   return (
     <>

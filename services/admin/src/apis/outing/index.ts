@@ -153,3 +153,12 @@ export const deleteOutingApplicationTime = async (
 export const getOutingApplicationTime = async (dayOfWeek: DAY) => {
   return await instance.get(`${router}/available-time?dayOfWeek=${dayOfWeek}`);
 };
+
+/** 외출 가능 시간 활성 여부 변경 */
+export const updateOutingApplicationAction = async (
+  outingAvailableTimeId: string,
+) => {
+  return await instance.patch(
+    `${router}/available-time/toggle/${outingAvailableTimeId}`,
+  );
+};

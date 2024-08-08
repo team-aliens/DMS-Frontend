@@ -16,7 +16,6 @@ const Header = ({ date, onArrowClick }: HeaderProps) => {
   const { selectModal, modalState } = useModal();
   const downloadExcelModal = () => selectModal('OUTING_EXCEL');
   const openOutingListType = () => selectModal('OUTING_TYPE');
-  const { toastDispatch } = useToast();
 
   return (
     <_Container>

@@ -6,9 +6,19 @@ import OutingTimeModal from '../../components/outings/OutingTimeModal';
 import OutingAddTimeModal from '@/components/outings/OutingAddTimeModal';
 import { Link } from 'react-router-dom';
 import OutingDisabledTime from '@/components/outings/OutingDisabledTime';
+import { useToast } from '@/hooks/useToast';
 
 export function OutingOptions() {
   const { selectModal, closeModal, modalState } = useModal();
+  const { toastDispatch } = useToast();
+
+  const handleButton = () => {
+    toastDispatch({
+      actionType: 'APPEND_TOAST',
+      toastType: 'INFORMATION',
+      message: '개발 중인 기능입니다.',
+    });
+  };
 
   return (
     <>
@@ -24,7 +34,8 @@ export function OutingOptions() {
             kind="text"
             color="primary"
             margin={['left', 'auto']}
-            onClick={() => selectModal('OUTING_TIME')}
+            // onClick={() => selectModal('OUTING_TIME')}
+            onClick={handleButton}
           >
             작성
           </Button>

@@ -1,6 +1,6 @@
 import { Text } from '@team-aliens/design-system';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
-import { OutingOptions } from './OutingOptions';
+import { OutingOptionsHeader } from './OutingOptionsHeader';
 import styled from 'styled-components';
 import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 import { useModal } from '@/hooks/useModal';
@@ -15,7 +15,7 @@ export function OutingTimeSet() {
   const [selectedOutingTimeId, setSelectedOutingTimeId] = useState<
     string | null
   >(null);
-  const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
+  const daysOfWeek: string[] = ['월', '화', '수', '목', '금', '토', '일'];
   const daysOfWeekMap: { [key: string]: DAY } = {
     월: 'MONDAY',
     화: 'TUESDAY',
@@ -46,7 +46,7 @@ export function OutingTimeSet() {
     fetchOutingTimes();
   }, []);
 
-  const getTimeForDay = (day: DAY) => {
+  const getTimeForDay = (day: string) => {
     const outingTime = outingTimes.find(
       (time) => time.day_of_week === daysOfWeekMap[day],
     );
@@ -55,7 +55,7 @@ export function OutingTimeSet() {
       : '00:00 ~ 00:00';
   };
 
-  const getIdForDay = (day: DAY) => {
+  const getIdForDay = (day: string) => {
     const outingTime = outingTimes.find(
       (time) => time.day_of_week === daysOfWeekMap[day],
     );
@@ -69,25 +69,23 @@ export function OutingTimeSet() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        <OutingOptions />
+        <OutingOptionsHeader />
         <_WeeklyBox>
-          <>
-            {daysOfWeek.map((item: DAY) => (
-              <_DayOfTheWeek key={item}>
-                <_Text>{item}</_Text>
-                {item !== 'SUNDAY' && <_Line />}
-                <div>
-                  <_TimeBox
-                    onClick={() => onClickOutingEditTime(getIdForDay(item))}
-                  >
-                    <Text color="gray10" size="bodyS">
-                      {getTimeForDay(item)}
-                    </Text>
-                  </_TimeBox>
-                </div>
-              </_DayOfTheWeek>
-            ))}
-          </>
+          {daysOfWeek.map((item) => (
+            <_DayOfTheWeek key={item}>
+              <_Text>{item}</_Text>
+              {item !== '일' && <_Line />}
+              <div>
+                <_TimeBox
+                  onClick={() => onClickOutingEditTime(getIdForDay(item))}
+                >
+                  <Text color="gray10" size="bodyS">
+                    {getTimeForDay(item)}
+                  </Text>
+                </_TimeBox>
+              </div>
+            </_DayOfTheWeek>
+          ))}
         </_WeeklyBox>
       </_Wrapper>
       {modalState.selectedModal === 'OUTING_EDIT_TIME' &&
@@ -138,7 +136,7 @@ const _DayOfTheWeek = styled.div`
 const _Line = styled.div`
   background: #ddd;
   width: 1px;
-  height: 268px;
+  height: 368px;
   position: absolute;
   right: 0;
 `;

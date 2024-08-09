@@ -23,6 +23,7 @@ export function OutingTimeSet() {
   const [selectedOutingTimeId, setSelectedOutingTimeId] = useState<
     string | null
   >(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const daysOfWeek: string[] = ['월', '화', '수', '목', '금', '토', '일'];
   const daysOfWeekMap: { [key: string]: DAY } = {
     월: 'MONDAY',
@@ -61,11 +62,11 @@ export function OutingTimeSet() {
     return outingTimes.filter((time) => time.day_of_week === day);
   };
 
-  const onClickOutingEditTime = (id: string | null) => {
-    if (id) {
-      setSelectedOutingTimeId(id);
-      selectModal('OUTING_EDIT_TIME');
-    }
+  const onClickOutingEditTime = (id: string | null, day: string) => {
+    id &&
+      (setSelectedOutingTimeId(id),
+      setSelectedDay(daysOfWeekMap[day]),
+      selectModal('OUTING_EDIT_TIME'));
   };
 
   return (
@@ -82,7 +83,7 @@ export function OutingTimeSet() {
                   {getTimesForDay(daysOfWeekMap[day]).map((outingTime) => (
                     <_TimeBox
                       key={outingTime.id}
-                      onClick={() => onClickOutingEditTime(outingTime.id)}
+                      onClick={() => onClickOutingEditTime(outingTime.id, day)}
                       isDisabled={outingTime.is_disabled}
                     >
                       <Text color="gray10" size="bodyS">
@@ -101,6 +102,7 @@ export function OutingTimeSet() {
           <OutingEditTimeModal
             closeModal={closeModal}
             timeSlotId={selectedOutingTimeId}
+            selectedDay={selectedDay}
           />
         )}
       {modalState.selectedModal === 'DELETE_OUTING_TIME' &&

@@ -64,7 +64,6 @@ export const useCreateStudyRoom = (body: CreateStudyRoomRequest) => {
       },
       onError: (error: unknown) => {
         const customErr = error as CustomError;
-        console.log(customErr.response.data.field_error);
 
         if (customErr.response.data) {
           switch (customErr.response.status) {

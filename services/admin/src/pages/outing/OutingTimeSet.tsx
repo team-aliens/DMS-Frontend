@@ -1,6 +1,6 @@
 import { Text } from '@team-aliens/design-system';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
-import { OutingOptions } from './OutingOptions';
+import { OutingOptionsHeader } from './OutingOptionsHeader';
 import styled from 'styled-components';
 import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 import { useModal } from '@/hooks/useModal';
@@ -23,7 +23,7 @@ export function OutingTimeSet() {
   const [selectedOutingTimeId, setSelectedOutingTimeId] = useState<
     string | null
   >(null);
-  const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
+  const daysOfWeek: string[] = ['월', '화', '수', '목', '금', '토', '일'];
   const daysOfWeekMap: { [key: string]: DAY } = {
     월: 'MONDAY',
     화: 'TUESDAY',
@@ -71,7 +71,7 @@ export function OutingTimeSet() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        <OutingOptions />
+        <OutingOptionsHeader />
         <_WeeklyBox>
           <>
             {daysOfWeek.map((day) => (
@@ -144,7 +144,7 @@ const _DayOfTheWeek = styled.div`
 const _Line = styled.div`
   background: #ddd;
   width: 1px;
-  height: 268px;
+  height: 368px;
   position: absolute;
   right: 0;
 `;

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import OutingDisabledTime from '@/components/outings/OutingDisabledTime';
 import { useToast } from '@/hooks/useToast';
 
-export function OutingOptions() {
+export function OutingOptionsHeader() {
   const { selectModal, closeModal, modalState } = useModal();
   const { toastDispatch } = useToast();
 

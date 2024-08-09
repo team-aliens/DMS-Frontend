@@ -10,7 +10,7 @@ import { dayLongToArray } from '@/utils/timeToArray';
 interface PropsType {
   closeModal: () => void;
   timeSlotId?: string;
-  selectedDay: string;
+  selectedDay?: string;
 }
 
 interface FormState {

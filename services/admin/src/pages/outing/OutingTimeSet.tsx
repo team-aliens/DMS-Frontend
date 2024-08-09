@@ -10,7 +10,8 @@ import { useEffect, useState } from 'react';
 import { DAY } from '@/apis/remains';
 import { OutingApplicationTimeResponse } from '@/apis/outing/response';
 
-interface IsDisabledApplicationTime extends OutingApplicationTimeResponse {
+export interface IsDisabledApplicationTime
+  extends OutingApplicationTimeResponse {
   is_disabled: boolean;
 }
 
@@ -39,6 +40,7 @@ export function OutingTimeSet() {
     [],
   );
 
+  const [day, setDay] = useState<any[]>([]);
   useEffect(() => {
     const fetchOutingTimes = async () => {
       const response = await Promise.all(
@@ -46,13 +48,17 @@ export function OutingTimeSet() {
           getOutingApplicationTime(day),
         ),
       );
+
       const times = response.flatMap((response) =>
         response.data.outing_available_times.map((time) => ({
           ...time,
           is_disabled: false,
         })),
       );
+
       setOutingTimes(times);
+      const ids = times.map((item) => item.id);
+      setDay(ids);
     };
 
     fetchOutingTimes();
@@ -72,7 +78,11 @@ export function OutingTimeSet() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        <OutingOptionsHeader />
+        <OutingOptionsHeader
+          timeSlotId={selectedOutingTimeId}
+          outingTimesProps={outingTimes}
+          SelectedDay={selectedDay}
+        />
         <_WeeklyBox>
           <>
             {daysOfWeek.map((day) => (

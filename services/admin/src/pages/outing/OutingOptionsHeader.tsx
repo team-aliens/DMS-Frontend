@@ -9,6 +9,7 @@ import OutingDisabledTime from '@/components/outings/OutingDisabledTime';
 import Slider, { Settings } from 'react-slick';
 import { IsDisabledApplicationTime } from './OutingTimeSet';
 import { useToast } from '@/hooks/useToast';
+import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 
 interface PropsType {
   timeSlotId: string | null;
@@ -121,6 +122,13 @@ export function OutingOptionsHeader({
       {modalState.selectedModal === 'OUTING_DISABLED_TIME' && (
         <OutingDisabledTime />
       )}
+      {/* {modalState.selectedModal === 'OUTING_EDIT_TIME' && (
+        <OutingEditTimeModal
+          selectedDay={SelectedDay}
+          closeModal={closeModal}
+          timeSlotId={timeSlotId}
+        />
+      )} */}
     </>
   );
 }

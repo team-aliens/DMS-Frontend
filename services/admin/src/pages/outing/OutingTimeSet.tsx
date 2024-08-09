@@ -10,6 +10,14 @@ import { useEffect, useState } from 'react';
 import { DAY } from '@/apis/remains';
 import { OutingApplicationTimeResponse } from '@/apis/outing/response';
 
+interface IsDisabledApplicationTime extends OutingApplicationTimeResponse {
+  is_disabled: boolean;
+}
+
+interface TimeBoxProps {
+  isDisabled: boolean;
+}
+
 export function OutingTimeSet() {
   const { selectModal, closeModal, modalState } = useModal();
   const [selectedOutingTimeId, setSelectedOutingTimeId] = useState<
@@ -26,9 +34,9 @@ export function OutingTimeSet() {
     일: 'SUNDAY',
   };
 
-  const [outingTimes, setOutingTimes] = useState<
-    OutingApplicationTimeResponse[]
-  >([]);
+  const [outingTimes, setOutingTimes] = useState<IsDisabledApplicationTime[]>(
+    [],
+  );
 
   useEffect(() => {
     const fetchOutingTimes = async () => {
@@ -37,8 +45,11 @@ export function OutingTimeSet() {
           getOutingApplicationTime(day),
         ),
       );
-      const times = response.flatMap(
-        (response) => response.data.outing_available_times,
+      const times = response.flatMap((response) =>
+        response.data.outing_available_times.map((time) => ({
+          ...time,
+          is_disabled: false,
+        })),
       );
       setOutingTimes(times);
     };
@@ -46,24 +57,15 @@ export function OutingTimeSet() {
     fetchOutingTimes();
   }, []);
 
-  const getTimeForDay = (day: string) => {
-    const outingTime = outingTimes.find(
-      (time) => time.day_of_week === daysOfWeekMap[day],
-    );
-    return outingTime
-      ? `${outingTime.outing_time} ~ ${outingTime.arrival_time}`
-      : '00:00 ~ 00:00';
-  };
-
-  const getIdForDay = (day: string) => {
-    const outingTime = outingTimes.find(
-      (time) => time.day_of_week === daysOfWeekMap[day],
-    );
-    return outingTime ? outingTime.id : null;
+  const getTimesForDay = (day: DAY) => {
+    return outingTimes.filter((time) => time.day_of_week === day);
   };
 
   const onClickOutingEditTime = (id: string | null) => {
-    id && (setSelectedOutingTimeId(id), selectModal('OUTING_EDIT_TIME'));
+    if (id) {
+      setSelectedOutingTimeId(id);
+      selectModal('OUTING_EDIT_TIME');
+    }
   };
 
   return (
@@ -71,21 +73,27 @@ export function OutingTimeSet() {
       <_Wrapper>
         <OutingOptionsHeader />
         <_WeeklyBox>
-          {daysOfWeek.map((item) => (
-            <_DayOfTheWeek key={item}>
-              <_Text>{item}</_Text>
-              {item !== '일' && <_Line />}
-              <div>
-                <_TimeBox
-                  onClick={() => onClickOutingEditTime(getIdForDay(item))}
-                >
-                  <Text color="gray10" size="bodyS">
-                    {getTimeForDay(item)}
-                  </Text>
-                </_TimeBox>
-              </div>
-            </_DayOfTheWeek>
-          ))}
+          <>
+            {daysOfWeek.map((day) => (
+              <_DayOfTheWeek key={day}>
+                <_Text>{day}</_Text>
+                {day !== '일' && <_Line />}
+                <div>
+                  {getTimesForDay(daysOfWeekMap[day]).map((outingTime) => (
+                    <_TimeBox
+                      key={outingTime.id}
+                      onClick={() => onClickOutingEditTime(outingTime.id)}
+                      isDisabled={outingTime.is_disabled}
+                    >
+                      <Text color="gray10" size="bodyS">
+                        {outingTime.outing_time} ~ {outingTime.arrival_time}
+                      </Text>
+                    </_TimeBox>
+                  ))}
+                </div>
+              </_DayOfTheWeek>
+            ))}
+          </>
         </_WeeklyBox>
       </_Wrapper>
       {modalState.selectedModal === 'OUTING_EDIT_TIME' &&
@@ -148,12 +156,12 @@ const _Text = styled.p`
   color: #999;
 `;
 
-const _TimeBox = styled.div`
+const _TimeBox = styled.div<TimeBoxProps>`
   width: 112px;
   height: 31px;
   flex-shrink: 0;
   border-radius: 5px;
-  background: #fff;
+  background: ${({ isDisabled }) => (isDisabled ? '#FFCDD2' : '#fff')};
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   display: flex;

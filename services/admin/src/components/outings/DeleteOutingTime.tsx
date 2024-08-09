@@ -22,6 +22,7 @@ export default function DeleteOutingTime({
           message: '외출 시간이 성공적으로 삭제되었습니다.',
         });
         closeModal();
+        window.location.reload();
       })
       .catch(() => {
         toastDispatch({

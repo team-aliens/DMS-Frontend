@@ -89,7 +89,6 @@ export default function OutingEditTimeModal({
   const onClickDelete = () => {
     closeModal();
     selectModal('DELETE_OUTING_TIME');
-    window.location.reload();
   };
 
   const onChange = (name: string, value: string) => {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { MegaPhone, Button } from '@team-aliens/design-system';
 import { Divider } from '../../components/main/Divider';
 import styled from 'styled-components';
@@ -9,7 +8,6 @@ import { Link } from 'react-router-dom';
 import OutingDisabledTime from '@/components/outings/OutingDisabledTime';
 import Slider, { Settings } from 'react-slick';
 import { IsDisabledApplicationTime } from './OutingTimeSet';
-import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 import { useToast } from '@/hooks/useToast';
 
 interface PropsType {
@@ -123,13 +121,6 @@ export function OutingOptionsHeader({
       {modalState.selectedModal === 'OUTING_DISABLED_TIME' && (
         <OutingDisabledTime />
       )}
-      {modalState.selectedModal === 'OUTING_EDIT_TIME' && (
-        <OutingEditTimeModal
-          selectedDay={SelectedDay}
-          closeModal={closeModal}
-          timeSlotId={timeSlotId}
-        />
-      )}
     </>
   );
 }
@@ -169,9 +160,4 @@ const _SwiperSlide = styled.div`
   white-space: nowrap !important;
   padding-left: 220px;
   gap: 20px;
-`;
-
-const _TextStyle = styled.span`
-  font-weight: 600;
-  color: rgb(61, 138, 255);
 `;

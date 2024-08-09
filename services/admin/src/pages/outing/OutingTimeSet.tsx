@@ -40,7 +40,6 @@ export function OutingTimeSet() {
     [],
   );
 
-  const [day, setDay] = useState<any[]>([]);
   useEffect(() => {
     const fetchOutingTimes = async () => {
       const response = await Promise.all(
@@ -55,10 +54,6 @@ export function OutingTimeSet() {
           is_disabled: false,
         })),
       );
-
-      setOutingTimes(times);
-      const ids = times.map((item) => item.id);
-      setDay(ids);
     };
 
     fetchOutingTimes();

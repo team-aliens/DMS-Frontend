@@ -24,7 +24,7 @@ export interface SearchOutingTypeRequest {
 }
 
 export interface SettingOutingRequestType {
-  day_of_week: DAY;
+  day_of_week: string;
   outing_time: string;
   arrival_time: string;
 }

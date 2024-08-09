@@ -49,9 +49,11 @@ export const updateOutingApplicationStatus = async (
   outingApplicationId: string,
   outing_status: OutingStatusType,
 ) => {
-  return await instance.patch(
-    `${router}/${outingApplicationId}?outing_status=${outing_status}`,
-  );
+  return await instance
+    .patch(`${router}/${outingApplicationId}?outing_status=${outing_status}`)
+    .then(() => {
+      window.location.reload();
+    });
 };
 
 /** 외출 유형 조회 */
@@ -151,7 +153,7 @@ export const deleteOutingApplicationTime = async (
 };
 
 /** 외출 가능 시간 조회 */
-export const getOutingApplicationTime = async (dayOfWeek: DAY) => {
+export const getOutingApplicationTime = async (dayOfWeek: DAY | string) => {
   return await instance.get(`${router}/available-time?dayOfWeek=${dayOfWeek}`);
 };
 

@@ -79,7 +79,7 @@ export const useSetOutingTime = (body: SettingOutingRequestType) => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
         toastType: 'SUCCESS',
-        message: '잔류 신청 시간이 설정되었습니다.',
+        message: '외출 시간이 추가되었습니다.',
       });
       setTimeout(() => {
         window.location.reload();

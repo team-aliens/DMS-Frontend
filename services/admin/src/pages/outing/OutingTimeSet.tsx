@@ -39,7 +39,6 @@ export function OutingTimeSet() {
   const [outingTimes, setOutingTimes] = useState<IsDisabledApplicationTime[]>(
     [],
   );
-  const [day, setDay] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchOutingTimes = async () => {
@@ -56,8 +55,6 @@ export function OutingTimeSet() {
         })),
       );
       setOutingTimes(times);
-      const ids = times.map((item) => item.id);
-      setDay(ids);
     };
 
     fetchOutingTimes();
@@ -138,7 +135,7 @@ const _WeeklyBox = styled.div`
   flex-shrink: 0;
   border-radius: 8px;
   background: #fff;
-  margin-top: 100px;
+  margin-top: 10vh;
   padding-top: 15px;
   box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.1);
   display: flex;

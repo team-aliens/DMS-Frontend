@@ -30,7 +30,6 @@ const dayOfWeekMessages = {
 export function OutingOptionsHeader({
   timeSlotId,
   outingTimesProps,
-  SelectedDay,
 }: PropsType) {
   const { selectModal, closeModal, modalState } = useModal();
   const { toastDispatch } = useToast();
@@ -122,13 +121,6 @@ export function OutingOptionsHeader({
       {modalState.selectedModal === 'OUTING_DISABLED_TIME' && (
         <OutingDisabledTime />
       )}
-      {/* {modalState.selectedModal === 'OUTING_EDIT_TIME' && (
-        <OutingEditTimeModal
-          selectedDay={SelectedDay}
-          closeModal={closeModal}
-          timeSlotId={timeSlotId}
-        />
-      )} */}
     </>
   );
 }
@@ -146,11 +138,10 @@ const _Wrapper = styled.div`
 const _ApplyAbleTime = styled.div`
   display: flex;
   align-items: center;
-  min-width: 500px;
-  height: 55px;
+  min-width: 460px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.color.gray1};
-  padding-left: 20px;
+  padding-left: 15px;
   box-shadow: 0 1px 20px rgba(238, 238, 238, 0.8);
   overflow: hidden;
 `;
@@ -159,13 +150,10 @@ const _SwiperSlide = styled.div`
   display: flex !important;
   justify-content: center;
   align-items: center;
-  font-weight: 500;
   font-size: 16px;
-  line-height: 140%;
-  text-align: center;
   color: #999999;
   height: 55px;
-  white-space: nowrap !important;
-  padding-left: 220px;
+  white-space: nowrap;
+  margin-left: 220px;
   gap: 20px;
 `;

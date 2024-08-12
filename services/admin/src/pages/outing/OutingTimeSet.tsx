@@ -39,7 +39,6 @@ export function OutingTimeSet() {
   const [outingTimes, setOutingTimes] = useState<IsDisabledApplicationTime[]>(
     [],
   );
-  const [disabledTimeId, setDisabledTimeId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOutingTimes = async () => {
@@ -57,13 +56,6 @@ export function OutingTimeSet() {
       setOutingTimes(times);
     };
     fetchOutingTimes();
-  }, []);
-
-  useEffect(() => {
-    const storedDisabledTimeId = localStorage.getItem('disabledtimeId');
-    if (storedDisabledTimeId) {
-      setDisabledTimeId(storedDisabledTimeId);
-    }
   }, []);
 
   const getTimesForDay = (day: DAY) => {
@@ -96,7 +88,7 @@ export function OutingTimeSet() {
                     <_TimeBox
                       key={outingTime.id}
                       onClick={() => onClickOutingEditTime(outingTime.id, day)}
-                      isDisabled={outingTime.id === disabledTimeId}
+                      isDisabled={outingTime.enabled}
                     >
                       <_TimeText>
                         {outingTime.outing_time} ~ {outingTime.arrival_time}

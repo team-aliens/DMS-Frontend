@@ -161,9 +161,7 @@ export function Outing() {
                     name="outing_done_option_name"
                     value={outingDoneOptionState.outing_done_option_name}
                     onChange={onHandleChanges}
-                    disabled={
-                      approvedStatusLists && approvedStatusLists.length === 0
-                    }
+                    disabled={doneStatusLists && doneStatusLists.length === 0}
                   />
                 </_SearchWrapper>
                 {doneStatusLists && doneStatusLists.length === 0 ? (

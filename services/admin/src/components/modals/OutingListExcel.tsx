@@ -165,5 +165,5 @@ const _TimeWrapper = styled.div`
 
 const _DateWrapper = styled.div`
   position: absolute;
-  top: 590px;
+  top: 500px;
 `;

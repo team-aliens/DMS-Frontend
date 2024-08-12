@@ -8,6 +8,11 @@ import { useModal } from '@/hooks/useModal';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/useToast';
 
+interface Time {
+  id: number;
+  timeRange: string;
+}
+
 interface TimeButtonProps {
   isSelected: boolean;
 }
@@ -15,7 +20,7 @@ interface TimeButtonProps {
 export default function OutingDisabledTime() {
   const { closeModal } = useModal();
   const [selectedDay, setSelectedDay] = useState('');
-  const [disabledTimes, setDisabledTimes] = useState([]);
+  const [disabledTimes, setDisabledTimes] = useState<Time[]>([]);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const daysOfWeek = [
@@ -27,6 +32,7 @@ export default function OutingDisabledTime() {
     '토요일',
     '일요일',
   ];
+
   const daysOfWeekMap = {
     월요일: 'MONDAY',
     화요일: 'TUESDAY',
@@ -39,7 +45,7 @@ export default function OutingDisabledTime() {
 
   const { toastDispatch } = useToast();
 
-  const fetchDisabledTimes = (dayOfWeek) => {
+  const fetchDisabledTimes = (dayOfWeek: string) => {
     getOutingApplicationTime(dayOfWeek)
       .then((response) => {
         const times = response.data.outing_available_times.map((time) => ({
@@ -48,16 +54,16 @@ export default function OutingDisabledTime() {
         }));
         setDisabledTimes(times);
       })
-      .catch((error) => {
+      .catch(() => {
         setDisabledTimes([]);
       });
   };
 
-  const handleDayChange = (value) => {
+  const handleDayChange = (value: string) => {
     setSelectedDay(value);
   };
 
-  const handleTimeButtonClick = (id) => {
+  const handleTimeButtonClick = (id: number) => {
     setSelectedId(id);
   };
 
@@ -65,11 +71,14 @@ export default function OutingDisabledTime() {
     if (selectedDay && selectedId !== null) {
       updateOutingApplicationAction(selectedId.toString())
         .then(() => {
+          localStorage.setItem('disabledtimeId', selectedId.toString());
+
           toastDispatch({
             actionType: 'APPEND_TOAST',
             toastType: 'SUCCESS',
             message: '외출 시간이 성공적으로 비활성화되었습니다.',
           });
+          window.location.reload();
         })
         .catch(() => {
           toastDispatch({

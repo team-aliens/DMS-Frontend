@@ -39,6 +39,7 @@ export function OutingTimeSet() {
   const [outingTimes, setOutingTimes] = useState<IsDisabledApplicationTime[]>(
     [],
   );
+  const [disabledTimeId, setDisabledTimeId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOutingTimes = async () => {
@@ -47,7 +48,6 @@ export function OutingTimeSet() {
           getOutingApplicationTime(day),
         ),
       );
-
       const times = response.flatMap((response) =>
         response.data.outing_available_times.map((time) => ({
           ...time,
@@ -56,8 +56,14 @@ export function OutingTimeSet() {
       );
       setOutingTimes(times);
     };
-
     fetchOutingTimes();
+  }, []);
+
+  useEffect(() => {
+    const storedDisabledTimeId = localStorage.getItem('disabledtimeId');
+    if (storedDisabledTimeId) {
+      setDisabledTimeId(storedDisabledTimeId);
+    }
   }, []);
 
   const getTimesForDay = (day: DAY) => {
@@ -90,11 +96,11 @@ export function OutingTimeSet() {
                     <_TimeBox
                       key={outingTime.id}
                       onClick={() => onClickOutingEditTime(outingTime.id, day)}
-                      isDisabled={outingTime.is_disabled}
+                      isDisabled={outingTime.id === disabledTimeId}
                     >
-                      <Text color="gray10" size="bodyS">
+                      <_TimeText>
                         {outingTime.outing_time} ~ {outingTime.arrival_time}
-                      </Text>
+                      </_TimeText>
                     </_TimeBox>
                   ))}
                 </div>
@@ -169,11 +175,17 @@ const _TimeBox = styled.div<TimeBoxProps>`
   height: 31px;
   flex-shrink: 0;
   border-radius: 5px;
-  background: ${({ isDisabled }) => (isDisabled ? '#FFCDD2' : '#fff')};
+  color: ${({ isDisabled }) => (isDisabled ? '#999999' : '#000')};
+  background: ${({ isDisabled }) => (isDisabled ? '#F9F9F9' : '#fff')};
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  pointer-events: ${({ isDisabled }) => (isDisabled ? 'none' : 'auto')};
+`;
+
+const _TimeText = styled.div`
+  font-size: 14px;
 `;

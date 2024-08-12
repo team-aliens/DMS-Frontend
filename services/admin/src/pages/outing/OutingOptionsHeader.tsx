@@ -10,6 +10,7 @@ import Slider, { Settings } from 'react-slick';
 import { IsDisabledApplicationTime } from './OutingTimeSet';
 import { useToast } from '@/hooks/useToast';
 import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
+import { useState } from 'react';
 
 interface PropsType {
   timeSlotId: string | null;
@@ -67,8 +68,10 @@ export function OutingOptionsHeader({
 
     return (
       <>
-        {dayMessage} 외출 가능 시간은 {item.outing_time} ~ {item.arrival_time}{' '}
-        입니다.
+        <_Text>
+          {dayMessage} 외출 가능 시간은 {item.outing_time} ~ {item.arrival_time}{' '}
+          입니다.
+        </_Text>
         <Button
           kind="text"
           color="primary"
@@ -156,4 +159,8 @@ const _SwiperSlide = styled.div`
   white-space: nowrap;
   margin-left: 220px;
   gap: 20px;
+`;
+
+const _Text = styled.div`
+  font-size: 14px;
 `;

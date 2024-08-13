@@ -3397,7 +3397,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@eslint/eslintrc", "npm:2.0.3"],\
             ["@tanstack/react-query", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.29.12"],\
             ["@tanstack/react-query-devtools", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.29.12"],\
-            ["@team-aliens/design-system", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.5.2"],\
+            ["@team-aliens/design-system", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.5.4"],\
             ["@types/eslint", "npm:8.37.0"],\
             ["@types/file-saver", "npm:2.0.5"],\
             ["@types/jest", "npm:29.5.0"],\
@@ -3583,10 +3583,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["npm:1.5.2", {\
-          "packageLocation": "./.yarn/cache/@team-aliens-design-system-npm-1.5.2-f358543cad-9748d789ef.zip/node_modules/@team-aliens/design-system/",\
+        ["npm:1.5.4", {\
+          "packageLocation": "./.yarn/cache/@team-aliens-design-system-npm-1.5.4-44fc94bc60-ac4bd8b457.zip/node_modules/@team-aliens/design-system/",\
           "packageDependencies": [\
-            ["@team-aliens/design-system", "npm:1.5.2"]\
+            ["@team-aliens/design-system", "npm:1.5.4"]\
           ],\
           "linkType": "SOFT"\
         }],\
@@ -3616,10 +3616,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "HARD"\
         }],\
-        ["virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.5.2", {\
-          "packageLocation": "./.yarn/__virtual__/@team-aliens-design-system-virtual-8d9721e849/0/cache/@team-aliens-design-system-npm-1.5.2-f358543cad-9748d789ef.zip/node_modules/@team-aliens/design-system/",\
+        ["virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.5.4", {\
+          "packageLocation": "./.yarn/__virtual__/@team-aliens-design-system-virtual-cc71b3e0aa/0/cache/@team-aliens-design-system-npm-1.5.4-44fc94bc60-ac4bd8b457.zip/node_modules/@team-aliens/design-system/",\
           "packageDependencies": [\
-            ["@team-aliens/design-system", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.5.2"],\
+            ["@team-aliens/design-system", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.5.4"],\
             ["@types/react", "npm:18.2.7"],\
             ["@types/react-dom", "npm:18.0.11"],\
             ["@types/react-router-dom", null],\

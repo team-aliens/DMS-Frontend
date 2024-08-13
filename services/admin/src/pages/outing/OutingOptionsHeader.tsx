@@ -54,6 +54,15 @@ export function OutingOptionsHeader({
     if (!dayMessage) return null;
 
     const handleClick = () => {
+      if (!item.enabled) {
+        toastDispatch({
+          toastType: 'ERROR',
+          actionType: 'APPEND_TOAST',
+          message: '비활성화된 외출 시간대 입니다.',
+        });
+        return;
+      }
+
       if (timeSlotId !== null && timeSlotId === item.id) {
         selectModal('OUTING_EDIT_TIME');
       } else {

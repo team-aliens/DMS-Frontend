@@ -24,23 +24,23 @@ export default function OutingDisabledTime() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const daysOfWeek = [
+    '일요일',
     '월요일',
     '화요일',
     '수요일',
     '목요일',
     '금요일',
     '토요일',
-    '일요일',
   ];
 
   const daysOfWeekMap = {
+    일요일: 'SUNDAY',
     월요일: 'MONDAY',
     화요일: 'TUESDAY',
     수요일: 'WEDNESDAY',
     목요일: 'THURSDAY',
     금요일: 'FRIDAY',
     토요일: 'SATURDAY',
-    일요일: 'SUNDAY',
   };
 
   const { toastDispatch } = useToast();
@@ -72,13 +72,14 @@ export default function OutingDisabledTime() {
       updateOutingApplicationAction(selectedId.toString())
         .then(() => {
           localStorage.setItem('disabledtimeId', selectedId.toString());
-
           toastDispatch({
             actionType: 'APPEND_TOAST',
             toastType: 'SUCCESS',
             message: '외출 시간이 성공적으로 비활성화되었습니다.',
           });
-          window.location.reload();
+          setTimeout(() => {
+            window.location.reload();
+          }, 1200);
         })
         .catch(() => {
           toastDispatch({

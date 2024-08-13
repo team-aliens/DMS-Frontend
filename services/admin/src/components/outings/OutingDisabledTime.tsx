@@ -71,11 +71,10 @@ export default function OutingDisabledTime() {
     if (selectedDay && selectedId !== null) {
       updateOutingApplicationAction(selectedId.toString())
         .then(() => {
-          localStorage.setItem('disabledtimeId', selectedId.toString());
           toastDispatch({
             actionType: 'APPEND_TOAST',
             toastType: 'SUCCESS',
-            message: '외출 시간이 성공적으로 비활성화되었습니다.',
+            message: '외출 상태가 변경되었습니다.',
           });
           setTimeout(() => {
             window.location.reload();
@@ -106,7 +105,7 @@ export default function OutingDisabledTime() {
   return (
     <>
       <Modal
-        title="외출 비활성화"
+        title="외출 상태 관리"
         inputList={[
           <>
             <_Container>
@@ -132,7 +131,7 @@ export default function OutingDisabledTime() {
                     </_TimeButton>
                   ))
                 ) : (
-                  <_NoTimes>외출 비활성화를 할 시간이 없습니다.</_NoTimes>
+                  <_NoTimes>외출 상태를 변경할 요일을 선택해 주세요.</_NoTimes>
                 )}
               </_ButtonWrapper>
             </div>
@@ -140,7 +139,7 @@ export default function OutingDisabledTime() {
         ]}
         buttonList={[
           <Button kind="outline" color="gray" onClick={handleOutingDisable}>
-            외출 비활성화
+            외출 상태 변경
           </Button>,
         ]}
         close={closeModal}

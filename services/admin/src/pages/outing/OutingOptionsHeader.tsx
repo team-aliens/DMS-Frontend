@@ -111,7 +111,7 @@ export function OutingOptionsHeader({
             color="gray"
             onClick={() => selectModal('OUTING_DISABLED_TIME')}
           >
-            외출 비활성화
+            외출 상태 관리
           </Button>
           <Button
             kind="outline"

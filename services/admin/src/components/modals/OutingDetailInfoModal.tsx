@@ -3,17 +3,15 @@ import styled from 'styled-components';
 import { OutingInfoWrapper } from '../outings/OutingDataInfo';
 import { OutingStudentList } from '../main/DetailBox/OutingStudentList';
 import { useModal } from '@/hooks/useModal';
-import { SelectedModalType } from '@/context/modal';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useOutingApplicationDetail } from '@/hooks/useOutingApi';
-import { fetchOutingApplicationDetail } from '@/apis/outing';
+import { Dispatch, SetStateAction } from 'react';
 
 interface PropsType {
   tagColor: string;
   tagBackGroundColor: string;
   text: string;
-  SelectedModalType?: SelectedModalType;
 }
 
 export function OutingDetailInfoModal({
@@ -21,7 +19,7 @@ export function OutingDetailInfoModal({
   tagBackGroundColor,
   text,
 }: PropsType) {
-  const { closeModal, selectModal, modalState } = useModal();
+  const { closeModal, selectModal } = useModal();
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: outingDetailInfo } = useOutingApplicationDetail(id);
@@ -72,12 +70,12 @@ export function OutingDetailInfoModal({
       <_OutingStudentListWrapper>
         <OutingStudentList detailInfoData={outingDetailInfo} />
       </_OutingStudentListWrapper>
-      <_OutingReasonWrapper>
+      <div>
         <Text size="bodyM" color="gray6">
           사유
         </Text>
         <ReasonWrapper>{outingDetailInfo?.reason}</ReasonWrapper>
-      </_OutingReasonWrapper>
+      </div>
     </Modal>
   );
 }
@@ -89,8 +87,6 @@ const _OutingStudentListWrapper = styled.div`
   overflow: scroll;
   height: 150px;
 `;
-
-const _OutingReasonWrapper = styled.div``;
 
 const OutingInfoContainer = styled.div`
   margin-bottom: 15px;

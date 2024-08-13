@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { useForm } from '@/hooks/useForm';
 import { useToast } from '@/hooks/useToast';
 import { StudyTimeSlotsResponse } from '@/apis/studyRooms/response';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { hourToArray, minToArray } from '@/utils/timeToArray';
-import { getTextWithDay } from '@/utils/translate';
-import { useGetRemainTime } from '@/hooks/useRemainApi';
+import { dayLongToArray } from '@/utils/timeToArray';
+import { useSetOutingTime } from '@/hooks/useOutingApi';
 
 interface PropsType {
   initTimeSlots?: StudyTimeSlotsResponse;
@@ -16,11 +16,11 @@ interface PropsType {
 }
 
 interface FormState {
-  dayOfWeek: string;
   start_hour: string;
   start_min: string;
   end_hour: string;
   end_min: string;
+  dayOfWeek: string;
 }
 
 export default function OutingAddTimeModal({
@@ -29,43 +29,50 @@ export default function OutingAddTimeModal({
   initTimeSlots,
   ModalType,
 }: PropsType) {
-  const dayToArray = [
-    '월요일',
-    '화요일',
-    '수요일',
-    '목요일',
-    '금요일',
-    '토요일',
-    '일요일',
-  ];
   const [timeSlots, setTimeSlots] = useState(initTimeSlots);
 
   const timeSlot =
     ModalType === 'create' &&
     timeSlots.time_slots.filter((slot) => slot.id === timeSlotId);
 
-  // TODO: api 연동할 때 바꿔 줘야 함
-  const { data: remainTime } = useGetRemainTime();
-
   const { state: outingTimeState, setState } = useForm<FormState>({
-    dayOfWeek: getTextWithDay(remainTime?.start_day_of_week),
     start_hour: timeSlot[0]?.start_time.slice(0, 2) ?? '00',
     start_min: timeSlot[0]?.start_time.slice(3, 5) ?? '00',
     end_hour: timeSlot[0]?.end_time.slice(0, 2) ?? '00',
     end_min: timeSlot[0]?.end_time.slice(3, 5) ?? '00',
+    dayOfWeek: '',
   });
 
-  const { toastDispatch } = useToast();
+  const convertDayToUpper = (day: string) => {
+    const daysMap: { [key: string]: string } = {
+      월요일: 'MONDAY',
+      화요일: 'TUESDAY',
+      수요일: 'WEDNESDAY',
+      목요일: 'THURSDAY',
+      금요일: 'FRIDAY',
+      토요일: 'SATURDAY',
+      일요일: 'SUNDAY',
+    };
+    return daysMap[day] || ''; // 변환된 요일 반환
+  };
 
-  //TODO: 추가 api 연동 필요
-  const onClick = () => {};
+  // TODO: api 연동할 때 바꿔 줘야 함
+  const { mutate: mutateCreateTime } = useSetOutingTime({
+    day_of_week: outingTimeState.dayOfWeek,
+    outing_time: `${outingTimeState.start_hour}:${outingTimeState.start_min}`,
+    arrival_time: `${outingTimeState.end_hour}:${outingTimeState.end_min}`,
+  });
 
   const onChange = (name: string, value: string) => {
+    if (name === 'dayOfWeek') {
+      value = convertDayToUpper(value);
+    }
     setState((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
   return (
     <Modal
       close={closeModal}
@@ -74,10 +81,9 @@ export default function OutingAddTimeModal({
         <>
           <div>
             <DropDown
-              items={dayToArray}
+              items={dayLongToArray}
               placeholder={''}
-              onChange={(value) => onChange(value, 'dayOfWeek')}
-              value={outingTimeState.dayOfWeek}
+              onChange={(value) => onChange('dayOfWeek', value)}
               width={110}
               label="요일"
             />
@@ -120,7 +126,7 @@ export default function OutingAddTimeModal({
           </div>
         </>,
       ]}
-      buttonList={[<Button onClick={onClick}>추가</Button>]}
+      buttonList={[<Button onClick={() => mutateCreateTime()}>추가</Button>]}
     ></Modal>
   );
 }

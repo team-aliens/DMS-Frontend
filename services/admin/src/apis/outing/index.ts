@@ -9,9 +9,10 @@ import { getFileNameFromContentDisposition } from '@/utils/decoder';
 import { useToast } from '@/hooks/useToast';
 import {
   OutingListExcelQueryStringType,
-  OutingTypeReqeustType,
+  OutingTypeRequestType,
+  EditOutingRequestType,
+  SettingOutingRequestType,
 } from './request';
-import { EditOutingRequestType, SettingOutingRequestType } from './request';
 import { DAY } from '../remains';
 
 const router = '/outings';
@@ -48,14 +49,16 @@ export const updateOutingApplicationStatus = async (
   outingApplicationId: string,
   outing_status: OutingStatusType,
 ) => {
-  return await instance.patch(
-    `${router}/${outingApplicationId}?outing_status=${outing_status}`,
-  );
+  return await instance
+    .patch(`${router}/${outingApplicationId}?outing_status=${outing_status}`)
+    .then(() => {
+      window.location.reload();
+    });
 };
 
 /** 외출 유형 조회 */
 export const getOutingType = async () => {
-  const { data } = await instance.get<Promise<OutingTypeReqeustType>>(
+  const { data } = await instance.get<Promise<OutingTypeRequestType>>(
     `${router}/types`,
   );
   return data;
@@ -150,6 +153,15 @@ export const deleteOutingApplicationTime = async (
 };
 
 /** 외출 가능 시간 조회 */
-export const getOutingApplicationTime = async (dayOfWeek: DAY) => {
+export const getOutingApplicationTime = async (dayOfWeek: DAY | string) => {
   return await instance.get(`${router}/available-time?dayOfWeek=${dayOfWeek}`);
+};
+
+/** 외출 가능 시간 활성 여부 변경 */
+export const updateOutingApplicationAction = async (
+  outingAvailableTimeId: string,
+) => {
+  return await instance.patch(
+    `${router}/available-time/toggle/${outingAvailableTimeId}`,
+  );
 };

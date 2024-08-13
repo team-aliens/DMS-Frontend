@@ -27,13 +27,11 @@ export function TimePressButton({
     setOnPress(true);
     sliceTime();
     setSelect([...select, timeSlotId]);
-    console.log(select);
   };
 
   const unPush = () => {
     setOnPress(false);
     setSelect(select.filter((id) => id !== timeSlotId));
-    console.log(select);
   };
 
   const sliceTime = () => {

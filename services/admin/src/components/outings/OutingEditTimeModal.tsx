@@ -1,24 +1,19 @@
 import { Button, DropDown, Modal } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { useForm } from '@/hooks/useForm';
-import { useToast } from '@/hooks/useToast';
-import { StudyTimeSlotsResponse } from '@/apis/studyRooms/response';
 import { useState, useEffect } from 'react';
 import { hourToArray, minToArray } from '@/utils/timeToArray';
-import { getTextWithDay } from '@/utils/translate';
-import { useGetRemainTime } from '@/hooks/useRemainApi';
 import { useModal } from '@/hooks/useModal';
-import { editOutingApplicationTime } from '@/apis/outing';
+import { useEditOutingTime, useGetPossibleTime } from '@/hooks/useOutingApi';
+import { dayLongToArray } from '@/utils/timeToArray';
 
 interface PropsType {
-  initTimeSlots?: StudyTimeSlotsResponse;
   closeModal: () => void;
-  ModalType?: 'create' | 'edit';
   timeSlotId?: string;
+  selectedDay?: string;
 }
 
 interface FormState {
-  dayOfWeek: string;
   start_hour: string;
   start_min: string;
   end_hour: string;
@@ -28,62 +23,39 @@ interface FormState {
 export default function OutingEditTimeModal({
   closeModal,
   timeSlotId,
-  initTimeSlots,
-  ModalType,
+  selectedDay,
 }: PropsType) {
-  const dayToArray = [
-    '월요일',
-    '화요일',
-    '수요일',
-    '목요일',
-    '금요일',
-    '토요일',
-    '일요일',
-  ];
-  const { selectModal, modalState } = useModal();
-  const [timeSlots, setTimeSlots] = useState(initTimeSlots);
+  const { selectModal } = useModal();
+  const [dayToKo, setDayToKo] = useState('');
 
-  const timeSlot =
-    ModalType === 'create' &&
-    timeSlots.time_slots.filter((slot) => slot.id === timeSlotId);
+  const { data: possibleTime } = useGetPossibleTime(selectedDay);
+  const datas = possibleTime?.data?.outing_available_times?.filter(
+    (item) => item.id === timeSlotId,
+  );
 
-  const { data: remainTime } = useGetRemainTime();
+  const { state: outingTimeState, setState: setTimeState } = useForm<FormState>(
+    {
+      start_hour: datas?.[0].outing_time?.slice(0, 2) ?? '00',
+      start_min: datas?.[0].outing_time?.slice(3, 5) ?? '00',
+      end_hour: datas?.[0].arrival_time?.slice(0, 2) ?? '00',
+      end_min: datas?.[0].arrival_time?.slice(3, 5) ?? '00',
+    },
+  );
 
-  const { state: outingTimeState, setState } = useForm<FormState>({
-    dayOfWeek: getTextWithDay(remainTime?.start_day_of_week),
-    start_hour: timeSlot[0]?.start_time.slice(0, 2) ?? '00',
-    start_min: timeSlot[0]?.start_time.slice(3, 5) ?? '00',
-    end_hour: timeSlot[0]?.end_time.slice(0, 2) ?? '00',
-    end_min: timeSlot[0]?.end_time.slice(3, 5) ?? '00',
+  useEffect(() => {
+    setTimeState({
+      start_hour: datas?.[0].outing_time?.slice(0, 2) ?? '00',
+      start_min: datas?.[0].outing_time?.slice(3, 5) ?? '00',
+      end_hour: datas?.[0].arrival_time?.slice(0, 2) ?? '00',
+      end_min: datas?.[0].arrival_time?.slice(3, 5) ?? '00',
+    });
+  }, [possibleTime]);
+
+  const { start_hour, start_min, end_hour, end_min } = outingTimeState;
+  const { mutate: mutateEditOutingTime } = useEditOutingTime(timeSlotId, {
+    outing_time: `${start_hour}:${start_min}`,
+    arrival_time: `${end_hour}:${end_min}`,
   });
-
-  const { toastDispatch } = useToast();
-
-  const onClickEdit = () => {
-    const { start_hour, start_min, end_hour, end_min } = outingTimeState;
-
-    const updatedTime = {
-      outing_time: `${start_hour}:${start_min}`,
-      arrival_time: `${end_hour}:${end_min}`,
-    };
-
-    editOutingApplicationTime(timeSlotId, updatedTime)
-      .then(() => {
-        toastDispatch({
-          actionType: 'APPEND_TOAST',
-          toastType: 'SUCCESS',
-          message: '외출 시간이 성공적으로 수정되었습니다.',
-        });
-        closeModal();
-      })
-      .catch(() => {
-        toastDispatch({
-          actionType: 'APPEND_TOAST',
-          toastType: 'ERROR',
-          message: '외출 시간 수정에 실패했습니다.',
-        });
-      });
-  };
 
   const onClickDelete = () => {
     closeModal();
@@ -91,11 +63,39 @@ export default function OutingEditTimeModal({
   };
 
   const onChange = (name: string, value: string) => {
-    setState((prev) => ({
+    setTimeState((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    switch (selectedDay) {
+      case 'MONDAY':
+        setDayToKo('월요일');
+        break;
+      case 'TUESDAY':
+        setDayToKo('화요일');
+        break;
+      case 'WEDNESDAY':
+        setDayToKo('수요일');
+        break;
+      case 'THURSDAY':
+        setDayToKo('목요일');
+        break;
+      case 'FRIDAY':
+        setDayToKo('금요일');
+        break;
+      case 'SATURDAY':
+        setDayToKo('토요일');
+        break;
+      case 'SUNDAY':
+        setDayToKo('일요일');
+        break;
+      default:
+        break;
+    }
+  }, [selectedDay]);
 
   return (
     <>
@@ -105,11 +105,13 @@ export default function OutingEditTimeModal({
           <>
             <_Container>
               <DropDown
-                items={dayToArray}
+                items={dayLongToArray}
                 placeholder={''}
                 onChange={(value) => onChange(value, 'dayOfWeek')}
                 width={110}
                 label="요일"
+                value={dayToKo}
+                disable={true}
               />
             </_Container>
             <div style={{ position: 'relative' }}>
@@ -154,7 +156,7 @@ export default function OutingEditTimeModal({
           <Button color="gray" onClick={onClickDelete}>
             삭제
           </Button>,
-          <Button color="primary" onClick={onClickEdit}>
+          <Button color="primary" onClick={() => mutateEditOutingTime()}>
             수정
           </Button>,
         ]}

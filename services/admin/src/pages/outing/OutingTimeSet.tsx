@@ -1,6 +1,6 @@
 import { Text } from '@team-aliens/design-system';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
-import { OutingOptions } from './OutingOptions';
+import { OutingOptionsHeader } from './OutingOptionsHeader';
 import styled from 'styled-components';
 import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
 import { useModal } from '@/hooks/useModal';
@@ -10,25 +10,35 @@ import { useEffect, useState } from 'react';
 import { DAY } from '@/apis/remains';
 import { OutingApplicationTimeResponse } from '@/apis/outing/response';
 
+export interface IsDisabledApplicationTime
+  extends OutingApplicationTimeResponse {
+  is_disabled: boolean;
+}
+
+interface TimeBoxProps {
+  isDisabled: boolean;
+}
+
 export function OutingTimeSet() {
   const { selectModal, closeModal, modalState } = useModal();
   const [selectedOutingTimeId, setSelectedOutingTimeId] = useState<
     string | null
   >(null);
-  const daysOfWeek = ['월', '화', '수', '목', '금', '토', '일'];
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const daysOfWeek: string[] = ['일', '월', '화', '수', '목', '금', '토'];
   const daysOfWeekMap: { [key: string]: DAY } = {
+    일: 'SUNDAY',
     월: 'MONDAY',
     화: 'TUESDAY',
     수: 'WEDNESDAY',
     목: 'THURSDAY',
     금: 'FRIDAY',
     토: 'SATURDAY',
-    일: 'SUNDAY',
   };
 
-  const [outingTimes, setOutingTimes] = useState<
-    OutingApplicationTimeResponse[]
-  >([]);
+  const [outingTimes, setOutingTimes] = useState<IsDisabledApplicationTime[]>(
+    [],
+  );
 
   useEffect(() => {
     const fetchOutingTimes = async () => {
@@ -37,56 +47,67 @@ export function OutingTimeSet() {
           getOutingApplicationTime(day),
         ),
       );
-      const times = response.flatMap(
-        (response) => response.data.outing_available_times,
+      const times = response.flatMap((response) =>
+        response.data.outing_available_times.map((time) => ({
+          ...time,
+          is_disabled: false,
+        })),
       );
       setOutingTimes(times);
     };
-
     fetchOutingTimes();
   }, []);
 
-  const getTimeForDay = (day: DAY) => {
-    const outingTime = outingTimes.find(
-      (time) => time.day_of_week === daysOfWeekMap[day],
-    );
-    return outingTime
-      ? `${outingTime.outing_time} ~ ${outingTime.arrival_time}`
-      : '00:00 ~ 00:00';
+  const getTimesForDay = (day: DAY) => {
+    return outingTimes.filter((time) => time.day_of_week === day);
   };
 
-  const getIdForDay = (day: DAY) => {
-    const outingTime = outingTimes.find(
-      (time) => time.day_of_week === daysOfWeekMap[day],
-    );
-    return outingTime ? outingTime.id : null;
-  };
-
-  const onClickOutingEditTime = (id: string | null) => {
-    id && (setSelectedOutingTimeId(id), selectModal('OUTING_EDIT_TIME'));
+  const onClickOutingEditTime = (id: string | null, day: string) => {
+    id &&
+      (setSelectedOutingTimeId(id),
+      setSelectedDay(daysOfWeekMap[day]),
+      selectModal('OUTING_EDIT_TIME'));
   };
 
   return (
     <WithNavigatorBar>
       <_Wrapper>
-        <OutingOptions />
+        <OutingOptionsHeader
+          timeSlotId={selectedOutingTimeId}
+          outingTimesProps={outingTimes}
+          SelectedDay={selectedDay}
+        />
         <_WeeklyBox>
           <>
-            {daysOfWeek.map((item: DAY) => (
-              <_DayOfTheWeek key={item}>
-                <_Text>{item}</_Text>
-                {item !== 'SUNDAY' && <_Line />}
-                <div>
-                  <_TimeBox
-                    onClick={() => onClickOutingEditTime(getIdForDay(item))}
-                  >
-                    <Text color="gray10" size="bodyS">
-                      {getTimeForDay(item)}
-                    </Text>
-                  </_TimeBox>
-                </div>
-              </_DayOfTheWeek>
-            ))}
+            {daysOfWeek.map((day) => {
+              const color =
+                day === '토'
+                  ? 'rgb(0, 93, 232)'
+                  : day === '일'
+                  ? 'rgb(255, 70, 70)'
+                  : '';
+              return (
+                <_DayOfTheWeek key={day}>
+                  <_Text color={color}>{day}</_Text>
+                  {day !== '토' && <_Line />}
+                  <div>
+                    {getTimesForDay(daysOfWeekMap[day]).map((outingTime) => (
+                      <_TimeBox
+                        key={outingTime.id}
+                        onClick={() =>
+                          onClickOutingEditTime(outingTime.id, day)
+                        }
+                        isDisabled={!outingTime.enabled}
+                      >
+                        <_TimeText>
+                          {outingTime.outing_time} ~ {outingTime.arrival_time}
+                        </_TimeText>
+                      </_TimeBox>
+                    ))}
+                  </div>
+                </_DayOfTheWeek>
+              );
+            })}
           </>
         </_WeeklyBox>
       </_Wrapper>
@@ -95,6 +116,7 @@ export function OutingTimeSet() {
           <OutingEditTimeModal
             closeModal={closeModal}
             timeSlotId={selectedOutingTimeId}
+            selectedDay={selectedDay}
           />
         )}
       {modalState.selectedModal === 'DELETE_OUTING_TIME' &&
@@ -121,7 +143,7 @@ const _WeeklyBox = styled.div`
   flex-shrink: 0;
   border-radius: 8px;
   background: #fff;
-  margin-top: 100px;
+  margin-top: 10vh;
   padding-top: 15px;
   box-shadow: 0px 1px 15px 0px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -138,28 +160,34 @@ const _DayOfTheWeek = styled.div`
 const _Line = styled.div`
   background: #ddd;
   width: 1px;
-  height: 268px;
+  height: 368px;
   position: absolute;
   right: 0;
 `;
 
-const _Text = styled.p`
+const _Text = styled.p<{ color: string }>`
   font-size: 14px;
   font-weight: bold;
   line-height: 22px;
-  color: #999;
+  color: ${(props) => props.color || '#999'};
 `;
 
-const _TimeBox = styled.div`
+const _TimeBox = styled.div<TimeBoxProps>`
   width: 112px;
   height: 31px;
   flex-shrink: 0;
   border-radius: 5px;
-  background: #fff;
+  color: ${({ isDisabled }) => (isDisabled ? '#999999' : '#000')};
+  background: ${({ isDisabled }) => (isDisabled ? '#F9F9F9' : '#fff')};
   box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  pointer-events: ${({ isDisabled }) => (isDisabled ? 'none' : 'auto')};
+`;
+
+const _TimeText = styled.div`
+  font-size: 14px;
 `;

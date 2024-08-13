@@ -68,7 +68,7 @@ export function OutingOptionsHeader({
 
     return (
       <>
-        <_Text>
+        <_Text disabled={!item.enabled}>
           {dayMessage} 외출 가능 시간은 {item.outing_time} ~ {item.arrival_time}{' '}
           입니다.
         </_Text>
@@ -161,6 +161,7 @@ const _SwiperSlide = styled.div`
   gap: 20px;
 `;
 
-const _Text = styled.div`
+const _Text = styled.div<{ disabled: boolean }>`
   font-size: 14px;
+  text-decoration: ${(props) => (props.disabled ? 'line-through' : 'none')};
 `;

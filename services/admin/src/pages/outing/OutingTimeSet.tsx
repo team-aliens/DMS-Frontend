@@ -25,15 +25,15 @@ export function OutingTimeSet() {
     string | null
   >(null);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
-  const daysOfWeek: string[] = ['월', '화', '수', '목', '금', '토', '일'];
+  const daysOfWeek: string[] = ['일', '월', '화', '수', '목', '금', '토'];
   const daysOfWeekMap: { [key: string]: DAY } = {
+    일: 'SUNDAY',
     월: 'MONDAY',
     화: 'TUESDAY',
     수: 'WEDNESDAY',
     목: 'THURSDAY',
     금: 'FRIDAY',
     토: 'SATURDAY',
-    일: 'SUNDAY',
   };
 
   const [outingTimes, setOutingTimes] = useState<IsDisabledApplicationTime[]>(
@@ -79,25 +79,35 @@ export function OutingTimeSet() {
         />
         <_WeeklyBox>
           <>
-            {daysOfWeek.map((day) => (
-              <_DayOfTheWeek key={day}>
-                <_Text>{day}</_Text>
-                {day !== '일' && <_Line />}
-                <div>
-                  {getTimesForDay(daysOfWeekMap[day]).map((outingTime) => (
-                    <_TimeBox
-                      key={outingTime.id}
-                      onClick={() => onClickOutingEditTime(outingTime.id, day)}
-                      isDisabled={outingTime.enabled}
-                    >
-                      <_TimeText>
-                        {outingTime.outing_time} ~ {outingTime.arrival_time}
-                      </_TimeText>
-                    </_TimeBox>
-                  ))}
-                </div>
-              </_DayOfTheWeek>
-            ))}
+            {daysOfWeek.map((day) => {
+              const color =
+                day === '토'
+                  ? 'rgb(0, 93, 232)'
+                  : day === '일'
+                  ? 'rgb(255, 70, 70)'
+                  : '';
+              return (
+                <_DayOfTheWeek key={day}>
+                  <_Text color={color}>{day}</_Text>
+                  {day !== '토' && <_Line />}
+                  <div>
+                    {getTimesForDay(daysOfWeekMap[day]).map((outingTime) => (
+                      <_TimeBox
+                        key={outingTime.id}
+                        onClick={() =>
+                          onClickOutingEditTime(outingTime.id, day)
+                        }
+                        isDisabled={!outingTime.enabled}
+                      >
+                        <_TimeText>
+                          {outingTime.outing_time} ~ {outingTime.arrival_time}
+                        </_TimeText>
+                      </_TimeBox>
+                    ))}
+                  </div>
+                </_DayOfTheWeek>
+              );
+            })}
           </>
         </_WeeklyBox>
       </_Wrapper>
@@ -155,11 +165,11 @@ const _Line = styled.div`
   right: 0;
 `;
 
-const _Text = styled.p`
+const _Text = styled.p<{ color: string }>`
   font-size: 14px;
   font-weight: bold;
   line-height: 22px;
-  color: #999;
+  color: ${(props) => props.color || '#999'};
 `;
 
 const _TimeBox = styled.div<TimeBoxProps>`

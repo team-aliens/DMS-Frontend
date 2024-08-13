@@ -8,9 +8,6 @@ import { Link } from 'react-router-dom';
 import OutingDisabledTime from '@/components/outings/OutingDisabledTime';
 import Slider, { Settings } from 'react-slick';
 import { IsDisabledApplicationTime } from './OutingTimeSet';
-import { useToast } from '@/hooks/useToast';
-import OutingEditTimeModal from '@/components/outings/OutingEditTimeModal';
-import { useState } from 'react';
 
 interface PropsType {
   timeSlotId: string | null;
@@ -28,12 +25,8 @@ const dayOfWeekMessages = {
   SUNDAY: '일요일',
 };
 
-export function OutingOptionsHeader({
-  timeSlotId,
-  outingTimesProps,
-}: PropsType) {
+export function OutingOptionsHeader({ outingTimesProps }: PropsType) {
   const { selectModal, closeModal, modalState } = useModal();
-  const { toastDispatch } = useToast();
 
   const sliderProperties: Settings = {
     infinite: true,
@@ -49,46 +42,18 @@ export function OutingOptionsHeader({
     vertical: true,
   };
 
+  const activeOutingTimes = outingTimesProps.filter((item) => item.enabled);
+
   const renderOutingTime = (item) => {
     const dayMessage = dayOfWeekMessages[item.day_of_week];
     if (!dayMessage) return null;
 
-    const handleClick = () => {
-      if (!item.enabled) {
-        toastDispatch({
-          toastType: 'ERROR',
-          actionType: 'APPEND_TOAST',
-          message: '비활성화된 외출 시간대 입니다.',
-        });
-        return;
-      }
-
-      if (timeSlotId !== null && timeSlotId === item.id) {
-        selectModal('OUTING_EDIT_TIME');
-      } else {
-        toastDispatch({
-          toastType: 'INFORMATION',
-          actionType: 'APPEND_TOAST',
-          message:
-            '아래의 해당 요일의 외출 가능 시간 목록을 선택 후 다시 이용해 주세요.',
-        });
-      }
-    };
-
     return (
       <>
         <_Text disabled={!item.enabled}>
-          {dayMessage} 외출 가능 시간은 {item.outing_time} ~ {item.arrival_time}{' '}
+          {dayMessage} 외출 가능 시간은 {item.outing_time} ~ {item.arrival_time}
           입니다.
         </_Text>
-        <Button
-          kind="text"
-          color="primary"
-          margin={['left', 'auto']}
-          onClick={handleClick}
-        >
-          수정
-        </Button>
       </>
     );
   };
@@ -99,7 +64,7 @@ export function OutingOptionsHeader({
         <_ApplyAbleTime>
           <MegaPhone fill={false} colorKey="primary" />
           <Slider {...sliderProperties}>
-            {outingTimesProps.map((item) => (
+            {activeOutingTimes.map((item) => (
               <_SwiperSlide key={item.id}>
                 {renderOutingTime(item)}
               </_SwiperSlide>
@@ -166,11 +131,12 @@ const _SwiperSlide = styled.div`
   color: #999999;
   height: 55px;
   white-space: nowrap;
-  margin-left: 220px;
+  margin-left: 170px;
   gap: 20px;
 `;
 
 const _Text = styled.div<{ disabled: boolean }>`
   font-size: 14px;
-  text-decoration: ${(props) => (props.disabled ? 'line-through' : 'none')};
+  /* text-decoration: ${(props) =>
+    props.disabled ? 'line-through' : 'none'}; */
 `;

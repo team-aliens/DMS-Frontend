@@ -1,6 +1,7 @@
 export interface LoginRequest {
   account_id: string;
   password: string;
+  device_token: string;
 }
 
 // 이메일 인증 타입

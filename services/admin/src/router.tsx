@@ -20,6 +20,7 @@ import { NotFoundPage } from './pages/NotFound';
 import { Outing } from './pages/outing';
 import { OutingTimeSet } from './pages/outing/OutingTimeSet';
 import { Volunteer } from './pages/volunteer';
+import { VolunteerDetail } from './pages/volunteer/Detail';
 
 export const pathToKorean = {
   'notice': {
@@ -128,7 +129,10 @@ export const Router = createBrowserRouter([
       },
       {
         path: pagePath.volunteer,
-        children: [{ index: true, element: <Volunteer /> }],
+        children: [
+          { index: true, element: <Volunteer /> },
+          { path: 'detail', element: <VolunteerDetail /> },
+        ],
       },
     ],
   },

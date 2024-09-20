@@ -12,9 +12,9 @@ export function VolunteerHeader() {
   return (
     <>
       <_Wrapper>
-        <div></div>
         <_ButtonWrapper>
           <Button onClick={addVolunteerModal}>봉사 추가</Button>
+          <Button kind="outline">봉사 현황</Button>
         </_ButtonWrapper>
       </_Wrapper>
       {modalState.selectedModal === 'VOLUNTEER_ADD' ? <AddVolunteer /> : null}
@@ -33,4 +33,5 @@ const _Wrapper = styled.div`
 const _ButtonWrapper = styled.div`
   margin-left: auto;
   display: flex;
+  gap: 12px;
 `;

@@ -2,22 +2,33 @@ import styled from 'styled-components';
 import { Text, Trash } from '@team-aliens/design-system';
 import Edit from '../../assets/edit.svg';
 
-export function InfoCard() {
+interface VolunteersInfoProps {
+  name: string;
+  availableSex: string;
+  availableGrade: string;
+}
+
+export function InfoCard({
+  name,
+  availableGrade,
+  availableSex,
+}: VolunteersInfoProps) {
   return (
     <_Wrapper>
-      <_Info>
-        <Text color="primary" size="bodyM">
-          2층
-        </Text>
-        <Text color="gray8" size="bodyM" margin={['left', 14]} cursor="pointer">
-          봉사활동 이름
-        </Text>
-      </_Info>
+      <Text color="gray8" size="bodyM" cursor="pointer">
+        {name}
+      </Text>
       <_Divider />
       <_Info>
-        <Text color="primary" size="bodyM">
-          2학년 남녀
-        </Text>
+        <_TextWrapper>
+          <Text color="primary" size="bodyM">
+            {availableGrade}
+          </Text>
+          <Text color="primary" size="bodyM">
+            {availableSex}
+          </Text>
+        </_TextWrapper>
+
         <_IconWrapper>
           <EditIcon src={Edit} />
           <Trash colorKey="gray6" size={24} />
@@ -45,6 +56,12 @@ const _Divider = styled.hr`
 
 const _Info = styled.div`
   display: flex;
+`;
+
+const _TextWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  align-items: center;
 `;
 
 const _IconWrapper = styled.div`

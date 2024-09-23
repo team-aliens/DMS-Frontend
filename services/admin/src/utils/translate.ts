@@ -31,6 +31,27 @@ export const sexKoreanToEng = (sex: SexToKorean): SexType => {
   }
 };
 
+export function gradeEngToKorean(grade: string): string {
+  switch (grade) {
+    case 'FIRST':
+      return '1학년';
+    case 'FIRST_SECOND':
+      return '1, 2학년';
+    case 'FIRST_SECOND_THIRD':
+      return '1, 2, 3학년';
+    case 'SECOND':
+      return '2학년';
+    case 'SECONDE_THIRD':
+      return '2, 3학년';
+    case 'THIRD':
+      return '3학년';
+    case 'ALL':
+      return '모든 학년';
+    default:
+      return grade;
+  }
+}
+
 export type GradeToKorean = '모든 학년' | '1학년' | '2학년' | '3학년';
 
 export const gradeTypeToKorean = (grade: GradeType): GradeToKorean => {

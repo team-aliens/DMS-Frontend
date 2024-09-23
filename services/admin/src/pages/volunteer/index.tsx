@@ -2,22 +2,33 @@ import styled from 'styled-components';
 import { VolunteerHeader } from './Header';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { InfoCard } from '@/components/volunteer/InfoCard';
+import { useEffect, useState } from 'react';
+import { getVolunteers } from '@/apis/volunteers';
+import { sexTypeToKorean, gradeEngToKorean } from '@/utils/translate';
 
 export function Volunteer() {
+  const [applications, setApplications] = useState<any[]>([]);
+
+  useEffect(() => {
+    getVolunteers().then((response) => {
+      setApplications(response?.volunteers || []);
+    });
+  }, []);
+
   return (
     <>
       <WithNavigatorBar>
         <_Wrapper>
           <VolunteerHeader />
           <_BoxWrapper>
-            <InfoCard />
-            <InfoCard />
-            <InfoCard />
-            <InfoCard />
-            <InfoCard />
-            <InfoCard />
-            <InfoCard />
-            <InfoCard />
+            {applications.map((volunteer) => (
+              <InfoCard
+                key={volunteer.id}
+                name={volunteer.name}
+                availableSex={sexTypeToKorean(volunteer.available_sex)}
+                availableGrade={gradeEngToKorean(volunteer.available_grade)}
+              />
+            ))}
           </_BoxWrapper>
         </_Wrapper>
       </WithNavigatorBar>

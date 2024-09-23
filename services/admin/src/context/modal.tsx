@@ -42,6 +42,7 @@ export type SelectedModalType =
   | 'OUTING_EDIT_TIME'
   | 'DELETE_OUTING_TIME'
   | 'OUTING_DISABLED_TIME'
+  | 'VOLUNTEER_ADD'
   | '';
 
 interface ModalState {

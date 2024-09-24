@@ -12,3 +12,13 @@ export interface volunteer {
   available_sex: string;
   available_grade: string;
 }
+
+export interface getApplicationVolunteerStudentsResponse {
+  applicants: applicant[];
+}
+
+export interface applicant {
+  id: string;
+  gcd: string;
+  name: string;
+}

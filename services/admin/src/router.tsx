@@ -132,7 +132,7 @@ export const Router = createBrowserRouter([
         path: pagePath.volunteer,
         children: [
           { index: true, element: <Volunteer /> },
-          { path: 'detail', element: <VolunteerDetail /> },
+          { path: 'detail/:volunteerId', element: <VolunteerDetail /> },
           { path: 'current', element: <VolunteerApplication /> },
         ],
       },

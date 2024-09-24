@@ -4,6 +4,7 @@ import Edit from '../../assets/edit.svg';
 import { deleteVolunteerWork } from '@/apis/volunteers';
 import { useState } from 'react';
 import Delete from '../../assets/delete.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface VolunteersInfoProps {
   name: string;
@@ -20,6 +21,8 @@ export function InfoCard({
   id,
   onDelete,
 }: VolunteersInfoProps) {
+  const naviagate = useNavigate();
+
   const handleDelete = async () => {
     try {
       await deleteVolunteerWork(id);
@@ -29,9 +32,18 @@ export function InfoCard({
     }
   };
 
+  const handleNameClick = () => {
+    naviagate(`/volunteer/detail/${id}`);
+  };
+
   return (
     <_Wrapper>
-      <Text color="gray8" size="bodyM" cursor="pointer">
+      <Text
+        color="gray8"
+        size="bodyM"
+        cursor="pointer"
+        onClick={handleNameClick}
+      >
         {name}
       </Text>
       <_Divider />

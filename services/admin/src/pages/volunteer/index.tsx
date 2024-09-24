@@ -15,6 +15,12 @@ export function Volunteer() {
     });
   }, []);
 
+  const handleDelete = (id: string) => {
+    setApplications((prevApplications) =>
+      prevApplications.filter((volunteer) => volunteer.id !== id),
+    );
+  };
+
   return (
     <>
       <WithNavigatorBar>
@@ -24,6 +30,8 @@ export function Volunteer() {
             {applications.map((volunteer) => (
               <InfoCard
                 key={volunteer.id}
+                id={volunteer.id}
+                onDelete={handleDelete}
                 name={volunteer.name}
                 availableSex={sexTypeToKorean(volunteer.available_sex)}
                 availableGrade={gradeEngToKorean(volunteer.available_grade)}

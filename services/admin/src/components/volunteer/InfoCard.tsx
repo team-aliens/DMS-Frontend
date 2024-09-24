@@ -1,18 +1,34 @@
 import styled from 'styled-components';
 import { Text, Trash } from '@team-aliens/design-system';
 import Edit from '../../assets/edit.svg';
+import { deleteVolunteerWork } from '@/apis/volunteers';
+import { useState } from 'react';
+import Delete from '../../assets/delete.svg';
 
 interface VolunteersInfoProps {
   name: string;
   availableSex: string;
   availableGrade: string;
+  id: string;
+  onDelete: (id: string) => void;
 }
 
 export function InfoCard({
   name,
   availableGrade,
   availableSex,
+  id,
+  onDelete,
 }: VolunteersInfoProps) {
+  const handleDelete = async () => {
+    try {
+      await deleteVolunteerWork(id);
+      onDelete(id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <_Wrapper>
       <Text color="gray8" size="bodyM" cursor="pointer">
@@ -31,7 +47,7 @@ export function InfoCard({
 
         <_IconWrapper>
           <EditIcon src={Edit} />
-          <Trash colorKey="gray6" size={24} />
+          <DeleteIcon src={Delete} onClick={handleDelete} />
         </_IconWrapper>
       </_Info>
     </_Wrapper>
@@ -72,5 +88,9 @@ const _IconWrapper = styled.div`
 `;
 
 const EditIcon = styled.img`
+  cursor: pointer;
+`;
+
+const DeleteIcon = styled.img`
   cursor: pointer;
 `;

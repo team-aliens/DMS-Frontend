@@ -1,10 +1,18 @@
 import styled from 'styled-components';
 import { Text, Button } from '@team-aliens/design-system';
 
-export function StudentInfo() {
+interface StudentInfoProps {
+  name: string;
+  gcd: string;
+}
+
+export function StudentInfo({ name, gcd }: StudentInfoProps) {
   return (
     <_Wrapper>
-      <Text size="bodyM">이름</Text>
+      <_TextWrapper>
+        <Text size="bodyM">{gcd}</Text>
+        <Text size="bodyM">{name}</Text>
+      </_TextWrapper>
       <_ButtonWrapper>
         <Button kind="outline">거절</Button>
         <Button>수락</Button>
@@ -27,4 +35,10 @@ const _ButtonWrapper = styled.div`
   align-items: center;
   gap: 12px;
   margin-left: auto;
+`;
+
+const _TextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
 `;

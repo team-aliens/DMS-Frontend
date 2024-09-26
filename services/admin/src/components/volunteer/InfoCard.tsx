@@ -1,18 +1,25 @@
 import styled from 'styled-components';
-import { Text, Trash } from '@team-aliens/design-system';
+import { Text } from '@team-aliens/design-system';
 import Edit from '../../assets/edit.svg';
 import { deleteVolunteerWork } from '@/apis/volunteers';
-import { useState } from 'react';
 import Delete from '../../assets/delete.svg';
 import { useNavigate } from 'react-router-dom';
+import { EditVolunteer } from '../modals/editVolunteer';
+import { useState } from 'react';
+import { SexType } from '@/apis/studyRooms/request';
+import { SexToKorean, sexKoreanToEng } from '@/utils/translate';
 
 interface VolunteersInfoProps {
   name?: string;
-  availableSex?: string;
+  availableSex?: SexToKorean;
   availableGrade?: string;
   id?: string;
   onDelete?: (id: string) => void;
   status: 'icon' | 'noneIcon';
+  availablePoint?: number;
+  availableOptionalScore?: number;
+  availableMaxApplicants?: number;
+  availableContent?: string;
 }
 
 export function InfoCard({
@@ -22,7 +29,13 @@ export function InfoCard({
   id,
   onDelete,
   status = 'icon',
+  availablePoint,
+  availableOptionalScore,
+  availableMaxApplicants,
+  availableContent,
 }: VolunteersInfoProps) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const naviagate = useNavigate();
 
   const handleDelete = async () => {
@@ -38,32 +51,55 @@ export function InfoCard({
     naviagate(`/volunteer/detail/${id}`);
   };
 
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
   return (
-    <_Wrapper>
-      <Text
-        color="gray8"
-        size="bodyM"
-        cursor="pointer"
-        onClick={handleNameClick}
-      >
-        {name}
-      </Text>
-      <_Divider />
-      <_Info>
-        <_TextWrapper>
-          <Text color="primary" size="bodyM">
-            {availableGrade}
-          </Text>
-          <Text color="primary" size="bodyM">
-            {availableSex}
-          </Text>
-        </_TextWrapper>
-        <_IconWrapper status={status}>
-          <EditIcon src={Edit} />
-          <DeleteIcon src={Delete} onClick={handleDelete} />
-        </_IconWrapper>
-      </_Info>
-    </_Wrapper>
+    <>
+      <_Wrapper>
+        <Text
+          color="gray8"
+          size="bodyM"
+          cursor="pointer"
+          onClick={handleNameClick}
+        >
+          {name}
+        </Text>
+        <_Divider />
+        <_Info>
+          <_TextWrapper>
+            <Text color="primary" size="bodyM">
+              {availableGrade}
+            </Text>
+            <Text color="primary" size="bodyM">
+              {availableSex}
+            </Text>
+          </_TextWrapper>
+          <_IconWrapper status={status}>
+            <EditIcon onClick={openEditModal} src={Edit} />
+            <DeleteIcon src={Delete} onClick={handleDelete} />
+          </_IconWrapper>
+        </_Info>
+      </_Wrapper>
+      {isEditModalOpen && (
+        <EditVolunteer
+          content={availableContent}
+          point={availablePoint}
+          optionalScore={availableOptionalScore}
+          maxApplicants={availableMaxApplicants}
+          name={name}
+          sex={sexKoreanToEng(availableSex)}
+          grade={availableGrade}
+          closeModal={closeEditModal}
+          volunteerId={id}
+        />
+      )}
+    </>
   );
 }
 

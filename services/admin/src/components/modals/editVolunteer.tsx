@@ -1,4 +1,3 @@
-import { useModal } from '@/hooks/useModal';
 import {
   Modal,
   Input,
@@ -7,28 +6,55 @@ import {
   TextArea,
 } from '@team-aliens/design-system';
 import styled from 'styled-components';
-import { addVolunteerWork } from '@/apis/volunteers';
-import { useState } from 'react';
-import { addVolunteerWorkRequest } from '@/apis/volunteers/request';
-import { gradeKoreanCalculator } from '@/utils/translate';
+import { editVolunteerWork } from '@/apis/volunteers';
+import { useEffect, useState } from 'react';
+import { editVolunteerWorkRequest } from '@/apis/volunteers/request';
+import {
+  gradeKoreanCalculator,
+  gradeEngToKorean,
+  sexKoreanToEng,
+  SexToKorean,
+} from '@/utils/translate';
 import { SexType } from '@/apis/volunteers/request';
 
-export function AddVolunteer() {
+interface EditVolunteerProps {
+  closeModal: () => void;
+  volunteerId: string;
+  name: string;
+  sex: SexType;
+  grade: string;
+  point: number;
+  optionalScore: number;
+  maxApplicants: number;
+  content: string;
+}
+
+export function EditVolunteer({
+  closeModal,
+  volunteerId,
+  name,
+  sex,
+  grade,
+  point,
+  optionalScore,
+  maxApplicants,
+  content,
+}: EditVolunteerProps) {
   const [primaryGrade, setPrimaryGrade] = useState<string>('');
   const [secondaryGrade, setSecondaryGrade] = useState<string>('');
 
   const grades = ['1학년', '2학년', '3학년'];
-  const { closeModal } = useModal();
 
-  const [volunteerData, setVolunteerData] = useState<addVolunteerWorkRequest>({
-    name: '',
-    content: '',
-    point: null,
-    optional_score: null,
-    max_applicants: null,
-    available_grade: '',
-    available_sex: 'ALL',
-  });
+  const [editvolunteerData, setEditVolunteerData] =
+    useState<editVolunteerWorkRequest>({
+      name: name,
+      content: content,
+      available_sex: sex,
+      available_grade: grade,
+      point: point,
+      optional_score: optionalScore,
+      max_applicants: maxApplicants,
+    });
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -36,13 +62,11 @@ export function AddVolunteer() {
     const { name, value } = e.target;
 
     const newValue =
-      name === ' point' ||
-      name === 'optional_score' ||
-      name === 'max_applicants'
+      name === 'point' || name === 'optional_score' || name === 'max_applicants'
         ? Number(value)
         : value;
 
-    setVolunteerData((prevData) => ({
+    setEditVolunteerData((prevData) => ({
       ...prevData,
       [name]: newValue,
     }));
@@ -57,7 +81,7 @@ export function AddVolunteer() {
   };
 
   const onSexButtonClick = (sex: SexType) => {
-    setVolunteerData((prevData) => ({
+    setEditVolunteerData((prevData) => ({
       ...prevData,
       available_sex: sex,
     }));
@@ -70,19 +94,36 @@ export function AddVolunteer() {
         .sort();
       const combinedGrade = gradeKoreanCalculator(sortedGrades.join(', '));
 
-      await addVolunteerWork({
-        ...volunteerData,
+      await editVolunteerWork(volunteerId, {
+        ...editvolunteerData,
         available_grade: combinedGrade,
       });
+      closeModal();
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    const initialGrades = grade.split(', ').map((g) => g);
+
+    const firstGrade = initialGrades[0].includes('학년')
+      ? initialGrades[0]
+      : initialGrades[0] + '학년';
+    const secondGrade = initialGrades[1]
+      ? initialGrades[1].includes('학년')
+        ? initialGrades[1]
+        : initialGrades[1] + '학년'
+      : '';
+
+    setPrimaryGrade(gradeEngToKorean(firstGrade || ''));
+    setSecondaryGrade(gradeEngToKorean(secondGrade || ''));
+  }, [grade]);
+
   return (
     <Modal
       close={closeModal}
-      title="봉사 추가"
+      title="봉사 수정"
       width="1151px"
       inputList={[
         <>
@@ -94,12 +135,12 @@ export function AddVolunteer() {
                 placeholder="ex) 2층 자습실 청소"
                 name="name"
                 label="제목"
-                value={volunteerData.name}
+                value={editvolunteerData.name}
                 onChange={onChange}
               />
               <DropDown
                 items={grades}
-                placeholder={''}
+                placeholder={primaryGrade || ''}
                 value={primaryGrade}
                 width={334}
                 onChange={(value) => onDropDownChange('primary', value)}
@@ -107,7 +148,7 @@ export function AddVolunteer() {
               />
               <DropDown
                 items={grades}
-                placeholder={''}
+                placeholder={secondaryGrade || ''}
                 value={secondaryGrade}
                 width={334}
                 onChange={(value) => onDropDownChange('secondary', value)}
@@ -115,9 +156,9 @@ export function AddVolunteer() {
               <Input
                 width={334}
                 type="number"
-                placeholder="ex) 1"
+                placeholder={'ex) 5'}
                 name="point"
-                value={volunteerData.point}
+                value={editvolunteerData.point}
                 label="점수"
                 onChange={onChange}
               />
@@ -126,7 +167,7 @@ export function AddVolunteer() {
                 type="number"
                 placeholder="ex) 10"
                 name="optional_score"
-                value={volunteerData.optional_score}
+                value={editvolunteerData.optional_score}
                 onChange={onChange}
               />
               <Input
@@ -135,7 +176,7 @@ export function AddVolunteer() {
                 placeholder="ex) 3"
                 name="max_applicants"
                 label="인원수"
-                value={volunteerData.max_applicants}
+                value={editvolunteerData.max_applicants}
                 onChange={onChange}
               />
               <_ButtonWrapper>
@@ -160,7 +201,7 @@ export function AddVolunteer() {
                 height={520}
                 name="content"
                 onChange={onChange}
-                value={volunteerData.content}
+                value={editvolunteerData.content}
               />
             </_TextAreaWrapper>
           </_Container>

@@ -1,12 +1,43 @@
 import styled from 'styled-components';
 import { Text, Button } from '@team-aliens/design-system';
+import {
+  approveVolunteerApplication,
+  rejectVolunteerApplication,
+} from '@/apis/volunteers';
 
 interface StudentInfoProps {
   name: string;
   gcd: string;
+  id: string;
+  onApprove: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export function StudentInfo({ name, gcd }: StudentInfoProps) {
+export function StudentInfo({
+  name,
+  gcd,
+  id,
+  onApprove,
+  onDelete,
+}: StudentInfoProps) {
+  const handleApprove = async () => {
+    try {
+      await approveVolunteerApplication(id);
+      onApprove(id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await rejectVolunteerApplication(id);
+      onDelete(id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <_Wrapper>
       <_TextWrapper>
@@ -14,8 +45,10 @@ export function StudentInfo({ name, gcd }: StudentInfoProps) {
         <Text size="bodyM">{name}</Text>
       </_TextWrapper>
       <_ButtonWrapper>
-        <Button kind="outline">거절</Button>
-        <Button>수락</Button>
+        <Button kind="outline" onClick={handleDelete}>
+          거절
+        </Button>
+        <Button onClick={handleApprove}>수락</Button>
       </_ButtonWrapper>
     </_Wrapper>
   );

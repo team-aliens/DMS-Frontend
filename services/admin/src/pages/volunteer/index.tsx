@@ -33,7 +33,11 @@ export function Volunteer() {
                 id={volunteer.id}
                 status="icon"
                 onDelete={handleDelete}
+                availablePoint={volunteer.point}
+                availableOptionalScore={volunteer.optional_point}
+                availableMaxApplicants={volunteer.max_applicants}
                 name={volunteer.name}
+                availableContent={volunteer.content}
                 availableSex={sexTypeToKorean(volunteer.available_sex)}
                 availableGrade={gradeEngToKorean(volunteer.available_grade)}
               />

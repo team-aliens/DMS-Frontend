@@ -4,7 +4,7 @@ import {
   getVolunteerCurrentResponse,
   getVolunteersResponse,
 } from './response';
-import { addVolunteerWorkRequest } from './request';
+import { addVolunteerWorkRequest, editVolunteerWorkRequest } from './request';
 
 const router = '/volunteers';
 
@@ -38,14 +38,14 @@ export const getApplicationVolunteerStudents = async (volunteerId: string) => {
 export const approveVolunteerApplication = async (
   volunteerApplicationId: string,
 ) => {
-  await instance.post(`${router}/approve/${volunteerApplicationId}`);
+  await instance.post(`${router}/approval/${volunteerApplicationId}`);
 };
 
 // 봉사 활동 신청 거절
 export const rejectVolunteerApplication = async (
   volunteerApplicationId: string,
 ) => {
-  await instance.delete(`${router}/reject/${volunteerApplicationId}`);
+  await instance.delete(`${router}/rejection/${volunteerApplicationId}`);
 };
 
 // 봉사 현황 조회
@@ -60,5 +60,13 @@ export const getVolunteerCurrent = async () => {
 export const excludeVolunteerApplication = async (
   volunteerApplicationId: string,
 ) => {
-  await instance.delete(`${router}/exclude/${volunteerApplicationId}`);
+  await instance.delete(`${router}/exception/${volunteerApplicationId}`);
+};
+
+// 봉사 활동 수정
+export const editVolunteerWork = async (
+  volunteerId: string,
+  body: editVolunteerWorkRequest,
+) => {
+  await instance.patch(`${router}/${volunteerId}`, body);
 };

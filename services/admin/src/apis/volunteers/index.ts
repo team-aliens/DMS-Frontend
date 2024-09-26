@@ -42,7 +42,7 @@ export const approveVolunteerApplication = async (
 };
 
 // 봉사 활동 신청 거절
-export const deleteVolunteerApplication = async (
+export const rejectVolunteerApplication = async (
   volunteerApplicationId: string,
 ) => {
   await instance.delete(`${router}/reject/${volunteerApplicationId}`);
@@ -54,4 +54,11 @@ export const getVolunteerCurrent = async () => {
     `${router}/current`,
   );
   return data;
+};
+
+// 봉사 활동 신청 제외
+export const excludeVolunteerApplication = async (
+  volunteerApplicationId: string,
+) => {
+  await instance.delete(`${router}/exclude/${volunteerApplicationId}`);
 };

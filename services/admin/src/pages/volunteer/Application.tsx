@@ -4,8 +4,13 @@ import { VolunteerHeader } from './Header';
 import { InfoCard } from '@/components/volunteer/InfoCard';
 import { Text } from '@team-aliens/design-system';
 import { useEffect, useState } from 'react';
-import { getVolunteerCurrent, getVolunteers } from '@/apis/volunteers';
+import {
+  excludeVolunteerApplication,
+  getVolunteerCurrent,
+  getVolunteers,
+} from '@/apis/volunteers';
 import { sexTypeToKorean, gradeEngToKorean } from '@/utils/translate';
+import trash from '../../assets/trash.svg';
 
 export function VolunteerApplication() {
   const [current, setCurrent] = useState<any[]>([]);
@@ -15,6 +20,14 @@ export function VolunteerApplication() {
       setCurrent(response?.volunteers || []);
     });
   }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await excludeVolunteerApplication(id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <WithNavigatorBar>
@@ -35,6 +48,11 @@ export function VolunteerApplication() {
               <_StudentWrapper>
                 {currentVolunteer.applicants?.map((applicant) => (
                   <div key={applicant.id}>
+                    <img
+                      onClick={() => handleDelete(applicant.id)}
+                      style={{ cursor: 'pointer' }}
+                      src={trash}
+                    />
                     <Text size="bodyS" color="primary">
                       {applicant.gcd} {applicant.name}
                     </Text>
@@ -69,12 +87,15 @@ const _StudentWrapper = styled.div`
   grid-template-columns: repeat(5, 1fr);
   gap: 34px;
   > div {
-    width: 111px;
-    height: 38px;
     border-radius: 8px;
     background-color: #f5f9ff;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: auto;
+    min-width: 120px;
+    height: 40px;
+    padding: 8px;
+    gap: 9px;
   }
 `;

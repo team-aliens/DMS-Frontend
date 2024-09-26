@@ -53,8 +53,6 @@ export function AddVolunteer() {
       ...prevData,
       available_sex: sex,
     }));
-    console.log(sex);
-    console.log(volunteerData);
   };
 
   const onSubmit = async () => {
@@ -77,6 +75,7 @@ export function AddVolunteer() {
     <Modal
       close={closeModal}
       title="봉사 추가"
+      width="1151px"
       inputList={[
         <>
           <_Container>
@@ -187,6 +186,8 @@ const _ButtonWrapper = styled.div`
 const _Container = styled.div`
   display: flex;
   gap: 56px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const _TextAreaWrapper = styled.div`

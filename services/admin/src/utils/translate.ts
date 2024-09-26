@@ -19,7 +19,7 @@ export const sexTypeToKorean = (sex: SexType): SexToKorean => {
   }
 };
 
-export const sexKoreanToEng = (sex: SexToKorean): SexType => {
+export const sexKoreanToEng = (sex: string): SexType => {
   switch (sex) {
     case '남여 모두':
       return 'ALL';
@@ -37,16 +37,43 @@ export function gradeEngToKorean(grade: string): string {
       return '1학년';
     case 'FIRST_SECOND':
       return '1, 2학년';
-    case 'FIRST_SECOND_THIRD':
-      return '1, 2, 3학년';
+    case 'FIRST_THIRD':
+      return '1, 3학년';
     case 'SECOND':
       return '2학년';
-    case 'SECONDE_THIRD':
+    case 'SECOND_THIRD':
       return '2, 3학년';
     case 'THIRD':
       return '3학년';
     case 'ALL':
       return '모든 학년';
+    default:
+      return grade;
+  }
+}
+
+export function gradeKoreanCalculator(grade: string): string {
+  switch (grade) {
+    case '1학년':
+      return 'FRIST';
+    case '1학년, 2학년':
+      return 'FIRST_SECOND';
+    case '2학년, 1학년':
+      return 'FIRST_SECOND';
+    case '1학년, 3학년':
+      return 'FIRST_THIRD';
+    case '3학년, 1학년':
+      return 'FIRST_THIRD';
+    case '2학년':
+      return 'SECOND';
+    case '2학년, 3학년':
+      return 'SECOND_THIRD';
+    case '3학년, 2학년':
+      return 'SECOND_THIRD';
+    case '3학년':
+      return 'THIRD';
+    case '모든 학년':
+      return 'ALL';
     default:
       return grade;
   }

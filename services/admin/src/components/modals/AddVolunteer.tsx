@@ -7,14 +7,70 @@ import {
   TextArea,
 } from '@team-aliens/design-system';
 import styled from 'styled-components';
+import { addVolunteerWork } from '@/apis/volunteers';
+import { useState } from 'react';
+import { addVolunteerWorkRequest } from '@/apis/volunteers/request';
+import { gradeKoreanCalculator } from '@/utils/translate';
+import { SexType } from '@/apis/volunteers/request';
 
 export function AddVolunteer() {
-  const grades = ['1학년', '2학년', '3학년'];
+  const [primaryGrade, setPrimaryGrade] = useState<string>('');
+  const [secondaryGrade, setSecondaryGrade] = useState<string>('');
 
+  const grades = ['1학년', '2학년', '3학년'];
   const { closeModal } = useModal();
 
-  const onChange = () => {
-    console.log('');
+  const [volunteerData, setVolunteerData] = useState<addVolunteerWorkRequest>({
+    name: '',
+    content: '',
+    point: null,
+    optional_score: null,
+    max_applicants: null,
+    available_grade: '',
+    available_sex: 'ALL',
+  });
+
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setVolunteerData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const onDropDownChange = (gradeType: string, value: string) => {
+    if (gradeType === 'primary') {
+      setPrimaryGrade(value);
+    } else if (gradeType === 'secondary') {
+      setSecondaryGrade(value);
+    }
+  };
+
+  const onSexButtonClick = (sex: SexType) => {
+    setVolunteerData((prevData) => ({
+      ...prevData,
+      available_sex: sex,
+    }));
+    console.log(sex);
+    console.log(volunteerData);
+  };
+
+  const onSubmit = async () => {
+    try {
+      const sortedGrades = [primaryGrade, secondaryGrade]
+        .filter(Boolean)
+        .sort();
+      const combinedGrade = gradeKoreanCalculator(sortedGrades.join(', '));
+
+      await addVolunteerWork({
+        ...volunteerData,
+        available_grade: combinedGrade,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -28,49 +84,66 @@ export function AddVolunteer() {
               <Input
                 width={334}
                 type="text"
-                placeholder="봉사활동 이름"
-                name={'title'}
+                placeholder="ex) 2층 자습실 청소"
+                name="name"
                 label="제목"
-                value=""
+                value={volunteerData.name}
                 onChange={onChange}
               />
               <DropDown
                 items={grades}
                 placeholder={''}
-                value=""
+                value={primaryGrade}
                 width={334}
-                onChange={onChange}
+                onChange={(value) => onDropDownChange('primary', value)}
                 label="조건"
               />
               <DropDown
                 items={grades}
                 placeholder={''}
-                value=""
+                value={secondaryGrade}
                 width={334}
-                onChange={onChange}
+                onChange={(value) => onDropDownChange('secondary', value)}
               />
               <Input
                 width={334}
                 type="number"
-                placeholder="점수"
-                name={'score'}
+                placeholder="ex) 1"
+                name="point"
+                value={volunteerData.point}
                 label="점수"
-                value=""
                 onChange={onChange}
               />
               <Input
                 width={334}
                 type="number"
-                placeholder="인원수"
-                name={'people'}
+                placeholder="ex) 10"
+                name="optional_score"
+                value={volunteerData.optional_score}
+                onChange={onChange}
+              />
+              <Input
+                width={334}
+                type="number"
+                placeholder="ex) 3"
+                name="max_applicants"
                 label="인원수"
-                value=""
+                value={volunteerData.max_applicants}
                 onChange={onChange}
               />
               <_ButtonWrapper>
-                <Button kind="outline">남자</Button>
-                <Button kind="outline">여자</Button>
-                <Button kind="outline">전체</Button>
+                <Button kind="outline" onClick={() => onSexButtonClick('MALE')}>
+                  남자
+                </Button>
+                <Button
+                  kind="outline"
+                  onClick={() => onSexButtonClick('FEMALE')}
+                >
+                  여자
+                </Button>
+                <Button kind="outline" onClick={() => onSexButtonClick('ALL')}>
+                  전체
+                </Button>
               </_ButtonWrapper>
             </_InputWrapper>
             <_TextAreaWrapper>
@@ -78,9 +151,9 @@ export function AddVolunteer() {
               <TextArea
                 width={703}
                 height={520}
-                name="내용"
+                name="content"
                 onChange={onChange}
-                value=""
+                value={volunteerData.content}
               />
             </_TextAreaWrapper>
           </_Container>
@@ -88,8 +161,10 @@ export function AddVolunteer() {
       ]}
       buttonList={[
         <>
-          <Button kind="outline">취소</Button>
-          <Button>확인</Button>
+          <Button kind="outline" onClick={closeModal}>
+            취소
+          </Button>
+          <Button onClick={onSubmit}>확인</Button>
         </>,
       ]}
     ></Modal>
@@ -99,7 +174,7 @@ export function AddVolunteer() {
 const _InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 8px;
 `;
 
 const _ButtonWrapper = styled.div`

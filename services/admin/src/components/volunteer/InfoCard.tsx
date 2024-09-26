@@ -7,11 +7,12 @@ import Delete from '../../assets/delete.svg';
 import { useNavigate } from 'react-router-dom';
 
 interface VolunteersInfoProps {
-  name: string;
-  availableSex: string;
-  availableGrade: string;
-  id: string;
-  onDelete: (id: string) => void;
+  name?: string;
+  availableSex?: string;
+  availableGrade?: string;
+  id?: string;
+  onDelete?: (id: string) => void;
+  status: 'icon' | 'noneIcon';
 }
 
 export function InfoCard({
@@ -20,6 +21,7 @@ export function InfoCard({
   availableSex,
   id,
   onDelete,
+  status = 'icon',
 }: VolunteersInfoProps) {
   const naviagate = useNavigate();
 
@@ -56,8 +58,7 @@ export function InfoCard({
             {availableSex}
           </Text>
         </_TextWrapper>
-
-        <_IconWrapper>
+        <_IconWrapper status={status}>
           <EditIcon src={Edit} />
           <DeleteIcon src={Delete} onClick={handleDelete} />
         </_IconWrapper>
@@ -92,8 +93,8 @@ const _TextWrapper = styled.div`
   align-items: center;
 `;
 
-const _IconWrapper = styled.div`
-  display: flex;
+const _IconWrapper = styled.div<VolunteersInfoProps>`
+  display: ${({ status }) => (status === 'icon' ? 'flex' : 'none')};
   align-items: center;
   gap: 12px;
   margin-left: auto;

@@ -3,23 +3,46 @@ import styled from 'styled-components';
 import { VolunteerHeader } from './Header';
 import { InfoCard } from '@/components/volunteer/InfoCard';
 import { Text } from '@team-aliens/design-system';
+import { useEffect, useState } from 'react';
+import { getVolunteerCurrent, getVolunteers } from '@/apis/volunteers';
+import { sexTypeToKorean, gradeEngToKorean } from '@/utils/translate';
 
 export function VolunteerApplication() {
+  const [current, setCurrent] = useState<any[]>([]);
+
+  useEffect(() => {
+    getVolunteerCurrent().then((response) => {
+      setCurrent(response?.volunteers || []);
+    });
+  }, []);
+
   return (
     <WithNavigatorBar>
       <_Wrapper>
         <VolunteerHeader />
         <_VolunteerWrapper>
-          <div>
-            <InfoCard />
-            <_StudentWrapper>
-              <div>
-                <Text size="bodyS" color="primary">
-                  0000 이름
-                </Text>
-              </div>
-            </_StudentWrapper>
-          </div>
+          {current.map((currentVolunteer) => (
+            <div key={currentVolunteer.id}>
+              <InfoCard
+                id={currentVolunteer.id}
+                name={currentVolunteer.volunteer_name}
+                availableGrade={gradeEngToKorean(
+                  currentVolunteer.available_grade,
+                )}
+                availableSex={sexTypeToKorean(currentVolunteer.available_sex)}
+                status="noneIcon"
+              />
+              <_StudentWrapper>
+                {currentVolunteer.applicants?.map((applicant) => (
+                  <div key={applicant.id}>
+                    <Text size="bodyS" color="primary">
+                      {applicant.gcd} {applicant.name}
+                    </Text>
+                  </div>
+                ))}
+              </_StudentWrapper>
+            </div>
+          ))}
         </_VolunteerWrapper>
       </_Wrapper>
     </WithNavigatorBar>

@@ -22,3 +22,14 @@ export interface applicant {
   gcd: string;
   name: string;
 }
+
+export interface getVolunteerCurrentResponse {
+  volunteers: currentVolunteer[];
+}
+
+export interface currentVolunteer {
+  volunteer_name: string;
+  available_sex: string;
+  available_grade: string;
+  applicants: applicant[];
+}

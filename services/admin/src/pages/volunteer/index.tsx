@@ -31,6 +31,7 @@ export function Volunteer() {
               <InfoCard
                 key={volunteer.id}
                 id={volunteer.id}
+                status="icon"
                 onDelete={handleDelete}
                 name={volunteer.name}
                 availableSex={sexTypeToKorean(volunteer.available_sex)}

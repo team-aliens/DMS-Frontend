@@ -14,7 +14,9 @@ export function VolunteerHeader() {
       <_Wrapper>
         <_ButtonWrapper>
           <Button onClick={addVolunteerModal}>봉사 추가</Button>
-          <Button kind="outline">봉사 현황</Button>
+          <Link to={'/volunteer/current'}>
+            <Button kind="outline">봉사 현황</Button>
+          </Link>
         </_ButtonWrapper>
       </_Wrapper>
       {modalState.selectedModal === 'VOLUNTEER_ADD' ? <AddVolunteer /> : null}

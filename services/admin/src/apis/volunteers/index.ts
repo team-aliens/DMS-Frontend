@@ -1,6 +1,7 @@
 import { instance } from '..';
 import {
   getApplicationVolunteerStudentsResponse,
+  getVolunteerCurrentResponse,
   getVolunteersResponse,
 } from './response';
 import { addVolunteerWorkRequest } from './request';
@@ -29,6 +30,28 @@ export const deleteVolunteerWork = async (volunteerId: string) => {
 export const getApplicationVolunteerStudents = async (volunteerId: string) => {
   const { data } = await instance.get<getApplicationVolunteerStudentsResponse>(
     `${router}/${volunteerId}`,
+  );
+  return data;
+};
+
+// 봉사 활동 신청 수락
+export const approveVolunteerApplication = async (
+  volunteerApplicationId: string,
+) => {
+  await instance.post(`${router}/approve/${volunteerApplicationId}`);
+};
+
+// 봉사 활동 신청 거절
+export const deleteVolunteerApplication = async (
+  volunteerApplicationId: string,
+) => {
+  await instance.delete(`${router}/reject/${volunteerApplicationId}`);
+};
+
+// 봉사 현황 조회
+export const getVolunteerCurrent = async () => {
+  const { data } = await instance.get<getVolunteerCurrentResponse>(
+    `${router}/current`,
   );
   return data;
 };

@@ -26,6 +26,18 @@ export function VolunteerDetail() {
     fetchApplications();
   }, [volunteerId]);
 
+  const handleApprove = (id: string) => {
+    setApplications((prevApplications) =>
+      prevApplications.filter((volunteer) => volunteer.id !== id),
+    );
+  };
+
+  const handleDelete = (id: string) => {
+    setApplications((prevApplications) =>
+      prevApplications.filter((volunteer) => volunteer.id !== id),
+    );
+  };
+
   return (
     <WithNavigatorBar>
       <_Wrapper>
@@ -36,6 +48,9 @@ export function VolunteerDetail() {
               key={applicant.id}
               name={applicant.name}
               gcd={applicant.gcd}
+              onApprove={handleApprove}
+              id={applicant.id}
+              onDelete={handleDelete}
             />
           ))}
         </_StudentInfoWrapper>

@@ -99,6 +99,7 @@ export function EditVolunteer({
         available_grade: combinedGrade,
       });
       closeModal();
+      window.location.reload();
     } catch (error) {
       console.error(error);
     }

@@ -31,6 +31,8 @@ export function VolunteerApplication() {
         toastType: 'SUCCESS',
         message: '봉사 활동에서 성공적으로 제외했습니다.',
       });
+
+      window.location.reload();
     } catch (error) {
       toastDispatch({
         actionType: 'APPEND_TOAST',

@@ -82,6 +82,8 @@ export function AddVolunteer() {
         toastType: 'SUCCESS',
         message: '봉사 활동을 성공적으로 추가했습니다.',
       });
+      closeModal();
+      window.location.reload();
     } catch (error) {
       toastDispatch({
         actionType: 'APPEND_TOAST',

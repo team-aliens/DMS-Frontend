@@ -2,7 +2,6 @@ import { Button, Modal, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useModal } from '@/hooks/useModal';
-import OutingListExcel from '@/components/modals/OutingListExcel';
 import { AddVolunteer } from '@/components/modals/AddVolunteer';
 
 export function VolunteerHeader() {

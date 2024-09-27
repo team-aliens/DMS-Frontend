@@ -12,10 +12,12 @@ import { useState } from 'react';
 import { addVolunteerWorkRequest } from '@/apis/volunteers/request';
 import { gradeKoreanCalculator } from '@/utils/translate';
 import { SexType } from '@/apis/volunteers/request';
+import { useToast } from '@/hooks/useToast';
 
 export function AddVolunteer() {
   const [primaryGrade, setPrimaryGrade] = useState<string>('');
   const [secondaryGrade, setSecondaryGrade] = useState<string>('');
+  const { toastDispatch } = useToast();
 
   const grades = ['1학년', '2학년', '3학년'];
   const { closeModal } = useModal();
@@ -74,8 +76,18 @@ export function AddVolunteer() {
         ...volunteerData,
         available_grade: combinedGrade,
       });
+
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '봉사 활동을 성공적으로 추가했습니다.',
+      });
     } catch (error) {
-      console.error(error);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '봉사 활동 추가에 실패했습니다.',
+      });
     }
   };
 

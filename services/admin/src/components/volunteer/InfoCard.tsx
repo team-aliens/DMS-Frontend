@@ -3,11 +3,11 @@ import { Text } from '@team-aliens/design-system';
 import Edit from '../../assets/edit.svg';
 import { deleteVolunteerWork } from '@/apis/volunteers';
 import Delete from '../../assets/delete.svg';
-import { useNavigate } from 'react-router-dom';
 import { EditVolunteer } from '../modals/editVolunteer';
 import { useState } from 'react';
-import { SexType } from '@/apis/studyRooms/request';
 import { SexToKorean, sexKoreanToEng } from '@/utils/translate';
+import { Link } from 'react-router-dom';
+import { useToast } from '@/hooks/useToast';
 
 interface VolunteersInfoProps {
   name?: string;
@@ -35,20 +35,25 @@ export function InfoCard({
   availableContent,
 }: VolunteersInfoProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const naviagate = useNavigate();
+  const { toastDispatch } = useToast();
 
   const handleDelete = async () => {
     try {
       await deleteVolunteerWork(id);
       onDelete(id);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
-  const handleNameClick = () => {
-    naviagate(`/volunteer/detail/${id}`);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '봉사 활동을 성공적으로 삭제했습니다.',
+      });
+    } catch (error) {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '봉사 활동 삭제에 실패했습니다.',
+      });
+    }
   };
 
   const openEditModal = () => {
@@ -62,14 +67,11 @@ export function InfoCard({
   return (
     <>
       <_Wrapper>
-        <Text
-          color="gray8"
-          size="bodyM"
-          cursor="pointer"
-          onClick={handleNameClick}
-        >
-          {name}
-        </Text>
+        <Link to={`/volunteer/detail/${id}`}>
+          <Text color="gray8" size="bodyM" cursor="pointer">
+            {name}
+          </Text>
+        </Link>
         <_Divider />
         <_Info>
           <_TextWrapper>

@@ -5,14 +5,12 @@ import { VolunteerHeader } from './Header';
 import { useState, useEffect } from 'react';
 import { getApplicationVolunteerStudents } from '@/apis/volunteers';
 import { useParams } from 'react-router-dom';
-
-interface volunteerDetailProps {
-  volunteerId: string;
-}
+import { useToast } from '@/hooks/useToast';
 
 export function VolunteerDetail() {
   const { volunteerId } = useParams<{ volunteerId: string }>();
   const [applications, setApplications] = useState<any[]>([]);
+  const { toastDispatch } = useToast();
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -20,7 +18,11 @@ export function VolunteerDetail() {
         const response = await getApplicationVolunteerStudents(volunteerId);
         setApplications(response?.applicants || []);
       } catch (error) {
-        console.error(error);
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: '봉사 활동 신청된 학생 조회에 실패했습니다.',
+        });
       }
     };
     fetchApplications();

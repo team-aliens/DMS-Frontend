@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react';
 import {
   excludeVolunteerApplication,
   getVolunteerCurrent,
-  getVolunteers,
 } from '@/apis/volunteers';
 import { sexTypeToKorean, gradeEngToKorean } from '@/utils/translate';
 import trash from '../../assets/trash.svg';
+import { useToast } from '@/hooks/useToast';
 
 export function VolunteerApplication() {
   const [current, setCurrent] = useState<any[]>([]);
+  const { toastDispatch } = useToast();
 
   useEffect(() => {
     getVolunteerCurrent().then((response) => {
@@ -24,8 +25,18 @@ export function VolunteerApplication() {
   const handleDelete = async (id: string) => {
     try {
       await excludeVolunteerApplication(id);
+
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '봉사 활동에서 성공적으로 제외했습니다.',
+      });
     } catch (error) {
-      console.error(error);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '봉사 활동에서 제외에 실패했습니다.',
+      });
     }
   };
 
@@ -76,6 +87,7 @@ const _VolunteerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 64px;
+  margin-bottom: 100px;
   > div {
     display: flex;
     gap: 59px;

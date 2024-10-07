@@ -4,6 +4,7 @@ import {
   approveVolunteerApplication,
   rejectVolunteerApplication,
 } from '@/apis/volunteers';
+import { useToast } from '@/hooks/useToast';
 
 interface StudentInfoProps {
   name: string;
@@ -20,12 +21,22 @@ export function StudentInfo({
   onApprove,
   onDelete,
 }: StudentInfoProps) {
+  const { toastDispatch } = useToast();
   const handleApprove = async () => {
     try {
       await approveVolunteerApplication(id);
       onApprove(id);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '봉사 신청을 수락했습니다.',
+      });
     } catch (error) {
-      console.error(error);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '봉사 신청 수락에 실패했습니다.',
+      });
     }
   };
 
@@ -33,8 +44,17 @@ export function StudentInfo({
     try {
       await rejectVolunteerApplication(id);
       onDelete(id);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '봉사 신청을 거절했습니다.',
+      });
     } catch (error) {
-      console.error(error);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '봉사 신청 거절에 실패했습니다.',
+      });
     }
   };
 

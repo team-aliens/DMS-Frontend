@@ -16,6 +16,7 @@ import {
   SexToKorean,
 } from '@/utils/translate';
 import { SexType } from '@/apis/volunteers/request';
+import { useToast } from '@/hooks/useToast';
 
 interface EditVolunteerProps {
   closeModal: () => void;
@@ -42,6 +43,7 @@ export function EditVolunteer({
 }: EditVolunteerProps) {
   const [primaryGrade, setPrimaryGrade] = useState<string>('');
   const [secondaryGrade, setSecondaryGrade] = useState<string>('');
+  const { toastDispatch } = useToast();
 
   const grades = ['1학년', '2학년', '3학년'];
 
@@ -55,10 +57,6 @@ export function EditVolunteer({
       optional_score: optionalScore,
       max_applicants: maxApplicants,
     });
-
-    useEffect(() => {
-      console.log(score, optionalScore, maxApplicants)
-    }, [score, optionalScore])
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -102,10 +100,21 @@ export function EditVolunteer({
         ...editvolunteerData,
         available_grade: combinedGrade,
       });
+
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '봉사 활동을 성공적으로 수정했습니다.',
+      });
+      
       closeModal();
       window.location.reload();
     } catch (error) {
-      console.error(error);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '봉사 활동 수정에 실패했습니다.'
+      })
     }
   };
 

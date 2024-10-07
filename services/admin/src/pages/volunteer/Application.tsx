@@ -58,7 +58,7 @@ export function VolunteerApplication() {
                 availableSex={sexTypeToKorean(currentVolunteer.available_sex)}
                 status="noneIcon"
               />
-              <_StudentWrapper>
+              <_StudentWrapper> 
                 {currentVolunteer.applicants?.map((applicant) => (
                   <div key={applicant.id}>
                     <img

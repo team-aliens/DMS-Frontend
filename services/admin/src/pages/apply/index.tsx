@@ -48,6 +48,18 @@ export default function Index() {
             </_Wrapper>
           </Link>
         )}
+        {availableFeature?.volunteer_service && (
+          <Link to={pagePath.volunteer}>
+            <_Wrapper>
+              <div>
+                <Text size="titleM">봉사</Text>
+                <Text>
+                  냐냐 <br /> 냐ㅑ냐냐ㅑ.
+                </Text>
+              </div>
+            </_Wrapper>
+          </Link>
+        )}
       </Layout>
     </WithNavigatorBar>
   );

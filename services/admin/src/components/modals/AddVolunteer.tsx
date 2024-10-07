@@ -25,7 +25,7 @@ export function AddVolunteer() {
   const [volunteerData, setVolunteerData] = useState<addVolunteerWorkRequest>({
     name: '',
     content: '',
-    point: null,
+    score: null,
     optional_score: null,
     max_applicants: null,
     available_grade: '',
@@ -38,7 +38,7 @@ export function AddVolunteer() {
     const { name, value } = e.target;
 
     const newValue =
-      name === ' point' ||
+      name === ' score' ||
       name === 'optional_score' ||
       name === 'max_applicants'
         ? Number(value)
@@ -130,8 +130,8 @@ export function AddVolunteer() {
                 width={334}
                 type="number"
                 placeholder="ex) 1"
-                name="point"
-                value={volunteerData.point}
+                name="score"
+                value={volunteerData.score}
                 label="점수"
                 onChange={onChange}
               />

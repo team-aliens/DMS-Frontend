@@ -33,8 +33,8 @@ export function Volunteer() {
                 id={volunteer.id}
                 status="icon"
                 onDelete={handleDelete}
-                availablePoint={volunteer.point}
-                availableOptionalScore={volunteer.optional_point}
+                availablePoint={volunteer.score}
+                availableOptionalScore={volunteer.optional_score}
                 availableMaxApplicants={volunteer.max_applicants}
                 name={volunteer.name}
                 availableContent={volunteer.content}
@@ -58,4 +58,5 @@ const _BoxWrapper = styled.div`
   display: grid;
   grid-template-columns: 280px 280px 280px;
   gap: 75px;
+  margin-bottom: 100px;
 `;

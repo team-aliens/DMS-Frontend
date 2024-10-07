@@ -3,7 +3,7 @@ export type SexType = 'MALE' | 'FEMALE' | 'ALL';
 export interface addVolunteerWorkRequest {
   name: string;
   content: string;
-  point: number;
+  score: number;
   optional_score: number;
   max_applicants: number;
   available_sex: SexType;
@@ -13,7 +13,7 @@ export interface addVolunteerWorkRequest {
 export interface editVolunteerWorkRequest {
   name: string;
   content: string;
-  point: number;
+  score: number;
   optional_score: number;
   max_applicants: number;
   available_sex: SexType;

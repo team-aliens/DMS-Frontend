@@ -86,7 +86,7 @@ export const gradeTypeToKorean = (grade: GradeType): GradeToKorean => {
     case 0:
       return '모든 학년';
     case 1:
-      return '1학년';
+      return '1학년'; 
     case 2:
       return '2학년';
     case 3:

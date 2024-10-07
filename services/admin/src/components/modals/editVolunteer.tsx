@@ -23,7 +23,7 @@ interface EditVolunteerProps {
   name: string;
   sex: SexType;
   grade: string;
-  point: number;
+  score: number;
   optionalScore: number;
   maxApplicants: number;
   content: string;
@@ -35,7 +35,7 @@ export function EditVolunteer({
   name,
   sex,
   grade,
-  point,
+  score,
   optionalScore,
   maxApplicants,
   content,
@@ -51,10 +51,14 @@ export function EditVolunteer({
       content: content,
       available_sex: sex,
       available_grade: grade,
-      point: point,
+      score: score,
       optional_score: optionalScore,
       max_applicants: maxApplicants,
     });
+
+    useEffect(() => {
+      console.log(score, optionalScore, maxApplicants)
+    }, [score, optionalScore])
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -62,7 +66,7 @@ export function EditVolunteer({
     const { name, value } = e.target;
 
     const newValue =
-      name === 'point' || name === 'optional_score' || name === 'max_applicants'
+      name === 'score' || name === 'optional_score' || name === 'max_applicants'
         ? Number(value)
         : value;
 
@@ -158,8 +162,8 @@ export function EditVolunteer({
                 width={334}
                 type="number"
                 placeholder={'ex) 5'}
-                name="point"
-                value={editvolunteerData.point}
+                name="score"
+                value={editvolunteerData.score}
                 label="점수"
                 onChange={onChange}
               />

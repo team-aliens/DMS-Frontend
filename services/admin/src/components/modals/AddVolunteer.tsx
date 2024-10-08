@@ -18,6 +18,7 @@ export function AddVolunteer() {
   const [primaryGrade, setPrimaryGrade] = useState<string>('');
   const [secondaryGrade, setSecondaryGrade] = useState<string>('');
   const { toastDispatch } = useToast();
+  const [selectedSex, setSelectedSex] = useState<SexType>(null);
 
   const grades = ['1학년', '2학년', '3학년'];
   const { closeModal } = useModal();
@@ -41,7 +42,7 @@ export function AddVolunteer() {
       name === ' score' ||
       name === 'optional_score' ||
       name === 'max_applicants'
-        ? Number(value)
+        ? value === '' ?  null : Number(value)
         : value;
 
     setVolunteerData((prevData) => ({
@@ -59,6 +60,7 @@ export function AddVolunteer() {
   };
 
   const onSexButtonClick = (sex: SexType) => {
+    setSelectedSex(sex);
     setVolunteerData((prevData) => ({
       ...prevData,
       available_sex: sex,
@@ -154,16 +156,16 @@ export function AddVolunteer() {
                 onChange={onChange}
               />
               <_ButtonWrapper>
-                <Button kind="outline" onClick={() => onSexButtonClick('MALE')}>
+                <Button kind={selectedSex === 'MALE' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('MALE')}>
                   남자
                 </Button>
                 <Button
-                  kind="outline"
+                  kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
                   onClick={() => onSexButtonClick('FEMALE')}
                 >
                   여자
                 </Button>
-                <Button kind="outline" onClick={() => onSexButtonClick('ALL')}>
+                <Button kind={selectedSex === 'ALL' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('ALL')}>
                   전체
                 </Button>
               </_ButtonWrapper>

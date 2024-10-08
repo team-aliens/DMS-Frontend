@@ -12,8 +12,6 @@ import { editVolunteerWorkRequest } from '@/apis/volunteers/request';
 import {
   gradeKoreanCalculator,
   gradeEngToKorean,
-  sexKoreanToEng,
-  SexToKorean,
 } from '@/utils/translate';
 import { SexType } from '@/apis/volunteers/request';
 import { useToast } from '@/hooks/useToast';
@@ -58,6 +56,8 @@ export function EditVolunteer({
       max_applicants: maxApplicants,
     });
 
+  const [selectedSex, setSelectedSex] = useState<SexType>('ALL');
+
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -65,7 +65,7 @@ export function EditVolunteer({
 
     const newValue =
       name === 'score' || name === 'optional_score' || name === 'max_applicants'
-        ? Number(value)
+        ? value === '' ?  null : Number(value)
         : value;
 
     setEditVolunteerData((prevData) => ({
@@ -83,6 +83,7 @@ export function EditVolunteer({
   };
 
   const onSexButtonClick = (sex: SexType) => {
+    setSelectedSex(sex);
     setEditVolunteerData((prevData) => ({
       ...prevData,
       available_sex: sex,
@@ -132,7 +133,8 @@ export function EditVolunteer({
 
     setPrimaryGrade(gradeEngToKorean(firstGrade || ''));
     setSecondaryGrade(gradeEngToKorean(secondGrade || ''));
-  }, [grade]);
+    setSelectedSex(sex);
+  }, [grade, sex]);
 
   return (
     <Modal
@@ -194,16 +196,16 @@ export function EditVolunteer({
                 onChange={onChange}
               />
               <_ButtonWrapper>
-                <Button kind="outline" onClick={() => onSexButtonClick('MALE')}>
+                <Button kind={selectedSex === 'MALE' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('MALE')}>
                   남자
                 </Button>
                 <Button
-                  kind="outline"
+                  kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
                   onClick={() => onSexButtonClick('FEMALE')}
                 >
                   여자
                 </Button>
-                <Button kind="outline" onClick={() => onSexButtonClick('ALL')}>
+                <Button kind={selectedSex === 'ALL' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('ALL')}>
                   전체
                 </Button>
               </_ButtonWrapper>

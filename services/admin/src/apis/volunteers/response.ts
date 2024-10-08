@@ -11,6 +11,7 @@ export interface volunteer {
   max_applicants: number;
   available_sex: string;
   available_grade: string;
+  current_applicants: number;
 }
 
 export interface getApplicationVolunteerStudentsResponse {
@@ -28,8 +29,10 @@ export interface getVolunteerCurrentResponse {
 }
 
 export interface currentVolunteer {
-  volunteer_name: string;
+  name: string;
   available_sex: string;
   available_grade: string;
+  current_applicants: number;
+  max_applicants: number;
   applicants: applicant[];
 }

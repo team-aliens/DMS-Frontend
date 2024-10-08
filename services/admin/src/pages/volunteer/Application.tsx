@@ -54,7 +54,7 @@ export function VolunteerApplication() {
             <div key={currentVolunteer.id}>
               <InfoCard
                 id={currentVolunteer.id}
-                name={currentVolunteer.volunteer_name}
+                name={currentVolunteer.name}
                 availableGrade={gradeEngToKorean(
                   currentVolunteer.available_grade
                 )}

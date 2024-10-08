@@ -49,12 +49,12 @@ export default function Index() {
           </Link>
         )}
         {availableFeature?.volunteer_service && (
-          <Link to={pagePath.volunteer}>
+          <Link to={pagePath.apply.volunteer.list}>
             <_Wrapper>
               <div>
                 <Text size="titleM">봉사</Text>
                 <Text>
-                  냐냐 <br /> 냐ㅑ냐냐ㅑ.
+                  봉사 신청 명단을 확인하고 <br /> 관리할 수 있습니다.
                 </Text>
               </div>
             </_Wrapper>

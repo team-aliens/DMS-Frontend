@@ -6,16 +6,18 @@ import { useState, useEffect } from 'react';
 import { getApplicationVolunteerStudents } from '@/apis/volunteers';
 import { useParams } from 'react-router-dom';
 import { useToast } from '@/hooks/useToast';
+import { BreadCrumb } from '@team-aliens/design-system';
+import { pathToKorean } from '@/router';
 
 export function VolunteerDetail() {
-  const { volunteerId } = useParams<{ volunteerId: string }>();
+  const { id } = useParams<{ id: string }>();
   const [applications, setApplications] = useState<any[]>([]);
   const { toastDispatch } = useToast();
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await getApplicationVolunteerStudents(volunteerId);
+        const response = await getApplicationVolunteerStudents(id);
         setApplications(response?.applicants || []);
       } catch (error) {
         toastDispatch({
@@ -26,7 +28,7 @@ export function VolunteerDetail() {
       }
     };
     fetchApplications();
-  }, [volunteerId]);
+  }, [id]);
 
   const handleApprove = (id: string) => {
     setApplications((prevApplications) =>
@@ -43,6 +45,7 @@ export function VolunteerDetail() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
+        <BreadCrumb left={366} pathToKorean={pathToKorean}/>
         <VolunteerHeader />
         <_StudentInfoWrapper>
           {applications.map((applicant) => (

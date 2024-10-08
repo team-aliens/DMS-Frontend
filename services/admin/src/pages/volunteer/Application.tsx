@@ -2,7 +2,7 @@ import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import styled from 'styled-components';
 import { VolunteerHeader } from './Header';
 import { InfoCard } from '@/components/volunteer/InfoCard';
-import { Text } from '@team-aliens/design-system';
+import { BreadCrumb, Text } from '@team-aliens/design-system';
 import { useEffect, useState } from 'react';
 import {
   excludeVolunteerApplication,
@@ -11,6 +11,7 @@ import {
 import { sexTypeToKorean, gradeEngToKorean } from '@/utils/translate';
 import trash from '../../assets/trash.svg';
 import { useToast } from '@/hooks/useToast';
+import { pathToKorean } from '@/router';
 
 export function VolunteerApplication() {
   const [current, setCurrent] = useState<any[]>([]);
@@ -45,18 +46,23 @@ export function VolunteerApplication() {
   return (
     <WithNavigatorBar>
       <_Wrapper>
+        <BreadCrumb left={366} pathToKorean={pathToKorean}/>
         <VolunteerHeader />
         <_VolunteerWrapper>
           {current.map((currentVolunteer) => (
+            
             <div key={currentVolunteer.id}>
               <InfoCard
                 id={currentVolunteer.id}
                 name={currentVolunteer.volunteer_name}
                 availableGrade={gradeEngToKorean(
-                  currentVolunteer.available_grade,
+                  currentVolunteer.available_grade
                 )}
                 availableSex={sexTypeToKorean(currentVolunteer.available_sex)}
                 status="noneIcon"
+                maxApplicants={currentVolunteer.max_applicants}
+                currentApplicants={currentVolunteer.current_applicants}
+                detailPath='/apply/volunteer/current/detail'
               />
               <_StudentWrapper> 
                 {currentVolunteer.applicants?.map((applicant) => (

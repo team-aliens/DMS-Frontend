@@ -20,6 +20,9 @@ interface VolunteersInfoProps {
   availableOptionalScore?: number;
   availableMaxApplicants?: number;
   availableContent?: string;
+  currentApplicants?: number;
+  maxApplicants?: number;
+  detailPath?: string;
 }
 
 export function InfoCard({
@@ -33,6 +36,9 @@ export function InfoCard({
   availableOptionalScore,
   availableMaxApplicants,
   availableContent,
+  currentApplicants,
+  maxApplicants,
+  detailPath,
 }: VolunteersInfoProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toastDispatch } = useToast();
@@ -67,11 +73,16 @@ export function InfoCard({
   return (
     <>
       <_Wrapper>
-        <Link to={`/volunteer/detail/${id}`}>
-          <Text color="gray8" size="bodyM" cursor="pointer">
-            {name}
-          </Text>
-        </Link>
+        <_HeaderWrapper>
+          <Link to={`${detailPath}/${id}`}>
+            <Text color="gray8" size="bodyM" cursor="pointer">
+              {name}
+            </Text>
+          </Link>
+          <_PeopleWrapper>
+            <Text color='gray5' size='bodyM'>{currentApplicants}/{maxApplicants}</Text>
+          </_PeopleWrapper>
+        </_HeaderWrapper>
         <_Divider />
         <_Info>
           <_TextWrapper>
@@ -106,12 +117,20 @@ export function InfoCard({
 }
 
 const _Wrapper = styled.li`
-  width: 280px;
-  height: 110px;
+  min-width: 280px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.gray1};
   box-shadow: 0 1px 20px rgba(238, 238, 238, 0.8);
   padding: 20px 20px 14px 20px;
+`;
+
+const _HeaderWrapper = styled.div`
+  display: flex;
+  gap: 30px;
+`;
+
+const _PeopleWrapper = styled.div`
+  margin-left: auto;
 `;
 
 const _Divider = styled.hr`

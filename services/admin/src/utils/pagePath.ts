@@ -22,6 +22,11 @@ interface PagePath {
         studyRoomId: number | string,
       ) => `/apply/study/detail/patch/${typeof studyRoomId}`;
     };
+    volunteer: {
+      list: '/apply/volunteer',
+      detail: (volunteerId: number | string) => `/apply/volunteer/detail/${typeof volunteerId}`,
+      currentDetail: (volunteerId: number | string) => `/apply/volunteer/current/detail/${typeof volunteerId}`
+    },
   };
   notice: {
     list: '/notice';
@@ -32,7 +37,6 @@ interface PagePath {
     ) => `/notice/detail/patch/${typeof noticeId}`;
   };
   outing: '/outing';
-  volunteer: '/volunteer';
 }
 
 export const pagePath: PagePath = {
@@ -63,7 +67,11 @@ export const pagePath: PagePath = {
       patch: (studyRoomId: number | string) =>
         `/apply/study/detail/patch/${studyRoomId}`,
     },
+    volunteer: {
+      list: '/apply/volunteer',
+      detail: (volunteerId: number | string) => `/apply/volunteer/detail/${volunteerId}`,
+      currentDetail: (volunteerId: number | string) => `/apply/volunteer/current/detail/${volunteerId}`
+    },
   },
   outing: '/outing',
-  volunteer: '/volunteer',
 } as const;

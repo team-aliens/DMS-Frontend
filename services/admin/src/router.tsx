@@ -56,6 +56,10 @@ export const pathToKorean = {
     },
     volunteer: {
       index: '봉사 신청',
+      current: '봉사 현황',
+      detail: {
+        index: '봉사 상세보기',
+      }
     },
   },
   'my-page': {
@@ -118,6 +122,15 @@ export const Router = createBrowserRouter([
             path: 'remains',
             children: [{ index: true, element: <RemainsLists /> }],
           },
+          {
+            path: 'volunteer',
+            children: [
+              { index: true, element: <Volunteer/> },
+              { path: `detail/:id`, element: <VolunteerDetail/> },
+              { path: 'current', element: <VolunteerApplication/> },
+              { path: 'current/detail/:id', element: <VolunteerDetail/> }
+            ]
+          }
         ],
       },
       {
@@ -126,14 +139,6 @@ export const Router = createBrowserRouter([
           { index: true, element: <Outing /> },
           { path: ':id', element: <Outing /> },
           { path: 'time', element: <OutingTimeSet /> },
-        ],
-      },
-      {
-        path: pagePath.volunteer,
-        children: [
-          { index: true, element: <Volunteer /> },
-          { path: 'detail', element: <VolunteerDetail /> },
-          { path: 'current', element: <VolunteerApplication /> },
         ],
       },
     ],

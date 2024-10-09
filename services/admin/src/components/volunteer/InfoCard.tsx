@@ -101,7 +101,6 @@ export function InfoCard({
       </_Wrapper>
       {isEditModalOpen && (
         <EditVolunteer
-          content={availableContent}
           score={availablePoint}
           optionalScore={availableOptionalScore}
           maxApplicants={availableMaxApplicants}

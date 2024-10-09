@@ -25,7 +25,6 @@ interface EditVolunteerProps {
   score: number;
   optionalScore: number;
   maxApplicants: number;
-  content: string;
 }
 
 export function EditVolunteer({
@@ -37,7 +36,6 @@ export function EditVolunteer({
   score,
   optionalScore,
   maxApplicants,
-  content,
 }: EditVolunteerProps) {
   const [primaryGrade, setPrimaryGrade] = useState<string>('');
   const [secondaryGrade, setSecondaryGrade] = useState<string>('');
@@ -48,7 +46,6 @@ export function EditVolunteer({
   const [editvolunteerData, setEditVolunteerData] =
     useState<editVolunteerWorkRequest>({
       name: name,
-      content: content,
       available_sex: sex,
       available_grade: grade,
       score: score,
@@ -140,86 +137,80 @@ export function EditVolunteer({
     <Modal
       close={closeModal}
       title="봉사 수정"
-      width="1151px"
+      width="800px"
       inputList={[
         <>
           <_Container>
             <_InputWrapper>
-              <Input
-                width={334}
-                type="text"
-                placeholder="ex) 2층 자습실 청소"
-                name="name"
-                label="제목"
-                value={editvolunteerData.name}
-                onChange={onChange}
-              />
-              <DropDown
-                items={grades}
-                placeholder={primaryGrade || ''}
-                value={primaryGrade}
-                width={334}
-                onChange={(value) => onDropDownChange('primary', value)}
-                label="조건"
-              />
-              <DropDown
-                items={grades}
-                placeholder={secondaryGrade || ''}
-                value={secondaryGrade}
-                width={334}
-                onChange={(value) => onDropDownChange('secondary', value)}
-              />
-              <Input
-                width={334}
-                type="number"
-                placeholder={'ex) 5'}
-                name="score"
-                value={editvolunteerData.score}
-                label="점수"
-                onChange={onChange}
-              />
-              <Input
-                width={334}
-                type="number"
-                placeholder="ex) 10"
-                name="optional_score"
-                value={editvolunteerData.optional_score}
-                onChange={onChange}
-              />
-              <Input
-                width={334}
-                type="number"
-                placeholder="ex) 3"
-                name="max_applicants"
-                label="인원수"
-                value={editvolunteerData.max_applicants}
-                onChange={onChange}
-              />
-              <_ButtonWrapper>
-                <Button kind={selectedSex === 'MALE' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('MALE')}>
-                  남자
-                </Button>
-                <Button
-                  kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
-                  onClick={() => onSexButtonClick('FEMALE')}
-                >
-                  여자
-                </Button>
-                <Button kind={selectedSex === 'ALL' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('ALL')}>
-                  전체
-                </Button>
-              </_ButtonWrapper>
+              <_Contents>
+                <Input
+                  width={334}
+                  type="text"
+                  placeholder="ex) 2층 자습실 청소"
+                  name="name"
+                  label="제목"
+                  value={editvolunteerData.name}
+                  onChange={onChange}
+                />
+                <DropDown
+                  items={grades}
+                  placeholder={primaryGrade || ''}
+                  value={primaryGrade}
+                  width={334}
+                  onChange={(value) => onDropDownChange('primary', value)}
+                  label="조건"
+                />
+                <DropDown
+                  items={grades}
+                  placeholder={secondaryGrade || ''}
+                  value={secondaryGrade}
+                  width={334}
+                  onChange={(value) => onDropDownChange('secondary', value)}
+                />
+                <_ButtonWrapper>
+                  <Button kind={selectedSex === 'MALE' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('MALE')}>
+                    남자
+                  </Button>
+                  <Button
+                    kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
+                    onClick={() => onSexButtonClick('FEMALE')}
+                  >
+                    여자
+                  </Button>
+                  <Button kind={selectedSex === 'ALL' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('ALL')}>
+                    전체
+                  </Button>
+                </_ButtonWrapper>  
+              </_Contents>
+              <_Contents>
+                <Input
+                  width={334}
+                  type="number"
+                  placeholder={'ex) 5'}
+                  name="score"
+                  value={editvolunteerData.score}
+                  label="점수"
+                  onChange={onChange}
+                />
+                <Input
+                  width={334}
+                  type="number"
+                  placeholder="ex) 10"
+                  name="optional_score"
+                  value={editvolunteerData.optional_score}
+                  onChange={onChange}
+                />
+                <Input
+                  width={334}
+                  type="number"
+                  placeholder="ex) 3"
+                  name="max_applicants"
+                  label="인원수"
+                  value={editvolunteerData.max_applicants}
+                  onChange={onChange}
+                />
+              </_Contents>
             </_InputWrapper>
-            <_TextAreaWrapper>
-              <_TextareaText>내용</_TextareaText>
-              <TextArea
-                width={703}
-                height={520}
-                name="content"
-                onChange={onChange}
-                value={editvolunteerData.content}
-              />
-            </_TextAreaWrapper>
           </_Container>
         </>,
       ]}
@@ -235,10 +226,15 @@ export function EditVolunteer({
   );
 }
 
-const _InputWrapper = styled.div`
+const _Contents = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 24px;
+`;
+
+const _InputWrapper = styled.div`
+  display: flex;
+  gap: 50px;
 `;
 
 const _ButtonWrapper = styled.div`

@@ -110,48 +110,60 @@ export function Outing() {
                 {approvedStatusLists && approvedStatusLists.length === 0 ? (
                   <Text size="bodyM">외출 신청자가 없습니다.</Text>
                 ) : (
-                  <_OutingWrapper>
-                    {approvedStatusLists?.filter((options) =>
-                      options.student_name.includes(
-                        outingOptionState.outing_option_name,
-                      ),
-                    ).length === 0 ? (
-                      <Text size="bodyM">검색 결과가 없습니다.</Text>
-                    ) : (
-                      approvedStatusLists
-                        ?.filter((options) =>
-                          options.student_name.includes(
-                            outingOptionState.outing_option_name,
-                          ),
-                        )
-                        .map((options) => {
-                          const {
-                            outing_application_id,
-                            outing_type,
-                            student_name,
-                            outing_time,
-                            arrival_time,
-                            outing_companion_count,
-                          } = options;
-                          return (
-                            <MemberBox
-                              key={outing_application_id}
-                              outing_application_id={outing_application_id}
-                              outing_type={outing_type}
-                              student_name={student_name}
-                              outing_time={outing_time}
-                              arrival_time={arrival_time}
-                              outing_companion_count={outing_companion_count}
-                              isReqeustModal={MustTrue}
-                            />
-                          );
-                        })
+                  <>
+                    {approvedStatusLists?.filter((options) => options.student_name.includes(outingOptionState.outing_option_name),
+                    ).length > 0 && (
+                      <_HeaderWrapper>
+                        <Text margin={['left', 652]}>외출 확인</Text>
+                        <Text margin={['left', 13]}>복귀 확인</Text>
+                        <Text margin={['left', 27]}>문자 전송 확인</Text>
+                      </_HeaderWrapper>
                     )}
-                  </_OutingWrapper>
+                    <_OutingWrapper>
+                      {approvedStatusLists?.filter((options) =>
+                        options.student_name.includes(
+                          outingOptionState.outing_option_name,
+                        ),
+                      ).length === 0 ? (
+                        <Text size="bodyM">검색 결과가 없습니다.</Text>
+                      ) : (
+                        approvedStatusLists
+                          ?.filter((options) =>
+                            options.student_name.includes(
+                              outingOptionState.outing_option_name,
+                            ),
+                          )
+                          .map((options) => {
+                            const {
+                              outing_application_id,
+                              outing_type,
+                              student_name,
+                              outing_time,
+                              arrival_time,
+                              outing_companion_count,
+                            } = options;
+                            
+                            return (
+                              <MemberBox
+                                key={outing_application_id}
+                                outing_application_id={outing_application_id}
+                                outing_type={outing_type}
+                                student_name={student_name}
+                                outing_time={outing_time}
+                                arrival_time={arrival_time}
+                                outing_companion_count={outing_companion_count}
+                                isReqeustModal={MustTrue}
+                              />
+                            );
+                          })
+                      )}
+                    </_OutingWrapper>
+                  </>
+                  
                 )}
               </_Container>
             </_Box>
-            <_Box>
+            {/* <_Box>
               <_Container>
                 <Text size="titleS">외출 완료</Text>
                 <_SearchWrapper>
@@ -199,7 +211,7 @@ export function Outing() {
                   </_OutingWrapper>
                 )}
               </_Container>
-            </_Box>
+            </_Box> */}
           </_BoxWrapper>
         </_Wrapper>
       </WithNavigatorBar>
@@ -239,7 +251,7 @@ export function Outing() {
 
 const _Box = styled.div`
   position: relative;
-  width: 506px;
+  width: 100%;
   height: 628px;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 15px 0px;
@@ -257,6 +269,12 @@ const _OutingWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const _HeaderWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
 `;
 
 const _Wrapper = styled.div`

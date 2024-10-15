@@ -18,9 +18,11 @@ export function MemberBox({
   outing_type,
   student_name,
 }: PropsType) {
-  const [outingSelected, setOutingSelected] = useState<boolean>(false);
-  const [arrivalSelected, setArrivalSelected] = useState<boolean>(false);
-  const [smsSelected, setSmsSelected] = useState<boolean>(false);
+  const [checkBoxState, setCheckBoxState] = useState({
+    outingSelected: false,
+    arrivalSelected: false,
+    smsSelected: false,
+  })
   const navigate = useNavigate();
   const { selectModal } = useModal();
 
@@ -29,18 +31,18 @@ export function MemberBox({
 
   const modalPropsType = isReqeustModal ? openOutingApplyModal : openDoneModal;
 
-  const onChangeOutingCheckBox = () => {
-    setOutingSelected(!outingSelected);
-  }
+  const handleNavigateAndOpenModal = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    navigate(`/outing/${id}`);
+    modalPropsType();
+  };
 
-  const onChangeArrivalCheckBox = () => {
-    setArrivalSelected(!arrivalSelected);
+  const onChangeCheckBox = (field: keyof typeof checkBoxState) => {
+    setCheckBoxState((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }))
   }
-
-  const onChangeSmsCheckBox = () => {
-    setSmsSelected(!smsSelected);
-  }
-  
 
   return (
     <_Wrapper>
@@ -52,22 +54,14 @@ export function MemberBox({
             size='bodyM' 
             margin={['right', 24]}
             key={outing_application_id}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/outing/${outing_application_id}`);
-              modalPropsType();
-            }}
+            onClick={(e) => handleNavigateAndOpenModal(e, outing_application_id)}
           >
             2214
           </Text>
           <Text 
             cursor='pointer'
             key={outing_application_id}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/outing/${outing_application_id}`);
-              modalPropsType();
-            }}
+            onClick={(e) => handleNavigateAndOpenModal(e, outing_application_id)}
             className="name" 
             size="bodyM" 
             margin={['right', 126]}
@@ -77,11 +71,7 @@ export function MemberBox({
           <Text
             cursor='pointer'
             key={outing_application_id}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/outing/${outing_application_id}`);
-              modalPropsType();
-            }}
+            onClick={(e) => handleNavigateAndOpenModal(e, outing_application_id)}
             className="outing-type"
             size="bodyS"
             color="gray5"
@@ -104,24 +94,24 @@ export function MemberBox({
             {outing_time} ~ {arrival_time}
           </Text>
           <CheckBox 
-            onChange={onChangeOutingCheckBox}
+            onChange={() => onChangeCheckBox('outingSelected')}
             className='outing' 
             size={24}
-            status={outingSelected}
+            status={checkBoxState.outingSelected}
             margin={[0,58,0,0]}
           />
           <CheckBox 
-            onChange={onChangeArrivalCheckBox}
+            onChange={() => onChangeCheckBox('arrivalSelected')}
             className='arrival' 
             size={24}
-            status={arrivalSelected}
+            status={checkBoxState.arrivalSelected}
             margin={[0,91,0,0]}
           />
           <CheckBox 
-            onChange={onChangeSmsCheckBox}
+            onChange={() => onChangeCheckBox('smsSelected')}
             className='sms' 
             size={24}
-            status={smsSelected}
+            status={checkBoxState.smsSelected}
           />
         </_DetailWrapper>
       </InfoContainer>

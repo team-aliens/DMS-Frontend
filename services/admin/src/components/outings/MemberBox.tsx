@@ -4,27 +4,37 @@ import { Text } from '@team-aliens/design-system';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '@/hooks/useModal';
 import { CheckBox } from '@team-aliens/design-system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { updateOutingApplicationStatus } from '@/apis/outing';
+import { useToast } from '@/hooks/useToast';
 
 interface PropsType extends OutingApplication {
   isReqeustModal?: boolean;
+  idList?: string[];
+  onChangeSelectSameId?: (id: string) => void;
 }
 
 export function MemberBox({
   isReqeustModal,
-  outing_application_id,
+  id,
   outing_time,
   arrival_time,
   outing_type,
+  student_gcn,
   student_name,
+  is_approved,
+  is_returned,
+  idList,
+  onChangeSelectSameId,
 }: PropsType) {
   const [checkBoxState, setCheckBoxState] = useState({
-    outingSelected: false,
-    arrivalSelected: false,
+    outingSelected: is_approved || false,
+    arrivalSelected: is_returned || false,
     smsSelected: false,
   })
   const navigate = useNavigate();
   const { selectModal } = useModal();
+  const { toastDispatch } = useToast();
 
   const openOutingApplyModal = () => selectModal('OUTING_REQUESTED');
   const openDoneModal = () => selectModal('OUTING_DONE');
@@ -37,31 +47,82 @@ export function MemberBox({
     modalPropsType();
   };
 
-  const onChangeCheckBox = (field: keyof typeof checkBoxState) => {
+  const uniqueId = `${student_gcn}_${id}`;
+  const isSameId = idList?.filter(studentId => studentId === id);
+  const boxColor = isSameId ? '#4088be' : '#F9F9F9';
+
+  const onChangeCheckBox = async (field: 'outingSelected' | 'arrivalSelected') => {
+    const updatedState = !checkBoxState[field];
+
     setCheckBoxState((prevState) => ({
       ...prevState,
-      [field]: !prevState[field],
-    }))
-  }
+      [field]: updatedState,
+    }));
+
+    if (onChangeSelectSameId) {
+      onChangeSelectSameId(id);
+    }
+
+    try {
+      await updateOutingApplicationStatus(
+        id,
+        field === 'outingSelected' ? updatedState : checkBoxState.outingSelected,
+        field === 'arrivalSelected' ? updatedState : checkBoxState.arrivalSelected,
+      );
+    } catch (error) {
+      toastDispatch({
+        toastType: 'ERROR',
+        actionType: 'APPEND_TOAST',
+        message: '외출 상태 변경에 실패했습니다.'
+      })
+      setCheckBoxState((prevState) => ({
+        ...prevState,
+        [field]: !updatedState,
+      }));
+    }
+  };
+  
+  useEffect(() => {
+    const storedSmsState = localStorage.getItem(`smsState_${uniqueId}`);
+    const initialSmsSelected = storedSmsState ? JSON.parse(storedSmsState) : false;
+
+    setCheckBoxState((prevState) => ({
+      ...prevState,
+      smsSelected: initialSmsSelected,
+      outingSelected: is_approved || false,
+      arrivalSelected: is_returned || false,
+    }));
+  }, [uniqueId, is_approved, is_returned]);
+
+  const handleSmsCheckBoxChange = () => {
+    setCheckBoxState((prevState) => {
+      const newSmsState = !prevState.smsSelected;
+      localStorage.setItem(`smsState_${uniqueId}`, JSON.stringify(newSmsState)); 
+      return {
+        ...prevState,
+        smsSelected: newSmsState,
+      };
+    });
+  };
 
   return (
     <_Wrapper>
-      <InfoContainer>
+      <InfoContainer boxColor={boxColor}>
         <_DetailWrapper>
-          <Text 
+          <Text
             cursor='pointer'
             className='gcd' 
             size='bodyM' 
             margin={['right', 24]}
-            key={outing_application_id}
-            onClick={(e) => handleNavigateAndOpenModal(e, outing_application_id)}
+            key={id}
+            onClick={(e) => handleNavigateAndOpenModal(e, id)}
           >
-            2214
+            {student_gcn}
           </Text>
           <Text 
             cursor='pointer'
-            key={outing_application_id}
-            onClick={(e) => handleNavigateAndOpenModal(e, outing_application_id)}
+            key={id}
+            onClick={(e) => handleNavigateAndOpenModal(e, id)}
             className="name" 
             size="bodyM" 
             margin={['right', 126]}
@@ -70,8 +131,8 @@ export function MemberBox({
           </Text>
           <Text
             cursor='pointer'
-            key={outing_application_id}
-            onClick={(e) => handleNavigateAndOpenModal(e, outing_application_id)}
+            key={id}
+            onClick={(e) => handleNavigateAndOpenModal(e, id)}
             className="outing-type"
             size="bodyS"
             color="gray5"
@@ -84,12 +145,8 @@ export function MemberBox({
             className="time" 
             size="bodyS" 
             margin={['right', 134]}
-            key={outing_application_id}
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/outing/${outing_application_id}`);
-              modalPropsType();
-            }}
+            key={id}
+            onClick={(e) => handleNavigateAndOpenModal(e, id)}
           >
             {outing_time} ~ {arrival_time}
           </Text>
@@ -97,6 +154,7 @@ export function MemberBox({
             onChange={() => onChangeCheckBox('outingSelected')}
             className='outing' 
             size={24}
+            disabled={false}
             status={checkBoxState.outingSelected}
             margin={[0,58,0,0]}
           />
@@ -108,7 +166,7 @@ export function MemberBox({
             margin={[0,91,0,0]}
           />
           <CheckBox 
-            onChange={() => onChangeCheckBox('smsSelected')}
+            onChange={handleSmsCheckBoxChange}
             className='sms' 
             size={24}
             status={checkBoxState.smsSelected}
@@ -125,10 +183,10 @@ const _Wrapper = styled.div`
   gap: 7px;
 `;
 
-const InfoContainer = styled.div`
+const InfoContainer = styled.div<{boxColor: string}>`
   width: 972px;
   border-radius: 6px;
-  background-color: #F9F9F9;
+  background-color: ${({boxColor}) => boxColor};
   border: 1px solid #eeeeee;
   padding: 12px 25px;
 `;

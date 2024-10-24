@@ -14,20 +14,21 @@ export interface OutingApplicationDetailResponse {
   student_room_number: number;
   outing_time: string;
   arrival_time: string;
-  outing_status: OutingStatusType;
   reason: string;
   outing_type: string;
   students: Student[];
 }
 
 export interface OutingApplication {
-  outing_application_id: string;
+  id: string;
   student_name: string;
+  student_gcn: string
   outing_type: string;
-  outing_status?: OutingStatusType;
   outing_companion_count?: number;
   outing_time: string;
   arrival_time: string;
+  is_approved: boolean;
+  is_returned: boolean;
 }
 
 export interface OutingApplicationsResponse {

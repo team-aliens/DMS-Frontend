@@ -3,7 +3,7 @@ import {
   OutingApplicationDetailResponse,
   OutingApplicationsResponse,
 } from './response';
-import { MutationOptions, useMutation } from '@tanstack/react-query';
+import { MutationOptions, useMutation, useQueryClient } from '@tanstack/react-query';
 import fileSaver from 'file-saver';
 import { getFileNameFromContentDisposition } from '@/utils/decoder';
 import { useToast } from '@/hooks/useToast';
@@ -14,6 +14,7 @@ import {
   SettingOutingRequestType,
 } from './request';
 import { DAY } from '../remains';
+import { queryKeys } from '@/utils/queryKeys';
 
 const router = '/outings';
 
@@ -47,13 +48,11 @@ export const fetchOutingApplications = async (
 /** 외출 신청 상태 변경 */
 export const updateOutingApplicationStatus = async (
   outingApplicationId: string,
-  outing_status: OutingStatusType,
+  is_approved: boolean,
+  is_returned: boolean,
 ) => {
   return await instance
-    .patch(`${router}/${outingApplicationId}?outing_status=${outing_status}`)
-    .then(() => {
-      window.location.reload();
-    });
+    .patch(`${router}/${outingApplicationId}?is_approved=${is_approved}&is_returned=${is_returned}`)
 };
 
 /** 외출 유형 조회 */

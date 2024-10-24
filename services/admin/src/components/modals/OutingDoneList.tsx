@@ -21,7 +21,7 @@ export function OutingDoneList() {
   }, [id]);
 
   const handleStatus = async () => {
-    await updateOutingApplicationStatus(id, 'DONE');
+    await updateOutingApplicationStatus(id, true, true);
     closeModal();
   };
 

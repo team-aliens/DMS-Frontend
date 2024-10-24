@@ -15,15 +15,15 @@ export function OutingStudentList({ detailInfoData }: ListPropsType) {
           <Text size="bodyS" color="gray5">
             {detailInfoData?.student_gcn}
           </Text>
-          <div>
-            <Text size="bodyS" color="gray5">
-              {detailInfoData?.student_room_number}
-            </Text>
-          </div>
           <Text size="bodyS" color="primary">
             신청자
           </Text>
         </_CenterWrapper>
+        <div style={{marginLeft: 'auto'}}>
+          <Text size="bodyS" color="gray5">
+            {detailInfoData?.student_room_number}호
+          </Text>
+        </div>
       </_Wrapper>
       {detailInfoData?.students.map((item) => (
         <_Wrapper key={item.id}>
@@ -32,12 +32,12 @@ export function OutingStudentList({ detailInfoData }: ListPropsType) {
             <Text size="bodyS" color="gray5">
               {item.student_gcn}
             </Text>
-            <div>
+          </_CenterWrapper>
+          <div style={{marginLeft: 'auto'}}>
               <Text size="bodyS" color="gray5">
-                {item.room_number}
+                {item.room_number}호
               </Text>
             </div>
-          </_CenterWrapper>
         </_Wrapper>
       ))}
     </>
@@ -53,6 +53,7 @@ const _Wrapper = styled.div<{
   justify-content: space-between;
   width: 100%;
   height: 50px;
+  padding: 13px 20px;
   background-color: ${({ theme }) => theme.color.gray2};
   border: 2px solid
     ${({ OptionSelectedCheck }) =>
@@ -66,5 +67,4 @@ const _CenterWrapper = styled.div`
   align-items: center;
   gap: 20px;
   cursor: pointer;
-  padding-left: 20px;
 `;

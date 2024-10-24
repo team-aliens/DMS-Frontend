@@ -30,7 +30,6 @@ export function OutingInfoWrapper({
       detail: `${detailInfoData?.outing_time} ~ ${detailInfoData?.arrival_time}`,
     },
     { label: '외출 유형', detail: `${detailInfoData?.outing_type}` },
-    { label: '상태', detail: `${detailInfoData?.outing_status}`, isTag: true },
   ];
 
   return (

@@ -31,7 +31,8 @@ export function MemberBox({
     outingSelected: is_approved || false,
     arrivalSelected: is_returned || false,
     smsSelected: false,
-  })
+  });
+  console.log('onChangeSelectSameId', onChangeSelectSameId);
   const navigate = useNavigate();
   const { selectModal } = useModal();
   const { toastDispatch } = useToast();
@@ -48,10 +49,12 @@ export function MemberBox({
   };
 
   const uniqueId = `${student_gcn}_${id}`;
-  const isSameId = idList?.filter(studentId => studentId === id);
+  const isSameId = idList?.filter((studentId) => studentId === id);
   const boxColor = isSameId ? '#4088be' : '#F9F9F9';
 
-  const onChangeCheckBox = async (field: 'outingSelected' | 'arrivalSelected') => {
+  const onChangeCheckBox = async (
+    field: 'outingSelected' | 'arrivalSelected',
+  ) => {
     const updatedState = !checkBoxState[field];
 
     setCheckBoxState((prevState) => ({
@@ -66,25 +69,33 @@ export function MemberBox({
     try {
       await updateOutingApplicationStatus(
         id,
-        field === 'outingSelected' ? updatedState : checkBoxState.outingSelected,
-        field === 'arrivalSelected' ? updatedState : checkBoxState.arrivalSelected,
+        field === 'outingSelected'
+          ? updatedState
+          : checkBoxState.outingSelected,
+        field === 'arrivalSelected'
+          ? updatedState
+          : checkBoxState.arrivalSelected,
       );
+      // 상태 업데이트가 성공적으로 완료되면 새로고침
+      window.location.reload();
     } catch (error) {
       toastDispatch({
         toastType: 'ERROR',
         actionType: 'APPEND_TOAST',
-        message: '외출 상태 변경에 실패했습니다.'
-      })
+        message: '외출 상태 변경에 실패했습니다.',
+      });
       setCheckBoxState((prevState) => ({
         ...prevState,
         [field]: !updatedState,
       }));
     }
   };
-  
+
   useEffect(() => {
     const storedSmsState = localStorage.getItem(`smsState_${uniqueId}`);
-    const initialSmsSelected = storedSmsState ? JSON.parse(storedSmsState) : false;
+    const initialSmsSelected = storedSmsState
+      ? JSON.parse(storedSmsState)
+      : false;
 
     setCheckBoxState((prevState) => ({
       ...prevState,
@@ -97,7 +108,7 @@ export function MemberBox({
   const handleSmsCheckBoxChange = () => {
     setCheckBoxState((prevState) => {
       const newSmsState = !prevState.smsSelected;
-      localStorage.setItem(`smsState_${uniqueId}`, JSON.stringify(newSmsState)); 
+      localStorage.setItem(`smsState_${uniqueId}`, JSON.stringify(newSmsState));
       return {
         ...prevState,
         smsSelected: newSmsState,
@@ -110,27 +121,27 @@ export function MemberBox({
       <InfoContainer boxColor={boxColor}>
         <_DetailWrapper>
           <Text
-            cursor='pointer'
-            className='gcd' 
-            size='bodyM' 
+            cursor="pointer"
+            className="gcd"
+            size="bodyM"
             margin={['right', 24]}
             key={id}
             onClick={(e) => handleNavigateAndOpenModal(e, id)}
           >
             {student_gcn}
           </Text>
-          <Text 
-            cursor='pointer'
+          <Text
+            cursor="pointer"
             key={id}
             onClick={(e) => handleNavigateAndOpenModal(e, id)}
-            className="name" 
-            size="bodyM" 
+            className="name"
+            size="bodyM"
             margin={['right', 126]}
           >
             {student_name}
           </Text>
           <Text
-            cursor='pointer'
+            cursor="pointer"
             key={id}
             onClick={(e) => handleNavigateAndOpenModal(e, id)}
             className="outing-type"
@@ -140,34 +151,34 @@ export function MemberBox({
           >
             {outing_type}
           </Text>
-          <Text 
-            cursor='pointer'
-            className="time" 
-            size="bodyS" 
+          <Text
+            cursor="pointer"
+            className="time"
+            size="bodyS"
             margin={['right', 134]}
             key={id}
             onClick={(e) => handleNavigateAndOpenModal(e, id)}
           >
             {outing_time} ~ {arrival_time}
           </Text>
-          <CheckBox 
+          <CheckBox
             onChange={() => onChangeCheckBox('outingSelected')}
-            className='outing' 
+            className="outing"
             size={24}
-            disabled={false}
+            // disabled={false}
             status={checkBoxState.outingSelected}
-            margin={[0,58,0,0]}
+            margin={[0, 58, 0, 0]}
           />
-          <CheckBox 
+          <CheckBox
             onChange={() => onChangeCheckBox('arrivalSelected')}
-            className='arrival' 
+            className="arrival"
             size={24}
             status={checkBoxState.arrivalSelected}
-            margin={[0,91,0,0]}
+            margin={[0, 91, 0, 0]}
           />
-          <CheckBox 
+          <CheckBox
             onChange={handleSmsCheckBoxChange}
-            className='sms' 
+            className="sms"
             size={24}
             status={checkBoxState.smsSelected}
           />
@@ -183,10 +194,10 @@ const _Wrapper = styled.div`
   gap: 7px;
 `;
 
-const InfoContainer = styled.div<{boxColor: string}>`
+const InfoContainer = styled.div<{ boxColor: string }>`
   width: 972px;
   border-radius: 6px;
-  background-color: ${({boxColor}) => boxColor};
+  background-color: ${({ boxColor }) => boxColor};
   border: 1px solid #eeeeee;
   padding: 12px 25px;
 `;

@@ -22,10 +22,16 @@ export function Outing() {
   const [selectedTag, setSelectedTag] = useState<string>('');
   const [tagModal, setTagModal] = useState<string>('');
 
+  useEffect(() => {
+    const storedDate = localStorage.getItem('selectedDate');
+    storedDate ? setDate(new Date(storedDate)) : setDate(new Date());
+  }, []);
+
   const handleArrowClick = (increment: number): void => {
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + increment);
     setDate(newDate);
+    localStorage.setItem('selectedDate', newDate.toISOString());
   };
 
   const MustTrue = true;
@@ -88,8 +94,6 @@ export function Outing() {
     },
   });
 
-  
-
   return (
     <>
       <WithNavigatorBar>
@@ -106,19 +110,20 @@ export function Outing() {
                     name="outing_option_name"
                     value={outingOptionState.outing_option_name}
                     onChange={onHandleChange}
-                    disabled={approvedStatusLists && approvedStatusLists.length === 0}
+                    disabled={
+                      approvedStatusLists && approvedStatusLists.length === 0
+                    }
                   />
                 </_SearchWrapper>
                 {approvedStatusLists && approvedStatusLists.length === 0 ? (
                   <Text size="bodyM">외출 신청자가 없습니다.</Text>
                 ) : (
                   <>
-                    {approvedStatusLists
-                      ?.filter((options) =>
-                        options.student_name.includes(
-                          outingOptionState.outing_option_name,
-                        ),
-                      ).length > 0 && (
+                    {approvedStatusLists?.filter((options) =>
+                      options.student_name.includes(
+                        outingOptionState.outing_option_name,
+                      ),
+                    ).length > 0 && (
                       <_HeaderWrapper>
                         <Text margin={['left', 652]}>외출 확인</Text>
                         <Text margin={['left', 13]}>복귀 확인</Text>
@@ -135,7 +140,7 @@ export function Outing() {
                       ) : (
                         approvedStatusLists
                           ?.filter((options) =>
-                            options .student_name.includes(
+                            options.student_name.includes(
                               outingOptionState.outing_option_name,
                             ),
                           )
@@ -149,7 +154,7 @@ export function Outing() {
                               arrival_time,
                               outing_companion_count,
                               is_approved,
-                              is_returned
+                              is_returned,
                             } = options;
                             return (
                               <MemberBox
@@ -223,7 +228,6 @@ export function Outing() {
                 )}
               </_Container>
             </_Box> */}
-
           </_BoxWrapper>
         </_Wrapper>
       </WithNavigatorBar>
@@ -259,8 +263,7 @@ export function Outing() {
       )}
     </>
   );
-      }  
-
+}
 
 const _Box = styled.div`
   position: relative;

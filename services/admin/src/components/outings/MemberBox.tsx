@@ -10,7 +10,7 @@ import { useToast } from '@/hooks/useToast';
 
 interface PropsType extends OutingApplication {
   isReqeustModal?: boolean;
-  idList?: string[];
+  idList?: string[][];
   onChangeSelectSameId?: (id: string) => void;
 }
 
@@ -32,7 +32,7 @@ export function MemberBox({
     arrivalSelected: is_returned || false,
     smsSelected: false,
   });
-  console.log('onChangeSelectSameId', onChangeSelectSameId);
+
   const navigate = useNavigate();
   const { selectModal } = useModal();
   const { toastDispatch } = useToast();
@@ -49,8 +49,9 @@ export function MemberBox({
   };
 
   const uniqueId = `${student_gcn}_${id}`;
-  const isSameId = idList?.filter((studentId) => studentId === id);
-  const boxColor = isSameId ? '#4088be' : '#F9F9F9';
+
+  const idIndex = idList?.findIndex((group) => group.includes(id));
+  const boxColor = idIndex % 2 === 0 ? '#F9F9F9' : '#B1D0FF';
 
   const onChangeCheckBox = async (
     field: 'outingSelected' | 'arrivalSelected',

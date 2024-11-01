@@ -20,7 +20,7 @@ export function Outing() {
 
   const [date, setDate] = useState(new Date());
   const [selectedTag, setSelectedTag] = useState<string>('');
-  const [tagModal, setTagModal] = useState<string>('');
+  const [tagModal] = useState<string>('');
 
   useEffect(() => {
     const storedDate = localStorage.getItem('selectedDate');
@@ -35,7 +35,6 @@ export function Outing() {
   };
 
   const MustTrue = true;
-  const MustFalse = false;
 
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -47,11 +46,6 @@ export function Outing() {
     outing_option_name: '',
   });
 
-  const { state: outingDoneOptionState, onHandleChange: onHandleChanges } =
-    useForm({
-      outing_done_option_name: '',
-    });
-
   const { data: outingApplyList, refetch: refetchOutingApplyLists } =
     useOutingApplications({
       date: dateStr,
@@ -60,15 +54,15 @@ export function Outing() {
   const { data: outingTypeList, refetch: refetchOutingTypeList } =
     useOutingTypeList();
 
-  // const approvedStatusLists = outingApplyList?.outings.filter(
-  //   (item) => item.is_approved === true,
-  // );
-
   const approvedStatusLists = outingApplyList?.outings;
+  const groupedIds = approvedStatusLists?.reduce((groups, item) => {
+    const { id } = item;
+    if (!groups[id]) groups[id] = [];
+    groups[id].push(id);
+    return groups;
+  }, {} as Record<string, string[]>);
 
-  const doneStatusLists = outingApplyList?.outings.filter(
-    (item) => item.is_returned === true,
-  );
+  const idList = groupedIds ? Object.values(groupedIds) : [];
 
   useEffect(() => {
     refetchOutingApplyLists();
@@ -160,6 +154,7 @@ export function Outing() {
                               <MemberBox
                                 key={id}
                                 id={id}
+                                idList={idList}
                                 outing_type={outing_type}
                                 student_gcn={student_gcn}
                                 is_approved={is_approved}
@@ -178,56 +173,6 @@ export function Outing() {
                 )}
               </_Container>
             </_Box>
-
-            {/* <_Box>
-              <_Container>
-                <Text size="titleS">외출 완료</Text>
-                <_SearchWrapper>
-                  <Search className="Search" />
-                  <_SearchInput
-                    type="text"
-                    name="outing_done_option_name"
-                    value={outingDoneOptionState.outing_done_option_name}
-                    onChange={onHandleChanges}
-                    disabled={doneStatusLists && doneStatusLists.length === 0}
-                  />
-                </_SearchWrapper>
-                {doneStatusLists && doneStatusLists.length === 0 ? (
-                  <Text size="bodyM">외출 신청자가 없습니다.</Text>
-                ) : (
-                  <_OutingWrapper>
-                    {doneStatusLists
-                      ?.filter((options) =>
-                        options.student_name.includes(
-                          outingDoneOptionState.outing_done_option_name,
-                        ),
-                      )
-                      .map((options) => {
-                        const {
-                          outing_application_id,
-                          outing_type,
-                          student_name,
-                          outing_time,
-                          arrival_time,
-                          outing_companion_count,
-                        } = options;
-                        return (
-                          <MemberBox
-                            key={outing_application_id}
-                            outing_application_id={outing_application_id}
-                            outing_type={outing_type}
-                            student_name={student_name}
-                            outing_time={outing_time}
-                            arrival_time={arrival_time}
-                            outing_companion_count={outing_companion_count}
-                            isReqeustModal={MustFalse}
-                          />
-                        );
-                      })}
-                  </_OutingWrapper>
-                )}
-              </_Container>
-            </_Box> */}
           </_BoxWrapper>
         </_Wrapper>
       </WithNavigatorBar>

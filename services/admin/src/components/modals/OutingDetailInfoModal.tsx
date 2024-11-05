@@ -6,8 +6,6 @@ import { useModal } from '@/hooks/useModal';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useOutingApplicationDetail } from '@/hooks/useOutingApi';
-import { Dispatch, SetStateAction } from 'react';
-
 interface PropsType {
   tagColor: string;
   tagBackGroundColor: string;
@@ -24,10 +22,6 @@ export function OutingDetailInfoModal({
   const navigate = useNavigate();
   const { data: outingDetailInfo } = useOutingApplicationDetail(id);
 
-  const openDoneModal = () => {
-    closeModal();
-    selectModal('DONE_MODAL');
-  };
 
   const onClick = () => {
     navigate('/outing');
@@ -40,20 +34,9 @@ export function OutingDetailInfoModal({
       content=""
       close={onClick}
       buttonList={[
-        outingDetailInfo?.outing_status === 'DONE' ? (
           <Button onClick={onClick} color="primary">
             확인
           </Button>
-        ) : (
-          <>
-            <Button onClick={openDoneModal} color="primary">
-              복귀
-            </Button>
-            <Button onClick={onClick} color="primary">
-              확인
-            </Button>
-          </>
-        ),
       ]}
     >
       <OutingInfoContainer>

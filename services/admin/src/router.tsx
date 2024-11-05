@@ -19,6 +19,9 @@ import { pagePath } from './utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
 import { Outing } from './pages/outing';
 import { OutingTimeSet } from './pages/outing/OutingTimeSet';
+import { Volunteer } from './pages/volunteer';
+import { VolunteerDetail } from './pages/volunteer/Detail';
+import { VolunteerApplication } from './pages/volunteer/Application';
 
 export const pathToKorean = {
   'notice': {
@@ -50,6 +53,13 @@ export const pathToKorean = {
     },
     outing: {
       index: '외출 목록',
+    },
+    volunteer: {
+      index: '봉사 신청',
+      current: '봉사 현황',
+      detail: {
+        index: '봉사 상세보기',
+      }
     },
   },
   'my-page': {
@@ -112,6 +122,15 @@ export const Router = createBrowserRouter([
             path: 'remains',
             children: [{ index: true, element: <RemainsLists /> }],
           },
+          {
+            path: 'volunteer',
+            children: [
+              { index: true, element: <Volunteer/> },
+              { path: `detail/:id`, element: <VolunteerDetail/> },
+              { path: 'current', element: <VolunteerApplication/> },
+              { path: 'current/detail/:id', element: <VolunteerDetail/> }
+            ]
+          }
         ],
       },
       {

@@ -9,6 +9,7 @@ import { useLoginMutation } from '@/hooks/useAuthApi';
 interface ErrorPropsType {
   account_id: string;
   password: string;
+  device_token: string;
 }
 
 const savedAccountId = localStorage.getItem('account_id');
@@ -21,11 +22,13 @@ export function LoginPage() {
     useObj<ErrorPropsType>({
       account_id: '',
       password: '',
+      device_token: '',
     });
 
   const { onHandleChange, state: loginState } = useForm<LoginRequest>({
     account_id: savedAccountId || '',
     password: '',
+    device_token: 'admin_default',
   });
 
   const loginMutation = useLoginMutation({

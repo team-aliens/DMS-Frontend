@@ -22,6 +22,11 @@ interface PagePath {
         studyRoomId: number | string,
       ) => `/apply/study/detail/patch/${typeof studyRoomId}`;
     };
+    volunteer: {
+      list: '/apply/volunteer',
+      detail: (volunteerId: number | string) => `/apply/volunteer/detail/${typeof volunteerId}`,
+      currentDetail: (volunteerId: number | string) => `/apply/volunteer/current/detail/${typeof volunteerId}`
+    },
   };
   notice: {
     list: '/notice';
@@ -61,6 +66,11 @@ export const pagePath: PagePath = {
         `/apply/study/detail/${studyRoomId}`,
       patch: (studyRoomId: number | string) =>
         `/apply/study/detail/patch/${studyRoomId}`,
+    },
+    volunteer: {
+      list: '/apply/volunteer',
+      detail: (volunteerId: number | string) => `/apply/volunteer/detail/${volunteerId}`,
+      currentDetail: (volunteerId: number | string) => `/apply/volunteer/current/detail/${volunteerId}`
     },
   },
   outing: '/outing',

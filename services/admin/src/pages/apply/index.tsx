@@ -48,6 +48,18 @@ export default function Index() {
             </_Wrapper>
           </Link>
         )}
+        {availableFeature?.volunteer_service && (
+          <Link to={pagePath.apply.volunteer.list}>
+            <_Wrapper>
+              <div>
+                <Text size="titleM">봉사</Text>
+                <Text>
+                  봉사 신청 명단을 확인하고 <br /> 관리할 수 있습니다.
+                </Text>
+              </div>
+            </_Wrapper>
+          </Link>
+        )}
       </Layout>
     </WithNavigatorBar>
   );

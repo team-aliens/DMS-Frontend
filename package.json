@@ -1,6 +1,6 @@
 {
     "name": "DMS",
-    "packageManager": "yarn@3.6.1",
+    "packageManager": "yarn@4.6.0",
     "workspaces": {
         "packages": [
             "./services/*",
@@ -24,7 +24,7 @@
         "postpublish": "pinst --enable"
     },
     "dependencies": {
-        "@team-aliens/design-system": "^1.5.0",
+        "@team-aliens/design-system": "^1.5.5",
         "react-slick": "^0.30.2"
     }
 }

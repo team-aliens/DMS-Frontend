@@ -46,7 +46,7 @@ jobs:
                   cache: 'yarn'
 
             - name: Install Dependencies
-              run: yarn install --immutable --immutable-cache
+              run: yarn install --immutable --no-immutable-cache
 
             - name: Build Admin Service
               run: yarn workspace @service/admin build

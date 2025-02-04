@@ -41,15 +41,15 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
                   onChange={onVoteTitleChange}
                   value={voteTitle}
                 />
-                <div>
-                  <Input
-                    placeholder="없음"
-                    label="투표 마감일"
-                    name="투표 마감일"
-                    onChange={() => {}}
-                    value={voteDate}
-                  />
-                </div>
+
+                <Input
+                  placeholder="없음"
+                  label="투표 마감일"
+                  name="투표 마감일"
+                  onChange={() => {}}
+                  value={voteDate}
+                />
+
                 {voteTopic ? (
                   <VoteTopicBox>
                     투표 주제
@@ -93,7 +93,9 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
         </Header>
         <ButtonDiv>
           <Button kind="outline">취소</Button>
-          <Button disabled={!(voteTitle && voteDate && voteEx)}>확인</Button>
+          <Button disabled={!(voteTitle && voteDate && voteEx)}>
+            {voteTopic ? '다음' : '확인'}
+          </Button>
         </ButtonDiv>
       </Modal>
     </ModalBackground>

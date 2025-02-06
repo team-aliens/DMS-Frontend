@@ -50,10 +50,10 @@ export const SetVoterModal = () => {
       buttonList={[<Button kind="outline">취소</Button>, <Button>확인</Button>]}
       title="투표 항목 생성"
     >
-      <Contents>
-        <Box>
+      <_Contents>
+        <_Box>
           학년
-          <ButtonBox>
+          <_ButtonBox>
             {grade.map((data, index) => (
               <Button
                 key={index}
@@ -63,11 +63,11 @@ export const SetVoterModal = () => {
                 {data.text}
               </Button>
             ))}
-          </ButtonBox>
-        </Box>
-        <Box>
+          </_ButtonBox>
+        </_Box>
+        <_Box>
           성별
-          <ButtonBox>
+          <_ButtonBox>
             {gender.map((data, index) => (
               <Button
                 key={index}
@@ -77,28 +77,28 @@ export const SetVoterModal = () => {
                 {data.text}
               </Button>
             ))}
-          </ButtonBox>
-        </Box>
-      </Contents>
+          </_ButtonBox>
+        </_Box>
+      </_Contents>
     </Modal>
   );
 };
 
-const Contents = styled.div`
+const _Contents = styled.div`
   margin-bottom: 337px;
   display: flex;
   flex-direction: column;
   gap: 17px;
 `;
 
-const Box = styled.div`
+const _Box = styled.div`
   font: ${font.bodyS};
   display: flex;
   flex-direction: column;
   gap: 6px;
 `;
 
-const ButtonBox = styled.div`
+const _ButtonBox = styled.div`
   display: flex;
   gap: 16px;
 `;

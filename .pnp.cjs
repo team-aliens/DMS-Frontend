@@ -3465,6 +3465,7 @@ const RAW_RUNTIME_STATE =
           ["css-minimizer-webpack-plugin", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.2.2"],\
           ["cypress", "npm:12.10.0"],\
           ["cypress-react-selector", "npm:3.0.0"],\
+          ["date-fns", "npm:4.1.0"],\
           ["env-cmd", "npm:10.1.0"],\
           ["eslint", "npm:8.38.0"],\
           ["eslint-config-airbnb-base", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:15.0.0"],\
@@ -7030,6 +7031,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["dashdash", "npm:1.14.1"],\
           ["assert-plus", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["date-fns", [\
+      ["npm:4.1.0", {\
+        "packageLocation": "./.yarn/cache/date-fns-npm-4.1.0-764604ee0f-d5f6e9de5b.zip/node_modules/date-fns/",\
+        "packageDependencies": [\
+          ["date-fns", "npm:4.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\

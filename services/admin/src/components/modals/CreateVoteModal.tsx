@@ -37,18 +37,16 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
       close={() => {}}
       title="투표 항목 생성"
       buttonList={[
-        <ButtonDiv>
-          <Button kind="outline">취소</Button>
-          <Button disabled={!(voteTitle && voteDate && voteEx)}>
-            {voteTopic ? '다음' : '확인'}
-          </Button>
-        </ButtonDiv>,
+        <Button kind="outline">취소</Button>,
+        <Button disabled={!(voteTitle && voteDate && voteEx)}>
+          {voteTopic ? '다음' : '확인'}
+        </Button>,
       ]}
       width="1150px"
     >
-      <Contents>
-        <Wrapper>
-          <InputBox>
+      <_Contents>
+        <_Wrapper>
+          <_InputBox>
             <Input
               placeholder="모범학생 투표"
               label="투표 제목"
@@ -66,9 +64,9 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
             />
 
             {voteTopic ? (
-              <VoteTopicBox>
+              <_VoteTopicBox>
                 투표 주제
-                <RadioBox>
+                <_RadioBox>
                   {voteTopicRadios.map((data, index) => (
                     <div key={index} onClick={() => setSelectedIndex(index)}>
                       {data}
@@ -77,21 +75,21 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
                       />
                     </div>
                   ))}
-                </RadioBox>
-              </VoteTopicBox>
+                </_RadioBox>
+              </_VoteTopicBox>
             ) : (
-              <ButtonBox>
+              <_ButtonBox>
                 <Button>투표 마감일 지정</Button>
-              </ButtonBox>
+              </_ButtonBox>
             )}
-          </InputBox>
+          </_InputBox>
           {voteTopic && (
-            <ButtonBox>
+            <_ButtonBox>
               <Button>투표 마감일 지정</Button>
-            </ButtonBox>
+            </_ButtonBox>
           )}
-        </Wrapper>
-        <TextAreaBox>
+        </_Wrapper>
+        <_TextAreaBox>
           설명 추가
           <TextArea
             value={voteEx}
@@ -100,25 +98,13 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
             height={218}
             placeholder="설명을 추가해주세요."
           />
-        </TextAreaBox>
-      </Contents>
+        </_TextAreaBox>
+      </_Contents>
     </Modal>
   );
 };
 
-const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 34px;
-`;
-
-const ButtonDiv = styled.div`
-  display: flex;
-  justify-content: right;
-  gap: 12px;
-`;
-
-const TextAreaBox = styled.div`
+const _TextAreaBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -126,29 +112,29 @@ const TextAreaBox = styled.div`
   color: ${color.gray6};
 `;
 
-const Contents = styled.div`
+const _Contents = styled.div`
   display: flex;
   gap: 44px;
 `;
 
-const Wrapper = styled.div`
+const _Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 51px;
 `;
 
-const ButtonBox = styled.div`
+const _ButtonBox = styled.div`
   width: 130px;
 `;
 
-const VoteTopicBox = styled.div`
+const _VoteTopicBox = styled.div`
   display: flex;
   flex-direction: column;
   font: ${font.bodyS};
   color: ${color.gray6};
 `;
 
-const RadioBox = styled.div`
+const _RadioBox = styled.div`
   font: ${font.bodyM};
   display: flex;
   gap: 12px;
@@ -161,7 +147,7 @@ const RadioBox = styled.div`
   }
 `;
 
-const InputBox = styled.div`
+const _InputBox = styled.div`
   width: 328px;
   display: flex;
   flex-direction: column;

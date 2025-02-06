@@ -10,15 +10,15 @@ export const SelectVoteEventModal = () => {
       title="투표 항목 생성"
       width="1150px"
     >
-      <Contents>
+      <_Contents>
         <VoteSelection selectionType="student" />
         <VoteSelection selectionType="etc" />
-      </Contents>
+      </_Contents>
     </Modal>
   );
 };
 
-const Contents = styled.div`
+const _Contents = styled.div`
   display: flex;
   gap: 54px;
   justify-content: center;

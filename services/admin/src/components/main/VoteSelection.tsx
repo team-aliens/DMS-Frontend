@@ -2,27 +2,27 @@ import { VoteEtcPlus, VoteModelStudentPlus } from '@/assets';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import styled from 'styled-components';
 
-interface selectionType {
+interface SelectionType {
   selectionType: string;
 }
 
-export const VoteSelection = ({ selectionType }: selectionType) => {
+export const VoteSelection = ({ selectionType }: SelectionType) => {
   return (
-    <Wrapper>
+    <_Wrapper>
       {selectionType === 'etc' ? <VoteEtcPlus /> : <VoteModelStudentPlus />}
 
-      <Contents>
+      <_Contents>
         <span>{selectionType === 'etc' ? '기타' : '모범 학생'} 투표</span>
         <div>
           <p>{selectionType === 'etc' ? '기타' : '모범 학생'} 투표를</p> 만들
           때에는 이곳을 클릭하세요!
         </div>
-      </Contents>
-    </Wrapper>
+      </_Contents>
+    </_Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const _Wrapper = styled.div`
   background-color: white;
   border-radius: 24px;
   box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.1);
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const Contents = styled.div`
+const _Contents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;

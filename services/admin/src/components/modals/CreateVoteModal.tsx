@@ -48,10 +48,12 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
         <_Wrapper>
           <_InputBox>
             <Input
-              placeholder="모범학생 투표"
+              placeholder={
+                voteTopic ? '투표 제목을 작성해주세요.' : '모범학생 투표'
+              }
               label="투표 제목"
               name="투표 제목"
-              onChange={onVoteTitleChange}
+              onChange={voteTopic ? onVoteTitleChange : () => {}}
               value={voteTitle}
             />
 

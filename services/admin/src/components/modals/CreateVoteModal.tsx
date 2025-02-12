@@ -14,21 +14,15 @@ import { SetVoteDeadLineModal } from './SetVoteDeadLineModal';
 
 interface VoteProps {
   voteTopic: boolean;
-  openModal: boolean;
-  isOpenModal: () => void;
 }
 
-export const CreateVoteModal = ({
-  voteTopic,
-  openModal,
-  isOpenModal,
-}: VoteProps) => {
-  const { closeModal } = useModal();
+export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
+  const { closeModal } = useModal(); // useModal을 사용하지 않고 isOpen으로 모달을 관리 한 것은 현재 디자인 상 모달 위 모달을 구현해야 하는데 이유 모를 오류로 인해 모달을 열려고 하면 처음 상태로 돌아가서 사용했습니다..
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [voteTitle, setVoteTitle] = useState<string>('');
   const [voteDate, setVoteDate] = useState<string>('');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [voteEx, setVoteEx] = useState<string>('');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const voteTopicRadios = ['학생', '찬반', '선택'];
 
   const onVoteTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,94 +36,89 @@ export const CreateVoteModal = ({
   };
 
   const setVoteDeadLineModal = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(true);
   };
 
   return (
     <>
-      {openModal && (
-        <Modal
-          close={isOpenModal}
-          title="투표 항목 생성"
-          buttonList={[
-            <Button kind="outline" onClick={isOpenModal}>
-              취소
-            </Button>,
-            <Button disabled={!(voteTitle && voteDate && voteEx)}>
-              {voteTopic ? '다음' : '확인'}
-            </Button>,
-          ]}
-          width="1150px"
-        >
-          <_Contents>
-            <_Wrapper>
-              <_InputBox>
-                <Input
-                  placeholder={
-                    voteTopic ? '투표 제목을 작성해주세요.' : '모범학생 투표'
-                  }
-                  label="투표 제목"
-                  name="투표 제목"
-                  onChange={voteTopic ? onVoteTitleChange : null}
-                  value={voteTopic ? voteTitle : '모범학생 투표'}
-                />
+      <Modal
+        close={closeModal}
+        title="투표 항목 생성"
+        buttonList={[
+          <Button kind="outline" onClick={closeModal}>
+            취소
+          </Button>,
+          <Button disabled={!(voteTitle && voteDate && voteEx)}>
+            {voteTopic ? '다음' : '확인'}
+          </Button>,
+        ]}
+        width="1150px"
+      >
+        <_Contents>
+          <_Wrapper>
+            <_InputBox>
+              <Input
+                placeholder={
+                  voteTopic ? '투표 제목을 작성해주세요.' : '모범학생 투표'
+                }
+                label="투표 제목"
+                name="투표 제목"
+                onChange={voteTopic ? onVoteTitleChange : null}
+                value={voteTopic ? voteTitle : '모범학생 투표'}
+              />
 
-                <Input
-                  placeholder="없음"
-                  label="투표 마감일"
-                  name="투표 마감일"
-                  onChange={() => {}}
-                  value={voteDate}
-                />
+              <Input
+                placeholder="없음"
+                label="투표 마감일"
+                name="투표 마감일"
+                onChange={() => {}}
+                value={voteDate}
+              />
 
-                {voteTopic ? (
-                  <_VoteTopicBox>
-                    투표 주제
-                    <_RadioBox>
-                      {voteTopicRadios.map((data, index) => (
-                        <div
-                          key={index}
-                          onClick={() => setSelectedIndex(index)}
-                        >
-                          {data}
-                          <Radio
-                            className={selectedIndex === index ? 'checked' : ''}
-                          />
-                        </div>
-                      ))}
-                    </_RadioBox>
-                  </_VoteTopicBox>
-                ) : (
-                  <_ButtonBox>
-                    <Button onClick={setVoteDeadLineModal}>
-                      투표 마감일 지정
-                    </Button>
-                  </_ButtonBox>
-                )}
-              </_InputBox>
-              {voteTopic && (
+              {voteTopic ? (
+                <_VoteTopicBox>
+                  투표 주제
+                  <_RadioBox>
+                    {voteTopicRadios.map((data, index) => (
+                      <div key={index} onClick={() => setSelectedIndex(index)}>
+                        {data}
+                        <Radio
+                          className={selectedIndex === index ? 'checked' : ''}
+                        />
+                      </div>
+                    ))}
+                  </_RadioBox>
+                </_VoteTopicBox>
+              ) : (
                 <_ButtonBox>
                   <Button onClick={setVoteDeadLineModal}>
                     투표 마감일 지정
                   </Button>
                 </_ButtonBox>
               )}
-            </_Wrapper>
-            <_TextAreaBox>
-              설명 추가
-              <TextArea
-                value={voteEx}
-                onChange={onVoteExChange}
-                width={680}
-                height={218}
-                placeholder="설명을 추가해주세요."
-              />
-            </_TextAreaBox>
-          </_Contents>
-        </Modal>
-      )}
+            </_InputBox>
+            {voteTopic && (
+              <_ButtonBox>
+                <Button onClick={setVoteDeadLineModal}>투표 마감일 지정</Button>
+              </_ButtonBox>
+            )}
+          </_Wrapper>
+          <_TextAreaBox>
+            설명 추가
+            <TextArea
+              value={voteEx}
+              onChange={onVoteExChange}
+              width={680}
+              height={218}
+              placeholder="설명을 추가해주세요."
+            />
+          </_TextAreaBox>
+        </_Contents>
+      </Modal>
 
-      {isOpen && <SetVoteDeadLineModal />}
+      {isOpen && (
+        <SetVoteDeadLineModal setVoteDate={setVoteDate} setIsOpen={setIsOpen} />
+      )}
     </>
   );
 };

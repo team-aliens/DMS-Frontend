@@ -15,8 +15,7 @@ export const SelectVoteEventModal = () => {
   };
 
   const createVoteModal = () => {
-    closeModal();
-    selectModal('CREATE_VOTE');
+    setIsOpen(true);
   };
 
   return (
@@ -30,7 +29,7 @@ export const SelectVoteEventModal = () => {
             </Button>,
             <Button
               disabled={selected.every((v) => v === false)}
-              onClick={isOpenModal}
+              onClick={createVoteModal}
             >
               다음
             </Button>,
@@ -53,9 +52,7 @@ export const SelectVoteEventModal = () => {
         </Modal>
       )}
 
-      {modalState.selectedModal === 'CREATE_VOTE' && (
-        <CreateVoteModal voteTopic={selected[1]} />
-      )}
+      {isOpen && <CreateVoteModal voteTopic={selected[1]} />}
     </>
   );
 };

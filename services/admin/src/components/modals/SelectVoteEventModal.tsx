@@ -6,21 +6,21 @@ import { useModal } from '@/hooks/useModal';
 import { CreateVoteModal } from './CreateVoteModal';
 
 export const SelectVoteEventModal = () => {
-  const { selectModal, closeModal, modalState } = useModal();
+  const { closeModal } = useModal();
   const [selected, setSelected] = useState<boolean[]>([false, false]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const onSelected = (index: number) => {
     setSelected((prev) => prev.map((v, i) => (i === index ? !v : false)));
   };
 
   const createVoteModal = () => {
-    closeModal();
-    selectModal('CREATE_VOTE');
+    setIsOpen(true);
   };
 
   return (
     <>
-      {modalState.selectedModal !== 'CREATE_VOTE' && (
+      {!isOpen && (
         <Modal
           close={closeModal}
           buttonList={[
@@ -52,9 +52,7 @@ export const SelectVoteEventModal = () => {
         </Modal>
       )}
 
-      {modalState.selectedModal === 'CREATE_VOTE' && (
-        <CreateVoteModal voteTopic={selected[1]} />
-      )}
+      {isOpen && <CreateVoteModal voteTopic={selected[1]} />}
     </>
   );
 };

@@ -44,6 +44,7 @@ export type SelectedModalType =
   | 'OUTING_DISABLED_TIME'
   | 'VOLUNTEER_ADD'
   | 'CREATE_VOTE'
+  | 'SET_VOTE_DEAD_LINE'
   | '';
 
 interface ModalState {

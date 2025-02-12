@@ -5,8 +5,10 @@ import { useCalendar } from '@/hooks/useCalendar';
 import { Calendar } from '../main/Calendar';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { useState } from 'react';
+import { useModal } from '@/hooks/useModal';
 
 export const SetVoteDeadLineModal = () => {
+  const { closeModal } = useModal();
   const now = new Date();
   const { year, month, selectedDates, onArrowClick, daysInMonth, onDateClick } =
     useCalendar(now.getFullYear(), now.getMonth() + 1);
@@ -21,7 +23,7 @@ export const SetVoteDeadLineModal = () => {
 
   return (
     <Modal
-      close={() => {}}
+      close={closeModal}
       buttonList={[
         <_Footer>
           <div>
@@ -34,7 +36,7 @@ export const SetVoteDeadLineModal = () => {
                 timeValues[2] || '00'
               }:${timeValues[3] || '00'}`}
           </div>
-          <Button>확인</Button>
+          <Button onClick={closeModal}>확인</Button>
         </_Footer>,
       ]}
       title="투표 마감일"

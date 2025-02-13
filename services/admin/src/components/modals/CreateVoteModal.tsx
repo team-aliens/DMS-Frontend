@@ -14,11 +14,12 @@ import { SetVoteDeadLineModal } from './SetVoteDeadLineModal';
 
 interface VoteProps {
   voteTopic: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
+export const CreateVoteModal = ({ voteTopic, setIsOpen }: VoteProps) => {
   const { closeModal } = useModal(); // useModal을 사용하지 않고 isOpen으로 모달을 관리 한 것은 현재 디자인 상 모달 위 모달을 구현해야 하는데 이유 모를 오류로 인해 모달을 열려고 하면 처음 상태로 돌아가서 사용했습니다..
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isDeadLineOpen, setIsDeadLineOpen] = useState<boolean>(false);
   const [voteTitle, setVoteTitle] = useState<string>('');
   const [voteDate, setVoteDate] = useState<string>('');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
@@ -36,7 +37,7 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
   };
 
   const setVoteDeadLineModal = () => {
-    setIsOpen(true);
+    setIsDeadLineOpen(true);
   };
 
   return (
@@ -45,11 +46,13 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
         close={closeModal}
         title="투표 항목 생성"
         buttonList={[
-          <Button kind="outline" onClick={closeModal}>
+          <Button kind="outline" onClick={() => setIsOpen(false)}>
             취소
           </Button>,
-          <Button disabled={!(voteTitle && voteDate && voteEx)}>
-            {voteTopic ? '다음' : '확인'}
+          <Button
+            disabled={voteTitle === '' || voteDate === '' || voteEx === ''}
+          >
+            확인
           </Button>,
         ]}
         width="1150px"
@@ -116,8 +119,11 @@ export const CreateVoteModal = ({ voteTopic }: VoteProps) => {
         </_Contents>
       </Modal>
 
-      {isOpen && (
-        <SetVoteDeadLineModal setVoteDate={setVoteDate} setIsOpen={setIsOpen} />
+      {isDeadLineOpen && (
+        <SetVoteDeadLineModal
+          setVoteDate={setVoteDate}
+          setIsOpen={setIsDeadLineOpen}
+        />
       )}
     </>
   );

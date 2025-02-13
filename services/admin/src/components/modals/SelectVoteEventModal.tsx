@@ -52,7 +52,9 @@ export const SelectVoteEventModal = () => {
         </Modal>
       )}
 
-      {isOpen && <CreateVoteModal voteTopic={selected[1]} />}
+      {isOpen && (
+        <CreateVoteModal voteTopic={selected[1]} setIsOpen={setIsOpen} />
+      )}
     </>
   );
 };

@@ -1,16 +1,22 @@
 import { VoteEtcPlus, VoteModelStudentPlus } from '@/assets';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 interface SelectionType {
   selectionType: string;
+  selected: boolean;
+  onSelected: () => void;
 }
 
-export const VoteSelection = ({ selectionType }: SelectionType) => {
+export const VoteSelection = ({
+  selectionType,
+  selected,
+  onSelected,
+}: SelectionType) => {
   return (
-    <_Wrapper>
+    <_Wrapper onClick={onSelected} select={selected}>
       {selectionType === 'etc' ? <VoteEtcPlus /> : <VoteModelStudentPlus />}
-
       <_Contents>
         <span>{selectionType === 'etc' ? '기타' : '모범 학생'} 투표</span>
         <div>
@@ -22,10 +28,13 @@ export const VoteSelection = ({ selectionType }: SelectionType) => {
   );
 };
 
-const _Wrapper = styled.div`
+const _Wrapper = styled.div<{ select: boolean }>`
   background-color: white;
   border-radius: 24px;
-  box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ select }) =>
+    select
+      ? '0px 30px 40px rgba(0, 115, 255, 0.12), 0px 12px 20px rgba(0, 115, 255, 0.06)'
+      : '0px 1px 15px rgba(0, 0, 0, 0.1)'};
   display: flex;
   flex-direction: column;
   justify-content: center;

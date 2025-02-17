@@ -5,8 +5,18 @@ import { useCalendar } from '@/hooks/useCalendar';
 import { Calendar } from '../main/Calendar';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { useState } from 'react';
+import { useModal } from '@/hooks/useModal';
 
-export const SetVoteDeadLineModal = () => {
+interface voteDeadLineProps {
+  setVoteDate: React.Dispatch<React.SetStateAction<string>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const SetVoteDeadLineModal = ({
+  setVoteDate,
+  setIsOpen,
+}: voteDeadLineProps) => {
+  const { closeModal } = useModal();
   const now = new Date();
   const { year, month, selectedDates, onArrowClick, daysInMonth, onDateClick } =
     useCalendar(now.getFullYear(), now.getMonth() + 1);
@@ -19,9 +29,28 @@ export const SetVoteDeadLineModal = () => {
     setTimeValues(updatedValues);
   };
 
+  const handleVoteDateChange = () => {
+    let dateString = '';
+
+    if (selectedDates.length > 0) {
+      dateString = `${year}-${month}-${selectedDates[0].getDate()} / ${
+        timeValues[0] || '00'
+      }:${timeValues[1] || '00'}`;
+    }
+
+    if (selectedDates.length > 1) {
+      dateString += ` ~ ${year}-${month}-${selectedDates[1].getDate()} / ${
+        timeValues[2] || '00'
+      }:${timeValues[3] || '00'}`;
+    }
+
+    setVoteDate(dateString);
+    setIsOpen(false);
+  };
+
   return (
     <Modal
-      close={() => {}}
+      close={closeModal}
       buttonList={[
         <_Footer>
           <div>
@@ -34,7 +63,12 @@ export const SetVoteDeadLineModal = () => {
                 timeValues[2] || '00'
               }:${timeValues[3] || '00'}`}
           </div>
-          <Button>확인</Button>
+          <Button
+            disabled={timeValues.some((item) => item === '')}
+            onClick={handleVoteDateChange}
+          >
+            확인
+          </Button>
         </_Footer>,
       ]}
       title="투표 마감일"

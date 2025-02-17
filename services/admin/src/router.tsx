@@ -22,8 +22,6 @@ import { OutingTimeSet } from './pages/outing/OutingTimeSet';
 import { Volunteer } from './pages/volunteer';
 import { VolunteerDetail } from './pages/volunteer/Detail';
 import { VolunteerApplication } from './pages/volunteer/Application';
-import { CreateVoteModal } from './components/modals/CreateVoteModal';
-import { SelectVoteEventModal } from './components/modals/SelectVoteEventModal';
 
 export const pathToKorean = {
   'notice': {
@@ -73,7 +71,7 @@ export const pathToKorean = {
 export const Router = createBrowserRouter([
   {
     path: '',
-    errorElement: <SelectVoteEventModal />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: pagePath.home,

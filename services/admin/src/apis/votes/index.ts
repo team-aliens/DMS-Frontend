@@ -1,0 +1,22 @@
+import { instance } from '..';
+import { CreateVoteRequest } from './request';
+import { VoteListResponse } from './response';
+
+const router = '/votes';
+
+export const getVoteList = async () => {
+  const { data } = await instance.get<VoteListResponse>(`${router}`);
+  return data;
+};
+
+export const createVote = async (body: CreateVoteRequest) => {
+  instance.post(`${router}`, body);
+};
+
+export const patchVote = async (body: CreateVoteRequest, votingId: string) => {
+  instance.patch(`${router}/${votingId}`, body);
+};
+
+export const deleteVote = async (votingId: string) => {
+  instance.delete(`${router}/${votingId}`);
+};

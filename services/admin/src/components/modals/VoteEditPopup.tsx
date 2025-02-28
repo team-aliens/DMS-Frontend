@@ -14,7 +14,7 @@ export const VoteEditPopup = () => {
   };
 
   const handleDeleteItem = (index) => {
-    const newItems = items.filter((_, i) => i !== index);
+    const newItems = items.filter((_, i) => i !== index) ;
     setItems(newItems);
   };
 

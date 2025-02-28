@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const VoteDuePopup = () => {
+export const VoteDuePopup = () => { 
   return (
     <_VoteDuePopup>
       <_VoteInfo>

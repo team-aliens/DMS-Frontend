@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Delete from '../../assets/delete.svg';
 
-export const VoteEditPopup = () => {
-  const [items, setItems] = useState([{ value: '김치' }, { value: '파전' }]);
+export const VotePopup = ({ mode = 'edit' }) => {
+  const [items, setItems] = useState(mode === 'edit' ? [{ value: '김치' }, { value: '파전' }] : []);
   const [inputValue, setInputValue] = useState('');
 
   const handleAddItem = () => {
@@ -14,45 +14,42 @@ export const VoteEditPopup = () => {
   };
 
   const handleDeleteItem = (index) => {
-    const newItems = items.filter((_, i) => i !== index) ;
+    const newItems = items.filter((_, i) => i !== index);
     setItems(newItems);
   };
 
   return (
     <Modal>
-      <_VoteEditPopup>
+      <_VotePopup>
         <_PopupTitle>
-          투표 항목 수정 <span>{items.length}/50</span>
+          {mode === 'edit' ? '투표 항목 수정' : '투표 항목 생성'} <span>{items.length}/50</span>
         </_PopupTitle>
         <_VoteListUl>
           {items.map((item, index) => (
             <li key={index}>
-              <input
-                type="text"
-                value={item.value}
-                readOnly
-              />
+              <input type="text" value={item.value} readOnly />
               <button onClick={() => handleDeleteItem(index)}>
                 <DeleteIcon src={Delete} />
               </button>
             </li>
           ))}
-          <li>
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="새 항목 추가"
-            />
-            <button onClick={handleAddItem}>추가</button>
-          </li>
+          {mode === 'create' && (
+            <li>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="새 항목 추가"
+              />
+              <button onClick={handleAddItem}>추가</button>
+            </li>
+          )}
         </_VoteListUl>
-
         <_Footer>
           <button className="cancel">이전</button>
           <button className="ok">확인</button>
         </_Footer>
-      </_VoteEditPopup>
+      </_VotePopup>
     </Modal>
   );
 };
@@ -70,7 +67,7 @@ const Modal = styled.div`
   z-index: 999;
 `;
 
-const _VoteEditPopup = styled.div`
+const _VotePopup = styled.div`
   width: 600px;
   max-width: 90%;
   border-radius: 12px;
@@ -83,8 +80,7 @@ const _VoteEditPopup = styled.div`
 `;
 
 const _PopupTitle = styled.div`
-  font-size: 24px;
-  font-weight: 400;
+  font: ${(props) => props.theme.font.bodyS};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -117,7 +113,7 @@ const _VoteListUl = styled.ul`
       padding: 0 20px;
       box-sizing: border-box;
       margin-right: 12px;
-      font-size: 16px;
+      font: ${(props) => props.theme.font.bodyS};
       color: #343434;
     }
 

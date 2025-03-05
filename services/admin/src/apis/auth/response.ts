@@ -1,7 +1,9 @@
 export type Features =
   | 'notice_service'
   | 'point_service'
+  | 'survey_service'
   | 'meal_service'
+  | 'lost_service'
   | 'remain_service'
   | 'study_room_service'
   | 'outing_service'

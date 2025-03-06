@@ -1,5 +1,4 @@
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
-import { VoteSelection } from '@/components/main/VoteSelection';
 import { SelectVoteEventModal } from '@/components/modals/SelectVoteEventModal';
 import { VoteDuePopup } from '@/components/modals/VoteDuePopup';
 import { Button } from '@team-aliens/design-system';

@@ -2,7 +2,6 @@ import { Button, Modal } from '@team-aliens/design-system';
 import { VoteSelection } from '../main/VoteSelection';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useModal } from '@/hooks/useModal';
 import { CreateVoteModal } from './CreateVoteModal';
 
 interface PropsType {

@@ -22,6 +22,7 @@ import { OutingTimeSet } from './pages/outing/OutingTimeSet';
 import { Volunteer } from './pages/volunteer';
 import { VolunteerDetail } from './pages/volunteer/Detail';
 import { VolunteerApplication } from './pages/volunteer/Application';
+import { Main } from './pages/survey/Main';
 
 export const pathToKorean = {
   'notice': {
@@ -140,6 +141,10 @@ export const Router = createBrowserRouter([
           { path: ':id', element: <Outing /> },
           { path: 'time', element: <OutingTimeSet /> },
         ],
+      },
+      {
+        path: pagePath.survey.main,
+        children: [{ index: true, element: <Main /> }],
       },
     ],
   },

@@ -5,8 +5,11 @@ import { useState } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { CreateVoteModal } from './CreateVoteModal';
 
-export const SelectVoteEventModal = () => {
-  const { closeModal } = useModal();
+interface PropsType {
+  onClose: () => void;
+}
+
+export const SelectVoteEventModal = ({ onClose }: PropsType) => {
   const [selected, setSelected] = useState<boolean[]>([false, false]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -18,13 +21,17 @@ export const SelectVoteEventModal = () => {
     setIsOpen(true);
   };
 
+  const isClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       {!isOpen && (
         <Modal
-          close={closeModal}
+          close={onClose}
           buttonList={[
-            <Button kind="outline" onClick={closeModal}>
+            <Button kind="outline" onClick={onClose}>
               취소
             </Button>,
             <Button
@@ -52,9 +59,7 @@ export const SelectVoteEventModal = () => {
         </Modal>
       )}
 
-      {isOpen && (
-        <CreateVoteModal voteTopic={selected[1]} setIsOpen={setIsOpen} />
-      )}
+      {isOpen && <CreateVoteModal voteTopic={selected[1]} isClose={isClose} />}
     </>
   );
 };

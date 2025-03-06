@@ -10,11 +10,13 @@ import { useModal } from '@/hooks/useModal';
 interface voteDeadLineProps {
   setVoteDate: React.Dispatch<React.SetStateAction<string>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onClose: () => void;
 }
 
 export const SetVoteDeadLineModal = ({
   setVoteDate,
   setIsOpen,
+  onClose,
 }: voteDeadLineProps) => {
   const { closeModal } = useModal();
   const now = new Date();
@@ -50,7 +52,7 @@ export const SetVoteDeadLineModal = ({
 
   return (
     <Modal
-      close={closeModal}
+      close={onClose}
       buttonList={[
         <_Footer>
           <div>

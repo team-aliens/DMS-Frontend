@@ -1,4 +1,5 @@
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
+import { EditVoteStudent } from '@/components/modals/EditVoteStudent';
 import { SelectVoteEventModal } from '@/components/modals/SelectVoteEventModal';
 import { VoteDuePopup } from '@/components/modals/VoteDuePopup';
 import { Button } from '@team-aliens/design-system';
@@ -15,6 +16,7 @@ export const Main = () => {
   };
   return (
     <WithNavigatorBar>
+      <EditVoteStudent />
       {isOpen && <SelectVoteEventModal onClose={onClose} />}
       <_Wrapper>
         <_Header>

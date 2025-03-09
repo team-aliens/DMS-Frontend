@@ -8,10 +8,16 @@ import styled from 'styled-components';
 export function EditVoteStudent() {
   const [name, setName] = useState<string>('');
   const dummyData = [1101, 1102, 1103, 1104, 2213, 2201, 3201];
+
+  const filterData = name
+    ? dummyData.filter((data) => data.toString().includes(name))
+    : dummyData;
+
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setName(value);
   };
+
   return (
     <Modal
       buttonList={[<Button kind="outline">취소</Button>, <Button>확인</Button>]}
@@ -23,12 +29,11 @@ export function EditVoteStudent() {
         <_Contents>
           <_Input>
             <Magnifyingglass />
-            <div></div>
             <input type="text" onChange={onChange} value={name} />
           </_Input>
           <_Students>
-            {dummyData.map((data, index) => (
-              <_Item key={index}>
+            {filterData.map((data) => (
+              <_Item key={data}>
                 <span>{data}</span>
               </_Item>
             ))}
@@ -54,7 +59,11 @@ const _Item = styled.div`
   }
 `;
 
-const _Students = styled.div``;
+const _Students = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 const _Input = styled.div`
   border-radius: 30px;
@@ -65,11 +74,6 @@ const _Input = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  > div {
-    width: 1px;
-    height: 28px;
-    background-color: ${color.gray3};
-  }
   > input {
     font: ${font.bodyL};
   }
@@ -86,6 +90,7 @@ const _Wrapper = styled.div`
   flex-direction: column;
   gap: 24px;
 `;
+
 const _Header = styled.header`
   font: ${font.headlineS};
 `;

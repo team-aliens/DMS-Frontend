@@ -42,7 +42,7 @@ interface PagePath {
   };
   survey: {
     main: '/survey';
-    detail: (voteId: number) => `/survey/detail/${typeof voteId}`;
+    detail: (voteId: number) => `/survey/result/${typeof voteId}`;
   };
   outing: '/outing';
 }
@@ -85,7 +85,7 @@ export const pagePath: PagePath = {
   },
   survey: {
     main: '/survey',
-    detail: (voteId: number) => `/survey/detail/${voteId}`,
+    detail: (voteId: number) => `/survey/result/${voteId}`,
   },
   outing: '/outing',
 } as const;

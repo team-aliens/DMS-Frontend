@@ -1,25 +1,31 @@
 import { Button } from '@team-aliens/design-system';
-import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const VoteDuePopup = () => {
+interface PropsType {
+  surveyId: number;
+}
+
+export const VoteDuePopup = ({ surveyId }: PropsType) => {
   return (
-    <_VoteDuePopup>
-      <_VoteInfo>
-        <_PopupTitle>모범 학생 투표</_PopupTitle>
-        <_Contents>
-          <_PopupText>마감일</_PopupText>
-          <Deadline>2024-3-1 / 13:20 ~ 2024-3-12 / 14:40</Deadline>
-        </_Contents>
-      </_VoteInfo>
-      <_Footer>
-        <Button>수정</Button>
-        <Button kind="outline" color="gray">
-          삭제
-        </Button>
-      </_Footer>
-    </_VoteDuePopup>
+    <Link to={`result/${surveyId}`}>
+      <_VoteDuePopup>
+        <_VoteInfo>
+          <_PopupTitle>모범 학생 투표</_PopupTitle>
+          <_Contents>
+            <_PopupText>마감일</_PopupText>
+            <Deadline>2024-3-1 / 13:20 ~ 2024-3-12 / 14:40</Deadline>
+          </_Contents>
+        </_VoteInfo>
+        <_Footer>
+          <Button>수정</Button>
+          <Button kind="outline" color="gray">
+            삭제
+          </Button>
+        </_Footer>
+      </_VoteDuePopup>
+    </Link>
   );
 };
 

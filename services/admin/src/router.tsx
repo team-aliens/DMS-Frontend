@@ -23,6 +23,7 @@ import { Volunteer } from './pages/volunteer';
 import { VolunteerDetail } from './pages/volunteer/Detail';
 import { VolunteerApplication } from './pages/volunteer/Application';
 import { Main } from './pages/survey/Main';
+import { SurveyResult } from './pages/survey/SurveyResult';
 
 export const pathToKorean = {
   'notice': {
@@ -144,7 +145,10 @@ export const Router = createBrowserRouter([
       },
       {
         path: pagePath.survey.main,
-        children: [{ index: true, element: <Main /> }],
+        children: [
+          { index: true, element: <Main /> },
+          { path: `result/:id`, element: <SurveyResult /> },
+        ],
       },
     ],
   },

@@ -14,6 +14,7 @@ export const Main = () => {
   const onClose = () => {
     setIsOpen(false);
   };
+  const arr = [1, 2, 3, 4, 5, 6];
   return (
     <WithNavigatorBar>
       {isOpen && <SelectVoteEventModal onClose={onClose} />}
@@ -22,12 +23,9 @@ export const Main = () => {
           <Button onClick={onOpen}>투표 항목 추가 +</Button>
         </_Header>
         <_VoteDiv>
-          <VoteDuePopup />
-          <VoteDuePopup />
-          <VoteDuePopup />
-          <VoteDuePopup />
-          <VoteDuePopup />
-          <VoteDuePopup />
+          {arr.map((data) => (
+            <VoteDuePopup surveyId={data} />
+          ))}
         </_VoteDiv>
       </_Wrapper>
     </WithNavigatorBar>

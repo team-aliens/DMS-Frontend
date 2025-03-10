@@ -16,7 +16,6 @@ export const Main = () => {
   };
   return (
     <WithNavigatorBar>
-      <EditVoteStudent />
       {isOpen && <SelectVoteEventModal onClose={onClose} />}
       <_Wrapper>
         <_Header>

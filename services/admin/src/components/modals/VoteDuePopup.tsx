@@ -55,19 +55,19 @@ const _VoteInfo = styled.div`
 
 const _PopupTitle = styled.div`
   color: #343434;
-  font: ${font.bodyM};
+  font: ${font.titleM};
   word-wrap: break-word;
 `;
 
 const _PopupText = styled.div`
   color: #343434;
-  font: ${font.bodyS};
+  font: ${font.bodyL};
   word-wrap: break-word;
 `;
 
 const Deadline = styled.div`
   color: #005de8;
-  font: ${font.bodyS};
+  font: ${font.bodyL};
   word-wrap: break-word;
 `;
 

@@ -19,11 +19,7 @@ interface VoteProps {
   isClose: () => void;
 }
 
-export const CreateVoteModal = ({
-  voteTopic,
-
-  isClose,
-}: VoteProps) => {
+export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
   const { closeModal } = useModal(); // useModal을 사용하지 않고 isOpen으로 모달을 관리 한 것은 현재 디자인 상 모달 위 모달을 구현해야 하는데 이유 모를 오류로 인해 모달을 열려고 하면 처음 상태로 돌아가서 사용했습니다..
   const [isDeadLineOpen, setIsDeadLineOpen] = useState<boolean>(false);
   const [voteTitle, setVoteTitle] = useState<string>('');
@@ -77,7 +73,11 @@ export const CreateVoteModal = ({
               취소
             </Button>,
             <Button
-              disabled={voteTitle === '' || voteDate === '' || voteEx === ''}
+              disabled={
+                voteTopic
+                  ? voteTitle === '' || voteDate === '' || voteEx === ''
+                  : voteDate === '' || voteEx === ''
+              }
               onClick={onOpen}
             >
               {voteTopicRadios[selectedIndex ?? -1] === '선택'

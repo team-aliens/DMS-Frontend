@@ -23,10 +23,14 @@ interface PagePath {
       ) => `/apply/study/detail/patch/${typeof studyRoomId}`;
     };
     volunteer: {
-      list: '/apply/volunteer',
-      detail: (volunteerId: number | string) => `/apply/volunteer/detail/${typeof volunteerId}`,
-      currentDetail: (volunteerId: number | string) => `/apply/volunteer/current/detail/${typeof volunteerId}`
-    },
+      list: '/apply/volunteer';
+      detail: (
+        volunteerId: number | string,
+      ) => `/apply/volunteer/detail/${typeof volunteerId}`;
+      currentDetail: (
+        volunteerId: number | string,
+      ) => `/apply/volunteer/current/detail/${typeof volunteerId}`;
+    };
   };
   notice: {
     list: '/notice';
@@ -35,6 +39,10 @@ interface PagePath {
     patch: (
       noticeId: number | string,
     ) => `/notice/detail/patch/${typeof noticeId}`;
+  };
+  survey: {
+    main: '/survey';
+    detail: (voteId: number) => `/survey/result/${typeof voteId}`;
   };
   outing: '/outing';
 }
@@ -69,9 +77,15 @@ export const pagePath: PagePath = {
     },
     volunteer: {
       list: '/apply/volunteer',
-      detail: (volunteerId: number | string) => `/apply/volunteer/detail/${volunteerId}`,
-      currentDetail: (volunteerId: number | string) => `/apply/volunteer/current/detail/${volunteerId}`
+      detail: (volunteerId: number | string) =>
+        `/apply/volunteer/detail/${volunteerId}`,
+      currentDetail: (volunteerId: number | string) =>
+        `/apply/volunteer/current/detail/${volunteerId}`,
     },
+  },
+  survey: {
+    main: '/survey',
+    detail: (voteId: number) => `/survey/result/${voteId}`,
   },
   outing: '/outing',
 } as const;

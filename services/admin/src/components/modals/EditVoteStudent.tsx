@@ -5,7 +5,11 @@ import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export function EditVoteStudent() {
+interface PropsType {
+  onClose: () => void;
+}
+
+export function EditVoteStudent({ onClose }: PropsType) {
   const [name, setName] = useState<string>('');
   const [isCheck, setIsCheck] = useState<boolean[]>(new Array(9).fill(false));
 
@@ -69,8 +73,13 @@ export function EditVoteStudent() {
 
   return (
     <Modal
-      buttonList={[<Button kind="outline">취소</Button>, <Button>확인</Button>]}
-      close={null}
+      buttonList={[
+        <Button kind="outline" onClick={onClose}>
+          취소
+        </Button>,
+        <Button>확인</Button>,
+      ]}
+      close={onClose}
       width="1150px"
     >
       <_Wrapper>

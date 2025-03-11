@@ -12,6 +12,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { SetVoteDeadLineModal } from './SetVoteDeadLineModal';
 import { VotePopup } from './VotePopup';
+import { EditVoteStudent } from './EditVoteStudent';
 
 interface VoteProps {
   voteTopic: boolean;
@@ -28,6 +29,7 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
   const [voteEx, setVoteEx] = useState<string>('');
   const voteTopicRadios = ['학생', '찬반', '선택'];
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isEditStudent, setIsEditStudent] = useState<boolean>(false);
 
   const onVoteTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -38,6 +40,10 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
     setIsDeadLineOpen(false);
   };
 
+  const onEditStudentClose = () => {
+    setIsEditStudent(false);
+  };
+
   const onVoteExChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setVoteEx(value);
@@ -45,6 +51,9 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
 
   const setVoteDeadLineModal = () => {
     setIsDeadLineOpen(true);
+  };
+  const setEditStudentModal = () => {
+    setIsEditStudent(true);
   };
 
   const radioClick = (index: number) => {
@@ -127,6 +136,9 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
                     <Button onClick={setVoteDeadLineModal}>
                       투표 마감일 지정
                     </Button>
+                    <Button onClick={setEditStudentModal}>
+                      제외 학생 지정
+                    </Button>
                   </_ButtonBox>
                 )}
               </_InputBox>
@@ -159,6 +171,7 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
           onClose={onClose}
         />
       )}
+      {isEditStudent && <EditVoteStudent onClose={onEditStudentClose} />}
     </>
   );
 };
@@ -183,7 +196,8 @@ const _Wrapper = styled.div`
 `;
 
 const _ButtonBox = styled.div`
-  width: 130px;
+  display: flex;
+  gap: 16px;
 `;
 
 const _VoteTopicBox = styled.div`

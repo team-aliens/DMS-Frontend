@@ -5,14 +5,14 @@ import { CreateVoteRequest } from '@/apis/votes/request';
 import { useModal } from './useModal';
 
 export const useVoteList = () => {
-  useQuery(['getVoteList'], () => getVoteList());
+  return useQuery(['getVoteList'], () => getVoteList());
 };
 
-export const useDeleteVote = (voteId: string) => {
+export const useDeleteVote = () => {
   const queryClient = useQueryClient();
   const { toastDispatch } = useToast();
 
-  return useMutation(() => deleteVote(voteId), {
+  return useMutation((voteId: string) => deleteVote(voteId), {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -24,12 +24,11 @@ export const useDeleteVote = (voteId: string) => {
   });
 };
 
-export const useWriteVote = (content: CreateVoteRequest) => {
+export const useWriteVote = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
-  const { closeModal } = useModal();
 
-  return useMutation(() => createVote(content), {
+  return useMutation((content: CreateVoteRequest) => createVote(content), {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -41,19 +40,22 @@ export const useWriteVote = (content: CreateVoteRequest) => {
   });
 };
 
-export const usePatchVote = (content: CreateVoteRequest, voteId: string) => {
+export const usePatchVote = () => {
   const { toastDispatch } = useToast();
-  const { closeModal } = useModal();
   const queryClient = useQueryClient();
 
-  return useMutation(() => patchVote(content, voteId), {
-    onSuccess: () => {
-      toastDispatch({
-        actionType: 'APPEND_TOAST',
-        toastType: 'SUCCESS',
-        message: '투표가 수정되었습니다.',
-      });
-      queryClient.invalidateQueries(['getVoteList']);
+  return useMutation(
+    ({ content, voteId }: { content: CreateVoteRequest; voteId: string }) =>
+      patchVote(content, voteId),
+    {
+      onSuccess: () => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '투표가 수정되었습니다.',
+        });
+        queryClient.invalidateQueries(['getVoteList']);
+      },
     },
-  });
+  );
 };

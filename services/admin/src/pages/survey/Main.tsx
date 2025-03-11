@@ -1,20 +1,21 @@
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
-import { EditVoteStudent } from '@/components/modals/EditVoteStudent';
 import { SelectVoteEventModal } from '@/components/modals/SelectVoteEventModal';
 import { VoteDuePopup } from '@/components/modals/VoteDuePopup';
+import { useVoteList } from '@/hooks/useVoteApi';
 import { Button } from '@team-aliens/design-system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export const Main = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { data } = useVoteList();
   const onOpen = () => {
     setIsOpen(true);
   };
   const onClose = () => {
     setIsOpen(false);
   };
-  const arr = [1, 2, 3, 4, 5, 6];
+
   return (
     <WithNavigatorBar>
       {isOpen && <SelectVoteEventModal onClose={onClose} />}
@@ -23,8 +24,14 @@ export const Main = () => {
           <Button onClick={onOpen}>투표 항목 추가 +</Button>
         </_Header>
         <_VoteDiv>
-          {arr.map((data) => (
-            <VoteDuePopup surveyId={data} />
+          {data?.voting_topics.map((data) => (
+            <VoteDuePopup
+              surveyId={data.id}
+              key={data.id}
+              topic_name={data.topic_name}
+              end_time={data.end_time}
+              start_time={data.start_time}
+            />
           ))}
         </_VoteDiv>
       </_Wrapper>
@@ -35,6 +42,7 @@ export const Main = () => {
 const _Header = styled.div`
   display: flex;
   justify-content: right;
+  width: 100%;
 `;
 
 const _VoteDiv = styled.div`
@@ -48,4 +56,5 @@ const _Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  width: 100%;
 `;

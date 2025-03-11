@@ -7,26 +7,62 @@ import styled from 'styled-components';
 
 export function EditVoteStudent() {
   const [name, setName] = useState<string>('');
-  const [isCheck, setIsCheck] = useState<boolean[]>([]);
-  const dummyData = [1101, 1102, 1103, 1104, 2213, 2201, 3201, 3311, 3412];
+  const [isCheck, setIsCheck] = useState<boolean[]>(new Array(9).fill(false));
+
+  const dummyData = [
+    {
+      number: 1101,
+      name: '정승우',
+    },
+    {
+      number: 1102,
+      name: '지도현',
+    },
+    {
+      number: 1103,
+      name: '허영재',
+    },
+    {
+      number: 1104,
+      name: '정명우',
+    },
+    {
+      number: 1105,
+      name: '정현석',
+    },
+    {
+      number: 1106,
+      name: '이건희',
+    },
+    {
+      number: 1107,
+      name: '박태수',
+    },
+    {
+      number: 1108,
+      name: '채도훈',
+    },
+  ];
 
   const trueIndexes = isCheck
     .map((check, index) => (check ? index : -1))
     .filter((index) => index !== -1);
 
   const filterData = name
-    ? dummyData.filter((data) => data.toString().includes(name))
-    : trueIndexes.map((data) => dummyData[data]);
+    ? dummyData.filter((data) => data.number.toString().includes(name))
+    : trueIndexes.map((index) => dummyData[index]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setName(value);
+    setName(event.target.value);
   };
 
-  const handleCheck = (index: number) => {
+  const handleCheck = (targetIndex: number) => {
+    const realIndex = dummyData.indexOf(filterData[targetIndex]);
+    if (realIndex === -1) return;
+
     setIsCheck((prev) => {
       const newCheck = [...prev];
-      newCheck[index] = !newCheck[index];
+      newCheck[realIndex] = !newCheck[realIndex];
       return newCheck;
     });
   };
@@ -45,15 +81,20 @@ export function EditVoteStudent() {
             <input type="text" onChange={onChange} value={name} />
           </_Input>
           <_Students>
-            {filterData.map((data, index) => (
-              <_Item
-                key={data}
-                onClick={() => handleCheck(index)}
-                check={isCheck[index] || false}
-              >
-                <span>{data}</span>
-              </_Item>
-            ))}
+            {filterData.length !== 0 ? (
+              filterData.map((data, index) => (
+                <_Item
+                  key={data.number}
+                  onClick={() => handleCheck(index)}
+                  check={isCheck[dummyData.indexOf(data)]}
+                >
+                  <span>{data.name}</span>
+                  <span>{data.number}</span>
+                </_Item>
+              ))
+            ) : (
+              <span>아직 제외된 학생이 없습니다.</span>
+            )}
           </_Students>
         </_Contents>
       </_Wrapper>
@@ -69,7 +110,8 @@ const _Item = styled.div<{ check: boolean }>`
   background-color: ${(props) =>
     props.check ? color.primaryDarken1 : 'transparent'};
   color: ${(props) => (props.check ? 'white' : 'inherit')};
-
+  display: flex;
+  gap: 12px;
   cursor: pointer;
   > span {
     font: ${font.bodyL};
@@ -81,9 +123,20 @@ const _Item = styled.div<{ check: boolean }>`
 `;
 
 const _Students = styled.div`
+  max-height: 400px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 400px;
+  > span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font: ${font.bodyL};
+    color: ${color.gray5};
+    height: 100%;
+  }
 `;
 
 const _Input = styled.div`
@@ -110,6 +163,8 @@ const _Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  max-height: 500px;
+  overflow: hidden;
 `;
 
 const _Header = styled.header`

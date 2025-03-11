@@ -9,23 +9,25 @@ interface PropsType {
 
 export const VoteDuePopup = ({ surveyId }: PropsType) => {
   return (
-    <Link to={`result/${surveyId}`}>
-      <_VoteDuePopup>
-        <_VoteInfo>
-          <_PopupTitle>모범 학생 투표</_PopupTitle>
-          <_Contents>
-            <_PopupText>마감일</_PopupText>
-            <Deadline>2024-3-1 / 13:20 ~ 2024-3-12 / 14:40</Deadline>
-          </_Contents>
-        </_VoteInfo>
-        <_Footer>
-          <Button>수정</Button>
-          <Button kind="outline" color="gray">
-            삭제
-          </Button>
-        </_Footer>
-      </_VoteDuePopup>
-    </Link>
+    <_VoteDuePopup>
+      <_VoteInfo>
+        <_PopupTitle>모범 학생 투표</_PopupTitle>
+        <_Contents>
+          <_PopupText>마감일</_PopupText>
+          <Deadline>2024-3-1 / 13:20 ~ 2024-3-12 / 14:40</Deadline>
+        </_Contents>
+      </_VoteInfo>
+
+      <_Footer>
+        <Link to={`result/${surveyId}`}>
+          <Button>결과 확인</Button>
+        </Link>
+        <Button>수정</Button>
+        <Button kind="outline" color="gray">
+          삭제
+        </Button>
+      </_Footer>
+    </_VoteDuePopup>
   );
 };
 
@@ -81,5 +83,6 @@ const _Footer = styled.div`
   display: flex;
   align-items: center;
   justify-content: right;
+  width: 100%;
   gap: 4px;
 `;

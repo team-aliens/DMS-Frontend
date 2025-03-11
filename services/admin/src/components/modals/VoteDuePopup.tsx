@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CreateVoteModal } from './CreateVoteModal';
+import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 
 interface PropsType {
   surveyId: string;
@@ -19,6 +20,7 @@ export const VoteDuePopup = ({
   start_time,
   end_time,
 }: PropsType) => {
+  const isDeadlinePassed = new Date(end_time) < new Date();
   const { mutate: deleteVote } = useDeleteVote();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const formatVoteDate = (startTime: string, endTime: string) => {
@@ -73,14 +75,19 @@ export const VoteDuePopup = ({
           <_PopupTitle>{topic_name}</_PopupTitle>
           <_Contents>
             <_PopupText>마감일</_PopupText>
-            <Deadline>{formatVoteDate(start_time, end_time)}</Deadline>
+            <Deadline DeadLine={isDeadlinePassed}>
+              {formatVoteDate(start_time, end_time)}
+            </Deadline>
           </_Contents>
         </_VoteInfo>
 
         <_Footer>
-          <Link to={`result/${surveyId}`}>
-            <Button>결과 확인</Button>
-          </Link>
+          {isDeadlinePassed && (
+            <Link to={`result/${surveyId}`}>
+              <Button>결과 확인</Button>
+            </Link>
+          )}
+
           <Button onClick={isEditModal}>수정</Button>
           <Button kind="outline" color="gray" onClick={voteDelete}>
             삭제
@@ -133,8 +140,8 @@ const _PopupText = styled.div`
   word-wrap: break-word;
 `;
 
-const Deadline = styled.div`
-  color: #005de8;
+const Deadline = styled.div<{ DeadLine: boolean }>`
+  color: ${({ DeadLine }) => (DeadLine ? color.gray5 : color.primary)};
   font: ${font.bodyL};
   word-wrap: break-word;
 `;

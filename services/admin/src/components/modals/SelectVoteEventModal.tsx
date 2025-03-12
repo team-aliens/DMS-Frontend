@@ -58,7 +58,13 @@ export const SelectVoteEventModal = ({ onClose }: PropsType) => {
         </Modal>
       )}
 
-      {isOpen && <CreateVoteModal voteTopic={selected[1]} isClose={isClose} />}
+      {isOpen && (
+        <CreateVoteModal
+          voteTopic={selected[1]}
+          isClose={isClose}
+          edit={false}
+        />
+      )}
     </>
   );
 };

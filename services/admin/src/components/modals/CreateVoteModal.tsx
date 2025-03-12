@@ -13,21 +13,39 @@ import styled from 'styled-components';
 import { SetVoteDeadLineModal } from './SetVoteDeadLineModal';
 import { VotePopup } from './VotePopup';
 import { EditVoteStudent } from './EditVoteStudent';
+import { usePatchVote, useWriteVote } from '@/hooks/useVoteApi';
+import { getVoteType } from '@/utils/getVoteType';
 
 interface VoteProps {
   voteTopic: boolean;
-
+  edit: boolean;
   isClose: () => void;
+  surveyId?: string;
+  topic_name?: string;
+  description?: string;
+  vote_date?: string;
 }
 
-export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
+export const CreateVoteModal = ({
+  voteTopic,
+  isClose,
+  edit,
+  surveyId,
+  topic_name,
+  description,
+  vote_date,
+}: VoteProps) => {
+  const { mutate: writeVote } = useWriteVote();
+  const { mutate: editVote } = usePatchVote();
   const { closeModal } = useModal(); // useModal을 사용하지 않고 isOpen으로 모달을 관리 한 것은 현재 디자인 상 모달 위 모달을 구현해야 하는데 이유 모를 오류로 인해 모달을 열려고 하면 처음 상태로 돌아가서 사용했습니다..
   const [isDeadLineOpen, setIsDeadLineOpen] = useState<boolean>(false);
-  const [voteTitle, setVoteTitle] = useState<string>('');
-  const [voteDate, setVoteDate] = useState<string>('');
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [voteEx, setVoteEx] = useState<string>('');
+  const [voteTitle, setVoteTitle] = useState<string>(edit ? topic_name : '');
+  const [voteDate, setVoteDate] = useState<string>(edit ? vote_date : '');
   const voteTopicRadios = ['학생', '찬반', '선택'];
+  const [selectedIndex, setSelectedIndex] = useState<boolean[]>(
+    new Array(voteTopicRadios.length).fill(false),
+  );
+  const [voteEx, setVoteEx] = useState<string>(edit ? description : '');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isEditStudent, setIsEditStudent] = useState<boolean>(false);
 
@@ -57,15 +75,74 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
   };
 
   const radioClick = (index: number) => {
-    setSelectedIndex(index);
+    setSelectedIndex((prev) =>
+      prev.map((val, i) => (i === index ? !val : val)),
+    );
+  };
+
+  const parseVoteDate = (dateString: string) => {
+    try {
+      const [start, end] = dateString.split(' ~ ');
+
+      const parseDateTime = (dateTime: string) => {
+        const [datePart, timePart] = dateTime.split(' / ');
+        const [year, month, day] = datePart.split('-').map(Number);
+        const [hour, minute] = timePart.split(':').map(Number);
+
+        // 한국 시간(KST) 기준으로 변환 후 UTC로 조정
+        const date = new Date(Date.UTC(year, month - 1, day, hour, minute));
+
+        return date.toISOString(); // 이 값은 KST 유지된 상태로 변환됨
+      };
+
+      return {
+        start_time: parseDateTime(start),
+        end_time: parseDateTime(end),
+      };
+    } catch (error) {
+      console.error('날짜 변환 오류:', error);
+      return null;
+    }
   };
 
   const onOpen = () => {
-    if (voteTopicRadios[selectedIndex ?? -1] === '선택') {
+    if (selectedIndex[2]) {
       setIsOpen(true);
     } else {
+      const parsedDates = parseVoteDate(voteDate);
+
+      if (!parsedDates) {
+        console.error('날짜 형식이 잘못되었습니다.');
+        return;
+      }
+      if (!edit) {
+        writeVote({
+          topic_name: voteTopic ? voteTitle : '모범학생 투표',
+          description: voteEx,
+          start_time: parsedDates.start_time,
+          end_time: parsedDates.end_time,
+          vote_type: voteTopic
+            ? getVoteType(selectedIndex)
+            : 'MODEL_STUDENT_VOTE',
+        });
+      } else {
+        editVote({
+          content: {
+            topic_name: voteTopic ? voteTitle : '모범학생 투표',
+            description: voteEx,
+            start_time: parsedDates.start_time,
+            end_time: parsedDates.end_time,
+            vote_type: voteTopic
+              ? getVoteType(selectedIndex)
+              : 'MODEL_STUDENT_VOTE',
+          },
+          voteId: surveyId,
+        });
+      }
+      closeModal();
     }
   };
+
   const onVotePopupClose = () => {
     setIsOpen(false);
   };
@@ -76,7 +153,7 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
       {!isOpen && (
         <Modal
           close={closeModal}
-          title="투표 항목 생성"
+          title={edit ? '투표 항목 수정' : '투표 항목 생성'}
           buttonList={[
             <Button kind="outline" onClick={isClose}>
               취소
@@ -84,14 +161,15 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
             <Button
               disabled={
                 voteTopic
-                  ? voteTitle === '' || voteDate === '' || voteEx === ''
+                  ? voteTitle === '' ||
+                    voteDate === '' ||
+                    (voteEx === '' &&
+                      selectedIndex.filter((val) => val).length > 1)
                   : voteDate === '' || voteEx === ''
               }
               onClick={onOpen}
             >
-              {voteTopicRadios[selectedIndex ?? -1] === '선택'
-                ? '다음'
-                : '확인'}
+              {selectedIndex[2] ? '다음' : '확인'}
             </Button>,
           ]}
           width="1150px"
@@ -106,7 +184,11 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
                   label="투표 제목"
                   name="투표 제목"
                   onChange={voteTopic ? onVoteTitleChange : null}
-                  value={voteTopic ? voteTitle : '모범학생 투표'}
+                  value={
+                    voteTopic
+                      ? voteTitle
+                      : `${new Date().getMonth() + 1}월 모범학생 투표`
+                  }
                 />
 
                 <Input
@@ -125,7 +207,7 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
                         <div key={index} onClick={() => radioClick(index)}>
                           {data}
                           <Radio
-                            className={selectedIndex === index ? 'checked' : ''}
+                            className={selectedIndex[index] ? 'checked' : ''}
                           />
                         </div>
                       ))}
@@ -134,10 +216,10 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
                 ) : (
                   <_ButtonBox>
                     <Button onClick={setVoteDeadLineModal}>
-                      투표 마감일 지정
+                      {edit ? '투표 마감일 수정' : '투표 마감일 지정'}
                     </Button>
                     <Button onClick={setEditStudentModal}>
-                      제외 학생 지정
+                      {edit ? '제외 학생 수정' : '제외 학생 지정'}
                     </Button>
                   </_ButtonBox>
                 )}
@@ -145,7 +227,7 @@ export const CreateVoteModal = ({ voteTopic, isClose }: VoteProps) => {
               {voteTopic && (
                 <_ButtonBox>
                   <Button onClick={setVoteDeadLineModal}>
-                    투표 마감일 지정
+                    {edit ? '투표 마감일 수정' : '투표 마감일 지정'}
                   </Button>
                 </_ButtonBox>
               )}

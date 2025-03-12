@@ -5,16 +5,17 @@ import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { Button, Modal } from '@team-aliens/design-system';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { FullListPopup } from './FullListPopup';
+import { useVoteOptionList } from '@/hooks/useVoteApi';
 
 interface PropsType {
   mode: string;
   onClose: () => void;
+  voteId: string;
 }
 
-export const VotePopup = ({ mode, onClose }: PropsType) => {
-  const [items, setItems] = useState(
-    mode === 'edit' ? [{ value: '김치' }, { value: '파전' }] : [],
-  );
+export const VotePopup = ({ mode, onClose, voteId }: PropsType) => {
+  const { data } = useVoteOptionList(voteId);
+  const [items, setItems] = useState(mode === 'edit' ? [data] : []);
   const [isFull, setIsFull] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -34,14 +35,12 @@ export const VotePopup = ({ mode, onClose }: PropsType) => {
     setItems(newItems);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleAddItem();
-    }
-  };
-
   const onFullListPopUpClose = () => {
     setIsFull(false);
+  };
+
+  const voteOptionDelete = (id: string) => {
+    voteOptionDelete(id);
   };
 
   return (
@@ -77,7 +76,6 @@ export const VotePopup = ({ mode, onClose }: PropsType) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="새 항목 추가"
-                onKeyDown={handleKeyDown}
               />
               <button onClick={handleAddItem}>추가</button>
             </li>

@@ -1,4 +1,11 @@
-import { createVote, deleteVote, getVoteList, patchVote } from '@/apis/votes';
+import {
+  createVote,
+  deleteVote,
+  deleteVoteOption,
+  getVoteList,
+  getVoteOptionList,
+  patchVote,
+} from '@/apis/votes';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
 import { CreateVoteRequest } from '@/apis/votes/request';
@@ -58,4 +65,24 @@ export const usePatchVote = () => {
       },
     },
   );
+};
+
+export const useVoteOptionList = (voteId: string) => {
+  return useQuery(['getVoteOptionList'], () => getVoteOptionList(voteId));
+};
+
+export const useDeleteVoteOption = () => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation((voteId: string) => deleteVoteOption(voteId), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        message: '투표 항목이 삭제되었습니다.',
+        toastType: 'SUCCESS',
+      });
+      queryClient.invalidateQueries(['getVoteOptionList']);
+    },
+  });
 };

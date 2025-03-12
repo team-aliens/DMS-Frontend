@@ -117,7 +117,9 @@ export const CreateVoteModal = ({
       }
       if (!edit) {
         writeVote({
-          topic_name: voteTopic ? voteTitle : '모범학생 투표',
+          topic_name: voteTopic
+            ? voteTitle
+            : `${new Date().getMonth() + 1}월 모범학생 투표`,
           description: voteEx,
           start_time: parsedDates.start_time,
           end_time: parsedDates.end_time,
@@ -128,7 +130,9 @@ export const CreateVoteModal = ({
       } else {
         editVote({
           content: {
-            topic_name: voteTopic ? voteTitle : '모범학생 투표',
+            topic_name: voteTopic
+              ? voteTitle
+              : `${new Date().getMonth() + 1}월 모범학생 투표`,
             description: voteEx,
             start_time: parsedDates.start_time,
             end_time: parsedDates.end_time,
@@ -139,7 +143,7 @@ export const CreateVoteModal = ({
           voteId: surveyId,
         });
       }
-      closeModal();
+      window.location.reload();
     }
   };
 
@@ -149,7 +153,9 @@ export const CreateVoteModal = ({
 
   return (
     <>
-      {isOpen && <VotePopup mode="create" onClose={onVotePopupClose} />}
+      {isOpen && (
+        <VotePopup mode="create" onClose={onVotePopupClose} voteId={surveyId} />
+      )}
       {!isOpen && (
         <Modal
           close={closeModal}

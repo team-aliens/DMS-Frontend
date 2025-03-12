@@ -42,6 +42,7 @@ export const VoteDuePopup = ({
 
   const voteDelete = () => {
     deleteVote(surveyId);
+    window.location.reload();
   };
 
   const isEditModal = () => {

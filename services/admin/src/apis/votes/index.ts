@@ -20,3 +20,12 @@ export const patchVote = async (body: CreateVoteRequest, votingId: string) => {
 export const deleteVote = async (votingId: string) => {
   instance.delete(`${router}/${votingId}`);
 };
+
+export const deleteVoteOption = async (votingId: string) => {
+  instance.delete(`${router}/option/${votingId}`);
+};
+
+export const getVoteOptionList = async (votingId: string) => {
+  const { data } = await instance.get(`${router}/option/${votingId}`);
+  return data;
+};

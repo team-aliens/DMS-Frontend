@@ -1,7 +1,23 @@
+<<<<<<< HEAD
 import { createVote, deleteVote, getVoteList, patchVote } from '@/apis/votes';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
 import { CreateVoteRequest } from '@/apis/votes/request';
+=======
+import {
+  createVote,
+  deleteVote,
+  getVoteList,
+  patchVote,
+  createVoteOption,
+} from '@/apis/votes';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useToast } from './useToast';
+import {
+  CreateVoteRequest,
+  CreateVoteOptionRequest,
+} from '@/apis/votes/request';
+>>>>>>> 2e9129e (feat: 투표 항목 api 연동)
 import { useModal } from './useModal';
 
 export const useVoteList = () => {
@@ -59,3 +75,25 @@ export const usePatchVote = () => {
     },
   );
 };
+<<<<<<< HEAD
+=======
+
+export const useCreateVoteOption = () => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    (content: CreateVoteOptionRequest) => createVoteOption(content),
+    {
+      onSuccess: () => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '투표 항목이 추가되었습니다.',
+        });
+        queryClient.invalidateQueries(['getVoteList']);
+      },
+    },
+  );
+};
+>>>>>>> 2e9129e (feat: 투표 항목 api 연동)

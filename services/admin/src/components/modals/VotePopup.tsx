@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-=======
 import { useMutation } from '@tanstack/react-query';
 import { createVoteOption } from '@/apis/votes';
 import { useState } from 'react';
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
 import styled from 'styled-components';
 import Delete from '../../assets/delete.svg';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
@@ -14,26 +10,17 @@ import { FullListPopup } from './FullListPopup';
 
 interface PropsType {
   mode: string;
-<<<<<<< HEAD
+  votingId: string;
   onClose: () => void;
 }
 
-export const VotePopup = ({ mode, onClose }: PropsType) => {
-=======
-  voting_topic_id: string;
-  onClose: () => void;
-}
-
-export const VotePopup = ({ mode, voting_topic_id, onClose }: PropsType) => {
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
+export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
   const [items, setItems] = useState(
     mode === 'edit' ? [{ value: '김치' }, { value: '파전' }] : [],
   );
   const [isFull, setIsFull] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
 
-<<<<<<< HEAD
-=======
   const { mutate: addVoteOption } = useMutation(createVoteOption, {
     onSuccess: () => {
       console.log('투표 옵션이 성공적으로 추가되었습니다.');
@@ -43,31 +30,23 @@ export const VotePopup = ({ mode, voting_topic_id, onClose }: PropsType) => {
     },
   });
 
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
   const handleAddItem = () => {
     if (inputValue) {
       if (items.length >= 50) {
         setIsFull(true);
       } else {
-<<<<<<< HEAD
-=======
         addVoteOption({
-          voting_topic_id,
+          voting_topic_id: votingId,
           option_name: inputValue,
         });
 
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
         setItems([...items, { value: inputValue }]);
         setInputValue('');
       }
     }
   };
 
-<<<<<<< HEAD
-  const handleDeleteItem = (index) => {
-=======
   const handleDeleteItem = (index: number) => {
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
     const newItems = items.filter((_, i) => i !== index);
     setItems(newItems);
   };
@@ -85,16 +64,12 @@ export const VotePopup = ({ mode, voting_topic_id, onClose }: PropsType) => {
   return (
     <>
       <Modal
-<<<<<<< HEAD
-        close={() => {}}
-=======
         close={onClose}
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
         buttonList={[
-          <Button kind="outline" onClick={onClose}>
+          <Button key="previous" kind="outline" onClick={onClose}>
             이전
           </Button>,
-          <Button>확인</Button>,
+          <Button key="confirm">확인</Button>,
         ]}
         width="1150px"
       >
@@ -130,10 +105,7 @@ export const VotePopup = ({ mode, voting_topic_id, onClose }: PropsType) => {
     </>
   );
 };
-<<<<<<< HEAD
 
-=======
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
 const _Contents = styled.div`
   padding: 0;
   height: 400px;

@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-import { createVote, deleteVote, getVoteList, patchVote } from '@/apis/votes';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useToast } from './useToast';
-import { CreateVoteRequest } from '@/apis/votes/request';
-=======
 import {
   createVote,
   deleteVote,
@@ -17,7 +11,6 @@ import {
   CreateVoteRequest,
   CreateVoteOptionRequest,
 } from '@/apis/votes/request';
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)
 import { useModal } from './useModal';
 
 export const useVoteList = () => {
@@ -75,8 +68,6 @@ export const usePatchVote = () => {
     },
   );
 };
-<<<<<<< HEAD
-=======
 
 export const useCreateVoteOption = () => {
   const { toastDispatch } = useToast();
@@ -96,4 +87,3 @@ export const useCreateVoteOption = () => {
     },
   );
 };
->>>>>>> 2e9129e (feat: 투표 항목 api 연동)

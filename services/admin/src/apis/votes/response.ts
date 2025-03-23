@@ -8,3 +8,11 @@ export interface VoteListResponse {
     vote_type: string;
   }[];
 }
+
+export interface ExcludedStudentResponse {
+  excluded_students: {
+    student_id: string;
+    gcn: string;
+    name: string;
+  };
+}

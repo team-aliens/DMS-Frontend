@@ -1,7 +1,9 @@
 import {
   createVote,
+  deleteExcludedStudent,
   deleteVote,
   deleteVoteOption,
+  getExcludedStudent,
   getVoteList,
   getVoteOptionList,
   patchVote,
@@ -83,6 +85,26 @@ export const useDeleteVoteOption = () => {
         toastType: 'SUCCESS',
       });
       queryClient.invalidateQueries(['getVoteOptionList']);
+    },
+  });
+};
+
+export const useExcludedStudentList = () => {
+  return useQuery(['getExcludedStudentList'], () => getExcludedStudent());
+};
+
+export const useDeleteExcludedStudent = (studentId: string) => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation((studentId: string) => deleteExcludedStudent(studentId), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        message: '모범 학생 후보에서 제외 되었습니다.',
+        toastType: 'SUCCESS',
+      });
+      queryClient.invalidateQueries(['getExcludedStudentList']);
     },
   });
 };

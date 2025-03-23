@@ -1,6 +1,6 @@
 import { instance } from '..';
 import { CreateVoteRequest } from './request';
-import { VoteListResponse } from './response';
+import { ExcludedStudentResponse, VoteListResponse } from './response';
 
 const router = '/votes';
 
@@ -28,4 +28,15 @@ export const deleteVoteOption = async (votingId: string) => {
 export const getVoteOptionList = async (votingId: string) => {
   const { data } = await instance.get(`${router}/option/${votingId}`);
   return data;
+};
+
+export const getExcludedStudent = async () => {
+  const { data } = await instance.get<ExcludedStudentResponse>(
+    `${router}/excluded-studen`,
+  );
+  return data;
+};
+
+export const deleteExcludedStudent = async (studentId: string) => {
+  instance.delete(`${router}/excluded-studen/${studentId}`);
 };

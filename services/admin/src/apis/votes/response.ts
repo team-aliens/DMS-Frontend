@@ -8,3 +8,12 @@ export interface VoteListResponse {
     vote_type: string;
   }[];
 }
+
+export interface VoteResultResponse {
+  voting_topic_id: string;
+  options: {
+    id: string;
+    name: string;
+    votes: number;
+  }[];
+}

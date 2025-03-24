@@ -23,11 +23,11 @@ export const deleteVote = async (votingId: string) => {
 };
 
 export const createVoteOption = async (body: CreateVoteOptionRequest) => {
-  const token = localStorage.getItem('accessToken');
-  const { data } = await instance.post(`${optionRouter}`, body, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const { data } = await instance.post(`${optionRouter}`, body);
+  return data;
+};
+
+export const getVoteResult = async (votingTopicId: string) => {
+  const { data } = await instance.get(`/result/${votingTopicId}`);
   return data;
 };

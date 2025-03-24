@@ -4,6 +4,7 @@ import {
   getVoteList,
   patchVote,
   createVoteOption,
+  getVoteResult,
 } from '@/apis/votes';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
@@ -84,6 +85,16 @@ export const useCreateVoteOption = () => {
         });
         queryClient.invalidateQueries(['getVoteList']);
       },
+    },
+  );
+};
+
+export const useVoteResult = (votingTopicId: string) => {
+  return useQuery(
+    ['getVoteResult', votingTopicId],
+    () => getVoteResult(votingTopicId),
+    {
+      enabled: !!votingTopicId,
     },
   );
 };

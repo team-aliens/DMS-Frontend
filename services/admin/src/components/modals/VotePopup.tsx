@@ -15,9 +15,8 @@ interface PropsType {
 }
 
 export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
-  const [items, setItems] = useState(
-    mode === 'edit' ? [{ value: '김치' }, { value: '파전' }] : [],
-  );
+  const [items, setItems] = useState<{ value: string }[]>([]);
+
   const [isFull, setIsFull] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
 

@@ -5,7 +5,6 @@ import { useCalendar } from '@/hooks/useCalendar';
 import { Calendar } from '../main/Calendar';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { useState } from 'react';
-import { useModal } from '@/hooks/useModal';
 
 interface voteDeadLineProps {
   setVoteDate: React.Dispatch<React.SetStateAction<string>>;
@@ -18,7 +17,6 @@ export const SetVoteDeadLineModal = ({
   setIsOpen,
   onClose,
 }: voteDeadLineProps) => {
-  const { closeModal } = useModal();
   const now = new Date();
   const { year, month, selectedDates, onArrowClick, daysInMonth, onDateClick } =
     useCalendar(now.getFullYear(), now.getMonth() + 1);

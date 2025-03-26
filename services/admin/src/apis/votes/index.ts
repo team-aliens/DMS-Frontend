@@ -4,6 +4,7 @@ import { VoteListResponse } from './response';
 
 const router = '/votes';
 const optionRouter = './votes/options';
+const exemplaryRouter = '/candidate-list';
 
 export const getVoteList = async () => {
   const { data } = await instance.get<VoteListResponse>(`${router}`);
@@ -11,15 +12,15 @@ export const getVoteList = async () => {
 };
 
 export const createVote = async (body: CreateVoteRequest) => {
-  instance.post(`${router}`, body);
+  await instance.post(`${router}`, body);
 };
 
 export const patchVote = async (body: CreateVoteRequest, votingId: string) => {
-  instance.patch(`${router}/${votingId}`, body);
+  await instance.patch(`${router}/${votingId}`, body);
 };
 
 export const deleteVote = async (votingId: string) => {
-  instance.delete(`${router}/${votingId}`);
+  await instance.delete(`${router}/${votingId}`);
 };
 
 export const createVoteOption = async (body: CreateVoteOptionRequest) => {
@@ -30,4 +31,11 @@ export const createVoteOption = async (body: CreateVoteOptionRequest) => {
 export const getVoteResult = async (votingTopicId: string) => {
   const { data } = await instance.get(`/result/${votingTopicId}`);
   return data;
+};
+
+export const getExemplaryStudents = async (requestDate: string) => {
+  const { data } = await instance.get(exemplaryRouter, {
+    params: { requestDate },
+  });
+  return data.students;
 };

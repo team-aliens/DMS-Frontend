@@ -32,11 +32,11 @@ export const getVoteOptionList = async (votingId: string) => {
 
 export const getExcludedStudent = async () => {
   const { data } = await instance.get<ExcludedStudentResponse>(
-    `${router}/excluded-studen`,
+    `${router}/excluded-student`,
   );
   return data;
 };
 
 export const deleteExcludedStudent = async (studentId: string) => {
-  instance.delete(`${router}/excluded-studen/${studentId}`);
+  instance.delete(`${router}/excluded-student/${studentId}`);
 };

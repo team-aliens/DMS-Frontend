@@ -1,4 +1,3 @@
-
 import {
   createVote,
   deleteExcludedStudent,
@@ -74,7 +73,6 @@ export const usePatchVote = () => {
   );
 };
 
-
 export const useCreateVoteOption = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
@@ -99,16 +97,19 @@ export const useVoteResult = (votingTopicId: string) => {
       enabled: !!votingTopicId,
     },
   );
+};
 
 export const useVoteOptionList = (voteId: string) => {
-  return useQuery(['getVoteOptionList'], () => getVoteOptionList(voteId));
+  return useQuery(['getVoteOptionList', voteId], () =>
+    getVoteOptionList(voteId),
+  );
 };
 
 export const useDeleteVoteOption = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation((voteId: string) => deleteVoteOption(voteId), {
+  return useMutation((voteOptionId: string) => deleteVoteOption(voteOptionId), {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -121,10 +122,10 @@ export const useDeleteVoteOption = () => {
 };
 
 export const useExcludedStudentList = () => {
-  return useQuery(['getExcludedStudentList'], () => getExcludedStudent());
+  return useQuery(['getExcludedStudentList'], getExcludedStudent);
 };
 
-export const useDeleteExcludedStudent = (studentId: string) => {
+export const useDeleteExcludedStudent = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
 

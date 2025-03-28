@@ -5,52 +5,44 @@ import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { Button, Modal } from '@team-aliens/design-system';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { FullListPopup } from './FullListPopup';
-import { useCreateVoteOption,useVoteOptionList } from '@/hooks/useVoteApi';
-
+import {
+  useCreateVoteOption,
+  useVoteOptionList,
+  useDeleteVoteOption,
+} from '@/hooks/useVoteApi';
 
 interface PropsType {
   mode: string;
   votingId: string;
   onClose: () => void;
-  voteId: string;
 }
 
 export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
-  const { data } = useVoteOptionList(voteId);
-  const [items, setItems] = useState<{ value: string }[]>([]);
-
-  const [isFull, setIsFull] = useState<boolean>(false);
+  const { data } = useVoteOptionList(votingId);
   const [inputValue, setInputValue] = useState('');
+  const [isFull, setIsFull] = useState(false);
 
   const { mutate: addVoteOption } = useCreateVoteOption();
+  const { mutate: deleteVoteOption } = useDeleteVoteOption();
 
   const handleAddItem = () => {
-    if (inputValue) {
-      if (items.length >= 50) {
-        setIsFull(true);
-      } else {
-        addVoteOption({ voting_topic_id: votingId, option_name: inputValue });
-        setItems([...items, { value: inputValue }]);
-        setInputValue('');
-      }
+    if (!inputValue) return;
+    if (data?.length >= 50) {
+      setIsFull(true);
+      return;
     }
+    addVoteOption({ voting_topic_id: votingId, option_name: inputValue });
+    setInputValue('');
   };
 
-  const handleDeleteItem = (index: number) => {
-    setItems(items.filter((_, i) => i !== index));
+  const handleDeleteItem = (optionId: string) => {
+    deleteVoteOption(optionId);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleAddItem();
     }
-
-  const onFullListPopUpClose = () => {
-    setIsFull(false);
-  };
-
-  const voteOptionDelete = (id: string) => {
-    voteOptionDelete(id);
   };
 
   return (
@@ -68,13 +60,13 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
         <_Wrapper>
           <_Header>
             <span>{mode === 'edit' ? '투표 항목 수정' : '투표 항목 생성'}</span>
-            {items.length}/50
+            {data?.length || 0}/50
           </_Header>
           <_Contents>
-            {items.map((item, index) => (
-              <li key={index}>
-                <input type="text" value={item.value} readOnly />
-                <button onClick={() => handleDeleteItem(index)}>
+            {data?.map((item) => (
+              <li key={item.id}>
+                <input type="text" value={item.option_name} readOnly />
+                <button onClick={() => handleDeleteItem(item.id)}>
                   <DeleteIcon src={Delete} />
                 </button>
               </li>
@@ -84,6 +76,7 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="새 항목 추가"
               />
               <button onClick={handleAddItem}>추가</button>
@@ -96,7 +89,7 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
   );
 };
 
-const _Contents = styled.div`
+const _Contents = styled.ul`
   padding: 0;
   height: 400px;
   overflow: auto;

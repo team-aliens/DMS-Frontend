@@ -3,7 +3,6 @@ import { CreateVoteOptionRequest, CreateVoteRequest } from './request';
 import { VoteListResponse } from './response';
 
 const router = '/votes';
-const exemplaryRouter = '/candidate-list';
 
 export const getVoteList = async () => {
   const { data } = await instance.get<VoteListResponse>(`${router}`);
@@ -30,11 +29,4 @@ export const createVoteOption = async (body: CreateVoteOptionRequest) => {
 export const getVoteResult = async (votingTopicId: string) => {
   const { data } = await instance.get(`${router}/result/${votingTopicId}`);
   return data;
-};
-
-export const getExemplaryStudents = async (requestDate: string) => {
-  const { data } = await instance.get(exemplaryRouter, {
-    params: { requestDate },
-  });
-  return data.students;
 };

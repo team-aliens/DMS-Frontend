@@ -144,7 +144,7 @@ export type ServiceToKorean =
   | '신청'
   | '공지'
   | '설문'
-  | '분실물'
+  // | '분실물'
   | '마이페이지'
   | '외출';
 export interface ServiceObject {

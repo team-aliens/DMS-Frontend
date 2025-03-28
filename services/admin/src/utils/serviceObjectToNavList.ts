@@ -8,13 +8,13 @@ export const serviceObjectToNavList = (features: IsUseAbleFeature) =>
       service: '설문',
       index: 3,
     })
-    .concat({
-      service: '분실물',
-      index: 4,
-    })
+    // .concat({
+    //   service: '분실물',
+    //   index: 4,
+    // })
     .concat({
       service: '마이페이지',
-      index: 5,
+      index: 4,
     })
     .sort((prev, current) => prev.index - current.index)
     .map((i) => i.service) as ServiceToKorean[];

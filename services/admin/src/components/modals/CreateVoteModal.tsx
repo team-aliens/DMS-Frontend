@@ -24,6 +24,7 @@ interface VoteProps {
   topic_name?: string;
   description?: string;
   vote_date?: string;
+  votingId?: string;
 }
 
 export const CreateVoteModal = ({
@@ -154,7 +155,12 @@ export const CreateVoteModal = ({
   return (
     <>
       {isOpen && (
-        <VotePopup mode="create" onClose={onVotePopupClose} voteId={surveyId} />
+        <VotePopup
+          mode="create"
+          onClose={onVotePopupClose}
+          votingId={surveyId}
+        />
+
       )}
       {!isOpen && (
         <Modal

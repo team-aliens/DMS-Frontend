@@ -7,21 +7,25 @@ import {
   getVoteList,
   getVoteOptionList,
   patchVote,
+  createVoteOption,
+  getVoteResult,
 } from '@/apis/votes';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
-import { CreateVoteRequest } from '@/apis/votes/request';
-import { useModal } from './useModal';
+import {
+  CreateVoteRequest,
+  CreateVoteOptionRequest,
+} from '@/apis/votes/request';
 
 export const useVoteList = () => {
-  return useQuery(['getVoteList'], () => getVoteList());
+  return useQuery(['getVoteList'], getVoteList);
 };
 
 export const useDeleteVote = () => {
   const queryClient = useQueryClient();
   const { toastDispatch } = useToast();
 
-  return useMutation((voteId: string) => deleteVote(voteId), {
+  return useMutation(deleteVote, {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -37,7 +41,7 @@ export const useWriteVote = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation((content: CreateVoteRequest) => createVote(content), {
+  return useMutation(createVote, {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -69,15 +73,43 @@ export const usePatchVote = () => {
   );
 };
 
+export const useCreateVoteOption = () => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation(createVoteOption, {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '투표 항목이 추가되었습니다.',
+      });
+      queryClient.invalidateQueries(['getVoteList']);
+    },
+  });
+};
+
+export const useVoteResult = (votingTopicId: string) => {
+  return useQuery(
+    ['getVoteResult', votingTopicId],
+    () => getVoteResult(votingTopicId),
+    {
+      enabled: !!votingTopicId,
+    },
+  );
+};
+
 export const useVoteOptionList = (voteId: string) => {
-  return useQuery(['getVoteOptionList'], () => getVoteOptionList(voteId));
+  return useQuery(['getVoteOptionList', voteId], () =>
+    getVoteOptionList(voteId),
+  );
 };
 
 export const useDeleteVoteOption = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation((voteId: string) => deleteVoteOption(voteId), {
+  return useMutation((voteOptionId: string) => deleteVoteOption(voteOptionId), {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -90,10 +122,10 @@ export const useDeleteVoteOption = () => {
 };
 
 export const useExcludedStudentList = () => {
-  return useQuery(['getExcludedStudentList'], () => getExcludedStudent());
+  return useQuery(['getExcludedStudentList'], getExcludedStudent);
 };
 
-export const useDeleteExcludedStudent = (studentId: string) => {
+export const useDeleteExcludedStudent = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
 

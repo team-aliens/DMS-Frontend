@@ -1,80 +1,82 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Delete from '../../assets/delete.svg';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { Button, Modal } from '@team-aliens/design-system';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { FullListPopup } from './FullListPopup';
-import { useVoteOptionList } from '@/hooks/useVoteApi';
+import {
+  useCreateVoteOption,
+  useVoteOptionList,
+  useDeleteVoteOption,
+} from '@/hooks/useVoteApi';
 
 interface PropsType {
   mode: string;
+  votingId: string;
   onClose: () => void;
-  voteId: string;
 }
 
-export const VotePopup = ({ mode, onClose, voteId }: PropsType) => {
-  const { data } = useVoteOptionList(voteId);
-  const [items, setItems] = useState(mode === 'edit' ? [data] : []);
-  const [isFull, setIsFull] = useState<boolean>(false);
+export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
+  const { data } = useVoteOptionList(votingId);
   const [inputValue, setInputValue] = useState('');
+  const [isFull, setIsFull] = useState(false);
+
+  const { mutate: addVoteOption } = useCreateVoteOption();
+  const { mutate: deleteVoteOption } = useDeleteVoteOption();
 
   const handleAddItem = () => {
-    if (inputValue) {
-      if (items.length >= 50) {
-        setIsFull(true);
-      } else {
-        setItems([...items, { value: inputValue }]);
-        setInputValue('');
-      }
+    if (!inputValue) return;
+    if (data?.length >= 50) {
+      setIsFull(true);
+      return;
     }
+    addVoteOption({ voting_topic_id: votingId, option_name: inputValue });
+    setInputValue('');
   };
 
-  const handleDeleteItem = (index) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
+  const handleDeleteItem = (optionId: string) => {
+    deleteVoteOption(optionId);
   };
 
-  const onFullListPopUpClose = () => {
-    setIsFull(false);
-  };
-
-  const voteOptionDelete = (id: string) => {
-    voteOptionDelete(id);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleAddItem();
+    }
   };
 
   return (
     <>
       <Modal
-        close={() => {}}
+        close={onClose}
         buttonList={[
-          <Button kind="outline" onClick={onClose}>
+          <Button key="previous" kind="outline" onClick={onClose}>
             이전
           </Button>,
-          <Button>확인</Button>,
+          <Button key="confirm">확인</Button>,
         ]}
         width="1150px"
       >
         <_Wrapper>
           <_Header>
             <span>{mode === 'edit' ? '투표 항목 수정' : '투표 항목 생성'}</span>
-            {items.length}/50
+            {data?.length || 0}/50
           </_Header>
           <_Contents>
-            {items.map((item, index) => (
-              <li key={index}>
-                <input type="text" value={item.value} readOnly />
-                <button onClick={() => handleDeleteItem(index)}>
+            {data?.map((item) => (
+              <li key={item.id}>
+                <input type="text" value={item.option_name} readOnly />
+                <button onClick={() => handleDeleteItem(item.id)}>
                   <DeleteIcon src={Delete} />
                 </button>
               </li>
             ))}
-
             <li>
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="새 항목 추가"
               />
               <button onClick={handleAddItem}>추가</button>
@@ -82,12 +84,12 @@ export const VotePopup = ({ mode, onClose, voteId }: PropsType) => {
           </_Contents>
         </_Wrapper>
       </Modal>
-      {isFull && <FullListPopup onClose={onFullListPopUpClose} />}
+      {isFull && <FullListPopup onClose={() => setIsFull(false)} />}
     </>
   );
 };
 
-const _Contents = styled.div`
+const _Contents = styled.ul`
   padding: 0;
   height: 400px;
   overflow: auto;

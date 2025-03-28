@@ -9,6 +9,16 @@ export interface VoteListResponse {
   }[];
 }
 
+
+export interface VoteResultResponse {
+  voting_topic_id: string;
+  options: {
+    id: string;
+    name: string;
+    votes: number;
+  }[];
+}
+
 export interface ExcludedStudentResponse {
   excluded_students: {
     student_id: string;

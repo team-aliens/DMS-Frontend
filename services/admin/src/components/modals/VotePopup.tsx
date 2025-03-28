@@ -1,5 +1,3 @@
-import { useMutation } from '@tanstack/react-query';
-import { createVoteOption } from '@/apis/votes';
 import { useState } from 'react';
 import styled from 'styled-components';
 import Delete from '../../assets/delete.svg';
@@ -7,6 +5,7 @@ import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { Button, Modal } from '@team-aliens/design-system';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { FullListPopup } from './FullListPopup';
+import { useCreateVoteOption } from '@/hooks/useVoteApi';
 
 interface PropsType {
   mode: string;
@@ -16,29 +15,17 @@ interface PropsType {
 
 export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
   const [items, setItems] = useState<{ value: string }[]>([]);
-
   const [isFull, setIsFull] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
 
-  const { mutate: addVoteOption } = useMutation(createVoteOption, {
-    onSuccess: () => {
-      console.log('투표 옵션이 성공적으로 추가되었습니다.');
-    },
-    onError: (error) => {
-      console.error('투표 옵션 추가 중 오류 발생:', error);
-    },
-  });
+  const { mutate: addVoteOption } = useCreateVoteOption();
 
   const handleAddItem = () => {
     if (inputValue) {
       if (items.length >= 50) {
         setIsFull(true);
       } else {
-        addVoteOption({
-          voting_topic_id: votingId,
-          option_name: inputValue,
-        });
-
+        addVoteOption({ voting_topic_id: votingId, option_name: inputValue });
         setItems([...items, { value: inputValue }]);
         setInputValue('');
       }
@@ -46,18 +33,13 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
   };
 
   const handleDeleteItem = (index: number) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
+    setItems(items.filter((_, i) => i !== index));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleAddItem();
     }
-  };
-
-  const onFullListPopUpClose = () => {
-    setIsFull(false);
   };
 
   return (
@@ -86,7 +68,6 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
                 </button>
               </li>
             ))}
-
             <li>
               <input
                 type="text"
@@ -100,7 +81,7 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
           </_Contents>
         </_Wrapper>
       </Modal>
-      {isFull && <FullListPopup onClose={onFullListPopUpClose} />}
+      {isFull && <FullListPopup onClose={() => setIsFull(false)} />}
     </>
   );
 };

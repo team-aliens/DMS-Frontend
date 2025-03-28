@@ -1,3 +1,4 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createVote,
   deleteVote,
@@ -6,23 +7,21 @@ import {
   createVoteOption,
   getVoteResult,
 } from '@/apis/votes';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
 import {
   CreateVoteRequest,
   CreateVoteOptionRequest,
 } from '@/apis/votes/request';
-import { useModal } from './useModal';
 
 export const useVoteList = () => {
-  return useQuery(['getVoteList'], () => getVoteList());
+  return useQuery(['getVoteList'], getVoteList);
 };
 
 export const useDeleteVote = () => {
   const queryClient = useQueryClient();
   const { toastDispatch } = useToast();
 
-  return useMutation((voteId: string) => deleteVote(voteId), {
+  return useMutation(deleteVote, {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -38,7 +37,7 @@ export const useWriteVote = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation((content: CreateVoteRequest) => createVote(content), {
+  return useMutation(createVote, {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
@@ -74,19 +73,16 @@ export const useCreateVoteOption = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
 
-  return useMutation(
-    (content: CreateVoteOptionRequest) => createVoteOption(content),
-    {
-      onSuccess: () => {
-        toastDispatch({
-          actionType: 'APPEND_TOAST',
-          toastType: 'SUCCESS',
-          message: '투표 항목이 추가되었습니다.',
-        });
-        queryClient.invalidateQueries(['getVoteList']);
-      },
+  return useMutation(createVoteOption, {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '투표 항목이 추가되었습니다.',
+      });
+      queryClient.invalidateQueries(['getVoteList']);
     },
-  );
+  });
 };
 
 export const useVoteResult = (votingTopicId: string) => {

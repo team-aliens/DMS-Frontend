@@ -3,7 +3,6 @@ import { CreateVoteOptionRequest, CreateVoteRequest } from './request';
 import { VoteListResponse } from './response';
 
 const router = '/votes';
-const optionRouter = './votes/options';
 const exemplaryRouter = '/candidate-list';
 
 export const getVoteList = async () => {

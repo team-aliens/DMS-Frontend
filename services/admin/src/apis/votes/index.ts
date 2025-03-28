@@ -24,12 +24,12 @@ export const deleteVote = async (votingId: string) => {
 };
 
 export const createVoteOption = async (body: CreateVoteOptionRequest) => {
-  const { data } = await instance.post(`${optionRouter}`, body);
+  const { data } = await instance.post(`${router}/options`, body);
   return data;
 };
 
 export const getVoteResult = async (votingTopicId: string) => {
-  const { data } = await instance.get(`/result/${votingTopicId}`);
+  const { data } = await instance.get(`${router}/result/${votingTopicId}`);
   return data;
 };
 

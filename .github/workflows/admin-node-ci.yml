@@ -45,8 +45,11 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'yarn'
 
+            - name: Clean Yarn Cache # 캐시 삭제 추가
+              run: yarn cache clean
+
             - name: Install Dependencies
-              run: yarn install --immutable --no-immutable-cache
+              run: yarn install --immutable
 
             - name: Build Admin Service
               run: yarn workspace @service/admin build

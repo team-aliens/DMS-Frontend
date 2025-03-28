@@ -1,12 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import {
   createVote,
+  deleteExcludedStudent,
   deleteVote,
+  deleteVoteOption,
+  getExcludedStudent,
   getVoteList,
+  getVoteOptionList,
   patchVote,
   createVoteOption,
   getVoteResult,
 } from '@/apis/votes';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
 import {
   CreateVoteRequest,
@@ -69,6 +74,7 @@ export const usePatchVote = () => {
   );
 };
 
+
 export const useCreateVoteOption = () => {
   const { toastDispatch } = useToast();
   const queryClient = useQueryClient();
@@ -93,4 +99,43 @@ export const useVoteResult = (votingTopicId: string) => {
       enabled: !!votingTopicId,
     },
   );
+
+export const useVoteOptionList = (voteId: string) => {
+  return useQuery(['getVoteOptionList'], () => getVoteOptionList(voteId));
+};
+
+export const useDeleteVoteOption = () => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation((voteId: string) => deleteVoteOption(voteId), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        message: '투표 항목이 삭제되었습니다.',
+        toastType: 'SUCCESS',
+      });
+      queryClient.invalidateQueries(['getVoteOptionList']);
+    },
+  });
+};
+
+export const useExcludedStudentList = () => {
+  return useQuery(['getExcludedStudentList'], () => getExcludedStudent());
+};
+
+export const useDeleteExcludedStudent = (studentId: string) => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation((studentId: string) => deleteExcludedStudent(studentId), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        message: '모범 학생 후보에서 제외 되었습니다.',
+        toastType: 'SUCCESS',
+      });
+      queryClient.invalidateQueries(['getExcludedStudentList']);
+    },
+  });
 };

@@ -5,16 +5,20 @@ import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { Button, Modal } from '@team-aliens/design-system';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { FullListPopup } from './FullListPopup';
-import { useCreateVoteOption } from '@/hooks/useVoteApi';
+import { useCreateVoteOption,useVoteOptionList } from '@/hooks/useVoteApi';
+
 
 interface PropsType {
   mode: string;
   votingId: string;
   onClose: () => void;
+  voteId: string;
 }
 
 export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
+  const { data } = useVoteOptionList(voteId);
   const [items, setItems] = useState<{ value: string }[]>([]);
+
   const [isFull, setIsFull] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -40,6 +44,13 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
     if (event.key === 'Enter') {
       handleAddItem();
     }
+
+  const onFullListPopUpClose = () => {
+    setIsFull(false);
+  };
+
+  const voteOptionDelete = (id: string) => {
+    voteOptionDelete(id);
   };
 
   return (
@@ -74,7 +85,6 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="새 항목 추가"
-                onKeyDown={handleKeyDown}
               />
               <button onClick={handleAddItem}>추가</button>
             </li>

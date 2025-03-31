@@ -18,12 +18,12 @@ interface PropsType {
 }
 
 export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
-  const { data } = useVoteOptionList(votingId);
   const [inputValue, setInputValue] = useState('');
   const [isFull, setIsFull] = useState(false);
-
   const { mutate: addVoteOption } = useCreateVoteOption();
   const { mutate: deleteVoteOption } = useDeleteVoteOption();
+  const { data } = useVoteOptionList(votingId);
+  const optionList = Array.isArray(data) ? data : [];
 
   const handleAddItem = () => {
     if (!inputValue) return;
@@ -60,10 +60,10 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
         <_Wrapper>
           <_Header>
             <span>{mode === 'edit' ? '투표 항목 수정' : '투표 항목 생성'}</span>
-            {data?.length || 0}/50
+            {optionList?.length || 0}/50
           </_Header>
           <_Contents>
-            {data?.map((item) => (
+            {optionList?.map((item) => (
               <li key={item.id}>
                 <input type="text" value={item.option_name} readOnly />
                 <button onClick={() => handleDeleteItem(item.id)}>

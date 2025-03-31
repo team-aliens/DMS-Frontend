@@ -23,7 +23,9 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
   const { mutate: addVoteOption } = useCreateVoteOption();
   const { mutate: deleteVoteOption } = useDeleteVoteOption();
   const { data } = useVoteOptionList(votingId);
-  const optionList = Array.isArray(data) ? data : [];
+  const optionList = Array.isArray(data?.voting_options)
+    ? data.voting_options
+    : [];
 
   const handleAddItem = () => {
     if (!inputValue) return;
@@ -37,12 +39,6 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
 
   const handleDeleteItem = (optionId: string) => {
     deleteVoteOption(optionId);
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleAddItem();
-    }
   };
 
   return (
@@ -60,12 +56,12 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
         <_Wrapper>
           <_Header>
             <span>{mode === 'edit' ? '투표 항목 수정' : '투표 항목 생성'}</span>
-            {optionList?.length || 0}/50
+            {optionList?.length}/50
           </_Header>
           <_Contents>
             {optionList?.map((item) => (
               <li key={item.id}>
-                <input type="text" value={item.option_name} readOnly />
+                <input type="text" value={item.voting_option_name} readOnly />
                 <button onClick={() => handleDeleteItem(item.id)}>
                   <DeleteIcon src={Delete} />
                 </button>
@@ -76,7 +72,6 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
                 placeholder="새 항목 추가"
               />
               <button onClick={handleAddItem}>추가</button>

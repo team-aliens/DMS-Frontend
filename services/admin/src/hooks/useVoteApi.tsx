@@ -84,7 +84,7 @@ export const useCreateVoteOption = () => {
         toastType: 'SUCCESS',
         message: '투표 항목이 추가되었습니다.',
       });
-      queryClient.invalidateQueries(['getVoteList']);
+      queryClient.invalidateQueries(['getVoteOptionList']);
     },
   });
 };

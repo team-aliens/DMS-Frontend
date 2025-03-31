@@ -11,7 +11,11 @@ export const getVoteList = async () => {
 };
 
 export const createVote = async (body: CreateVoteRequest) => {
-  await instance.post(`${router}`, body);
+  const { data } = await instance.post<{ voting_topic_id: string }>(
+    `${router}`,
+    body,
+  );
+  return data;
 };
 
 export const patchVote = async (body: CreateVoteRequest, votingId: string) => {
@@ -23,7 +27,7 @@ export const deleteVote = async (votingId: string) => {
 };
 
 export const createVoteOption = async (body: CreateVoteOptionRequest) => {
-  const { data } = await instance.post(`${router}/options`, body);
+  const { data } = await instance.post(`${router}/option`, body);
   return data;
 };
 
@@ -33,7 +37,7 @@ export const getVoteResult = async (votingTopicId: string) => {
 };
 
 export const deleteVoteOption = async (votingId: string) => {
-  instance.delete(`${router}/option/${votingId}`);
+  await instance.delete(`${router}/option/${votingId}`);
 };
 
 export const getVoteOptionList = async (votingId: string) => {

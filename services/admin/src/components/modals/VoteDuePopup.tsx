@@ -42,7 +42,6 @@ export const VoteDuePopup = ({
 
   const voteDelete = () => {
     deleteVote(surveyId);
-    window.location.reload();
   };
 
   const isEditModal = () => {
@@ -83,11 +82,9 @@ export const VoteDuePopup = ({
         </_VoteInfo>
 
         <_Footer>
-          {isDeadlinePassed && (
-            <Link to={`result/${surveyId}`}>
-              <Button>결과 확인</Button>
-            </Link>
-          )}
+          <Link to={`result/${surveyId}`}>
+            <Button>결과 확인</Button>
+          </Link>
 
           <Button onClick={isEditModal}>수정</Button>
           <Button kind="outline" color="gray" onClick={voteDelete}>

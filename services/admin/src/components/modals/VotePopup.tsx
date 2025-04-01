@@ -49,7 +49,9 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
           <Button key="previous" kind="outline" onClick={onClose}>
             이전
           </Button>,
-          <Button key="confirm">확인</Button>,
+          <Button key="confirm" onClick={() => window.location.reload()}>
+            확인
+          </Button>,
         ]}
         width="1150px"
       >

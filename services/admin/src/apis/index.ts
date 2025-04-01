@@ -44,12 +44,7 @@ instance.interceptors.response.use(
       _retry?: boolean;
     };
 
-    if (
-      axios.isAxiosError(error) &&
-      error.response?.data &&
-      hasMessage(error.response.data) &&
-      error.response.data.message === 'Expired Token'
-    ) {
+    if (error.response.status === 401 || error.response.status === 403) {
       const refreshToken = getCookie('refresh_token');
 
       if (!refreshToken) {

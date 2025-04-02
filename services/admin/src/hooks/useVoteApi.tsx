@@ -12,10 +12,8 @@ import {
 } from '@/apis/votes';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
-import {
-  CreateVoteRequest,
-  CreateVoteOptionRequest,
-} from '@/apis/votes/request';
+import { CreateVoteRequest } from '@/apis/votes/request';
+import { getModelStudents } from '@/apis/step';
 
 export const useVoteList = () => {
   return useQuery(['getVoteList'], getVoteList);
@@ -139,4 +137,10 @@ export const useDeleteExcludedStudent = () => {
       queryClient.invalidateQueries(['getExcludedStudentList']);
     },
   });
+};
+
+export const useModelStudentList = (requestDate: string) => {
+  return useQuery(['getModelStudentList', requestDate], () =>
+    getModelStudents(requestDate),
+  );
 };

@@ -5,6 +5,6 @@ export interface Student {
   profile_image_url: string;
 }
 
-export interface GetExemplaryStudentsResponse {
+export interface GetModelStudentsResponse {
   students: Student[];
 }

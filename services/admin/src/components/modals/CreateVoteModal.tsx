@@ -314,7 +314,9 @@ export const CreateVoteModal = ({
           onClose={onClose}
         />
       )}
-      {isEditStudent && <EditVoteStudent onClose={onEditStudentClose} />}
+      {isEditStudent && (
+        <EditVoteStudent onClose={onEditStudentClose} edit={edit} />
+      )}
     </>
   );
 };

@@ -9,6 +9,7 @@ import {
   patchVote,
   createVoteOption,
   getVoteResult,
+  createExcludedStudent,
 } from '@/apis/votes';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
@@ -143,4 +144,20 @@ export const useModelStudentList = (requestDate: string) => {
   return useQuery(['getModelStudentList', requestDate], () =>
     getModelStudents(requestDate),
   );
+};
+
+export const useCreateExcludedStudent = () => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation(createExcludedStudent, {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '제외 학생이 추가되었습니다.',
+      });
+      queryClient.invalidateQueries(['getExcludedStudentList']);
+    },
+  });
 };

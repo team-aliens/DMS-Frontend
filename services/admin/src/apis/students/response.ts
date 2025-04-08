@@ -1,6 +1,6 @@
 export interface Student {
   id: string;
-  student_gcn: string;
+  gcn: string;
   name: string;
   profile_image_url: string;
 }

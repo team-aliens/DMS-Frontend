@@ -13,7 +13,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from './useToast';
 import { CreateVoteRequest } from '@/apis/votes/request';
-import { getModelStudents } from '@/apis/step';
+import { getModelStudents } from '@/apis/students';
 
 export const useVoteList = () => {
   return useQuery(['getVoteList'], getVoteList);

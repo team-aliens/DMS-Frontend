@@ -1,11 +1,11 @@
 import { instance } from '..';
 import { GetModelStudentsResponse } from './response';
 
-const router = '/step';
+const router = '/students';
 
 export const getModelStudents = async (requestDate: string) => {
   const { data } = await instance.get<GetModelStudentsResponse>(
-    `${router}/candidate-list`,
+    `${router}/step/candidate-list`,
     {
       params: { date: requestDate },
     },

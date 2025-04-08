@@ -1,6 +1,10 @@
 import { instance } from '..';
 
-import { CreateVoteOptionRequest, CreateVoteRequest } from './request';
+import {
+  CreateExcludedStudent,
+  CreateVoteOptionRequest,
+  CreateVoteRequest,
+} from './request';
 import { ExcludedStudentResponse, VoteListResponse } from './response';
 
 const router = '/votes';
@@ -54,4 +58,8 @@ export const getExcludedStudent = async () => {
 
 export const deleteExcludedStudent = async (studentId: string) => {
   instance.delete(`${router}/excluded-student/${studentId}`);
+};
+
+export const createExcludedStudent = async (body: CreateExcludedStudent) => {
+  instance.post(`${router}/excluded-student`, body);
 };

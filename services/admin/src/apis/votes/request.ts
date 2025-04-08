@@ -10,9 +10,7 @@ export interface CreateVoteOptionRequest {
   option_name: string;
 }
 
-export interface Student {
-  id: string;
-  student_gcn: string;
-  name: string;
-  profile_image_url: string;
+export interface CreateExcludedStudent {
+  school_id: string;
+  gcn: string;
 }

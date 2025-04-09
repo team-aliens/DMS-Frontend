@@ -159,5 +159,13 @@ export const useCreateExcludedStudent = () => {
       });
       queryClient.invalidateQueries(['getExcludedStudentList']);
     },
+    onError: (err) => {
+      console.error(err);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '제외 학생 추가에 실패했습니다.',
+      });
+    },
   });
 };

@@ -5,7 +5,12 @@ import {
   CreateVoteOptionRequest,
   CreateVoteRequest,
 } from './request';
-import { ExcludedStudentResponse, VoteListResponse } from './response';
+import {
+  ExcludedStudentResponse,
+  VoteListResponse,
+  VoteOptionListResponse,
+  VoteResultResponse,
+} from './response';
 
 const router = '/votes';
 
@@ -31,12 +36,13 @@ export const deleteVote = async (votingId: string) => {
 };
 
 export const createVoteOption = async (body: CreateVoteOptionRequest) => {
-  const { data } = await instance.post(`${router}/option`, body);
-  return data;
+  return await instance.post(`${router}/option`, body);
 };
 
 export const getVoteResult = async (votingTopicId: string) => {
-  const { data } = await instance.get(`${router}/result/${votingTopicId}`);
+  const { data } = await instance.get<VoteResultResponse>(
+    `${router}/result/${votingTopicId}`,
+  );
   return data;
 };
 
@@ -45,7 +51,9 @@ export const deleteVoteOption = async (votingId: string) => {
 };
 
 export const getVoteOptionList = async (votingId: string) => {
-  const { data } = await instance.get(`${router}/option/${votingId}`);
+  const { data } = await instance.get<VoteOptionListResponse>(
+    `${router}/option/${votingId}`,
+  );
   return data;
 };
 

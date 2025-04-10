@@ -25,3 +25,21 @@ export interface ExcludedStudentResponse {
     name: string;
   }[];
 }
+
+interface VoteOption {
+  id: string;
+  option_name: string;
+}
+
+export type VoteOptionListResponse = VoteOption[];
+
+interface VoteResult {
+  id: string;
+  name: string;
+  votes: number;
+  classNumber: number | null;
+}
+
+export interface VoteResultResponse {
+  votes: VoteResult[];
+}

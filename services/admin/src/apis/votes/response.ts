@@ -28,10 +28,12 @@ export interface ExcludedStudentResponse {
 
 interface VoteOption {
   id: string;
-  option_name: string;
+  voting_option_name: string;
 }
 
-export type VoteOptionListResponse = VoteOption[];
+export interface VoteOptionListResponse {
+  voting_options: VoteOption[];
+}
 
 interface VoteResult {
   id: string;

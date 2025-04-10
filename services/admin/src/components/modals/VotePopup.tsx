@@ -29,7 +29,7 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
 
   const handleAddItem = () => {
     if (!inputValue) return;
-    if (data?.length >= 50) {
+    if (data?.voting_options.length >= 50) {
       setIsFull(true);
       return;
     }

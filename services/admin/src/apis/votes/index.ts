@@ -65,7 +65,7 @@ export const getExcludedStudent = async () => {
 };
 
 export const deleteExcludedStudent = async (studentId: string) => {
-  instance.delete(`${router}/excluded-student/${studentId}`);
+  return instance.delete(`${router}/excluded-student/${studentId}`);
 };
 
 export const createExcludedStudent = async (body: CreateExcludedStudent) => {

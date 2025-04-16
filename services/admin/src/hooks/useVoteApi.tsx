@@ -132,10 +132,18 @@ export const useDeleteExcludedStudent = () => {
     onSuccess: () => {
       toastDispatch({
         actionType: 'APPEND_TOAST',
-        message: '모범 학생 후보에서 제외 되었습니다.',
+        message: '제외 학생 제거에 성공했습니다.',
         toastType: 'SUCCESS',
       });
       queryClient.invalidateQueries(['getExcludedStudentList']);
+    },
+    onError: (err) => {
+      console.error(err);
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '제외 학생 제거에 실패했습니다.',
+      });
     },
   });
 };

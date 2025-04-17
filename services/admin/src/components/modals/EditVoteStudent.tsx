@@ -1,74 +1,81 @@
 import { Magnifyingglass } from '@/assets/magnifyingglass';
+import { useDeleteExcludedStudent } from '@/hooks/useVoteApi';
+import {
+  useCreateExcludedStudent,
+  useExcludedStudentList,
+  useModelStudentList,
+} from '@/hooks/useVoteApi';
 import { Button, Modal } from '@team-aliens/design-system';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 interface PropsType {
   onClose: () => void;
+  edit: boolean;
 }
 
-export function EditVoteStudent({ onClose }: PropsType) {
-  const [name, setName] = useState<string>('');
-  const [isCheck, setIsCheck] = useState<boolean[]>(new Array(9).fill(false));
+export function EditVoteStudent({ onClose, edit }: PropsType) {
+  const [name, setName] = useState('');
+  const [isCheck, setIsCheck] = useState<string[]>([]); // 체크된 학생 gcn 리스트
 
-  const dummyData = [
-    {
-      number: 1101,
-      name: '정승우',
-    },
-    {
-      number: 1102,
-      name: '지도현',
-    },
-    {
-      number: 1103,
-      name: '허영재',
-    },
-    {
-      number: 1104,
-      name: '정명우',
-    },
-    {
-      number: 1105,
-      name: '정현석',
-    },
-    {
-      number: 1106,
-      name: '이건희',
-    },
-    {
-      number: 1107,
-      name: '박태수',
-    },
-    {
-      number: 1108,
-      name: '채도훈',
-    },
-  ];
+  const today = new Date();
+  const date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
+    2,
+    '0',
+  )}-${String(today.getDate()).padStart(2, '0')}`;
 
-  const trueIndexes = isCheck
-    .map((check, index) => (check ? index : -1))
-    .filter((index) => index !== -1);
+  const { data: modelStudentsData } = useModelStudentList(date);
+  const { data: excludedStudentData } = useExcludedStudentList();
+  const { mutate: createExcludedStudent } = useCreateExcludedStudent();
+  const { mutate: deleteExcludedStudent } = useDeleteExcludedStudent();
 
-  const filterData = name
-    ? dummyData.filter((data) => data.number.toString().includes(name))
-    : trueIndexes.map((index) => dummyData[index]);
+  const modelStudents = modelStudentsData?.students ?? [];
+  const excludedStudents = excludedStudentData?.excluded_students ?? [];
+
+  const mergedStudentList = edit // 수정 버전에서 제외된 학생 + 기존 모범 학생 리스트를 표현하기 위한 배열 합침
+    ? [
+        ...modelStudents,
+        ...excludedStudents.filter(
+          (excluded) =>
+            !modelStudents.some((model) => model.gcn === excluded.gcn),
+        ),
+      ]
+    : excludedStudents;
+
+  const studentList = mergedStudentList;
+
+  useEffect(() => {
+    // 제외 학생 + 모범 학생 리스트에서 제외 학생들을 체크 상태로 하기 위한 useEffect
+    if (excludedStudentData?.excluded_students) {
+      const excludedGcns = excludedStudentData.excluded_students.map(
+        (student) => student.gcn,
+      );
+      setIsCheck(excludedGcns);
+    }
+  }, [excludedStudentData]);
+
+  const filteredStudents = name
+    ? studentList.filter((student) => student.gcn.includes(name))
+    : studentList;
+
+  const onClick = (gcn: string, student_id: string) => {
+    const isChecked = isCheck.includes(gcn);
+
+    if (isChecked) {
+      deleteExcludedStudent(student_id);
+    } else {
+      createExcludedStudent({ student_id, gcn });
+    }
+
+    setIsCheck((prev) =>
+      isChecked ? prev.filter((id) => id !== gcn) : [...prev, gcn],
+    );
+  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
-  };
-
-  const handleCheck = (targetIndex: number) => {
-    const realIndex = dummyData.indexOf(filterData[targetIndex]);
-    if (realIndex === -1) return;
-
-    setIsCheck((prev) => {
-      const newCheck = [...prev];
-      newCheck[realIndex] = !newCheck[realIndex];
-      return newCheck;
-    });
   };
 
   return (
@@ -77,7 +84,7 @@ export function EditVoteStudent({ onClose }: PropsType) {
         <Button kind="outline" onClick={onClose}>
           취소
         </Button>,
-        <Button>확인</Button>,
+        <Button onClick={() => window.location.reload()}>확인</Button>,
       ]}
       close={onClose}
       width="1150px"
@@ -90,15 +97,15 @@ export function EditVoteStudent({ onClose }: PropsType) {
             <input type="text" onChange={onChange} value={name} />
           </_Input>
           <_Students>
-            {filterData.length !== 0 ? (
-              filterData.map((data, index) => (
+            {filteredStudents.length !== 0 ? (
+              filteredStudents.map((student) => (
                 <_Item
-                  key={data.number}
-                  onClick={() => handleCheck(index)}
-                  check={isCheck[dummyData.indexOf(data)]}
+                  key={student.gcn}
+                  onClick={() => onClick(student.gcn, student.student_id)}
+                  check={isCheck.includes(student.gcn)}
                 >
-                  <span>{data.name}</span>
-                  <span>{data.number}</span>
+                  <span>{student.name}</span>
+                  <span>{student.gcn}</span>
                 </_Item>
               ))
             ) : (

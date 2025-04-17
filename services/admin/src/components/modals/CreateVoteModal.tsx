@@ -38,6 +38,7 @@ export const CreateVoteModal = ({
 }: VoteProps) => {
   const { mutate: writeVote } = useWriteVote();
   const { mutate: editVote } = usePatchVote();
+  const { closeModal } = useModal(); // useModal을 사용하지 않고 isOpen으로 모달을 관리 한 것은 현재 디자인 상 모달 위 모달을 구현해야 하는데 이유 모를 오류로 인해 모달을 열려고 하면 처음 상태로 돌아가서 사용했습니다..
   const [isDeadLineOpen, setIsDeadLineOpen] = useState<boolean>(false);
   const [voteTitle, setVoteTitle] = useState<string>(edit ? topic_name : '');
   const [voteDate, setVoteDate] = useState<string>(edit ? vote_date : '');
@@ -207,7 +208,7 @@ export const CreateVoteModal = ({
       )}
       {!isOpen && (
         <Modal
-          close={isClose}
+          close={closeModal}
           title={edit ? '투표 항목 수정' : '투표 항목 생성'}
           buttonList={[
             <Button kind="outline" onClick={isClose}>

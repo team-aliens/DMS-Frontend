@@ -6,22 +6,25 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const SurveyResult = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { data } = useVoteResult(id);
+  const today = new Date();
+  const formattedDate = new Intl.DateTimeFormat('ko-KR').format(today);
 
   return (
     <WithNavigatorBar>
       <_Wrapper>
         <_Header>
           모범학생 투표 결과
-          <span>
-            {new Date().getFullYear()}/{new Date().getMonth() + 1}/
-            {new Date().getDate()}
-          </span>
+          <span>{formattedDate}</span>
         </_Header>
         <_Contents>
-          {data && data.length > 0
-            ? data.votes.map((data) => `${data.name}(${data.votes})`)
+          {data && data.votes.length > 0
+            ? data.votes.map((data) => (
+                <li key={data.id}>
+                  {data.name}({data.votes})
+                </li>
+              ))
             : '결과가 없습니다.'}
         </_Contents>
       </_Wrapper>

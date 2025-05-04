@@ -11,6 +11,6 @@ export interface CreateVoteOptionRequest {
 }
 
 export interface CreateExcludedStudent {
-  student_id: string;
+  id: string;
   gcn: string;
 }

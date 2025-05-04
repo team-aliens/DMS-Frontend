@@ -20,7 +20,7 @@ export interface VoteResultResponse {
 
 export interface ExcludedStudentResponse {
   excluded_students: {
-    student_id: string;
+    id: string;
     gcn: string;
     name: string;
   }[];

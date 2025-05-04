@@ -60,13 +60,13 @@ export function EditVoteStudent({ onClose, edit }: PropsType) {
     ? studentList.filter((student) => student.gcn.includes(name))
     : studentList;
 
-  const onClick = (gcn: string, student_id: string) => {
+  const onClick = (gcn: string, id: string) => {
     const isChecked = isCheck.includes(gcn);
 
     if (isChecked) {
-      deleteExcludedStudent(student_id);
+      deleteExcludedStudent(id);
     } else {
-      createExcludedStudent({ student_id, gcn });
+      createExcludedStudent({ id, gcn });
     }
 
     setIsCheck((prev) =>
@@ -101,7 +101,7 @@ export function EditVoteStudent({ onClose, edit }: PropsType) {
               filteredStudents.map((student) => (
                 <_Item
                   key={student.gcn}
-                  onClick={() => onClick(student.gcn, student.student_id)}
+                  onClick={() => onClick(student.gcn, student.id)}
                   check={isCheck.includes(student.gcn)}
                 >
                   <span>{student.name}</span>

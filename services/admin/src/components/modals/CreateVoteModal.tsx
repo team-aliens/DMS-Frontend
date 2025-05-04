@@ -189,7 +189,7 @@ export const CreateVoteModal = ({
           voteId: surveyId,
         });
       }
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 2000);
     }
   };
 

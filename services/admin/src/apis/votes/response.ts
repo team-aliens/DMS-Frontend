@@ -9,7 +9,6 @@ export interface VoteListResponse {
   }[];
 }
 
-
 export interface VoteResultResponse {
   voting_topic_id: string;
   options: {
@@ -21,8 +20,28 @@ export interface VoteResultResponse {
 
 export interface ExcludedStudentResponse {
   excluded_students: {
-    student_id: string;
+    id: string;
     gcn: string;
     name: string;
-  };
+  }[];
+}
+
+interface VoteOption {
+  id: string;
+  voting_option_name: string;
+}
+
+export interface VoteOptionListResponse {
+  voting_options: VoteOption[];
+}
+
+interface VoteResult {
+  id: string;
+  name: string;
+  votes: number;
+  classNumber: number | null;
+}
+
+export interface VoteResultResponse {
+  votes: VoteResult[];
 }

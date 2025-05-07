@@ -42,6 +42,7 @@ export const CreateVoteModal = ({
   const [isDeadLineOpen, setIsDeadLineOpen] = useState<boolean>(false);
   const [voteTitle, setVoteTitle] = useState<string>(edit ? topic_name : '');
   const [voteDate, setVoteDate] = useState<string>(edit ? vote_date : '');
+  const [voteTopicId, setVoteTopicId] = useState<string>('');
   const voteTopicRadios = ['학생', '찬반', '선택'];
   const [selectedIndex, setSelectedIndex] = useState<boolean[]>(
     new Array(voteTopicRadios.length).fill(false),
@@ -109,6 +110,50 @@ export const CreateVoteModal = ({
   const onOpen = () => {
     if (selectedIndex[2]) {
       setIsOpen(true);
+      const parsedDates = parseVoteDate(voteDate);
+      if (!edit) {
+        writeVote(
+          {
+            topic_name: voteTopic
+              ? voteTitle
+              : `${new Date().getMonth() + 1}월 모범학생 투표`,
+            description: voteEx,
+            start_time: parsedDates.start_time,
+            end_time: parsedDates.end_time,
+            vote_type: voteTopic
+              ? getVoteType(selectedIndex)
+              : 'MODEL_STUDENT_VOTE',
+          },
+          {
+            onSuccess: (data) => {
+              const { voting_topic_id } = data;
+              setVoteTopicId(voting_topic_id);
+            },
+          },
+        );
+      } else {
+        editVote(
+          {
+            content: {
+              topic_name: voteTopic
+                ? voteTitle
+                : `${new Date().getMonth() + 1}월 모범학생 투표`,
+              description: voteEx,
+              start_time: parsedDates.start_time,
+              end_time: parsedDates.end_time,
+              vote_type: voteTopic
+                ? getVoteType(selectedIndex)
+                : 'MODEL_STUDENT_VOTE',
+            },
+            voteId: surveyId,
+          },
+          {
+            onSuccess: () => {
+              setVoteTopicId(surveyId);
+            },
+          },
+        );
+      }
     } else {
       const parsedDates = parseVoteDate(voteDate);
 
@@ -144,7 +189,7 @@ export const CreateVoteModal = ({
           voteId: surveyId,
         });
       }
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 2000);
     }
   };
 
@@ -158,9 +203,8 @@ export const CreateVoteModal = ({
         <VotePopup
           mode="create"
           onClose={onVotePopupClose}
-          votingId={surveyId}
+          votingId={voteTopicId}
         />
-
       )}
       {!isOpen && (
         <Modal
@@ -175,8 +219,13 @@ export const CreateVoteModal = ({
                 voteTopic
                   ? voteTitle === '' ||
                     voteDate === '' ||
-                    (voteEx === '' &&
-                      selectedIndex.filter((val) => val).length > 1)
+                    voteEx === '' ||
+                    (() => {
+                      const selectedCount = selectedIndex.filter(
+                        (val) => val,
+                      ).length;
+                      return selectedCount === 0 || selectedCount > 1;
+                    })()
                   : voteDate === '' || voteEx === ''
               }
               onClick={onOpen}
@@ -265,7 +314,9 @@ export const CreateVoteModal = ({
           onClose={onClose}
         />
       )}
-      {isEditStudent && <EditVoteStudent onClose={onEditStudentClose} />}
+      {isEditStudent && (
+        <EditVoteStudent onClose={onEditStudentClose} edit={edit} />
+      )}
     </>
   );
 };

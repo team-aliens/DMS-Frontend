@@ -1,19 +1,32 @@
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
+import { useVoteResult } from '@/hooks/useVoteApi';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const SurveyResult = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
+  const { data } = useVoteResult(id);
+  const today = new Date();
+  const formattedDate = new Intl.DateTimeFormat('ko-KR').format(today);
 
   return (
     <WithNavigatorBar>
       <_Wrapper>
         <_Header>
-          모범학생 투표 결과 <span>2025/10/31</span>
+          모범학생 투표 결과
+          <span>{formattedDate}</span>
         </_Header>
-        <_Contents>1학년 : 1100 박지민 (12표)</_Contents>
+        <_Contents>
+          {data && data.votes.length > 0
+            ? data.votes.map((data) => (
+                <li key={data.id}>
+                  {data.name}({data.votes})
+                </li>
+              ))
+            : '결과가 없습니다.'}
+        </_Contents>
       </_Wrapper>
     </WithNavigatorBar>
   );

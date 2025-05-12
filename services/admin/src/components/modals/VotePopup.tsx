@@ -1,0 +1,141 @@
+import { useState } from 'react';
+import styled from 'styled-components';
+import Delete from '../../assets/delete.svg';
+import { font } from '@team-aliens/design-system/dist/styles/theme/font';
+import { Button, Modal } from '@team-aliens/design-system';
+import { color } from '@team-aliens/design-system/dist/styles/theme/color';
+import { FullListPopup } from './FullListPopup';
+import {
+  useCreateVoteOption,
+  useVoteOptionList,
+  useDeleteVoteOption,
+} from '@/hooks/useVoteApi';
+
+interface PropsType {
+  mode: string;
+  votingId: string;
+  onClose: () => void;
+}
+
+export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
+  const [inputValue, setInputValue] = useState('');
+  const [isFull, setIsFull] = useState(false);
+  const { mutate: addVoteOption } = useCreateVoteOption();
+  const { mutate: deleteVoteOption } = useDeleteVoteOption();
+  const { data } = useVoteOptionList(votingId);
+  const optionList = Array.isArray(data?.voting_options)
+    ? data.voting_options
+    : [];
+
+  const handleAddItem = () => {
+    if (!inputValue) return;
+    if (data?.voting_options.length >= 50) {
+      setIsFull(true);
+      return;
+    }
+    addVoteOption({ voting_topic_id: votingId, option_name: inputValue });
+    setInputValue('');
+  };
+
+  const handleDeleteItem = (optionId: string) => {
+    deleteVoteOption(optionId);
+  };
+
+  return (
+    <>
+      <Modal
+        close={onClose}
+        buttonList={[
+          <Button key="previous" kind="outline" onClick={onClose}>
+            이전
+          </Button>,
+          <Button key="confirm" onClick={() => window.location.reload()}>
+            확인
+          </Button>,
+        ]}
+        width="1150px"
+      >
+        <_Wrapper>
+          <_Header>
+            <span>{mode === 'edit' ? '투표 항목 수정' : '투표 항목 생성'}</span>
+            {optionList?.length}/50
+          </_Header>
+          <_Contents>
+            {optionList?.map((item) => (
+              <li key={item.id}>
+                <input type="text" value={item.voting_option_name} readOnly />
+                <button onClick={() => handleDeleteItem(item.id)}>
+                  <DeleteIcon src={Delete} />
+                </button>
+              </li>
+            ))}
+            <li>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="새 항목 추가"
+              />
+              <button onClick={handleAddItem}>추가</button>
+            </li>
+          </_Contents>
+        </_Wrapper>
+      </Modal>
+      {isFull && <FullListPopup onClose={() => setIsFull(false)} />}
+    </>
+  );
+};
+
+const _Contents = styled.ul`
+  padding: 0;
+  height: 400px;
+  overflow: auto;
+  box-sizing: border-box;
+  list-style: none;
+
+  > li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    > input {
+      width: 410px;
+      height: 46px;
+      border: 2px solid #3d8aff;
+      border-radius: 4px;
+      padding: 0 20px;
+      box-sizing: border-box;
+      margin-right: 12px;
+      color: ${color.gray7};
+      font: ${font.bodyM};
+    }
+
+    > button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+  }
+`;
+
+const _Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 34px;
+`;
+
+const _Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font: ${font.bodyM};
+  color: ${color.gray5};
+  > span {
+    font: ${font.headlineS};
+    color: black;
+  }
+`;
+
+const DeleteIcon = styled.img`
+  cursor: pointer;
+`;

@@ -22,6 +22,8 @@ import { OutingTimeSet } from './pages/outing/OutingTimeSet';
 import { Volunteer } from './pages/volunteer';
 import { VolunteerDetail } from './pages/volunteer/Detail';
 import { VolunteerApplication } from './pages/volunteer/Application';
+import { Main } from './pages/survey/Main';
+import { SurveyResult } from './pages/survey/SurveyResult';
 
 export const pathToKorean = {
   'notice': {
@@ -59,7 +61,7 @@ export const pathToKorean = {
       current: '봉사 현황',
       detail: {
         index: '봉사 상세보기',
-      }
+      },
     },
   },
   'my-page': {
@@ -125,12 +127,12 @@ export const Router = createBrowserRouter([
           {
             path: 'volunteer',
             children: [
-              { index: true, element: <Volunteer/> },
-              { path: `detail/:id`, element: <VolunteerDetail/> },
-              { path: 'current', element: <VolunteerApplication/> },
-              { path: 'current/detail/:id', element: <VolunteerDetail/> }
-            ]
-          }
+              { index: true, element: <Volunteer /> },
+              { path: `detail/:id`, element: <VolunteerDetail /> },
+              { path: 'current', element: <VolunteerApplication /> },
+              { path: 'current/detail/:id', element: <VolunteerDetail /> },
+            ],
+          },
         ],
       },
       {
@@ -139,6 +141,13 @@ export const Router = createBrowserRouter([
           { index: true, element: <Outing /> },
           { path: ':id', element: <Outing /> },
           { path: 'time', element: <OutingTimeSet /> },
+        ],
+      },
+      {
+        path: pagePath.survey.main,
+        children: [
+          { index: true, element: <Main /> },
+          { path: `result/:id`, element: <SurveyResult /> },
         ],
       },
     ],

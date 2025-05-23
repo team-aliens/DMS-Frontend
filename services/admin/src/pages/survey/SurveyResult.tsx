@@ -15,7 +15,7 @@ export const SurveyResult = () => {
     <WithNavigatorBar>
       <_Wrapper>
         <_Header>
-          모범학생 투표 결과
+          {data?.voting_topic_name}
           <span>{formattedDate}</span>
         </_Header>
         <_Contents>

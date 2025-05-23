@@ -44,4 +44,5 @@ interface VoteResult {
 
 export interface VoteResultResponse {
   votes: VoteResult[];
+  voting_topic_name: string;
 }

@@ -68,6 +68,7 @@
     "date-fns": "^4.1.0",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
+    "mitt": "^3.0.1",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-cookie": "^4.1.1",

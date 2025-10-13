@@ -3479,6 +3479,7 @@ const RAW_RUNTIME_STATE =
           ["jest", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:29.5.0"],\
           ["lint-staged", "npm:13.2.1"],\
           ["mini-css-extract-plugin", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:2.7.5"],\
+          ["mitt", "npm:3.0.1"],\
           ["pinst", "npm:3.0.0"],\
           ["prettier", "npm:2.8.3"],\
           ["react", "npm:18.2.0"],\
@@ -12243,6 +12244,15 @@ const RAW_RUNTIME_STATE =
           ["minizlib", "npm:2.1.2"],\
           ["minipass", "npm:3.3.6"],\
           ["yallist", "npm:4.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["mitt", [\
+      ["npm:3.0.1", {\
+        "packageLocation": "./.yarn/cache/mitt-npm-3.0.1-ce290ffa77-287c70d8e7.zip/node_modules/mitt/",\
+        "packageDependencies": [\
+          ["mitt", "npm:3.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\

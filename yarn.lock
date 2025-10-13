@@ -2119,6 +2119,7 @@ __metadata:
     jest: "npm:^29.2.2"
     lint-staged: "npm:>=10"
     mini-css-extract-plugin: "npm:^2.6.0"
+    mitt: "npm:^3.0.1"
     pinst: "npm:>=2"
     prettier: "npm:2.8.3"
     react: "npm:^18.2.0"
@@ -9447,6 +9448,13 @@ __metadata:
     minipass: "npm:^3.0.0"
     yallist: "npm:^4.0.0"
   checksum: 10/ae0f45436fb51344dcb87938446a32fbebb540d0e191d63b35e1c773d47512e17307bf54aa88326cc6d176594d00e4423563a091f7266c2f9a6872cdc1e234d1
+  languageName: node
+  linkType: hard
+
+"mitt@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mitt@npm:3.0.1"
+  checksum: 10/287c70d8e73ffc25624261a4989c783768aed95ecb60900f051d180cf83e311e3e59865bfd6e9d029cdb149dc20ba2f128a805e9429c5c4ce33b1416c65bbd14
   languageName: node
   linkType: hard
 

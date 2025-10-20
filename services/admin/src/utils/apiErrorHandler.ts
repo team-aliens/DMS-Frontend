@@ -9,24 +9,24 @@ export const handleApiError = (error: AxiosError) => {
     const { status, data } = error.response;
     const message = hasMessage(data)
       ? data.message
-      : 'An unknown error occurred';
+      : '알 수 없는 오류가 발생했습니다.';
 
     switch (status) {
       case 400:
-        alert(`[${status}] ${message}`);
+        console.log(`[${status}] 잘못된 요청입니다.\n${message}`);
         break;
       case 404:
-        alert('The requested resource was not found.');
+        console.log('요청하신 자원을 찾을 수 없습니다.');
         break;
       case 500:
-        alert('A server error occurred. Please try again later.');
+        console.log('서버에 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
         break;
       default:
-        alert(`[${status}] ${message}`);
+        console.log(`[${status}] 오류가 발생했습니다.\n${message}`);
         break;
     }
   } else {
-    alert('A network error occurred. Please check your connection.');
+    console.log('네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.');
   }
   return Promise.reject(error);
 };

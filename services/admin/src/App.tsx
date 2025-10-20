@@ -2,19 +2,27 @@ import { ToastContainer, ToastProvider } from '@team-aliens/design-system';
 import { Router } from './router';
 import { useModal } from './hooks/useModal';
 import { useEffect } from 'react';
-import { getCookie } from './utils/cookies';
 import { pagePath } from './utils/pagePath';
 import { Outlet, RouterProvider } from 'react-router-dom';
 import { PointListProvider } from './context/pointHistoryList';
 import { GlobalStyle } from './style/globalStyle';
+import { eventBus } from './utils/eventBus';
 
 export function App() {
   const { modalState } = useModal();
-  const accessToken = getCookie('access_token');
-  const refreshToken = getCookie('refresh_token');
-  if (!accessToken && !refreshToken && window.location.pathname !== '/login') {
-    window.location.href = pagePath.login;
-  }
+
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      if (window.location.pathname !== pagePath.login) {
+        window.location.href = pagePath.login;
+      }
+    };
+    eventBus.on('sessionExpired', handleSessionExpired);
+    return () => {
+      eventBus.off('sessionExpired', handleSessionExpired);
+    };
+  }, []);
+
   useEffect(() => {
     if (modalState.selectedModal) {
       document.body.style.overflow = 'hidden';

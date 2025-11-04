@@ -8,7 +8,7 @@ import { getCookie } from '@/utils/cookies';
 import { handleApiError } from '@/utils/apiErrorHandler';
 
 export const instance = axios.create({
-  baseURL: `${process.env.APP_PUBLIC_URL}`,
+  baseURL: `${import.meta.env.VITE_APP_PUBLIC_URL}`,
   timeout: 10000,
 });
 

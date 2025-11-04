@@ -1,29 +1,108 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { LoginPage } from '@/pages/LoginPage';
-import { FindIdPage } from './pages/FindId';
-import { Home } from '@/pages/Home';
-import { ResetPwdPage } from './pages/ResetPwdPage';
-import { NoticeListPage } from '@/pages/notice/List';
-import { NoticeDetail } from '@/pages/notice/Detail';
-import { WriteNoticePage } from '@/pages/notice/Write';
-import { MyPage } from './pages/myPage';
-import { ChangePwd } from './pages/myPage/ChangePwd';
-import { PatchNoticePage } from '@/pages/notice/Patch';
-import { StudyRoomList } from './pages/apply/study/StudyRoomList';
-import { CreateRoom } from '@/pages/apply/study/CreateRoom';
-import { StudyRoomDetail } from '@/pages/apply/study/Detail';
-import { PatchRoom } from './pages/apply/study/PatchRoom';
-import Index from '@/pages/apply';
-import RemainsLists from '@/pages/apply/remains';
+import { lazy } from 'react';
 import { pagePath } from './utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
-import { Outing } from './pages/outing';
-import { OutingTimeSet } from './pages/outing/OutingTimeSet';
-import { Volunteer } from './pages/volunteer';
-import { VolunteerDetail } from './pages/volunteer/Detail';
-import { VolunteerApplication } from './pages/volunteer/Application';
-import { Main } from './pages/survey/Main';
-import { SurveyResult } from './pages/survey/SurveyResult';
+
+// 코드 스플리팅을 위한 lazy loading
+const LoginPage = lazy(() =>
+  import('@/pages/LoginPage').then((module) => ({ default: module.LoginPage })),
+);
+const FindIdPage = lazy(() =>
+  import('./pages/FindId').then((module) => ({ default: module.FindIdPage })),
+);
+const Home = lazy(() =>
+  import('@/pages/Home').then((module) => ({ default: module.Home })),
+);
+const ResetPwdPage = lazy(() =>
+  import('./pages/ResetPwdPage').then((module) => ({
+    default: module.ResetPwdPage,
+  })),
+);
+const NoticeListPage = lazy(() =>
+  import('@/pages/notice/List').then((module) => ({
+    default: module.NoticeListPage,
+  })),
+);
+const NoticeDetail = lazy(() =>
+  import('@/pages/notice/Detail').then((module) => ({
+    default: module.NoticeDetail,
+  })),
+);
+const WriteNoticePage = lazy(() =>
+  import('@/pages/notice/Write').then((module) => ({
+    default: module.WriteNoticePage,
+  })),
+);
+const MyPage = lazy(() =>
+  import('./pages/myPage').then((module) => ({ default: module.MyPage })),
+);
+const ChangePwd = lazy(() =>
+  import('./pages/myPage/ChangePwd').then((module) => ({
+    default: module.ChangePwd,
+  })),
+);
+const PatchNoticePage = lazy(() =>
+  import('@/pages/notice/Patch').then((module) => ({
+    default: module.PatchNoticePage,
+  })),
+);
+const StudyRoomList = lazy(() =>
+  import('./pages/apply/study/StudyRoomList').then((module) => ({
+    default: module.StudyRoomList,
+  })),
+);
+const CreateRoom = lazy(() =>
+  import('@/pages/apply/study/CreateRoom').then((module) => ({
+    default: module.CreateRoom,
+  })),
+);
+const StudyRoomDetail = lazy(() =>
+  import('@/pages/apply/study/Detail').then((module) => ({
+    default: module.StudyRoomDetail,
+  })),
+);
+const PatchRoom = lazy(() =>
+  import('./pages/apply/study/PatchRoom').then((module) => ({
+    default: module.PatchRoom,
+  })),
+);
+const ApplyIndex = lazy(() =>
+  import('@/pages/apply').then((module) => ({ default: module.default })),
+);
+const RemainsLists = lazy(() =>
+  import('@/pages/apply/remains').then((module) => ({
+    default: module.default,
+  })),
+);
+const Outing = lazy(() =>
+  import('./pages/outing').then((module) => ({ default: module.Outing })),
+);
+const OutingTimeSet = lazy(() =>
+  import('./pages/outing/OutingTimeSet').then((module) => ({
+    default: module.OutingTimeSet,
+  })),
+);
+const Volunteer = lazy(() =>
+  import('./pages/volunteer').then((module) => ({ default: module.Volunteer })),
+);
+const VolunteerDetail = lazy(() =>
+  import('./pages/volunteer/Detail').then((module) => ({
+    default: module.VolunteerDetail,
+  })),
+);
+const VolunteerApplication = lazy(() =>
+  import('./pages/volunteer/Application').then((module) => ({
+    default: module.VolunteerApplication,
+  })),
+);
+const SurveyMain = lazy(() =>
+  import('./pages/survey/Main').then((module) => ({ default: module.Main })),
+);
+const SurveyResult = lazy(() =>
+  import('./pages/survey/SurveyResult').then((module) => ({
+    default: module.SurveyResult,
+  })),
+);
 
 export const pathToKorean = {
   'notice': {
@@ -110,7 +189,7 @@ export const Router = createBrowserRouter([
       {
         path: pagePath.apply.main,
         children: [
-          { index: true, element: <Index /> },
+          { index: true, element: <ApplyIndex /> },
           {
             path: 'study',
             children: [
@@ -146,7 +225,7 @@ export const Router = createBrowserRouter([
       {
         path: pagePath.survey.main,
         children: [
-          { index: true, element: <Main /> },
+          { index: true, element: <SurveyMain /> },
           { path: `result/:id`, element: <SurveyResult /> },
         ],
       },

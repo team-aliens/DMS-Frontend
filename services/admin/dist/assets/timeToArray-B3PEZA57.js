@@ -1,0 +1,1 @@
+const o=Array(24).fill(void 0).map((a,r)=>`${r<10?"0"+String(r):String(r)}`),n=Array(60).fill(void 0).map((a,r)=>`${r<10?"0"+String(r):String(r)}`),t=["월요일","화요일","수요일","목요일","금요일","토요일","일요일"];export{t as d,o as h,n as m};

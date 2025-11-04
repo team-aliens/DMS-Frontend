@@ -1,6 +1,7 @@
 {
   "name": "@service/admin",
   "version": "1.0.0",
+  "type": "module",
   "packageManager": "yarn@3.6.1",
   "scripts": {
     "test": "jest",
@@ -30,7 +31,7 @@
     "@types/react-dom": "^18.0.10",
     "@types/react-outside-click-handler": "^1.3.1",
     "@types/styled-components": "^5.1.26",
-    "@vitejs/plugin-react": "^5.1.0",
+    "@vitejs/plugin-react": "^4.3.0",
     "babel-loader": "^8.2.5",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "clean-webpack-plugin": "^4.0.0",
@@ -55,7 +56,7 @@
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.0",
     "typescript": "^4.9.4",
-    "vite": "^7.1.12",
+    "vite": "^5.4.0",
     "vite-tsconfig-paths": "^5.1.4",
     "webpack": "latest",
     "webpack-cli": "latest",

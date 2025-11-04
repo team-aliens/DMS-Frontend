@@ -4,8 +4,9 @@
   "packageManager": "yarn@3.6.1",
   "scripts": {
     "test": "jest",
-    "dev": "env-cmd -f ../../.env webpack serve --mode development --config ./config/webpack.config.js",
-    "build": "env-cmd --silent webpack --mode production --progress --config ./config/webpack.config.js",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "prepare": "husky install",
     "lint": "npx eslint --ext .tsx --ext .ts .",
     "lint:fix": "npx eslint --ext .tsx --ext .ts . --fix",

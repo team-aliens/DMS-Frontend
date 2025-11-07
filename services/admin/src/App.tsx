@@ -7,6 +7,7 @@ import { Outlet, RouterProvider } from 'react-router-dom';
 import { PointListProvider } from './context/pointHistoryList';
 import { GlobalStyle } from './style/globalStyle';
 import { eventBus } from './utils/eventBus';
+import { ToastHandler } from './components/ToastHandler';
 
 export function App() {
   const { modalState } = useModal();
@@ -34,6 +35,7 @@ export function App() {
 
   return (
     <ToastProvider>
+      <ToastHandler />
       <PointListProvider>
         <ToastContainer zIndex={20} />
         <Outlet />

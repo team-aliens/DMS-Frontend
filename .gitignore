@@ -2,6 +2,9 @@
 build
 build/
 
+dist
+dist/
+
 .DS_Store
 .env
 .env.local

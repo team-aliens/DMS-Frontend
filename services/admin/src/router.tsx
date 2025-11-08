@@ -24,6 +24,7 @@ import { VolunteerDetail } from './pages/volunteer/Detail';
 import { VolunteerApplication } from './pages/volunteer/Application';
 import { Main } from './pages/survey/Main';
 import { SurveyResult } from './pages/survey/SurveyResult';
+import { AuthLayout } from './components/AuthLayout';
 
 export const pathToKorean = {
   'notice': {
@@ -72,7 +73,8 @@ export const pathToKorean = {
 
 export const Router = createBrowserRouter([
   {
-    path: '',
+    path: '/',
+    element: <AuthLayout />,
     errorElement: <NotFoundPage />,
     children: [
       {

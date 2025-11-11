@@ -8,9 +8,7 @@ import { getCookie } from '@/utils/cookies';
 import { handleApiError } from '@/utils/apiErrorHandler';
 
 export const instance = axios.create({
-  baseURL: import.meta.env.DEV
-    ? '/api' // 개발 환경: 프록시 사용
-    : `${import.meta.env.VITE_APP_PUBLIC_URL}`, // 프로덕션 환경: 직접 API 서버 사용
+  baseURL: `${import.meta.env.VITE_APP_PUBLIC_URL}`,
   timeout: 10000,
 });
 

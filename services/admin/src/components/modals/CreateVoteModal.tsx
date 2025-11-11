@@ -77,9 +77,14 @@ export const CreateVoteModal = ({
   };
 
   const radioClick = (index: number) => {
-    setSelectedIndex((prev) =>
-      prev.map((val, i) => (i === index ? !val : val)),
-    );
+    setSelectedIndex((prev) => {
+      if (prev[index]) {
+        return prev;
+      }
+      const newSelectedIndex = new Array(prev.length).fill(false);
+      newSelectedIndex[index] = true;
+      return newSelectedIndex;
+    });
   };
 
   const parseVoteDate = (dateString: string) => {
@@ -267,9 +272,7 @@ export const CreateVoteModal = ({
                       {voteTopicRadios.map((data, index) => (
                         <div key={index} onClick={() => radioClick(index)}>
                           {data}
-                          <Radio
-                            className={selectedIndex[index] ? 'checked' : ''}
-                          />
+                          <Radio isChecked={selectedIndex[index]} />
                         </div>
                       ))}
                     </_RadioBox>

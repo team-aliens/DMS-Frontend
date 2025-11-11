@@ -1,30 +1,30 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { LoginPage } from '@/pages/LoginPage';
-import { FindIdPage } from './pages/FindId';
-import { Home } from '@/pages/Home';
-import { ResetPwdPage } from './pages/ResetPwdPage';
-import { NoticeListPage } from '@/pages/notice/List';
-import { NoticeDetail } from '@/pages/notice/Detail';
-import { WriteNoticePage } from '@/pages/notice/Write';
-import { MyPage } from './pages/myPage';
-import { ChangePwd } from './pages/myPage/ChangePwd';
-import { PatchNoticePage } from '@/pages/notice/Patch';
-import { StudyRoomList } from './pages/apply/study/StudyRoomList';
-import { CreateRoom } from '@/pages/apply/study/CreateRoom';
-import { StudyRoomDetail } from '@/pages/apply/study/Detail';
-import { PatchRoom } from './pages/apply/study/PatchRoom';
-import Index from '@/pages/apply';
-import RemainsLists from '@/pages/apply/remains';
 import { pagePath } from './utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
+import { AuthLayout } from './components/AuthLayout';
+import { LoginPage } from './pages/LoginPage';
+import { FindIdPage } from './pages/FindId';
+import { Home } from './pages/Home';
+import { ResetPwdPage } from './pages/ResetPwdPage';
+import { NoticeListPage } from './pages/notice/List';
+import { NoticeDetail } from './pages/notice/Detail';
+import { WriteNoticePage } from './pages/notice/Write';
+import { MyPage } from './pages/myPage';
+import { ChangePwd } from './pages/myPage/ChangePwd';
+import { PatchNoticePage } from './pages/notice/Patch';
+import { StudyRoomList } from './pages/apply/study/StudyRoomList';
+import { CreateRoom } from './pages/apply/study/CreateRoom';
+import { StudyRoomDetail } from './pages/apply/study/Detail';
+import { PatchRoom } from './pages/apply/study/PatchRoom';
+import ApplyIndex from './pages/apply';
+import RemainsLists from './pages/apply/remains';
 import { Outing } from './pages/outing';
 import { OutingTimeSet } from './pages/outing/OutingTimeSet';
 import { Volunteer } from './pages/volunteer';
 import { VolunteerDetail } from './pages/volunteer/Detail';
 import { VolunteerApplication } from './pages/volunteer/Application';
-import { Main } from './pages/survey/Main';
+import { Main as SurveyMain } from './pages/survey/Main';
 import { SurveyResult } from './pages/survey/SurveyResult';
-import { AuthLayout } from './components/AuthLayout';
 
 export const pathToKorean = {
   'notice': {
@@ -112,7 +112,7 @@ export const Router = createBrowserRouter([
       {
         path: pagePath.apply.main,
         children: [
-          { index: true, element: <Index /> },
+          { index: true, element: <ApplyIndex /> },
           {
             path: 'study',
             children: [
@@ -148,7 +148,7 @@ export const Router = createBrowserRouter([
       {
         path: pagePath.survey.main,
         children: [
-          { index: true, element: <Main /> },
+          { index: true, element: <SurveyMain /> },
           { path: `result/:id`, element: <SurveyResult /> },
         ],
       },

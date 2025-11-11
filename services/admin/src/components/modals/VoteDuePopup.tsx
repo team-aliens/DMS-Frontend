@@ -68,6 +68,7 @@ export const VoteDuePopup = ({
             filterData[0].start_time,
             filterData[0].end_time,
           )}
+          currentVoteType={filterData[0].vote_type}
         />
       )}
       <_VoteDuePopup>

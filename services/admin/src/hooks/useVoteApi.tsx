@@ -99,8 +99,12 @@ export const useVoteResult = (votingTopicId: string) => {
 };
 
 export const useVoteOptionList = (voteId: string) => {
-  return useQuery(['getVoteOptionList', voteId], () =>
-    getVoteOptionList(voteId),
+  return useQuery(
+    ['getVoteOptionList', voteId],
+    () => getVoteOptionList(voteId),
+    {
+      enabled: !!voteId,
+    },
   );
 };
 

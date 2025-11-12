@@ -24,7 +24,6 @@
         "postpublish": "pinst --enable"
     },
     "dependencies": {
-        "@team-aliens/design-system": "^1.6.3",
         "react-slick": "^0.30.2"
     }
 }

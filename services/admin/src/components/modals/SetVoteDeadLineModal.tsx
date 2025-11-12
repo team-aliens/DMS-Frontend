@@ -50,7 +50,7 @@ export const SetVoteDeadLineModal = ({
 
   return (
     <Modal
-      close={onClose}
+      close={() => setIsOpen(false)}
       buttonList={[
         <_Footer>
           <div>

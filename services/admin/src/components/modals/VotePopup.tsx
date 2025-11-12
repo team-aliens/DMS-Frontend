@@ -37,8 +37,8 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
     setInputValue('');
   };
 
-  const handleDeleteItem = (optionId: string) => {
-    deleteVoteOption(optionId);
+  const handleDeleteItem = (votingId: string) => {
+    deleteVoteOption(votingId);
   };
 
   return (
@@ -61,6 +61,21 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
             {optionList?.length}/50
           </_Header>
           <_Contents>
+            <li>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.nativeEvent.isComposing) return;
+                  if (e.key === 'Enter') {
+                    handleAddItem();
+                  }
+                }}
+                placeholder="새 항목 추가"
+              />
+              <button onClick={handleAddItem}>추가</button>
+            </li>
             {optionList?.map((item) => (
               <li key={item.id}>
                 <input type="text" value={item.voting_option_name} readOnly />
@@ -69,15 +84,6 @@ export const VotePopup = ({ mode, votingId, onClose }: PropsType) => {
                 </button>
               </li>
             ))}
-            <li>
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="새 항목 추가"
-              />
-              <button onClick={handleAddItem}>추가</button>
-            </li>
           </_Contents>
         </_Wrapper>
       </Modal>

@@ -32,11 +32,11 @@ export const handleApiError = (error: AxiosError) => {
       case 400:
         if (hasFieldError(data)) {
           const errorDetails = Object.entries(data.field_error)
-            .map(([field, msg]) => `- ${field}: ${msg}`)
+            .map(([field, msg]) => `${field}: ${msg}`)
             .join('\n');
-          message = `[${status}] 잘못된 요청입니다.\n${errorDetails}`;
+          message = `${errorDetails}`;
         } else if (hasMessage(data)) {
-          message = `[${status}] 잘못된 요청입니다.\n${data.message}`;
+          message = `${data.message}`;
         } else {
           message = `[${status}] 잘못된 요청입니다.`;
         }

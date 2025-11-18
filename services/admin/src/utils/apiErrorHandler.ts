@@ -49,7 +49,7 @@ export const handleApiError = (error: AxiosError) => {
         break;
       default:
         if (hasMessage(data)) {
-          message = `[${status}] 오류가 발생했습니다.\n${data.message}`;
+          message = `${data.message}`;
         } else {
           message = `[${status}] 알 수 없는 오류가 발생했습니다.`;
         }

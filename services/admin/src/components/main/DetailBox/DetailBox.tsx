@@ -153,9 +153,9 @@ const _PointWrapper = styled.div`
 `;
 
 const _MateList = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
-  flex-wrap: wrap;
   margin-top: 8px;
 `;
 

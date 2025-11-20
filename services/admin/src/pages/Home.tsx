@@ -86,6 +86,7 @@ export function Home() {
     data: studentDetail,
     refetch: refetchStudentDetail,
     isLoading: isStudentDetailLoading,
+    isFetching: isStudentDetailFetching,
   } = useStudentDetail(clickedStudentId);
 
   const {
@@ -107,7 +108,17 @@ export function Home() {
     data: studentPointHistory,
     refetch: refetchStudentPointHistory,
     isLoading: isPointHistoryLoading,
+    isFetching: isPointHistoryFetching,
   } = useStudentPointHistory(clickedStudentId, availableFeature?.point_service);
+
+  const isDetailFetching =
+    isStudentDetailLoading ||
+    Boolean(isStudentDetailFetching) ||
+    isPointHistoryLoading ||
+    Boolean(isPointHistoryFetching);
+
+  const isStudentDataStale =
+    Boolean(clickedStudentId) && studentDetail?.id !== clickedStudentId;
 
   const onChangeSortType = () => {
     const value: SortType = filter.sort === 'GCN' ? 'NAME' : 'GCN';
@@ -213,7 +224,7 @@ export function Home() {
         >
           {clickedStudentId && (
             <>
-              {isStudentDetailLoading || isPointHistoryLoading ? (
+              {isDetailFetching || isStudentDataStale ? (
                 <DetailBoxSkeleton />
               ) : (
                 <DetailBox

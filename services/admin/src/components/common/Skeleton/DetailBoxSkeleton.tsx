@@ -23,8 +23,6 @@ export function DetailBoxSkeleton() {
         <Skeleton width="172px" height="47px" borderRadius="4px" />
       </_PointWrapper>
 
-      {/* Room Mates Section */}
-
       <_Section>
         <Skeleton width="85px" height="22px" />
         <_MateList>
@@ -39,8 +37,6 @@ export function DetailBoxSkeleton() {
         </_MateList>
       </_Section>
 
-      {/* Tags Section */}
-
       <_Section>
         <Skeleton width="56px" height="22px" />
         <_MateList>
@@ -54,8 +50,6 @@ export function DetailBoxSkeleton() {
           ))}
         </_MateList>
       </_Section>
-
-      {/* Points History Section */}
 
       <_Section>
         <Skeleton width="44px" height="22px" />

@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-import { ChangeEvent, useState, useEffect } from 'react';
-import { Button, Change, Text } from '@team-aliens/design-system';
+import { ChangeEvent, useState } from 'react';
+import { Button } from '@team-aliens/design-system';
 import { StudentList } from '@/components/main/StudentList';
 import {
   StudentListSkeleton,
   DetailBoxSkeleton,
 } from '@/components/common/Skeleton';
-import { Divider } from '@/components/main/Divider';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { SortType } from '@/apis/managers';
 import { useDebounce } from '@/hooks/useDebounce';

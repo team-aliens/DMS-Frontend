@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { NoticeSortEnum, NoticeSortType } from '@/apis/notice';
 import { NoticeItem } from '@/components/notice/NoticeItem';
+import { NoticeListSkeleton } from '@/components/common/Skeleton';
 import { useNoticeList } from '@/hooks/useNoticeApi';
 import { pagePath } from '@/utils/pagePath';
 
 export function NoticeListPage() {
   const [sortType, setSortType] = useState<NoticeSortType>('NEW');
 
-  const { data: noticeList } = useNoticeList(sortType);
+  const { data: noticeList, isLoading } = useNoticeList(sortType);
 
   return (
     <WithNavigatorBar>
@@ -31,12 +32,16 @@ export function NoticeListPage() {
           </Link>
         </_FilterSection>
         <_List>
-          {noticeList &&
+          {isLoading ? (
+            <NoticeListSkeleton count={3} />
+          ) : (
+            noticeList &&
             noticeList.notices.map((item) => (
               <Link to={pagePath.notice.detail(item.id)} key={item.id}>
                 <NoticeItem noticeItem={item} key={item.id} />
               </Link>
-            ))}
+            ))
+          )}
         </_List>
       </_Wrapper>
     </WithNavigatorBar>
@@ -62,4 +67,15 @@ const _List = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 16px 0;
+`;
+
+const _SkeletonItem = styled.li`
+  width: 100%;
+  height: 60px;
+  box-shadow: 0 1px 20px rgba(204, 204, 204, 0.24);
+  border-radius: 4px;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

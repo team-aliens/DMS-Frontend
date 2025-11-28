@@ -69,6 +69,12 @@ export const pathToKorean = {
     'index': '마이페이지',
     'change-pwd': '비밀번호 변경',
   },
+  'survey': {
+    index: '설문 목록',
+    result: {
+      index: '설문 상세보기',
+    },
+  },
 };
 
 export const Router = createBrowserRouter([

@@ -1,18 +1,14 @@
 import styled from 'styled-components';
 import { Skeleton } from '../Skeleton';
 
-interface Props {
-  count?: number;
-}
-
-export function SurveyListSkeleton({ count = 3 }: Props) {
+export function SurveyListSkeleton() {
   return (
     <>
       <_Button>
         <Skeleton width="123px" height="47px" borderRadius="4px" />
       </_Button>
       <_Grid>
-        {new Array(count).fill(null).map((_, i) => (
+        {new Array(3).fill(null).map((_, i) => (
           <_Card key={`survey-list-skel-${i}`}>
             <_CardBody>
               <Skeleton width="50%" height="22px" />

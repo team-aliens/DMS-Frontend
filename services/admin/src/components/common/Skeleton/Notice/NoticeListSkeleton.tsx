@@ -1,14 +1,10 @@
 import styled from 'styled-components';
 import { Skeleton } from '../Skeleton';
 
-interface Props {
-  count?: number;
-}
-
-export function NoticeListSkeleton({ count = 3 }: Props) {
+export function NoticeListSkeleton() {
   return (
     <>
-      {new Array(count).fill(null).map((_, i) => (
+      {new Array(3).fill(null).map((_, i) => (
         <_SkeletonItem key={`notice-skel-${i}`}>
           <Skeleton width="200px" height="20px" borderRadius="4px" />
           <Skeleton width="80px" height="16px" borderRadius="4px" />

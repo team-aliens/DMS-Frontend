@@ -29,7 +29,7 @@ export function VolunteerDetail() {
           <>
             <VolunteerHeader />
             {data?.applicants.length === 0 ? (
-              <p>신청한 학생이 없습니다.</p>
+              <_EmptyState>신청한 학생이 없습니다.</_EmptyState>
             ) : (
               <_StudentInfoWrapper>
                 {data?.applicants.map((applicant) => (
@@ -50,6 +50,13 @@ export function VolunteerDetail() {
     </WithNavigatorBar>
   );
 }
+
+const _EmptyState = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+`;
 
 const _Wrapper = styled.div`
   margin: 0 auto;

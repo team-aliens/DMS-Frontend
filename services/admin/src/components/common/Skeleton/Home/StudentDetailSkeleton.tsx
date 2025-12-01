@@ -110,11 +110,6 @@ const _PointWrapper = styled.div`
   gap: 12px;
 `;
 
-const _PointBox = styled.div`
-  background-color: ${({ theme }) => theme.color.gray2 || '#f5f5f5'};
-  border-radius: 4px;
-`;
-
 const _Section = styled.div`
   display: flex;
   flex-direction: column;

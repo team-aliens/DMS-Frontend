@@ -1,2 +1,2 @@
-export * from './DetailBoxSkeleton';
+export * from './StudentDetailSkeleton';
 export * from './StudentListSkeleton';

@@ -4,7 +4,7 @@ import { Button } from '@team-aliens/design-system';
 import { StudentList } from '@/components/main/StudentList';
 import {
   StudentListSkeleton,
-  DetailBoxSkeleton,
+  StudentDetailSkeleton,
 } from '@/components/common/Skeleton';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { SortType } from '@/apis/managers';
@@ -224,7 +224,7 @@ export function Home() {
           {clickedStudentId && (
             <>
               {isDetailFetching || isStudentDataStale ? (
-                <DetailBoxSkeleton />
+                <StudentDetailSkeleton />
               ) : (
                 <DetailBox
                   studentPointHistory={studentPointHistory}

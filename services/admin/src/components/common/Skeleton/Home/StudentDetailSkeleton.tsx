@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Skeleton } from '../Skeleton';
 
-export function DetailBoxSkeleton() {
+export function StudentDetailSkeleton() {
   return (
     <_DetailBox>
       <_ProfileSection>

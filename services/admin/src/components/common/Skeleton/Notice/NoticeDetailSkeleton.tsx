@@ -38,10 +38,6 @@ const _Wrapper = styled.div`
   gap: 40px;
 `;
 
-const _BreadcrumbPlaceholder = styled.div`
-  height: 24px;
-`;
-
 const _Title = styled.div`
   display: flex;
   flex-direction: column;

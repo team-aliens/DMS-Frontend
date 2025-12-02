@@ -28,17 +28,6 @@ const _Header = styled.div`
   gap: 40px;
 `;
 
-const _Actions = styled.div`
-  display: flex;
-  gap: 12px;
-`;
-
-const _Meta = styled.div`
-  display: flex;
-  gap: 16px;
-  align-items: center;
-`;
-
 const _Options = styled.div`
   display: flex;
   flex-direction: column;

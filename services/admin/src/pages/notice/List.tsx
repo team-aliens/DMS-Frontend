@@ -33,7 +33,7 @@ export function NoticeListPage() {
         </_FilterSection>
         <_List>
           {isLoading ? (
-            <NoticeListSkeleton count={3} />
+            <NoticeListSkeleton />
           ) : (
             noticeList &&
             noticeList.notices.map((item) => (
@@ -67,15 +67,4 @@ const _List = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 16px 0;
-`;
-
-const _SkeletonItem = styled.li`
-  width: 100%;
-  height: 60px;
-  box-shadow: 0 1px 20px rgba(204, 204, 204, 0.24);
-  border-radius: 4px;
-  padding: 16px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;

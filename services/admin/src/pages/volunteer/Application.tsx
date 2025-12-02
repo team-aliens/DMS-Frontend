@@ -26,7 +26,7 @@ export function VolunteerApplication() {
           <>
             <VolunteerHeader />
             <_VolunteerWrapper>
-              {data?.volunteers.map((currentVolunteer, idx) => (
+              {data?.volunteers.map((currentVolunteer) => (
                 <div key={currentVolunteer.id}>
                   <InfoCard
                     id={currentVolunteer.id}

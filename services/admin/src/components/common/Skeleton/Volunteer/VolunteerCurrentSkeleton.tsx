@@ -9,7 +9,7 @@ export const VolunteerCurrentSkeleton = () => {
         <Skeleton width="85px" height="47px" borderRadius="4px" />
       </_ButtonContainer>
       {new Array(5).fill(null).map((_, i) => (
-        <_Contents>
+        <_Contents key={i}>
           <_VolunteerCard>
             <_Header>
               <Skeleton width="40%" height="20px" />
@@ -21,7 +21,12 @@ export const VolunteerCurrentSkeleton = () => {
           </_VolunteerCard>
           <_StudentContainer>
             {new Array(3).fill(null).map((_, i) => (
-              <Skeleton width="120px" height="40px" borderRadius="8px" />
+              <Skeleton
+                width="120px"
+                height="40px"
+                borderRadius="8px"
+                key={i}
+              />
             ))}
           </_StudentContainer>
         </_Contents>

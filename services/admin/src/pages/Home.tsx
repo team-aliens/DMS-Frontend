@@ -83,7 +83,6 @@ export function Home() {
 
   const {
     data: studentDetail,
-    refetch: refetchStudentDetail,
     isLoading: isStudentDetailLoading,
     isFetching: isStudentDetailFetching,
   } = useStudentDetail(clickedStudentId);
@@ -105,7 +104,6 @@ export function Home() {
 
   const {
     data: studentPointHistory,
-    refetch: refetchStudentPointHistory,
     isLoading: isPointHistoryLoading,
     isFetching: isPointHistoryFetching,
   } = useStudentPointHistory(clickedStudentId, availableFeature?.point_service);
@@ -244,16 +242,4 @@ const _Wrapper = styled.div`
   display: flex;
   margin: 70px auto 0 auto;
   overflow-y: scroll;
-`;
-
-const _ModeButton = styled(Button)`
-  position: absolute;
-  top: 50px;
-  margin-left: 20px;
-`;
-
-const _PointListButton = styled(Button)`
-  position: fixed;
-  top: 50px;
-  right: 60px;
 `;

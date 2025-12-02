@@ -10,7 +10,7 @@ export const VolunteerDetailSkeleton = () => {
       </_ButtonContainer>
       <_StudentInfoContainer>
         {new Array(5).fill(null).map((_, i) => (
-          <_StudentInfo>
+          <_StudentInfo key={i}>
             <Skeleton width="10%" height="20px" />
             <_InfoButtonContainer>
               <Skeleton width="80px" height="50px" borderRadius="4px" />

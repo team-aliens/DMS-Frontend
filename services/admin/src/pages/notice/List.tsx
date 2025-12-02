@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { NoticeSortEnum, NoticeSortType } from '@/apis/notice';
 import { NoticeItem } from '@/components/notice/NoticeItem';
+import { NoticeListSkeleton } from '@/components/common/Skeleton';
 import { useNoticeList } from '@/hooks/useNoticeApi';
 import { pagePath } from '@/utils/pagePath';
 
 export function NoticeListPage() {
   const [sortType, setSortType] = useState<NoticeSortType>('NEW');
 
-  const { data: noticeList } = useNoticeList(sortType);
+  const { data: noticeList, isLoading } = useNoticeList(sortType);
 
   return (
     <WithNavigatorBar>
@@ -31,12 +32,16 @@ export function NoticeListPage() {
           </Link>
         </_FilterSection>
         <_List>
-          {noticeList &&
+          {isLoading ? (
+            <NoticeListSkeleton />
+          ) : (
+            noticeList &&
             noticeList.notices.map((item) => (
               <Link to={pagePath.notice.detail(item.id)} key={item.id}>
                 <NoticeItem noticeItem={item} key={item.id} />
               </Link>
-            ))}
+            ))
+          )}
         </_List>
       </_Wrapper>
     </WithNavigatorBar>

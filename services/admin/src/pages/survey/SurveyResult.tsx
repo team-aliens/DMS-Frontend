@@ -1,5 +1,8 @@
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
+import { SurveyDetailSkeleton } from '@/components/common/Skeleton';
 import { useVoteResult } from '@/hooks/useVoteApi';
+import { pathToKorean } from '@/router';
+import { BreadCrumb } from '@team-aliens/design-system';
 import { color } from '@team-aliens/design-system/dist/styles/theme/color';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
 import { useParams } from 'react-router-dom';
@@ -7,26 +10,33 @@ import styled from 'styled-components';
 
 export const SurveyResult = () => {
   const { id } = useParams<{ id: string }>();
-  const { data } = useVoteResult(id);
+  const { data, isLoading } = useVoteResult(id);
   const today = new Date();
   const formattedDate = new Intl.DateTimeFormat('ko-KR').format(today);
 
   return (
     <WithNavigatorBar>
+      <BreadCrumb left={366} pathToKorean={pathToKorean} />
       <_Wrapper>
-        <_Header>
-          {data?.voting_topic_name}
-          <span>{formattedDate}</span>
-        </_Header>
-        <_Contents>
-          {data && data.votes.length > 0
-            ? data.votes.map((data) => (
-                <li key={data.id}>
-                  {data.name}({data.votes})
-                </li>
-              ))
-            : '결과가 없습니다.'}
-        </_Contents>
+        {isLoading ? (
+          <SurveyDetailSkeleton />
+        ) : (
+          <>
+            <_Header>
+              {data?.voting_topic_name}
+              <span>{formattedDate}</span>
+            </_Header>
+            <_Contents>
+              {data && data.votes.length > 0
+                ? data.votes.map((data) => (
+                    <li key={data.id}>
+                      {data.name}({data.votes})
+                    </li>
+                  ))
+                : '결과가 없습니다.'}
+            </_Contents>
+          </>
+        )}
       </_Wrapper>
     </WithNavigatorBar>
   );

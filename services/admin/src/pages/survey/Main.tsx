@@ -1,14 +1,15 @@
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
+import { SurveyListSkeleton } from '@/components/common/Skeleton';
 import { SelectVoteEventModal } from '@/components/modals/SelectVoteEventModal';
 import { VoteDuePopup } from '@/components/modals/VoteDuePopup';
 import { useVoteList } from '@/hooks/useVoteApi';
 import { Button } from '@team-aliens/design-system';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 export const Main = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { data } = useVoteList();
+  const { data, isLoading } = useVoteList();
   const onOpen = () => {
     setIsOpen(true);
   };
@@ -20,20 +21,26 @@ export const Main = () => {
     <WithNavigatorBar>
       {isOpen && <SelectVoteEventModal onClose={onClose} />}
       <_Wrapper>
-        <_Header>
-          <Button onClick={onOpen}>투표 항목 추가 +</Button>
-        </_Header>
-        <_VoteDiv>
-          {data?.voting_topics.map((data) => (
-            <VoteDuePopup
-              surveyId={data.id}
-              key={data.id}
-              topic_name={data.topic_name}
-              end_time={data.end_time}
-              start_time={data.start_time}
-            />
-          ))}
-        </_VoteDiv>
+        {isLoading ? (
+          <SurveyListSkeleton />
+        ) : (
+          <>
+            <_Header>
+              <Button onClick={onOpen}>투표 항목 추가 +</Button>
+            </_Header>
+            <_VoteDiv>
+              {data?.voting_topics.map((data) => (
+                <VoteDuePopup
+                  surveyId={data.id}
+                  key={data.id}
+                  topic_name={data.topic_name}
+                  end_time={data.end_time}
+                  start_time={data.start_time}
+                />
+              ))}
+            </_VoteDiv>
+          </>
+        )}
       </_Wrapper>
     </WithNavigatorBar>
   );

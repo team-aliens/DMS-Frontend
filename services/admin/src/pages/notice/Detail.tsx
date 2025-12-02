@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Text, BreadCrumb } from '@team-aliens/design-system';
 import { NoticeDetailSummary } from '@/components/notice/NoticeDetailSummary';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
+import { NoticeDetailSkeleton } from '@/components/common/Skeleton';
 import { useModal } from '@/hooks/useModal';
 import { DeleteNoticeConfirm } from '@/components/modals/DeleteNoticeConfirm';
 import { useDeleteNotice, useNoticeDetail } from '@/hooks/useNoticeApi';
@@ -13,7 +14,7 @@ export function NoticeDetail() {
 
   const { selectModal, modalState, closeModal } = useModal();
 
-  const { data: detail } = useNoticeDetail(noticeId);
+  const { data: detail, isLoading } = useNoticeDetail(noticeId);
   const deleteNotice = useDeleteNotice(noticeId);
 
   const onClickDeleteNotice = () => {
@@ -28,30 +29,34 @@ export function NoticeDetail() {
         />
       )}
       <WithNavigatorBar>
-        <_Wrapper>
-          <BreadCrumb left={366} pathToKorean={pathToKorean} />
-          <Text
-            size="titleM"
-            color="gray10"
-            display="inline-block"
-            margin={['top', 160]}
-          >
-            {detail?.title}
-          </Text>
-          <NoticeDetailSummary
-            onClickDeleteNotice={onClickDeleteNotice}
-            createdDate={detail?.created_at}
-            noticeId={noticeId}
-          />
-          <_Content
-            color="gray7"
-            size="bodyM"
-            display="inline-block"
-            margin={['top', 40]}
-          >
-            {detail?.content}
-          </_Content>
-        </_Wrapper>
+        <BreadCrumb left={366} pathToKorean={pathToKorean} />
+        {isLoading ? (
+          <NoticeDetailSkeleton />
+        ) : (
+          <_Wrapper>
+            <Text
+              size="titleM"
+              color="gray10"
+              display="inline-block"
+              margin={['top', 160]}
+            >
+              {detail?.title}
+            </Text>
+            <NoticeDetailSummary
+              onClickDeleteNotice={onClickDeleteNotice}
+              createdDate={detail?.created_at}
+              noticeId={noticeId}
+            />
+            <_Content
+              color="gray7"
+              size="bodyM"
+              display="inline-block"
+              margin={['top', 40]}
+            >
+              {detail?.content}
+            </_Content>
+          </_Wrapper>
+        )}
       </WithNavigatorBar>
     </>
   );

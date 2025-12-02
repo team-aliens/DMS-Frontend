@@ -17,6 +17,7 @@ import { pagePath } from '@/utils/pagePath';
 import { SchoolCheckingCodeModal } from '@/components/modals/SchoolCheckingCode';
 import { StudentEditRoom } from '@/components/modals/StudentEditRoom';
 import { StudentEditGrade } from '@/components/modals/StudentEditGrade';
+import { MyPageSkeleton } from '@/components/common/Skeleton';
 
 export function MyPage() {
   const { modalState, selectModal } = useModal();
@@ -34,7 +35,8 @@ export function MyPage() {
     });
   const { answer, question } = qnaState;
 
-  const { data: myProfileData } = useMyProfileInfo();
+  const { data: myProfileData, isLoading: isMyProfileLoading } =
+    useMyProfileInfo();
   const changeQnA = useChangeQnA(qnaState);
   const getNewCode = useReissueSchoolCode();
 
@@ -50,61 +52,65 @@ export function MyPage() {
   return (
     <>
       <WithNavigatorBar>
-        <_Wrapper>
-          <Text display="block" size="headlineM" margin={['bottom', 60]}>
-            {myProfileData?.school_name}
-          </Text>
-          <_CardWrapper>
-            <div>
-              <Verification
-                onClickNewCode={() => selectModal('SCHOOL_CHECKING_CODE')}
-                code={code}
+        {isMyProfileLoading ? (
+          <MyPageSkeleton />
+        ) : (
+          <_Wrapper>
+            <Text display="block" size="headlineM" margin={['bottom', 60]}>
+              {myProfileData?.school_name}
+            </Text>
+            <_CardWrapper>
+              <div>
+                <Verification
+                  onClickNewCode={() => selectModal('SCHOOL_CHECKING_CODE')}
+                  code={code}
+                />
+                <_OptionBtn>
+                  <_PasswordChange to={pagePath.myPage.changePwd}>
+                    <Text display="block" size="titleS">
+                      비밀번호 변경
+                    </Text>
+                    <Arrow size={24} direction="right" />
+                  </_PasswordChange>
+                  <_Logout
+                    margin={['left', 'auto']}
+                    onClick={openLogoutModal}
+                    display="block"
+                    size="titleS"
+                    color="error"
+                  >
+                    로그아웃
+                  </_Logout>
+                </_OptionBtn>
+              </div>
+              <Confirmation
+                openNewQuestionModal={openNewQuestionModal}
+                question={myProfileData?.question}
+                answer={myProfileData?.answer}
               />
-              <_OptionBtn>
-                <_PasswordChange to={pagePath.myPage.changePwd}>
+            </_CardWrapper>
+            <_StudentExcelWrapper>
+              <_StudentIssuance onClick={openStudentExelModal}>
+                <Text display="block" size="titleS">
+                  학생 등록
+                </Text>
+                <Arrow size={24} direction="right" />
+              </_StudentIssuance>
+              <_StudentEditWrapper>
+                <_StudentEdit onClick={openStudentEditRoomExcel}>
                   <Text display="block" size="titleS">
-                    비밀번호 변경
+                    호실 정보 변경
                   </Text>
-                  <Arrow size={24} direction="right" />
-                </_PasswordChange>
-                <_Logout
-                  margin={['left', 'auto']}
-                  onClick={openLogoutModal}
-                  display="block"
-                  size="titleS"
-                  color="error"
-                >
-                  로그아웃
-                </_Logout>
-              </_OptionBtn>
-            </div>
-            <Confirmation
-              openNewQuestionModal={openNewQuestionModal}
-              question={myProfileData?.question}
-              answer={myProfileData?.answer}
-            />
-          </_CardWrapper>
-          <_StudentExcelWrapper>
-            <_StudentIssuance onClick={openStudentExelModal}>
-              <Text display="block" size="titleS">
-                학생 등록
-              </Text>
-              <Arrow size={24} direction="right" />
-            </_StudentIssuance>
-            <_StudentEditWrapper>
-              <_StudentEdit onClick={openStudentEditRoomExcel}>
-                <Text display="block" size="titleS">
-                  호실 정보 변경
-                </Text>
-              </_StudentEdit>
-              <_StudentGcnEdit onClick={openStudentEditGradeExcel}>
-                <Text display="block" size="titleS">
-                  학번 정보 변경
-                </Text>
-              </_StudentGcnEdit>
-            </_StudentEditWrapper>
-          </_StudentExcelWrapper>
-        </_Wrapper>
+                </_StudentEdit>
+                <_StudentGcnEdit onClick={openStudentEditGradeExcel}>
+                  <Text display="block" size="titleS">
+                    학번 정보 변경
+                  </Text>
+                </_StudentGcnEdit>
+              </_StudentEditWrapper>
+            </_StudentExcelWrapper>
+          </_Wrapper>
+        )}
       </WithNavigatorBar>
       {modalState.selectedModal === 'NEW_QNA' && (
         <ChangeQnA

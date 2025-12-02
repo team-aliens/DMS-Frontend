@@ -12,9 +12,10 @@ import { useModal } from '@/hooks/useModal';
 import { useForm } from '@/hooks/useForm';
 import { RemainOption } from '@/components/apply/remains/options';
 import { pathToKorean } from '@/router';
+import { RemainsSkeleton } from '@/components/common/Skeleton';
 
 export default function RemainsLists() {
-  const { data: allRemains } = useGetAllRemains();
+  const { data: allRemains, isLoading } = useGetAllRemains();
   const { mutate: downloadExcel } = useGetRemainListExcel();
   const { mutate: getAllRemainMutate } = useMutation(getAllRemain);
 
@@ -58,22 +59,28 @@ export default function RemainsLists() {
     <WithNavigatorBar>
       <_Layout>
         <BreadCrumb pathToKorean={pathToKorean}></BreadCrumb>
-        <_Header>
-          <Button color="gray" kind="outline" onClick={downloadExcel}>
-            액셀 출력
-          </Button>
-          <_ButtonWrapper>
-            <Button onClick={onSetTime}>잔류 신청 시간 설정</Button>
-            <Button kind="outline" onClick={onCreate}>
-              항목 추가
-            </Button>
-          </_ButtonWrapper>
-        </_Header>
-        <_ListLayout>
-          {allRemains?.remain_options.map((remain) => (
-            <RemainOption {...remain} onDelete={onDelete} onEdit={onEdit} />
-          ))}
-        </_ListLayout>
+        {isLoading ? (
+          <RemainsSkeleton />
+        ) : (
+          <>
+            <_Header>
+              <Button color="gray" kind="outline" onClick={downloadExcel}>
+                액셀 출력
+              </Button>
+              <_ButtonWrapper>
+                <Button onClick={onSetTime}>잔류 신청 시간 설정</Button>
+                <Button kind="outline" onClick={onCreate}>
+                  항목 추가
+                </Button>
+              </_ButtonWrapper>
+            </_Header>
+            <_ListLayout>
+              {allRemains?.remain_options.map((remain) => (
+                <RemainOption {...remain} onDelete={onDelete} onEdit={onEdit} />
+              ))}
+            </_ListLayout>
+          </>
+        )}
       </_Layout>
       {modalState.selectedModal === 'SET_REMAIN_TIME' ? <TimeModal /> : null}
       {(modalState.selectedModal === 'CREATE_REMAIN_ITEM' ||

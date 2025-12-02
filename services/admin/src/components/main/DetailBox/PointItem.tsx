@@ -9,6 +9,7 @@ import { PointEnum, PointType } from '@/apis/points';
 import { usePointHistoryId } from '@/store/usePointHistoryId';
 import { useRecentStudentPointHistory } from '@/hooks/usePointsApi';
 import { useState } from 'react';
+import { Skeleton } from '@/components/common/Skeleton';
 
 interface PropsType extends StudentPointHistoryType {
   isDeleteListOption?: boolean;
@@ -103,8 +104,10 @@ export function PointItem({
 }
 
 export function RecentPointItem({ studentId }: { studentId: string }) {
-  const { data: recentStudentPointHistory } =
+  const { data: recentStudentPointHistory, isLoading } =
     useRecentStudentPointHistory(studentId);
+  if (isLoading)
+    return <Skeleton width="100%" height="57px" borderRadius="5px" />;
 
   return (
     <_Student>

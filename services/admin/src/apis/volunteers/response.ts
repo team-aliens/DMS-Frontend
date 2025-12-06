@@ -1,3 +1,5 @@
+import { SexType } from './request';
+
 export interface getVolunteersResponse {
   volunteers: volunteer[];
 }
@@ -9,7 +11,7 @@ export interface volunteer {
   point: number;
   optional_point: number;
   max_applicants: number;
-  available_sex: string;
+  available_sex: SexType;
   available_grade: string;
   current_applicants: number;
 }
@@ -30,7 +32,8 @@ export interface getVolunteerCurrentResponse {
 
 export interface currentVolunteer {
   name: string;
-  available_sex: string;
+  id: string;
+  available_sex: SexType;
   available_grade: string;
   current_applicants: number;
   max_applicants: number;

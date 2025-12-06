@@ -1,8 +1,11 @@
 import styled from 'styled-components';
-import { ChangeEvent, useState, useEffect } from 'react';
-import { Button, Change, Text } from '@team-aliens/design-system';
+import { ChangeEvent, useState } from 'react';
+import { Button } from '@team-aliens/design-system';
 import { StudentList } from '@/components/main/StudentList';
-import { Divider } from '@/components/main/Divider';
+import {
+  StudentListSkeleton,
+  StudentDetailSkeleton,
+} from '@/components/common/Skeleton';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import { SortType } from '@/apis/managers';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -78,23 +81,41 @@ export function Home() {
 
   const { modalState } = useModal();
 
-  const { data: studentDetail, refetch: refetchStudentDetail } =
-    useStudentDetail(clickedStudentId);
+  const {
+    data: studentDetail,
+    isLoading: isStudentDetailLoading,
+    isFetching: isStudentDetailFetching,
+  } = useStudentDetail(clickedStudentId);
 
-  const { data: studentList, refetch: refetchSearchStudents } =
-    useSearchStudents({
-      name: debouncedName,
-      sort: filter.sort,
-      filter_type: filter.filterType,
-      min_point: limitPoint.startPoint,
-      max_point: limitPoint.endPoint,
-      tag_id: checkedTagList,
-    });
+  const {
+    data: studentList,
+    refetch: refetchSearchStudents,
+    isLoading: isStudentListLoading,
+  } = useSearchStudents({
+    name: debouncedName,
+    sort: filter.sort,
+    filter_type: filter.filterType,
+    min_point: limitPoint.startPoint,
+    max_point: limitPoint.endPoint,
+    tag_id: checkedTagList,
+  });
 
   const { data: availableFeature } = useAvailAbleFeatures();
 
-  const { data: studentPointHistory, refetch: refetchStudentPointHistory } =
-    useStudentPointHistory(clickedStudentId, availableFeature?.point_service);
+  const {
+    data: studentPointHistory,
+    isLoading: isPointHistoryLoading,
+    isFetching: isPointHistoryFetching,
+  } = useStudentPointHistory(clickedStudentId, availableFeature?.point_service);
+
+  const isDetailFetching =
+    isStudentDetailLoading ||
+    Boolean(isStudentDetailFetching) ||
+    isPointHistoryLoading ||
+    Boolean(isPointHistoryFetching);
+
+  const isStudentDataStale =
+    Boolean(clickedStudentId) && studentDetail?.id !== clickedStudentId;
 
   const onChangeSortType = () => {
     const value: SortType = filter.sort === 'GCN' ? 'NAME' : 'GCN';
@@ -163,24 +184,28 @@ export function Home() {
       <_Wrapper>
         {listViewType === 'POINTS' ? (
           <>
-            <StudentList
-              mode={mode.type}
-              studentList={studentList?.students || []}
-              name={filter.name}
-              sort={filter.sort}
-              filterType={filter.filterType}
-              startPoint={limitPoint.startPoint}
-              endPoint={limitPoint.endPoint}
-              checkedTagList={checkedTagList}
-              setCheckedTagList={setCheckedTagList}
-              availableFeature={availableFeature}
-              onChangeSearchName={onChangeSearchName}
-              onChangeSortType={onChangeSortType}
-              onClickStudent={onClickStudent}
-              onChangeLimitPoint={onChangeLimitPoint}
-              onChangeFilterType={onChangeFilterType}
-              refetchSearchStudents={refetchSearchStudents}
-            />
+            {isStudentListLoading ? (
+              <StudentListSkeleton />
+            ) : (
+              <StudentList
+                mode={mode.type}
+                studentList={studentList?.students || []}
+                name={filter.name}
+                sort={filter.sort}
+                filterType={filter.filterType}
+                startPoint={limitPoint.startPoint}
+                endPoint={limitPoint.endPoint}
+                checkedTagList={checkedTagList}
+                setCheckedTagList={setCheckedTagList}
+                availableFeature={availableFeature}
+                onChangeSearchName={onChangeSearchName}
+                onChangeSortType={onChangeSortType}
+                onClickStudent={onClickStudent}
+                onChangeLimitPoint={onChangeLimitPoint}
+                onChangeFilterType={onChangeFilterType}
+                refetchSearchStudents={refetchSearchStudents}
+              />
+            )}
           </>
         ) : (
           <PointList />
@@ -195,11 +220,17 @@ export function Home() {
           }}
         >
           {clickedStudentId && (
-            <DetailBox
-              studentPointHistory={studentPointHistory}
-              studentDetail={studentDetail}
-              availableFeature={availableFeature}
-            />
+            <>
+              {isDetailFetching || isStudentDataStale ? (
+                <StudentDetailSkeleton />
+              ) : (
+                <DetailBox
+                  studentPointHistory={studentPointHistory}
+                  studentDetail={studentDetail}
+                  availableFeature={availableFeature}
+                />
+              )}
+            </>
           )}
         </SideBar>
       </SideBarPortal>
@@ -211,16 +242,4 @@ const _Wrapper = styled.div`
   display: flex;
   margin: 70px auto 0 auto;
   overflow-y: scroll;
-`;
-
-const _ModeButton = styled(Button)`
-  position: absolute;
-  top: 50px;
-  margin-left: 20px;
-`;
-
-const _PointListButton = styled(Button)`
-  position: fixed;
-  top: 50px;
-  right: 60px;
 `;

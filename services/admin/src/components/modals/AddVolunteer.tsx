@@ -1,19 +1,11 @@
 import { useModal } from '@/hooks/useModal';
-import {
-  Modal,
-  Input,
-  DropDown,
-  Button,
-  TextArea,
-  Text,
-} from '@team-aliens/design-system';
+import { Modal, Input, Button, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useAddVolunteerWork } from '@/hooks/useVolunteerApi';
 import { addVolunteerWorkRequest } from '@/apis/volunteers/request';
 import { gradeKoreanCalculator } from '@/utils/translate';
 import { SexType } from '@/apis/volunteers/request';
-import { useToast } from '@/hooks/useToast';
 
 export function AddVolunteer() {
   const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
@@ -38,9 +30,7 @@ export function AddVolunteer() {
     const { name, value } = e.target;
 
     const newValue =
-      name === ' score' ||
-      name === 'optional_score' ||
-      name === 'max_applicants'
+      name === 'score' || name === 'optional_score' || name === 'max_applicants'
         ? value === ''
           ? null
           : Number(value)

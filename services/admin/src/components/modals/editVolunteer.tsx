@@ -130,7 +130,7 @@ export function EditVolunteer({
     if (firstGrade) gradesToSet.push(gradeEngToKorean(firstGrade));
     if (secondGrade) gradesToSet.push(gradeEngToKorean(secondGrade));
 
-    if (grade && grade.includes('전체')) {
+    if (grade && (grade.includes('전체') || grade === 'ALL')) {
       setSelectedGrades(['전체']);
     } else {
       setSelectedGrades(gradesToSet);

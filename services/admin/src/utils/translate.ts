@@ -46,7 +46,7 @@ export function gradeEngToKorean(grade: string): string {
     case 'THIRD':
       return '3학년';
     case 'ALL':
-      return '모든 학년';
+      return '전체';
     default:
       return grade;
   }
@@ -55,7 +55,7 @@ export function gradeEngToKorean(grade: string): string {
 export function gradeKoreanCalculator(grade: string): string {
   switch (grade) {
     case '1학년':
-      return 'FRIST';
+      return 'FIRST';
     case '1학년, 2학년':
       return 'FIRST_AND_SECOND';
     case '2학년, 1학년':
@@ -72,7 +72,7 @@ export function gradeKoreanCalculator(grade: string): string {
       return 'SECOND_AND_THIRD';
     case '3학년':
       return 'THIRD';
-    case '모든 학년':
+    case '전체':
       return 'ALL';
     default:
       return grade;

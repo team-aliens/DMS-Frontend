@@ -4,17 +4,14 @@ import {
   DropDown,
   Button,
   TextArea,
+  Text,
 } from '@team-aliens/design-system';
 import styled from 'styled-components';
-import { editVolunteerWork } from '@/apis/volunteers';
 import { useEffect, useState } from 'react';
 import { editVolunteerWorkRequest } from '@/apis/volunteers/request';
-import {
-  gradeKoreanCalculator,
-  gradeEngToKorean,
-} from '@/utils/translate';
+import { gradeKoreanCalculator, gradeEngToKorean } from '@/utils/translate';
 import { SexType } from '@/apis/volunteers/request';
-import { useToast } from '@/hooks/useToast';
+import { useEditVolunteerWork } from '@/hooks/useVolunteerApi';
 
 interface EditVolunteerProps {
   closeModal: () => void;
@@ -37,11 +34,9 @@ export function EditVolunteer({
   optionalScore,
   maxApplicants,
 }: EditVolunteerProps) {
-  const [primaryGrade, setPrimaryGrade] = useState<string>('');
-  const [secondaryGrade, setSecondaryGrade] = useState<string>('');
-  const { toastDispatch } = useToast();
-
-  const grades = ['1학년', '2학년', '3학년'];
+  const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
+  const { mutate: editVolunteer } = useEditVolunteerWork();
+  const grades = ['1학년', '2학년', '3학년', '전체'];
 
   const [editvolunteerData, setEditVolunteerData] =
     useState<editVolunteerWorkRequest>({
@@ -62,7 +57,9 @@ export function EditVolunteer({
 
     const newValue =
       name === 'score' || name === 'optional_score' || name === 'max_applicants'
-        ? value === '' ?  null : Number(value)
+        ? value === ''
+          ? null
+          : Number(value)
         : value;
 
     setEditVolunteerData((prevData) => ({
@@ -71,12 +68,23 @@ export function EditVolunteer({
     }));
   };
 
-  const onDropDownChange = (gradeType: string, value: string) => {
-    if (gradeType === 'primary') {
-      setPrimaryGrade(value);
-    } else if (gradeType === 'secondary') {
-      setSecondaryGrade(value);
+  const onGradeButtonClick = (grade: string) => {
+    if (grade === '전체') {
+      setSelectedGrades(['전체']);
+      return;
     }
+
+    setSelectedGrades((prev) => {
+      if (prev.includes('전체')) return [grade];
+
+      if (prev.includes(grade)) {
+        return prev.filter((g) => g !== grade);
+      }
+
+      if (prev.length >= 2) return prev;
+
+      return [...prev, grade];
+    });
   };
 
   const onSexButtonClick = (sex: SexType) => {
@@ -87,50 +95,49 @@ export function EditVolunteer({
     }));
   };
 
-  const onSubmit = async () => {
-    try {
-      const sortedGrades = [primaryGrade, secondaryGrade]
-        .filter(Boolean)
-        .sort();
-      const combinedGrade = gradeKoreanCalculator(sortedGrades.join(', '));
+  const onSubmit = () => {
+    const sortedGrades = selectedGrades.slice().filter(Boolean).sort();
+    const combinedGrade = gradeKoreanCalculator(sortedGrades.join(', '));
 
-      await editVolunteerWork(volunteerId, {
-        ...editvolunteerData,
-        available_grade: combinedGrade,
-      });
-
-      toastDispatch({
-        actionType: 'APPEND_TOAST',
-        toastType: 'SUCCESS',
-        message: '봉사 활동을 성공적으로 수정했습니다.',
-      });
-      
-      closeModal();
-      window.location.reload();
-    } catch (error) {
-      toastDispatch({
-        actionType: 'APPEND_TOAST',
-        toastType: 'ERROR',
-        message: '봉사 활동 수정에 실패했습니다.'
-      })
-    }
+    editVolunteer(
+      {
+        volunteerId,
+        body: {
+          ...editvolunteerData,
+          available_grade: combinedGrade,
+        },
+      },
+      {
+        onSuccess: () => {
+          closeModal();
+        },
+      },
+    );
   };
 
   useEffect(() => {
-    const initialGrades = grade.split(', ').map((g) => g);
+    const initialGrades = grade ? grade.split(', ').map((g) => g) : [];
 
-    const firstGrade = initialGrades[0].includes('학년')
-      ? initialGrades[0]
-      : initialGrades[0] + '학년';
-    const secondGrade = initialGrades[1]
-      ? initialGrades[1].includes('학년')
-        ? initialGrades[1]
-        : initialGrades[1] + '학년'
-      : '';
+    const normalize = (g?: string) => {
+      if (!g) return '';
+      return g.includes('학년') ? g : `${g}학년`;
+    };
 
-    setPrimaryGrade(gradeEngToKorean(firstGrade || ''));
-    setSecondaryGrade(gradeEngToKorean(secondGrade || ''));
+    const firstGrade = normalize(initialGrades[0]);
+    const secondGrade = normalize(initialGrades[1]);
+
+    const gradesToSet = [] as string[];
+    if (firstGrade) gradesToSet.push(gradeEngToKorean(firstGrade));
+    if (secondGrade) gradesToSet.push(gradeEngToKorean(secondGrade));
+
+    if (grade && grade.includes('전체')) {
+      setSelectedGrades(['전체']);
+    } else {
+      setSelectedGrades(gradesToSet);
+    }
+
     setSelectedSex(sex);
+    setEditVolunteerData((prev) => ({ ...prev, available_grade: grade }));
   }, [grade, sex]);
 
   return (
@@ -152,35 +159,46 @@ export function EditVolunteer({
                   value={editvolunteerData.name}
                   onChange={onChange}
                 />
-                <DropDown
-                  items={grades}
-                  placeholder={primaryGrade || ''}
-                  value={primaryGrade}
-                  width={334}
-                  onChange={(value) => onDropDownChange('primary', value)}
-                  label="조건"
-                />
-                <DropDown
-                  items={grades}
-                  placeholder={secondaryGrade || ''}
-                  value={secondaryGrade}
-                  width={334}
-                  onChange={(value) => onDropDownChange('secondary', value)}
-                />
-                <_ButtonWrapper>
-                  <Button kind={selectedSex === 'MALE' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('MALE')}>
-                    남자
-                  </Button>
-                  <Button
-                    kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
-                    onClick={() => onSexButtonClick('FEMALE')}
-                  >
-                    여자
-                  </Button>
-                  <Button kind={selectedSex === 'ALL' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('ALL')}>
-                    전체
-                  </Button>
-                </_ButtonWrapper>  
+                <_GradeWrapper>
+                  <Text>조건</Text>
+                  <_GradeButtonWrapper>
+                    {grades.map((g) => (
+                      <Button
+                        key={g}
+                        kind={
+                          selectedGrades.includes(g) ? 'contained' : 'outline'
+                        }
+                        onClick={() => onGradeButtonClick(g)}
+                      >
+                        {g}
+                      </Button>
+                    ))}
+                  </_GradeButtonWrapper>
+                </_GradeWrapper>
+
+                <_SexWrapper>
+                  <Text>성별</Text>
+                  <_ButtonWrapper>
+                    <Button
+                      kind={selectedSex === 'MALE' ? 'contained' : 'outline'}
+                      onClick={() => onSexButtonClick('MALE')}
+                    >
+                      남자
+                    </Button>
+                    <Button
+                      kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
+                      onClick={() => onSexButtonClick('FEMALE')}
+                    >
+                      여자
+                    </Button>
+                    <Button
+                      kind={selectedSex === 'ALL' ? 'contained' : 'outline'}
+                      onClick={() => onSexButtonClick('ALL')}
+                    >
+                      전체
+                    </Button>
+                  </_ButtonWrapper>
+                </_SexWrapper>
               </_Contents>
               <_Contents>
                 <Input
@@ -225,6 +243,23 @@ export function EditVolunteer({
     ></Modal>
   );
 }
+
+const _GradeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+const _SexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const _GradeButtonWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 2fr));
+  gap: 12px;
+`;
 
 const _Contents = styled.div`
   display: flex;

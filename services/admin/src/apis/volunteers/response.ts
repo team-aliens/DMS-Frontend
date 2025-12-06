@@ -8,8 +8,8 @@ export interface volunteer {
   id: string;
   name: string;
   content: string;
-  point: number;
-  optional_point: number;
+  score: number;
+  optional_score: number;
   max_applicants: number;
   available_sex: SexType;
   available_grade: string;

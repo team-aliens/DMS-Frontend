@@ -4,7 +4,7 @@ import { VolunteerHeader } from './Header';
 import { InfoCard } from '@/components/volunteer/InfoCard';
 import { BreadCrumb, Text } from '@team-aliens/design-system';
 import { sexTypeToKorean, gradeEngToKorean } from '@/utils/translate';
-import trash from '../../assets/trash.svg';
+import { trash, kebap } from '../../assets';
 import { pathToKorean } from '@/router';
 import {
   useExcludeVolunteerApplication,
@@ -47,12 +47,16 @@ export function VolunteerApplication() {
                       <div key={applicant.id}>
                         <img
                           onClick={() => excludeVolunteer(applicant.id)}
-                          style={{ cursor: 'pointer' }}
+                          style={{
+                            cursor: 'pointer',
+                            padding: '3px 4px',
+                          }}
                           src={trash}
                         />
                         <Text size="bodyS" color="primary">
                           {applicant.gcd} {applicant.name}
                         </Text>
+                        <img style={{ cursor: 'pointer' }} src={kebap} />
                       </div>
                     ))}
                   </_StudentWrapper>
@@ -91,11 +95,11 @@ const _StudentWrapper = styled.div`
     background-color: #f5f9ff;
     display: flex;
     align-items: center;
-    justify-content: center;
     width: auto;
-    min-width: 120px;
+    justify-content: center;
+    min-width: 150px;
     height: 40px;
     padding: 8px;
-    gap: 9px;
+    gap: 4px;
   }
 `;

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import styled from 'styled-components';
 import { VolunteerHeader } from './Header';
@@ -11,10 +12,40 @@ import {
   useVolunteerCurrent,
 } from '@/hooks/useVolunteerApi';
 import { VolunteerCurrentSkeleton } from '@/components/common/Skeleton';
+import { useModal } from '@/hooks/useModal';
+import { AdjustVolunteerPoint } from '@/components/modals/AdjustPointer';
 
 export function VolunteerApplication() {
   const { data, isLoading } = useVolunteerCurrent();
   const { mutate: excludeVolunteer } = useExcludeVolunteerApplication();
+  const { selectModal, modalState } = useModal();
+  const [selectedApplicant, setSelectedApplicant] = useState<{
+    gcd: string;
+    name: string;
+  } | null>(null);
+
+  const mockVolunteers = data?.volunteers ?? [
+    {
+      id: 'mock-volunteer-1',
+      name: '테스트 봉사 활동',
+      available_grade: 'ALL',
+      available_sex: 'ALL',
+      max_applicants: 10,
+      current_applicants: 2,
+      applicants: [
+        {
+          id: 'mock-applicant-1',
+          gcd: '1-1',
+          name: '홍길동',
+        },
+        {
+          id: 'mock-applicant-2',
+          gcd: '2-3',
+          name: '김철수',
+        },
+      ],
+    },
+  ];
 
   return (
     <WithNavigatorBar>
@@ -26,7 +57,7 @@ export function VolunteerApplication() {
           <>
             <VolunteerHeader />
             <_VolunteerWrapper>
-              {data?.volunteers.map((currentVolunteer) => (
+              {mockVolunteers.map((currentVolunteer) => (
                 <div key={currentVolunteer.id}>
                   <InfoCard
                     id={currentVolunteer.id}
@@ -56,7 +87,17 @@ export function VolunteerApplication() {
                         <Text size="bodyS" color="primary">
                           {applicant.gcd} {applicant.name}
                         </Text>
-                        <img style={{ cursor: 'pointer' }} src={kebap} />
+                        <img
+                          style={{ cursor: 'pointer' }}
+                          src={kebap}
+                          onClick={() => {
+                            setSelectedApplicant({
+                              gcd: applicant.gcd,
+                              name: applicant.name,
+                            });
+                            selectModal('ADJUST_POINTER');
+                          }}
+                        />
                       </div>
                     ))}
                   </_StudentWrapper>
@@ -66,6 +107,9 @@ export function VolunteerApplication() {
           </>
         )}
       </_Wrapper>
+      {modalState.selectedModal === 'ADJUST_POINTER' && selectedApplicant && (
+        <AdjustVolunteerPoint applicant={selectedApplicant} />
+      )}
     </WithNavigatorBar>
   );
 }

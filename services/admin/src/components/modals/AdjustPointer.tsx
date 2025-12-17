@@ -48,6 +48,7 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
     <Modal
       title={`${applicant.gcd} ${applicant.name} 상벌점 조정`}
       close={closeModal}
+      width="520px"
       buttonList={[
         <Button key="save" onClick={handleSave}>
           저장
@@ -112,22 +113,23 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
 }
 
 const _Contents = styled.div`
-  width: 489px;
   display: flex;
   flex-direction: column;
+  padding: 24px 0 28px 0;
+  gap: 24px;
 `;
 
 const _Label = styled.p`
   font-size: 14px;
   font-weight: 500;
   color: #4a5568;
-  margin: 0 0 33px 0;
+  margin: 0 0 16px 0;
 `;
 
 const _SliderSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 `;
 
 const _Marking = styled.div`
@@ -200,7 +202,7 @@ const _InputRow = styled.div`
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 8px;
+  margin-top: 20px;
 `;
 
 const _InputBox = styled.div`

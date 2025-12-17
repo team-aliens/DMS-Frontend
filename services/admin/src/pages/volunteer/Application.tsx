@@ -24,7 +24,7 @@ export function VolunteerApplication() {
     name: string;
   } | null>(null);
 
-  const mockVolunteers = data?.volunteers ?? [
+  const testVolunteers = [
     {
       id: 'mock-volunteer-1',
       name: '테스트 봉사 활동',
@@ -35,17 +35,14 @@ export function VolunteerApplication() {
       applicants: [
         {
           id: 'mock-applicant-1',
-          gcd: '1-1',
-          name: '홍길동',
-        },
-        {
-          id: 'mock-applicant-2',
-          gcd: '2-3',
-          name: '김철수',
+          gcd: '11202',
+          name: '김대덕',
         },
       ],
     },
   ];
+
+  const volunteers = [...testVolunteers, ...(data?.volunteers ?? [])];
 
   return (
     <WithNavigatorBar>
@@ -57,7 +54,7 @@ export function VolunteerApplication() {
           <>
             <VolunteerHeader />
             <_VolunteerWrapper>
-              {mockVolunteers.map((currentVolunteer) => (
+              {volunteers.map((currentVolunteer) => (
                 <div key={currentVolunteer.id}>
                   <InfoCard
                     id={currentVolunteer.id}

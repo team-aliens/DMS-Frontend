@@ -1,7 +1,9 @@
 import { useDeleteVote, useVoteList } from '@/hooks/useVoteApi';
+import { useModalStore } from '@/store/useModalStore';
+import { useEditVoteStore } from '@/store/useEditVoteStore';
+import { useToast } from '@/hooks/useToast';
 import { Button } from '@team-aliens/design-system';
 import { font } from '@team-aliens/design-system/dist/styles/theme/font';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CreateVoteModal } from './CreateVoteModal';
@@ -22,7 +24,9 @@ export const VoteDuePopup = ({
 }: PropsType) => {
   const isDeadlinePassed = new Date(end_time) < new Date();
   const { mutate: deleteVote } = useDeleteVote();
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const { selectedModal, selectModal, closeModal } = useModalStore();
+  const { editingSurveyId, setEditingSurveyId } = useEditVoteStore();
+  const { toastDispatch } = useToast();
   const formatVoteDate = (startTime: string, endTime: string) => {
     const formatDate = (isoString: string) => {
       const date = new Date(isoString);
@@ -45,18 +49,31 @@ export const VoteDuePopup = ({
   };
 
   const isEditModal = () => {
-    setIsEdit(true);
+    if (isDeadlinePassed) {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '마감된 투표는 수정할 수 없습니다.',
+      });
+      return;
+    }
+    setEditingSurveyId(surveyId);
+    selectModal('CREATE_VOTE');
   };
 
   const isClose = () => {
-    setIsEdit(false);
+    setEditingSurveyId(null);
+    closeModal();
   };
 
   const { data } = useVoteList();
   const filterData = data.voting_topics.filter((data) => data.id === surveyId);
+  const isEditingThis =
+    selectedModal === 'CREATE_VOTE' && editingSurveyId === surveyId;
+
   return (
     <>
-      {isEdit && (
+      {isEditingThis && (
         <CreateVoteModal
           edit={true}
           isClose={isClose}

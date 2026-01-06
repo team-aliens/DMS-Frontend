@@ -2,53 +2,45 @@ import {
   AllPointsOptionType,
   StudentPointHistoryType,
 } from '@/apis/points/response';
-import {
-  PointHistoryListStateContext,
-  PointListDispatchContext,
-} from '@/context/pointHistoryList';
-import { useContext } from 'react';
+import { usePointHistoryListStore } from '@/store/usePointHistoryListStore';
 
 export const usePointHistoryList = () => {
-  const state = useContext(PointHistoryListStateContext);
-  const dispatch = useContext(PointListDispatchContext);
+  const {
+    recentlySelectedStudent,
+    pointHistoryList,
+    selectStudent,
+    addStudent,
+    removeStudent,
+    addPointToSelectedStudents,
+    reset,
+  } = usePointHistoryListStore();
+
   const updateRecentlyStudentInfo = (info: {
     studentId: string;
     name: string;
     gcn: string;
   }) => {
-    dispatch({
-      type: 'SELECT_STUDENT',
-      info,
-    });
-  };
-  const addStudentPointHistory = (history: StudentPointHistoryType[]) => {
-    dispatch({
-      type: 'ADD_STUDENT',
-      pointHistory: history || [],
-    });
-  };
-  const addPointOptionToStudents = (option: AllPointsOptionType) => {
-    dispatch({
-      type: 'ADD_POINT_TO_SELECTED_STUDENTS',
-      point: option,
-    });
-  };
-  const resetStudentLists = () => {
-    dispatch({
-      type: 'RESET',
-    });
-  };
-  const removeStudentId = (id: string) => {
-    dispatch({
-      type: 'REMOVE',
-      studentId: id,
-    });
+    selectStudent(info);
   };
 
-  const pointHistoryList = state.pointHistoryList;
+  const addStudentPointHistory = (history: StudentPointHistoryType[]) => {
+    addStudent(history || []);
+  };
+
+  const addPointOptionToStudents = (option: AllPointsOptionType) => {
+    addPointToSelectedStudents(option);
+  };
+
+  const resetStudentLists = () => {
+    reset();
+  };
+
+  const removeStudentId = (id: string) => {
+    removeStudent(id);
+  };
 
   return {
-    state,
+    state: { recentlySelectedStudent, pointHistoryList },
     updateRecentlyStudentInfo,
     addStudentPointHistory,
     addPointOptionToStudents,

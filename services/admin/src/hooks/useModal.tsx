@@ -1,27 +1,13 @@
-import { useContext } from 'react';
-import {
-  ModalDispatchContext,
-  ModalStateContext,
-  SelectedModalType,
-} from '@/context/modal';
+import { SelectedModalType, useModalStore } from '@/store/useModalStore';
 
 export const useModal = () => {
-  const modalState = useContext(ModalStateContext);
-  const modalDispatch = useContext(ModalDispatchContext);
-  const selectModal = (selected: SelectedModalType) => {
-    modalDispatch({
-      type: 'SELECT',
-      selected,
-    });
-  };
-  const closeModal = () => {
-    modalDispatch({
-      type: 'DELETE',
-    });
-  };
+  const { selectedModal, selectModal, closeModal } = useModalStore();
+
   return {
-    modalState,
+    modalState: { selectedModal },
     selectModal,
     closeModal,
   };
 };
+
+export type { SelectedModalType };

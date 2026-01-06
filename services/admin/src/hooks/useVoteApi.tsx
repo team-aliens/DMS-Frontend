@@ -68,6 +68,22 @@ export const usePatchVote = () => {
         });
         queryClient.invalidateQueries(['getVoteList']);
       },
+      onError: (error: any) => {
+        console.error('투표 수정 에러:', error);
+        let errorMessage = '투표 수정에 실패했습니다.';
+
+        if (error?.response?.status === 403) {
+          errorMessage = '마감된 투표는 수정할 수 없습니다.';
+        } else if (error?.response?.data?.message) {
+          errorMessage = error.response.data.message;
+        }
+
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: errorMessage,
+        });
+      },
     },
   );
 };

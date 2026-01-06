@@ -3,8 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { App } from './App';
-import { ModalProvider } from '@/context/modal';
-import { SeatSettingProvider } from '@/context/seatSetting';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,13 +19,9 @@ const root = createRoot(document.getElementById('root'));
 
 root.render(
   <StyledProvider>
-    <ModalProvider>
-      <SeatSettingProvider>
-        <QueryClientProvider client={queryClient}>
-          <App />
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </SeatSettingProvider>
-    </ModalProvider>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   </StyledProvider>,
 );

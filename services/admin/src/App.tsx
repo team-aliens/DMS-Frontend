@@ -4,7 +4,6 @@ import { useModal } from './hooks/useModal';
 import { useEffect, Suspense } from 'react';
 import { pagePath } from './utils/pagePath';
 import { Outlet, RouterProvider } from 'react-router-dom';
-import { PointListProvider } from './context/pointHistoryList';
 import { GlobalStyle } from './style/globalStyle';
 import { eventBus } from './utils/eventBus';
 import { ToastHandler } from './components/ToastHandler';
@@ -36,14 +35,12 @@ export function App() {
   return (
     <ToastProvider>
       <ToastHandler />
-      <PointListProvider>
-        <ToastContainer zIndex={20} />
-        <Outlet />
-        <GlobalStyle />
-        <Suspense fallback={<div>Loading...</div>}>
-          <RouterProvider router={Router} />
-        </Suspense>
-      </PointListProvider>
+      <ToastContainer zIndex={20} />
+      <Outlet />
+      <GlobalStyle />
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={Router} />
+      </Suspense>
     </ToastProvider>
   );
 }

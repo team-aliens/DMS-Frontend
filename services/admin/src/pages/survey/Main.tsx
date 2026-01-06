@@ -3,30 +3,30 @@ import { SurveyListSkeleton } from '@/components/common/Skeleton';
 import { SelectVoteEventModal } from '@/components/modals/SelectVoteEventModal';
 import { VoteDuePopup } from '@/components/modals/VoteDuePopup';
 import { useVoteList } from '@/hooks/useVoteApi';
+import { useModalStore } from '@/store/useModalStore';
+import { useEditVoteStore } from '@/store/useEditVoteStore';
 import { Button } from '@team-aliens/design-system';
-import { useState } from 'react';
 import styled from 'styled-components';
 
 export const Main = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { data, isLoading } = useVoteList();
-  const onOpen = () => {
-    setIsOpen(true);
-  };
-  const onClose = () => {
-    setIsOpen(false);
-  };
+  const { selectedModal, selectModal, closeModal } = useModalStore();
+  const { editingSurveyId } = useEditVoteStore();
 
   return (
     <WithNavigatorBar>
-      {isOpen && <SelectVoteEventModal onClose={onClose} />}
+      {selectedModal === 'CREATE_VOTE' && !editingSurveyId && (
+        <SelectVoteEventModal onClose={closeModal} />
+      )}
       <_Wrapper>
         {isLoading ? (
           <SurveyListSkeleton />
         ) : (
           <>
             <_Header>
-              <Button onClick={onOpen}>투표 항목 추가 +</Button>
+              <Button onClick={() => selectModal('CREATE_VOTE')}>
+                투표 항목 추가 +
+              </Button>
             </_Header>
             <_VoteDiv>
               {data?.voting_topics.map((data) => (

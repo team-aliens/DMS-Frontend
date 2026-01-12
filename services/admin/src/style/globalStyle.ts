@@ -1,6 +1,12 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+  html {
+    overflow-y: scroll;
+  }
+  body {
+  }
+
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;

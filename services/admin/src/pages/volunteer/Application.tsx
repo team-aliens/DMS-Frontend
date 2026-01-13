@@ -9,6 +9,7 @@ import { trash, kebap } from '../../assets';
 import { pathToKorean } from '@/router';
 import {
   useExcludeVolunteerApplication,
+  usePrefetchVolunteerAssignedScore,
   useVolunteerCurrent,
 } from '@/hooks/useVolunteerApi';
 import { VolunteerCurrentSkeleton } from '@/components/common/Skeleton';
@@ -18,6 +19,7 @@ import { AdjustVolunteerPoint } from '@/components/modals/AdjustPointer';
 export function VolunteerApplication() {
   const { data, isLoading } = useVolunteerCurrent();
   const { mutate: excludeVolunteer } = useExcludeVolunteerApplication();
+  const prefetchVolunteerAssignedScore = usePrefetchVolunteerAssignedScore();
   const { selectModal, modalState } = useModal();
   const [selectedApplicant, setSelectedApplicant] = useState<{
     id: string;
@@ -72,6 +74,7 @@ export function VolunteerApplication() {
                           style={{ cursor: 'pointer' }}
                           src={kebap}
                           onClick={() => {
+                            prefetchVolunteerAssignedScore(applicant.id);
                             setSelectedApplicant({
                               id: applicant.id,
                               gcd: applicant.gcd,

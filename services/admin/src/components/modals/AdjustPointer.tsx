@@ -1,8 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { Modal, Button } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { useModal } from '@/hooks/useModal';
-import { useUpdateVolunteerApplicationScore } from '@/hooks/useVolunteerApi';
+import {
+  useUpdateVolunteerApplicationScore,
+  useVolunteerAssignedScore,
+} from '@/hooks/useVolunteerApi';
 
 interface PropsType {
   applicant: {
@@ -14,17 +18,43 @@ interface PropsType {
 
 export function AdjustVolunteerPoint({ applicant }: PropsType) {
   const { closeModal } = useModal();
+  const queryClient = useQueryClient();
   const { mutate: updateScore } = useUpdateVolunteerApplicationScore();
+  const { data: assignedScoreData } = useVolunteerAssignedScore(applicant.id);
 
   const min = 0;
   const max = 10;
   const gap = 1;
 
-  const [range, setRange] = useState({ startPoint: min, endPoint: max });
+  const cachedAssignedScoreData = queryClient.getQueryData<
+    { assigned_score: number } | undefined
+  >(['getVolunteerAssignedScore', applicant.id]);
+
+  const initialStartPoint = cachedAssignedScoreData
+    ? Math.min(
+        Math.max(Number(cachedAssignedScoreData.assigned_score), min),
+        max,
+      )
+    : min;
+
+  const [range, setRange] = useState(() => ({
+    startPoint: initialStartPoint,
+    endPoint: max,
+  }));
   const [isSliderMoved, setIsSliderMoved] = useState(false);
 
   const { startPoint, endPoint } = range;
   const markings = useMemo(() => Array.from({ length: 11 }, (_, i) => i), []);
+
+  useEffect(() => {
+    if (isSliderMoved) return;
+    if (!assignedScoreData) return;
+
+    const next = Number(assignedScoreData.assigned_score);
+    const clamped = Math.min(Math.max(next, min), max);
+
+    setRange({ startPoint: clamped, endPoint: max });
+  }, [assignedScoreData, isSliderMoved, max, min]);
 
   const onSliderChangeMin = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = Number(e.target.value);

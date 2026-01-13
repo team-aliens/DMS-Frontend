@@ -220,6 +220,7 @@ export const useVolunteerAssignedScore = (volunteerApplicationId: string) => {
     {
       enabled: !!volunteerApplicationId,
       refetchOnWindowFocus: false,
+      staleTime: 30_000,
       onError: () => {
         toastDispatch({
           actionType: 'APPEND_TOAST',
@@ -229,6 +230,19 @@ export const useVolunteerAssignedScore = (volunteerApplicationId: string) => {
       },
     },
   );
+};
+
+export const usePrefetchVolunteerAssignedScore = () => {
+  const queryClient = useQueryClient();
+
+  return (volunteerApplicationId: string) =>
+    queryClient.prefetchQuery(
+      ['getVolunteerAssignedScore', volunteerApplicationId],
+      () => getVolunteerAssignedScore(volunteerApplicationId),
+      {
+        staleTime: 30_000,
+      },
+    );
 };
 
 export const useUpdateVolunteerApplicationScore = () => {

@@ -2,9 +2,11 @@ import React, { useMemo, useState } from 'react';
 import { Modal, Button } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { useModal } from '@/hooks/useModal';
+import { useUpdateVolunteerApplicationScore } from '@/hooks/useVolunteerApi';
 
 interface PropsType {
   applicant: {
+    id: string;
     gcd: string;
     name: string;
   };
@@ -12,15 +14,17 @@ interface PropsType {
 
 export function AdjustVolunteerPoint({ applicant }: PropsType) {
   const { closeModal } = useModal();
-  const [range, setRange] = useState({ startPoint: 0, endPoint: 10 });
-  const [isSliderMoved, setIsSliderMoved] = useState(false);
-
-  const { startPoint, endPoint } = range;
-  const markings = useMemo(() => Array.from({ length: 11 }, (_, i) => i), []);
+  const { mutate: updateScore } = useUpdateVolunteerApplicationScore();
 
   const min = 0;
   const max = 10;
   const gap = 1;
+
+  const [range, setRange] = useState({ startPoint: min, endPoint: max });
+  const [isSliderMoved, setIsSliderMoved] = useState(false);
+
+  const { startPoint, endPoint } = range;
+  const markings = useMemo(() => Array.from({ length: 11 }, (_, i) => i), []);
 
   const onSliderChangeMin = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = Number(e.target.value);
@@ -40,8 +44,19 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
   const progressRight = 100 - ((endPoint - min) / (max - min)) * 100;
 
   const handleSave = () => {
-    console.log('Saved:', { startPoint, endPoint });
-    closeModal();
+    updateScore(
+      {
+        volunteerApplicationId: applicant.id,
+        body: {
+          update_score: startPoint.toString(),
+        },
+      },
+      {
+        onSuccess: () => {
+          closeModal();
+        },
+      },
+    );
   };
 
   return (
@@ -57,7 +72,6 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
     >
       <_Contents>
         <_Label>부여 상점 조절</_Label>
-
         <_SliderSection>
           <_Marking>
             {markings.map((mark) => (

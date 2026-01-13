@@ -17,3 +17,7 @@ export interface editVolunteerWorkRequest {
   available_sex: SexType;
   available_grade: string;
 }
+
+export interface updateVolunteerApplicationScoreRequest {
+  update_score: string;
+}

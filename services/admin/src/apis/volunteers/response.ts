@@ -39,3 +39,7 @@ export interface currentVolunteer {
   max_applicants: number;
   applicants: applicant[];
 }
+
+export interface getVolunteerAssignedScoreResponse {
+  assigned_score: number;
+}

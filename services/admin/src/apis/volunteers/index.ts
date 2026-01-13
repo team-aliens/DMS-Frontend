@@ -3,8 +3,13 @@ import {
   getApplicationVolunteerStudentsResponse,
   getVolunteerCurrentResponse,
   getVolunteersResponse,
+  getVolunteerAssignedScoreResponse,
 } from './response';
-import { addVolunteerWorkRequest, editVolunteerWorkRequest } from './request';
+import {
+  addVolunteerWorkRequest,
+  editVolunteerWorkRequest,
+  updateVolunteerApplicationScoreRequest,
+} from './request';
 
 const router = '/volunteers';
 
@@ -69,4 +74,22 @@ export const editVolunteerWork = async (
   body: editVolunteerWorkRequest,
 ) => {
   await instance.patch(`${router}/${volunteerId}`, body);
+};
+
+// 봉사 활동 부여 상점 업데이트
+export const updateVolunteerApplicationScore = async (
+  volunteerApplicationId: string,
+  body: updateVolunteerApplicationScoreRequest,
+) => {
+  await instance.patch(`${router}/score/${volunteerApplicationId}`, body);
+};
+
+// 봉사 활동 부여 점수 조회 (manager)
+export const getVolunteerAssignedScore = async (
+  volunteerApplicationId: string,
+) => {
+  const { data } = await instance.get<getVolunteerAssignedScoreResponse>(
+    `${router}/score/${volunteerApplicationId}`,
+  );
+  return data;
 };

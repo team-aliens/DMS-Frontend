@@ -20,29 +20,13 @@ export function VolunteerApplication() {
   const { mutate: excludeVolunteer } = useExcludeVolunteerApplication();
   const { selectModal, modalState } = useModal();
   const [selectedApplicant, setSelectedApplicant] = useState<{
+    id: string;
     gcd: string;
     name: string;
+    volunteerId: string;
   } | null>(null);
 
-  const testVolunteers = [
-    {
-      id: 'mock-volunteer-1',
-      name: '테스트 봉사 활동',
-      available_grade: 'ALL',
-      available_sex: 'ALL',
-      max_applicants: 10,
-      current_applicants: 2,
-      applicants: [
-        {
-          id: 'mock-applicant-1',
-          gcd: '11202',
-          name: '김대덕',
-        },
-      ],
-    },
-  ];
-
-  const volunteers = [...testVolunteers, ...(data?.volunteers ?? [])];
+  const volunteers = data?.volunteers ?? [];
 
   return (
     <WithNavigatorBar>
@@ -89,8 +73,10 @@ export function VolunteerApplication() {
                           src={kebap}
                           onClick={() => {
                             setSelectedApplicant({
+                              id: applicant.id,
                               gcd: applicant.gcd,
                               name: applicant.name,
+                              volunteerId: currentVolunteer.id,
                             });
                             selectModal('ADJUST_POINTER');
                           }}

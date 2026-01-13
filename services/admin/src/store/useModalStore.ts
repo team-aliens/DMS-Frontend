@@ -45,6 +45,7 @@ export type SelectedModalType =
   | 'VOLUNTEER_ADD'
   | 'CREATE_VOTE'
   | 'SET_VOTE_DEAD_LINE'
+  | 'ADJUST_POINTER'
   | '';
 
 interface ModalState {

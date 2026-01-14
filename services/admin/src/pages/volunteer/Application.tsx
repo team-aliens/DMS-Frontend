@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { WithNavigatorBar } from '@/components/WithNavigatorBar';
 import styled from 'styled-components';
 import { VolunteerHeader } from './Header';
@@ -10,6 +10,7 @@ import { pathToKorean } from '@/router';
 import {
   useExcludeVolunteerApplication,
   usePrefetchVolunteerAssignedScore,
+  useVolunteerList,
   useVolunteerCurrent,
 } from '@/hooks/useVolunteerApi';
 import { VolunteerCurrentSkeleton } from '@/components/common/Skeleton';
@@ -18,6 +19,7 @@ import { AdjustVolunteerPoint } from '@/components/modals/AdjustPointer';
 
 export function VolunteerApplication() {
   const { data, isLoading } = useVolunteerCurrent();
+  const { data: volunteerListData } = useVolunteerList();
   const { mutate: excludeVolunteer } = useExcludeVolunteerApplication();
   const prefetchVolunteerAssignedScore = usePrefetchVolunteerAssignedScore();
   const { selectModal, modalState } = useModal();
@@ -26,9 +28,25 @@ export function VolunteerApplication() {
     gcd: string;
     name: string;
     volunteerId: string;
+    minScore: number;
+    maxScore: number;
   } | null>(null);
 
   const volunteers = data?.volunteers ?? [];
+  const volunteerRangeById = useMemo(() => {
+    const map = new Map<string, { minScore: number; maxScore: number }>();
+    const list = volunteerListData?.volunteers ?? [];
+    list.forEach((v) => {
+      const a = Number(v.score);
+      const b = Number(v.optional_score);
+      const minScore =
+        Number.isFinite(a) && Number.isFinite(b) ? Math.min(a, b) : 0;
+      const maxScore =
+        Number.isFinite(a) && Number.isFinite(b) ? Math.max(a, b) : 10;
+      map.set(v.id, { minScore, maxScore });
+    });
+    return map;
+  }, [volunteerListData?.volunteers]);
 
   return (
     <WithNavigatorBar>
@@ -73,13 +91,23 @@ export function VolunteerApplication() {
                         <img
                           style={{ cursor: 'pointer' }}
                           src={kebap}
+                          onMouseEnter={() =>
+                            prefetchVolunteerAssignedScore(applicant.id)
+                          }
+                          onFocus={() =>
+                            prefetchVolunteerAssignedScore(applicant.id)
+                          }
                           onClick={() => {
-                            prefetchVolunteerAssignedScore(applicant.id);
+                            const range = volunteerRangeById.get(
+                              currentVolunteer.id,
+                            );
                             setSelectedApplicant({
                               id: applicant.id,
                               gcd: applicant.gcd,
                               name: applicant.name,
                               volunteerId: currentVolunteer.id,
+                              minScore: range?.minScore ?? 0,
+                              maxScore: range?.maxScore ?? 10,
                             });
                             selectModal('ADJUST_POINTER');
                           }}

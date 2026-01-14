@@ -13,6 +13,8 @@ interface PropsType {
     id: string;
     gcd: string;
     name: string;
+    minScore: number;
+    maxScore: number;
   };
 }
 
@@ -22,8 +24,16 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
   const { mutate: updateScore } = useUpdateVolunteerApplicationScore();
   const { data: assignedScoreData } = useVolunteerAssignedScore(applicant.id);
 
-  const min = 0;
-  const max = 10;
+  const rawMin = Number(applicant.minScore);
+  const rawMax = Number(applicant.maxScore);
+  const min =
+    Number.isFinite(rawMin) && Number.isFinite(rawMax)
+      ? Math.min(rawMin, rawMax)
+      : 0;
+  const max =
+    Number.isFinite(rawMin) && Number.isFinite(rawMax)
+      ? Math.max(rawMin, rawMax)
+      : 10;
   const gap = 1;
 
   const cachedAssignedScoreData = queryClient.getQueryData<
@@ -37,14 +47,12 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
       )
     : min;
 
-  const [range, setRange] = useState(() => ({
-    startPoint: initialStartPoint,
-    endPoint: max,
-  }));
+  const [startPoint, setStartPoint] = useState(() => initialStartPoint);
   const [isSliderMoved, setIsSliderMoved] = useState(false);
-
-  const { startPoint, endPoint } = range;
-  const markings = useMemo(() => Array.from({ length: 11 }, (_, i) => i), []);
+  const markings = useMemo(
+    () => Array.from({ length: max - min + 1 }, (_, i) => min + i),
+    [max, min],
+  );
 
   useEffect(() => {
     if (isSliderMoved) return;
@@ -53,25 +61,20 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
     const next = Number(assignedScoreData.assigned_score);
     const clamped = Math.min(Math.max(next, min), max);
 
-    setRange({ startPoint: clamped, endPoint: max });
+    setStartPoint(clamped);
   }, [assignedScoreData, isSliderMoved, max, min]);
 
   const onSliderChangeMin = (e: React.ChangeEvent<HTMLInputElement>) => {
     const next = Number(e.target.value);
-    const clamped = Math.min(Math.max(next, min), endPoint - gap);
-    setRange((prev) => ({ ...prev, startPoint: clamped }));
+    const clamped = Math.min(Math.max(next, min), max);
+    setStartPoint(clamped);
     setIsSliderMoved(true);
   };
 
-  const onSliderChangeMax = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = Number(e.target.value);
-    const clamped = Math.max(Math.min(next, max), startPoint + gap);
-    setRange((prev) => ({ ...prev, endPoint: clamped }));
-    setIsSliderMoved(true);
-  };
-
-  const progressLeft = ((startPoint - min) / (max - min)) * 100;
-  const progressRight = 100 - ((endPoint - min) / (max - min)) * 100;
+  const denom = max - min;
+  const progressLeft = 0;
+  const progressRight =
+    denom === 0 ? 0 : 100 - ((startPoint - min) / denom) * 100;
 
   const handleSave = () => {
     updateScore(
@@ -105,10 +108,7 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
         <_SliderSection>
           <_Marking>
             {markings.map((mark) => (
-              <_MarkText
-                key={mark}
-                $active={mark === startPoint || mark === endPoint}
-              >
+              <_MarkText key={mark} $active={mark === startPoint}>
                 {mark === 0 ? mark : `+${mark}`}
               </_MarkText>
             ))}
@@ -124,16 +124,9 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
               type="range"
               min={min}
               max={max}
+              step={gap}
               value={startPoint}
               onChange={onSliderChangeMin}
-            />
-            <_Range
-              aria-label="end-point"
-              type="range"
-              min={min}
-              max={max}
-              value={endPoint}
-              onChange={onSliderChangeMax}
             />
           </_Slider>
 
@@ -146,8 +139,8 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
             </_InputBox>
             <_Separator>~</_Separator>
             <_InputBox>
-              <_InputLabel>끝 점수</_InputLabel>
-              <_InputDisplay $active={isSliderMoved}>{endPoint}</_InputDisplay>
+              <_InputLabel>최대 점수</_InputLabel>
+              <_InputDisplay $active={isSliderMoved}>{max}</_InputDisplay>
             </_InputBox>
           </_InputRow>
         </_SliderSection>

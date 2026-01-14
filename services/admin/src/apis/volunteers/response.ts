@@ -35,6 +35,8 @@ export interface currentVolunteer {
   id: string;
   available_sex: SexType;
   available_grade: string;
+  score?: number;
+  optional_score?: number;
   current_applicants: number;
   max_applicants: number;
   applicants: applicant[];

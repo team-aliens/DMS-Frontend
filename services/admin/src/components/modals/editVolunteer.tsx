@@ -1,11 +1,4 @@
-import {
-  Modal,
-  Input,
-  DropDown,
-  Button,
-  TextArea,
-  Text,
-} from '@team-aliens/design-system';
+import { Modal, Input, Button, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { editVolunteerWorkRequest } from '@/apis/volunteers/request';
@@ -19,8 +12,8 @@ interface EditVolunteerProps {
   name: string;
   sex: SexType;
   grade: string;
-  score: number;
-  optionalScore: number;
+  minScore: number;
+  maxScore: number;
   maxApplicants: number;
 }
 
@@ -30,8 +23,8 @@ export function EditVolunteer({
   name,
   sex,
   grade,
-  score,
-  optionalScore,
+  minScore,
+  maxScore,
   maxApplicants,
 }: EditVolunteerProps) {
   const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
@@ -43,8 +36,8 @@ export function EditVolunteer({
       name: name,
       available_sex: sex,
       available_grade: grade,
-      score: score,
-      optional_score: optionalScore,
+      min_score: minScore,
+      max_score: maxScore,
       max_applicants: maxApplicants,
     });
 
@@ -206,7 +199,7 @@ export function EditVolunteer({
                   type="number"
                   placeholder={'ex) 5'}
                   name="score"
-                  value={editvolunteerData.score}
+                  value={editvolunteerData.min_score}
                   label="점수"
                   onChange={onChange}
                 />
@@ -214,8 +207,8 @@ export function EditVolunteer({
                   width={334}
                   type="number"
                   placeholder="ex) 10"
-                  name="optional_score"
-                  value={editvolunteerData.optional_score}
+                  name="max_score"
+                  value={editvolunteerData.max_score}
                   onChange={onChange}
                 />
                 <Input

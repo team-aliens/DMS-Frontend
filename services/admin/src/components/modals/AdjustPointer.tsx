@@ -86,6 +86,14 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
       },
       {
         onSuccess: () => {
+          queryClient.setQueryData(
+            ['getVolunteerAssignedScore', applicant.id],
+            { assigned_score: startPoint },
+          );
+          queryClient.invalidateQueries([
+            'getVolunteerAssignedScore',
+            applicant.id,
+          ]);
           closeModal();
         },
       },
@@ -133,14 +141,12 @@ export function AdjustVolunteerPoint({ applicant }: PropsType) {
           <_InputRow>
             <_InputBox>
               <_InputLabel>시작 점수</_InputLabel>
-              <_InputDisplay $active={isSliderMoved}>
-                {startPoint}
-              </_InputDisplay>
+              <_InputDisplay $active={false}>{min}</_InputDisplay>
             </_InputBox>
             <_Separator>~</_Separator>
             <_InputBox>
-              <_InputLabel>최대 점수</_InputLabel>
-              <_InputDisplay $active={isSliderMoved}>{max}</_InputDisplay>
+              <_InputLabel>끝 점수</_InputLabel>
+              <_InputDisplay $active={false}>{max}</_InputDisplay>
             </_InputBox>
           </_InputRow>
         </_SliderSection>

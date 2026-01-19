@@ -16,6 +16,7 @@ import {
 import { VolunteerCurrentSkeleton } from '@/components/common/Skeleton';
 import { useModal } from '@/hooks/useModal';
 import { AdjustVolunteerPoint } from '@/components/modals/AdjustPointer';
+import { useToast } from '@/hooks/useToast';
 
 export function VolunteerApplication() {
   const { data, isLoading } = useVolunteerCurrent();
@@ -23,6 +24,7 @@ export function VolunteerApplication() {
   const { mutate: excludeVolunteer } = useExcludeVolunteerApplication();
   const prefetchVolunteerAssignedScore = usePrefetchVolunteerAssignedScore();
   const { selectModal, modalState } = useModal();
+  const { toastDispatch } = useToast();
   const [selectedApplicant, setSelectedApplicant] = useState<{
     id: string;
     gcd: string;
@@ -33,17 +35,26 @@ export function VolunteerApplication() {
   } | null>(null);
 
   const volunteers = data?.volunteers ?? [];
+
+  const getRange = (target: any) => {
+    const a = Number(target?.min_score ?? target?.minScore ?? target?.score);
+    const b = Number(
+      target?.max_score ??
+        target?.maxScore ??
+        target?.optional_score ??
+        target?.optionalScore,
+    );
+    if (!Number.isFinite(a) || !Number.isFinite(b)) return undefined;
+    return { minScore: a, maxScore: b };
+  };
+
   const volunteerRangeById = useMemo(() => {
     const map = new Map<string, { minScore: number; maxScore: number }>();
     const list = volunteerListData?.volunteers ?? [];
     list.forEach((v) => {
-      const a = Number(v.score);
-      const b = Number(v.optional_score);
-      const minScore =
-        Number.isFinite(a) && Number.isFinite(b) ? Math.min(a, b) : 0;
-      const maxScore =
-        Number.isFinite(a) && Number.isFinite(b) ? Math.max(a, b) : 10;
-      map.set(v.id, { minScore, maxScore });
+      const range = getRange(v);
+      if (!range) return;
+      map.set(v.id, range);
     });
     return map;
   }, [volunteerListData?.volunteers]);
@@ -98,16 +109,28 @@ export function VolunteerApplication() {
                             prefetchVolunteerAssignedScore(applicant.id)
                           }
                           onClick={() => {
-                            const range = volunteerRangeById.get(
-                              currentVolunteer.id,
-                            );
+                            const range =
+                              getRange(currentVolunteer) ??
+                              volunteerRangeById.get(currentVolunteer.id);
+
+                            if (!range) {
+                              toastDispatch({
+                                actionType: 'APPEND_TOAST',
+                                toastType: 'ERROR',
+                                message: volunteerListData?.volunteers?.length
+                                  ? '봉사활동 점수 범위를 불러오지 못했습니다.'
+                                  : '봉사활동 정보를 불러오는 중입니다. 잠시 후 다시 시도해주세요.',
+                              });
+                              return;
+                            }
+
                             setSelectedApplicant({
                               id: applicant.id,
                               gcd: applicant.gcd,
                               name: applicant.name,
                               volunteerId: currentVolunteer.id,
-                              minScore: range?.minScore ?? 0,
-                              maxScore: range?.maxScore ?? 10,
+                              minScore: range.minScore,
+                              maxScore: range.maxScore,
                             });
                             selectModal('ADJUST_POINTER');
                           }}

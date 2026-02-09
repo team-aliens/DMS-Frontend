@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Modal, Button } from '@team-aliens/design-system';
 import styled from 'styled-components';
-import { useModal } from '@/hooks/useModal';
+import { useModalStore } from '@/store/useModalStore';
 import {
   useUpdateVolunteerApplicationScore,
   useVolunteerAssignedScore,
@@ -19,7 +19,7 @@ interface PropsType {
 }
 
 export function AdjustVolunteerPoint({ applicant }: PropsType) {
-  const { closeModal } = useModal();
+  const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
   const { mutate: updateScore } = useUpdateVolunteerApplicationScore();
   const { data: assignedScoreData } = useVolunteerAssignedScore(applicant.id);

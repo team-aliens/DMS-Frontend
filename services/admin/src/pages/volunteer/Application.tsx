@@ -14,16 +14,16 @@ import {
   useVolunteerCurrent,
 } from '@/hooks/useVolunteerApi';
 import { VolunteerCurrentSkeleton } from '@/components/common/Skeleton';
-import { useModal } from '@/hooks/useModal';
 import { AdjustVolunteerPoint } from '@/components/modals/AdjustPointer';
 import { useToast } from '@/hooks/useToast';
+import { useModalStore } from '@/store/useModalStore';
 
 export function VolunteerApplication() {
   const { data, isLoading } = useVolunteerCurrent();
   const { data: volunteerListData } = useVolunteerList();
   const { mutate: excludeVolunteer } = useExcludeVolunteerApplication();
   const prefetchVolunteerAssignedScore = usePrefetchVolunteerAssignedScore();
-  const { selectModal, modalState } = useModal();
+  const { selectedModal, selectModal } = useModalStore();
   const { toastDispatch } = useToast();
   const [selectedApplicant, setSelectedApplicant] = useState<{
     id: string;
@@ -144,7 +144,7 @@ export function VolunteerApplication() {
           </>
         )}
       </_Wrapper>
-      {modalState.selectedModal === 'ADJUST_POINTER' && selectedApplicant && (
+      {selectedModal === 'ADJUST_POINTER' && selectedApplicant && (
         <AdjustVolunteerPoint applicant={selectedApplicant} />
       )}
     </WithNavigatorBar>

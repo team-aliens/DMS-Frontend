@@ -14,7 +14,7 @@ import {
   useVolunteerCurrent,
 } from '@/hooks/useVolunteerApi';
 import { VolunteerCurrentSkeleton } from '@/components/common/Skeleton';
-import { AdjustVolunteerPoint } from '@/components/modals/AdjustPointer';
+import { AdjustPointer } from '@/components/modals/AdjustPointer';
 import { useToast } from '@/hooks/useToast';
 import { useModalStore } from '@/store/useModalStore';
 
@@ -145,7 +145,7 @@ export function VolunteerApplication() {
         )}
       </_Wrapper>
       {selectedModal === 'ADJUST_POINTER' && selectedApplicant && (
-        <AdjustVolunteerPoint applicant={selectedApplicant} />
+        <AdjustPointer applicant={selectedApplicant} />
       )}
     </WithNavigatorBar>
   );

@@ -18,7 +18,7 @@ interface PropsType {
   };
 }
 
-export function AdjustVolunteerPoint({ applicant }: PropsType) {
+export function AdjustPointer({ applicant }: PropsType) {
   const { closeModal } = useModalStore();
   const queryClient = useQueryClient();
   const { mutate: updateScore } = useUpdateVolunteerApplicationScore();

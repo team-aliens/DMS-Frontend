@@ -26,6 +26,12 @@ DMS는 기숙사를 위한 편의 시스템을 목표로 하고 있기 때문에
 - 학생들이 자습실을 신청하거나 주말 잔류 신청 여부를 확인 및 관리할 수 있어요.
 ![image](https://github.com/team-aliens/DMS/assets/103497968/d4658aba-c48e-4257-87a5-c8c84891a37b)
 
+### 봉사 신청 & 학생 설문 관리
+- 학생들이 신청할 봉사 항목을 관리할 수 있어요.
+- 설문을 생성하여 학생들의 의견을 확인할 수 있어요.
+<img width="8122" height="2252" alt="image" src="https://github.com/user-attachments/assets/a2e2d616-af2c-4eae-86c6-27b18378cbc4" />
+
+
 ### 외출 신청 관리 & 상 벌점 부여
 - 학생들이 신청한 외출 현황을 관리할 수 있어요.
 - 학생들에게 상 벌점을 부여할 수 있어요.

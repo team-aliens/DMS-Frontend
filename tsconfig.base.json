@@ -1,9 +1,13 @@
 {
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "noImplicitAny": false,
-        "strict": false,
-        "target": "ESNext",
-        "module": "ESNext",
-        "moduleResolution": "node"
-    }
+        "baseUrl": ".",
+        "paths": {
+        "@/*": ["./src/*"]
+        },
+        "jsx": "react-jsx",
+        "allowSyntheticDefaultImports": true
+    },
+    "include": ["src/**/*", "src/@types"],
+    "exclude": ["node_modules"]
 }

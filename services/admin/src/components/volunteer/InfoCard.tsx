@@ -14,10 +14,9 @@ interface VolunteersInfoProps {
   id?: string;
   onDelete?: (id: string) => void;
   status: 'icon' | 'noneIcon';
-  availablePoint?: number;
-  availableOptionalScore?: number;
+  availableMinScore?: number;
+  availableMaxScore?: number;
   availableMaxApplicants?: number;
-  availableContent?: string;
   currentApplicants?: number;
   maxApplicants?: number;
   detailPath?: string;
@@ -30,10 +29,9 @@ export function InfoCard({
   id,
   onDelete,
   status = 'icon',
-  availablePoint,
-  availableOptionalScore,
+  availableMinScore,
+  availableMaxScore,
   availableMaxApplicants,
-  availableContent,
   currentApplicants,
   maxApplicants,
   detailPath,
@@ -81,8 +79,8 @@ export function InfoCard({
       </_Wrapper>
       {isEditModalOpen && (
         <EditVolunteer
-          score={availablePoint}
-          optionalScore={availableOptionalScore}
+          minScore={availableMinScore}
+          maxScore={availableMaxScore}
           maxApplicants={availableMaxApplicants}
           name={name}
           sex={sexKoreanToEng(availableSex)}

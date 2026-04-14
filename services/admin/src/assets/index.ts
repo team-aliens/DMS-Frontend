@@ -5,3 +5,5 @@ export { default as ArrowLeft } from './left.svg';
 export { default as ArrowRight } from './right.svg';
 export * from './voteModelStudentPlus';
 export * from './voteEtcPlus';
+export { default as trash } from './trash.svg';
+export { default as kebap } from './kebap.svg';

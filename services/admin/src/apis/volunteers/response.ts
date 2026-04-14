@@ -8,8 +8,8 @@ export interface volunteer {
   id: string;
   name: string;
   content: string;
-  score: number;
-  optional_score: number;
+  min_score: number;
+  max_score: number;
   max_applicants: number;
   available_sex: SexType;
   available_grade: string;
@@ -35,7 +35,13 @@ export interface currentVolunteer {
   id: string;
   available_sex: SexType;
   available_grade: string;
+  score?: number;
+  optional_score?: number;
   current_applicants: number;
   max_applicants: number;
   applicants: applicant[];
+}
+
+export interface getVolunteerAssignedScoreResponse {
+  assigned_score: number;
 }

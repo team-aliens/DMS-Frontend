@@ -2,7 +2,11 @@ import { Text } from '@team-aliens/design-system';
 import { theme } from '@team-aliens/design-system/dist/styles/theme';
 import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { StartEndPoint } from '@/components/modals/PointFilter';
+
+export interface StartEndPoint {
+  startPoint: number;
+  endPoint: number;
+}
 
 interface PropsType {
   min: number;
@@ -11,6 +15,10 @@ interface PropsType {
   maxVal: number;
   state: StartEndPoint;
   setState: Dispatch<SetStateAction<StartEndPoint>>;
+  markings?: (string | number)[];
+  disableLeft?: boolean;
+  disableRight?: boolean;
+  highlightRight?: boolean;
 }
 
 export function MultiRangeSlider({
@@ -20,9 +28,14 @@ export function MultiRangeSlider({
   maxVal,
   state,
   setState,
+  markings,
+  disableLeft,
+  disableRight,
+  highlightRight = true,
 }: PropsType) {
   const gap = 1;
-  const markings = [
+
+  const defaultMarkings = [
     '-100+',
     '-80',
     '-60',
@@ -36,39 +49,57 @@ export function MultiRangeSlider({
     '100+',
   ];
 
+  const resolvedMarkings = markings ?? defaultMarkings;
+
   const onChangeValueLeft = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disableLeft) return;
     const { value } = e.target;
-    if (+maxVal + 100 - (+value + 100) > gap) {
-      setState({ ...state, startPoint: +value });
-    } else {
-      setState({ ...state, startPoint: +maxVal - gap });
+    const next = Number(value);
+    if (!Number.isFinite(next)) return;
+
+    if (disableRight) {
+      const clamped = Math.min(Math.max(next, min), max);
+      setState({ ...state, startPoint: clamped });
+      return;
     }
+
+    if (maxVal - next > gap) {
+      setState({ ...state, startPoint: next });
+      return;
+    }
+
+    setState({ ...state, startPoint: +maxVal - gap });
   };
 
   const onChangeValueRight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disableRight) return;
     const { value } = e.target;
-    if (+value + 100 - (+minVal + 100) > gap) {
-      setState({ ...state, endPoint: +value });
+    const next = Number(value);
+    if (Number.isFinite(next) && next - minVal > gap) {
+      setState({ ...state, endPoint: next });
     } else {
       setState({ ...state, endPoint: +minVal + gap });
     }
   };
 
-  const Left = (((+minVal > min ? +minVal : min) + 100) / 200) * 100;
-  const Right = 100 - (((+maxVal < max ? +maxVal : max) + 100) / 200) * 100;
+  const denom = max - min;
+  const Left =
+    denom === 0 ? 0 : (((+minVal > min ? +minVal : min) - min) / denom) * 100;
+  const Right =
+    denom === 0
+      ? 0
+      : 100 - (((+maxVal < max ? +maxVal : max) - min) / denom) * 100;
 
   return (
     <>
       <_Marking>
-        {markings.map((res, idx) => (
+        {resolvedMarkings.map((res, idx) => (
           <Text
             key={idx}
             size="captionM"
             color={
-              (+res.replace('+', '') === 100 && +maxVal > 100) ||
-              (+res.replace('+', '') === -100 && +minVal < -100) ||
-              +res.replace('+', '') === +minVal ||
-              +res.replace('+', '') === +maxVal
+              +String(res).replace('+', '') === +minVal ||
+              (highlightRight && +String(res).replace('+', '') === +maxVal)
                 ? 'gray8'
                 : 'gray4'
             }
@@ -85,6 +116,7 @@ export function MultiRangeSlider({
           min={min}
           max={max}
           value={minVal}
+          disabled={disableLeft}
         />
         <_Range
           onChange={onChangeValueRight}
@@ -92,6 +124,7 @@ export function MultiRangeSlider({
           min={min}
           max={max}
           value={maxVal}
+          disabled={disableRight}
         />
       </_Inputs>
     </>
@@ -104,7 +137,8 @@ const _Marking = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 96%;
+  margin: 0 auto 20px auto;
   margin-bottom: 20px;
   > * {
     display: flex;
@@ -148,6 +182,7 @@ const _Range = styled.input`
   background: none;
   width: 100%;
   pointer-events: none;
+  appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
 `;

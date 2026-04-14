@@ -9,11 +9,14 @@ import {
   getVolunteerCurrent,
   excludeVolunteerApplication,
   editVolunteerWork,
+  updateVolunteerApplicationScore,
+  getVolunteerAssignedScore,
 } from '@/apis/volunteers';
 import { useToast } from './useToast';
 import {
   addVolunteerWorkRequest,
   editVolunteerWorkRequest,
+  updateVolunteerApplicationScoreRequest,
 } from '@/apis/volunteers/request';
 
 export const useVolunteerList = () => {
@@ -202,6 +205,78 @@ export const useEditVolunteerWork = () => {
           actionType: 'APPEND_TOAST',
           toastType: 'ERROR',
           message: '봉사 활동 수정에 실패했습니다.',
+        });
+      },
+    },
+  );
+};
+
+export const useVolunteerAssignedScore = (volunteerApplicationId: string) => {
+  const { toastDispatch } = useToast();
+
+  return useQuery(
+    ['getVolunteerAssignedScore', volunteerApplicationId],
+    () => getVolunteerAssignedScore(volunteerApplicationId),
+    {
+      enabled: !!volunteerApplicationId,
+      refetchOnWindowFocus: false,
+      staleTime: 30_000,
+      onError: () => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: '봉사 활동 부여 점수 조회에 실패했습니다.',
+        });
+      },
+    },
+  );
+};
+
+export const usePrefetchVolunteerAssignedScore = () => {
+  const queryClient = useQueryClient();
+
+  return (volunteerApplicationId: string) =>
+    queryClient.prefetchQuery(
+      ['getVolunteerAssignedScore', volunteerApplicationId],
+      () => getVolunteerAssignedScore(volunteerApplicationId),
+      {
+        staleTime: 30_000,
+      },
+    );
+};
+
+export const useUpdateVolunteerApplicationScore = () => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+
+  return useMutation(
+    ({
+      volunteerApplicationId,
+      body,
+    }: {
+      volunteerApplicationId: string;
+      body: updateVolunteerApplicationScoreRequest;
+    }) => updateVolunteerApplicationScore(volunteerApplicationId, body),
+    {
+      onSuccess: () => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '상벌점이 조정되었습니다.',
+        });
+        queryClient.invalidateQueries(['getVolunteerCurrent']);
+        queryClient.invalidateQueries(['getVolunteers']);
+        queryClient.invalidateQueries(['getApplicationVolunteerStudents']);
+      },
+      onError: (error: any) => {
+        const errorMessage =
+          error?.response?.status === 404
+            ? '해당 봉사활동 신청을 찾을 수 없습니다. 신청 정보를 확인해주세요.'
+            : '상벌점 조정에 실패했습니다.';
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: errorMessage,
         });
       },
     },

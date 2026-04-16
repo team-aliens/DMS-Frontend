@@ -1,13 +1,18 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-        "@/*": ["./src/*"]
-        },
-        "jsx": "react-jsx",
-        "allowSyntheticDefaultImports": true
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["services/admin/src/*"],
+      "@/apis/*": ["packages/apis/src/*"]
     },
-    "include": ["src/**/*", "src/@types"],
-    "exclude": ["node_modules"]
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*",
+    "src/@types",
+    "packages/**/src/**/*",
+    "services/**/src/**/*"
+  ],
+  "exclude": ["node_modules"]
 }

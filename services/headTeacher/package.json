@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@dms/apis": "workspace:*",
-    "@dms/components": "workspace:*",
     "@tanstack/react-query": "^5.99.0",
     "@tanstack/react-query-devtools": "^5.99.0",
     "axios": "^1.15.0",

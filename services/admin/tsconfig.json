@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noImplicitAny": false,
     "strict": false,
@@ -9,11 +10,7 @@
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "allowSyntheticDefaultImports": true
   },
   "typeRoots": ["src/@types"],
   "include": ["./src/**/*", "@types"]

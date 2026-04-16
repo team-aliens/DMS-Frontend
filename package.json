@@ -8,6 +8,7 @@
         ]
     },
     "devDependencies": {
+        "@yarnpkg/pnpify": "^4.1.6",
         "eslint": "^8.41.0",
         "husky": ">=6",
         "lint-staged": ">=10",

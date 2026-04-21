@@ -112,7 +112,7 @@ export const gradeKoreanToEng = (grade: GradeToKorean): GradeType => {
 export type SeatStatusKorean = '사용 가능' | '사용 불가' | '빈 공간';
 
 export const seatStatusToKorean = (
-  status: SeatStatusType,
+  status: SeatStatusType
 ): SeatStatusKorean => {
   switch (status) {
     case 'AVAILABLE':
@@ -126,7 +126,7 @@ export const seatStatusToKorean = (
 };
 
 export const seatStatusKoreanToEng = (
-  status: SeatStatusKorean,
+  status: SeatStatusKorean
 ): SeatStatusType => {
   switch (status) {
     case '사용 가능':

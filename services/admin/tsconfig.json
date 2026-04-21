@@ -13,5 +13,5 @@
     "allowSyntheticDefaultImports": true
   },
   "typeRoots": ["src/@types"],
-  "include": ["./src/**/*", "@types"]
+  "include": ["./src/**/*", "@types", "../../packages/utils/src/**/*"]
 }

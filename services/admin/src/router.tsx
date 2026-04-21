@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { pagePath } from './utils/pagePath';
+import { pagePath } from '@/utils/pagePath';
 import { NotFoundPage } from './pages/NotFound';
 import { AuthLayout } from './components/AuthLayout';
 import { LoginPage } from './pages/LoginPage';

@@ -4,8 +4,8 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 import { refreshToken } from '@/apis/TokenRefresher';
-import { getCookie } from '@/utils/cookies';
-import { handleApiError } from '@/utils/apiErrorHandler';
+import { getCookie } from 'c:/Project/DMS-Frontend/packages/utils/src/cookies';
+import { handleApiError } from 'c:/Project/DMS-Frontend/packages/utils/src/apiErrorHandler';
 
 export const instance = axios.create({
   baseURL: `${import.meta.env.VITE_APP_PUBLIC_URL}`,

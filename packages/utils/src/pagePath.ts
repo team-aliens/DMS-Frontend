@@ -16,19 +16,19 @@ interface PagePath {
       list: '/apply/study';
       create: '/apply/study/create';
       deatail: (
-        studyRoomId: number | string,
+        studyRoomId: number | string
       ) => `/apply/study/detail/${typeof studyRoomId}`;
       patch: (
-        studyRoomId: number | string,
+        studyRoomId: number | string
       ) => `/apply/study/detail/patch/${typeof studyRoomId}`;
     };
     volunteer: {
       list: '/apply/volunteer';
       detail: (
-        volunteerId: number | string,
+        volunteerId: number | string
       ) => `/apply/volunteer/detail/${typeof volunteerId}`;
       currentDetail: (
-        volunteerId: number | string,
+        volunteerId: number | string
       ) => `/apply/volunteer/current/detail/${typeof volunteerId}`;
     };
   };
@@ -37,7 +37,7 @@ interface PagePath {
     write: '/notice/write';
     detail: (noticeId: number | string) => `/notice/detail/${typeof noticeId}`;
     patch: (
-      noticeId: number | string,
+      noticeId: number | string
     ) => `/notice/detail/patch/${typeof noticeId}`;
   };
   survey: {

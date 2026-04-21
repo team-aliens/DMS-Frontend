@@ -1,4 +1,4 @@
-import { setUseableFeatures } from '@/utils/setUseableFeatures';
+import { setUseableFeatures } from 'c:/Project/DMS-Frontend/packages/utils/src/setUseableFeatures';
 import { instance } from '..';
 import {
   PostEmailAuthCodeRequest,

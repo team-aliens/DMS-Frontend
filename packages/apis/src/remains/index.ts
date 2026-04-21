@@ -11,7 +11,7 @@ import {
 } from '@/apis/remains/response';
 import { useMutation } from '@tanstack/react-query';
 import fileSaver from 'file-saver';
-import { getFileNameFromContentDisposition } from '@/utils/decoder';
+import { getFileNameFromContentDisposition } from 'c:/Project/DMS-Frontend/packages/utils/src/decoder';
 
 const router = '/remains';
 

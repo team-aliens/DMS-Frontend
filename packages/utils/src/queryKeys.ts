@@ -11,4 +11,8 @@ export const queryKeys = {
   사용가능기능조회: 'availAbleFeatures',
   외출신청내역상세보기: 'fetchOutingApplicationDetail',
   외출신청내역조회: 'fetchOutingApplications',
+  일반자습신청조회: 'getGeneralStudyApplications',
+  부장자습신청조회: 'getHeadStudyApplications',
+  사감자습신청조회: 'getManagerStudyApplications',
+  자습유형조회: 'getStudyApplicationTypes',
 };

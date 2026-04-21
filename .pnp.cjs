@@ -19,6 +19,14 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:packages/apis"\
     },\
     {\
+      "name": "@dms/hooks",\
+      "reference": "workspace:packages/hooks"\
+    },\
+    {\
+      "name": "@dms/utils",\
+      "reference": "workspace:packages/utils"\
+    },\
+    {\
       "name": "@service/admin",\
       "reference": "workspace:services/admin"\
     },\
@@ -31,6 +39,8 @@ const RAW_RUNTIME_STATE =
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "fallbackExclusionList": [\
     ["@dms/apis", ["workspace:packages/apis"]],\
+    ["@dms/hooks", ["workspace:packages/hooks"]],\
+    ["@dms/utils", ["workspace:packages/utils"]],\
     ["@service/admin", ["workspace:services/admin"]],\
     ["@service/head-teacher", ["workspace:services/headTeacher"]],\
     ["DMS", ["workspace:."]]\
@@ -2957,6 +2967,46 @@ const RAW_RUNTIME_STATE =
         "linkType": "SOFT"\
       }]\
     ]],\
+    ["@dms/hooks", [\
+      ["workspace:packages/hooks", {\
+        "packageLocation": "./packages/hooks/",\
+        "packageDependencies": [\
+          ["@dms/hooks", "workspace:packages/hooks"],\
+          ["@tanstack/react-query", "virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:4.44.0"],\
+          ["@team-aliens/design-system", "virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:1.7.0"],\
+          ["@types/file-saver", "npm:2.0.7"],\
+          ["@types/node", "npm:18.19.130"],\
+          ["axios", "npm:1.15.0"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["file-saver", "npm:2.0.5"],\
+          ["react", "npm:18.3.1"],\
+          ["react-router-dom", "virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:6.30.3"],\
+          ["typescript", "patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@dms/utils", [\
+      ["workspace:packages/utils", {\
+        "packageLocation": "./packages/utils/",\
+        "packageDependencies": [\
+          ["@dms/utils", "workspace:packages/utils"],\
+          ["@tanstack/react-query", "virtual:0a5e72c9dd7df23a8512a7771b11a76dd5fb2abbb3a1c467bd061369441416f8429102fa7cfa0c5d17f5cfd06a96a6c6117aba2b546c104b3f03b18a79d706fb#npm:4.44.0"],\
+          ["@team-aliens/design-system", "virtual:a74db7880605863b3bce42fcbf4d57425fa435c6bfead51bba86527dd1c60be696fcd7aad7a1a78605cf70156d9361746bf0d1be154cb11040a00a95303659aa#npm:1.7.0"],\
+          ["@types/file-saver", "npm:2.0.7"],\
+          ["@types/node", "npm:18.19.130"],\
+          ["axios", "npm:1.15.0"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["exceljs", "npm:4.4.0"],\
+          ["file-saver", "npm:2.0.5"],\
+          ["mitt", "npm:3.0.1"],\
+          ["react-cookie", "virtual:a74db7880605863b3bce42fcbf4d57425fa435c6bfead51bba86527dd1c60be696fcd7aad7a1a78605cf70156d9361746bf0d1be154cb11040a00a95303659aa#npm:4.1.1"],\
+          ["react-router-dom", "virtual:0a5e72c9dd7df23a8512a7771b11a76dd5fb2abbb3a1c467bd061369441416f8429102fa7cfa0c5d17f5cfd06a96a6c6117aba2b546c104b3f03b18a79d706fb#npm:6.30.3"],\
+          ["typescript", "patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["@emotion/is-prop-valid", [\
       ["npm:1.4.0", {\
         "packageLocation": "./.yarn/cache/@emotion-is-prop-valid-npm-1.4.0-36d89399d2-6fbec4d5cd.zip/node_modules/@emotion/is-prop-valid/",\
@@ -4366,6 +4416,29 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:4.44.0", {\
+        "packageLocation": "./.yarn/__virtual__/@tanstack-react-query-virtual-976f398791/0/cache/@tanstack-react-query-npm-4.44.0-168e1dffb9-1eda263fba.zip/node_modules/@tanstack/react-query/",\
+        "packageDependencies": [\
+          ["@tanstack/react-query", "virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:4.44.0"],\
+          ["@tanstack/query-core", "npm:4.44.0"],\
+          ["@types/react", null],\
+          ["@types/react-dom", null],\
+          ["@types/react-native", null],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", null],\
+          ["react-native", null],\
+          ["use-sync-external-store", "virtual:976f3987918784f5f728ff85a298f3d2a7e7c00d23022e21803ffa95cdee776b99042f65eb583fb1cb59b31a8e18ceb8896ffd59f9ebcf0d9a3ae4888041f8d3#npm:1.6.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react-native",\
+          "@types/react",\
+          "react-dom",\
+          "react-native",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.44.0", {\
         "packageLocation": "./.yarn/__virtual__/@tanstack-react-query-virtual-3e32b1592d/0/cache/@tanstack-react-query-npm-4.44.0-168e1dffb9-1eda263fba.zip/node_modules/@tanstack/react-query/",\
         "packageDependencies": [\
@@ -4455,6 +4528,58 @@ const RAW_RUNTIME_STATE =
           ["@team-aliens/design-system", "npm:1.7.0"]\
         ],\
         "linkType": "SOFT"\
+      }],\
+      ["virtual:a74db7880605863b3bce42fcbf4d57425fa435c6bfead51bba86527dd1c60be696fcd7aad7a1a78605cf70156d9361746bf0d1be154cb11040a00a95303659aa#npm:1.7.0", {\
+        "packageLocation": "./.yarn/__virtual__/@team-aliens-design-system-virtual-277b4b00f9/0/cache/@team-aliens-design-system-npm-1.7.0-c449bb8714-1fa2990193.zip/node_modules/@team-aliens/design-system/",\
+        "packageDependencies": [\
+          ["@team-aliens/design-system", "virtual:a74db7880605863b3bce42fcbf4d57425fa435c6bfead51bba86527dd1c60be696fcd7aad7a1a78605cf70156d9361746bf0d1be154cb11040a00a95303659aa#npm:1.7.0"],\
+          ["@types/react", null],\
+          ["@types/react-dom", null],\
+          ["@types/react-router-dom", null],\
+          ["@types/styled-components", null],\
+          ["react", null],\
+          ["react-dom", null],\
+          ["react-outside-click-handler", "virtual:277b4b00f9e9d11cccd7f2e43c11f5419bc54b750ddd5d4574547d1575a4aa93e78c985be6291b092d73591483a0b0225adb4412a9e4214b4158bc0f26cd3335#npm:1.3.0"],\
+          ["react-router-dom", "virtual:0a5e72c9dd7df23a8512a7771b11a76dd5fb2abbb3a1c467bd061369441416f8429102fa7cfa0c5d17f5cfd06a96a6c6117aba2b546c104b3f03b18a79d706fb#npm:6.30.3"],\
+          ["styled-components", null]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react-router-dom",\
+          "@types/react",\
+          "@types/styled-components",\
+          "react-dom",\
+          "react-router-dom",\
+          "react",\
+          "styled-components"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:1.7.0", {\
+        "packageLocation": "./.yarn/__virtual__/@team-aliens-design-system-virtual-cf92613f71/0/cache/@team-aliens-design-system-npm-1.7.0-c449bb8714-1fa2990193.zip/node_modules/@team-aliens/design-system/",\
+        "packageDependencies": [\
+          ["@team-aliens/design-system", "virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:1.7.0"],\
+          ["@types/react", null],\
+          ["@types/react-dom", null],\
+          ["@types/react-router-dom", null],\
+          ["@types/styled-components", null],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", null],\
+          ["react-outside-click-handler", "virtual:cf92613f710a085e981002a6e02271267af8beb578a1242c009d72c5cc93089613b229c5d4cf0b9c3bf55f3e28726d1c0a2ef76e0621473ca75a1adeab5cc9e7#npm:1.3.0"],\
+          ["react-router-dom", "virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:6.30.3"],\
+          ["styled-components", null]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react-router-dom",\
+          "@types/react",\
+          "@types/styled-components",\
+          "react-dom",\
+          "react-router-dom",\
+          "react",\
+          "styled-components"\
+        ],\
+        "linkType": "HARD"\
       }],\
       ["virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.7.0", {\
         "packageLocation": "./.yarn/__virtual__/@team-aliens-design-system-virtual-917442129a/0/cache/@team-aliens-design-system-npm-1.7.0-c449bb8714-1fa2990193.zip/node_modules/@team-aliens/design-system/",\
@@ -4612,6 +4737,18 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/hoist-non-react-statics", "virtual:991bd5f075f682d2b49df742310cd8c2cd252d328a6bea038797ccf3cb6e42e7e707e728eae0bf4c68227a5c5184648f977b82aca49115559178f50194401b56#npm:3.3.7"],\
           ["@types/react", "npm:19.2.14"],\
+          ["hoist-non-react-statics", "npm:3.3.2"]\
+        ],\
+        "packagePeers": [\
+          "@types/react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:e6eac90a489db247dbfc4a8da17065f10716ef7edc72233851a9561a9f9a5420aee2b868ddcd8519e6a8e6781397e50ae6eade3f4b78e723c109e30f6bd3c303#npm:3.3.7", {\
+        "packageLocation": "./.yarn/__virtual__/@types-hoist-non-react-statics-virtual-2415ebac61/0/cache/@types-hoist-non-react-statics-npm-3.3.7-efbaafecfe-13f610572c.zip/node_modules/@types/hoist-non-react-statics/",\
+        "packageDependencies": [\
+          ["@types/hoist-non-react-statics", "virtual:e6eac90a489db247dbfc4a8da17065f10716ef7edc72233851a9561a9f9a5420aee2b868ddcd8519e6a8e6781397e50ae6eade3f4b78e723c109e30f6bd3c303#npm:3.3.7"],\
+          ["@types/react", null],\
           ["hoist-non-react-statics", "npm:3.3.2"]\
         ],\
         "packagePeers": [\
@@ -5476,11 +5613,55 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["virtual:204301bc8950df9ec49bbc4f76e1bc56f7fda4e591769fe5295ec9e7e13478cdafabdba5eefabc866ca4f45538e7c08ea0e7f263fb5a8d164705ba293362cfe3#npm:2.16.0", {\
+        "packageLocation": "./.yarn/__virtual__/airbnb-prop-types-virtual-268eb6cd81/0/cache/airbnb-prop-types-npm-2.16.0-d794f5271c-8f87960bad.zip/node_modules/airbnb-prop-types/",\
+        "packageDependencies": [\
+          ["airbnb-prop-types", "virtual:204301bc8950df9ec49bbc4f76e1bc56f7fda4e591769fe5295ec9e7e13478cdafabdba5eefabc866ca4f45538e7c08ea0e7f263fb5a8d164705ba293362cfe3#npm:2.16.0"],\
+          ["@types/react", null],\
+          ["array.prototype.find", "npm:2.2.3"],\
+          ["function.prototype.name", "npm:1.1.8"],\
+          ["is-regex", "npm:1.2.1"],\
+          ["object-is", "npm:1.1.6"],\
+          ["object.assign", "npm:4.1.7"],\
+          ["object.entries", "npm:1.1.9"],\
+          ["prop-types", "npm:15.8.1"],\
+          ["prop-types-exact", "npm:1.2.7"],\
+          ["react", null],\
+          ["react-is", "npm:16.13.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["virtual:a09617f34aff4d5408a4e1209bd37d78ff647dd3f6c8629127837b7565b1ecc1de6cd5fd20ef876614116544f9e33056ed18001450b6365c57e07bb97273473e#npm:2.16.0", {\
         "packageLocation": "./.yarn/__virtual__/airbnb-prop-types-virtual-08f06cd8f9/0/cache/airbnb-prop-types-npm-2.16.0-d794f5271c-8f87960bad.zip/node_modules/airbnb-prop-types/",\
         "packageDependencies": [\
           ["airbnb-prop-types", "virtual:a09617f34aff4d5408a4e1209bd37d78ff647dd3f6c8629127837b7565b1ecc1de6cd5fd20ef876614116544f9e33056ed18001450b6365c57e07bb97273473e#npm:2.16.0"],\
           ["@types/react", "npm:18.3.28"],\
+          ["array.prototype.find", "npm:2.2.3"],\
+          ["function.prototype.name", "npm:1.1.8"],\
+          ["is-regex", "npm:1.2.1"],\
+          ["object-is", "npm:1.1.6"],\
+          ["object.assign", "npm:4.1.7"],\
+          ["object.entries", "npm:1.1.9"],\
+          ["prop-types", "npm:15.8.1"],\
+          ["prop-types-exact", "npm:1.2.7"],\
+          ["react", "npm:18.3.1"],\
+          ["react-is", "npm:16.13.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:db33f877e77b48c0a7eabd9c8a6ea61d37849dcc5a682f5e16bb7b9a0562d5155392868dc2d33850ed377fc56957dfabf31951707c9dfcfc508188a056593145#npm:2.16.0", {\
+        "packageLocation": "./.yarn/__virtual__/airbnb-prop-types-virtual-e98707a837/0/cache/airbnb-prop-types-npm-2.16.0-d794f5271c-8f87960bad.zip/node_modules/airbnb-prop-types/",\
+        "packageDependencies": [\
+          ["airbnb-prop-types", "virtual:db33f877e77b48c0a7eabd9c8a6ea61d37849dcc5a682f5e16bb7b9a0562d5155392868dc2d33850ed377fc56957dfabf31951707c9dfcfc508188a056593145#npm:2.16.0"],\
+          ["@types/react", null],\
           ["array.prototype.find", "npm:2.2.3"],\
           ["function.prototype.name", "npm:1.1.8"],\
           ["is-regex", "npm:1.2.1"],\
@@ -11963,6 +12144,22 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["virtual:a74db7880605863b3bce42fcbf4d57425fa435c6bfead51bba86527dd1c60be696fcd7aad7a1a78605cf70156d9361746bf0d1be154cb11040a00a95303659aa#npm:4.1.1", {\
+        "packageLocation": "./.yarn/__virtual__/react-cookie-virtual-e6eac90a48/0/cache/react-cookie-npm-4.1.1-90d4f0fcb5-ea55d5213e.zip/node_modules/react-cookie/",\
+        "packageDependencies": [\
+          ["react-cookie", "virtual:a74db7880605863b3bce42fcbf4d57425fa435c6bfead51bba86527dd1c60be696fcd7aad7a1a78605cf70156d9361746bf0d1be154cb11040a00a95303659aa#npm:4.1.1"],\
+          ["@types/hoist-non-react-statics", "virtual:e6eac90a489db247dbfc4a8da17065f10716ef7edc72233851a9561a9f9a5420aee2b868ddcd8519e6a8e6781397e50ae6eade3f4b78e723c109e30f6bd3c303#npm:3.3.7"],\
+          ["@types/react", null],\
+          ["hoist-non-react-statics", "npm:3.3.2"],\
+          ["react", null],\
+          ["universal-cookie", "npm:4.0.4"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.1.1", {\
         "packageLocation": "./.yarn/__virtual__/react-cookie-virtual-82971f8e6f/0/cache/react-cookie-npm-4.1.1-90d4f0fcb5-ea55d5213e.zip/node_modules/react-cookie/",\
         "packageDependencies": [\
@@ -12035,6 +12232,50 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
+      ["virtual:277b4b00f9e9d11cccd7f2e43c11f5419bc54b750ddd5d4574547d1575a4aa93e78c985be6291b092d73591483a0b0225adb4412a9e4214b4158bc0f26cd3335#npm:1.3.0", {\
+        "packageLocation": "./.yarn/__virtual__/react-outside-click-handler-virtual-204301bc89/0/cache/react-outside-click-handler-npm-1.3.0-7fa0d196a3-ab9ffbea36.zip/node_modules/react-outside-click-handler/",\
+        "packageDependencies": [\
+          ["react-outside-click-handler", "virtual:277b4b00f9e9d11cccd7f2e43c11f5419bc54b750ddd5d4574547d1575a4aa93e78c985be6291b092d73591483a0b0225adb4412a9e4214b4158bc0f26cd3335#npm:1.3.0"],\
+          ["@types/react", null],\
+          ["@types/react-dom", null],\
+          ["airbnb-prop-types", "virtual:204301bc8950df9ec49bbc4f76e1bc56f7fda4e591769fe5295ec9e7e13478cdafabdba5eefabc866ca4f45538e7c08ea0e7f263fb5a8d164705ba293362cfe3#npm:2.16.0"],\
+          ["consolidated-events", "npm:2.0.2"],\
+          ["document.contains", "npm:1.0.2"],\
+          ["object.values", "npm:1.2.1"],\
+          ["prop-types", "npm:15.8.1"],\
+          ["react", null],\
+          ["react-dom", null]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:cf92613f710a085e981002a6e02271267af8beb578a1242c009d72c5cc93089613b229c5d4cf0b9c3bf55f3e28726d1c0a2ef76e0621473ca75a1adeab5cc9e7#npm:1.3.0", {\
+        "packageLocation": "./.yarn/__virtual__/react-outside-click-handler-virtual-db33f877e7/0/cache/react-outside-click-handler-npm-1.3.0-7fa0d196a3-ab9ffbea36.zip/node_modules/react-outside-click-handler/",\
+        "packageDependencies": [\
+          ["react-outside-click-handler", "virtual:cf92613f710a085e981002a6e02271267af8beb578a1242c009d72c5cc93089613b229c5d4cf0b9c3bf55f3e28726d1c0a2ef76e0621473ca75a1adeab5cc9e7#npm:1.3.0"],\
+          ["@types/react", null],\
+          ["@types/react-dom", null],\
+          ["airbnb-prop-types", "virtual:db33f877e77b48c0a7eabd9c8a6ea61d37849dcc5a682f5e16bb7b9a0562d5155392868dc2d33850ed377fc56957dfabf31951707c9dfcfc508188a056593145#npm:2.16.0"],\
+          ["consolidated-events", "npm:2.0.2"],\
+          ["document.contains", "npm:1.0.2"],\
+          ["object.values", "npm:1.2.1"],\
+          ["prop-types", "npm:15.8.1"],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", null]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.3.0", {\
         "packageLocation": "./.yarn/__virtual__/react-outside-click-handler-virtual-a09617f34a/0/cache/react-outside-click-handler-npm-1.3.0-7fa0d196a3-ab9ffbea36.zip/node_modules/react-outside-click-handler/",\
         "packageDependencies": [\
@@ -12102,6 +12343,20 @@ const RAW_RUNTIME_STATE =
           "react"\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["virtual:87de4b3d811ae3d3e6e56f5e4d32513dbcd0d33b93c32f1c4ee5f065b9d8c2b8d340c33f7078ad56ba3dc5ceddc6d176c247246d91cbb4129ac869413080cfe1#npm:6.30.3", {\
+        "packageLocation": "./.yarn/__virtual__/react-router-virtual-bb619d898d/0/cache/react-router-npm-6.30.3-fc99f1d4aa-1a51bdcc42.zip/node_modules/react-router/",\
+        "packageDependencies": [\
+          ["react-router", "virtual:87de4b3d811ae3d3e6e56f5e4d32513dbcd0d33b93c32f1c4ee5f065b9d8c2b8d340c33f7078ad56ba3dc5ceddc6d176c247246d91cbb4129ac869413080cfe1#npm:6.30.3"],\
+          ["@remix-run/router", "npm:1.23.2"],\
+          ["@types/react", null],\
+          ["react", "npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["react-router-dom", [\
@@ -12122,6 +12377,25 @@ const RAW_RUNTIME_STATE =
           ["react", null],\
           ["react-dom", null],\
           ["react-router", "virtual:140e240db8ca33a77368e37ad56c4270b16d61eed4aee33b3d10bea6fa537f705f87be0b48d9e0f2e30c9731c7b5bafc673e5eaecd97ff725a5cbc92ec4b5936#npm:6.30.3"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:6.30.3", {\
+        "packageLocation": "./.yarn/__virtual__/react-router-dom-virtual-87de4b3d81/0/cache/react-router-dom-npm-6.30.3-232cfedb2d-db974d8010.zip/node_modules/react-router-dom/",\
+        "packageDependencies": [\
+          ["react-router-dom", "virtual:cff5a1003aa2973306bbd3c5377f1bc422bb5a020c7f72948b3d31112f6d749811ded090fd486ed830104b85692601457aacedbccc162903206361b5ac17d2b9#npm:6.30.3"],\
+          ["@remix-run/router", "npm:1.23.2"],\
+          ["@types/react", null],\
+          ["@types/react-dom", null],\
+          ["react", "npm:18.3.1"],\
+          ["react-dom", null],\
+          ["react-router", "virtual:87de4b3d811ae3d3e6e56f5e4d32513dbcd0d33b93c32f1c4ee5f065b9d8c2b8d340c33f7078ad56ba3dc5ceddc6d176c247246d91cbb4129ac869413080cfe1#npm:6.30.3"]\
         ],\
         "packagePeers": [\
           "@types/react-dom",\
@@ -14029,6 +14303,19 @@ const RAW_RUNTIME_STATE =
           ["use-sync-external-store", "virtual:5401a93a936097f39118a2edd1fe72e0da4dc8f473985f2d358527f1898e5c694cfa10ed1d7c5f40f484f824acc87ed32a9710fc425cd2efc3268449ad20089b#npm:1.6.0"],\
           ["@types/react", null],\
           ["react", null]\
+        ],\
+        "packagePeers": [\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:976f3987918784f5f728ff85a298f3d2a7e7c00d23022e21803ffa95cdee776b99042f65eb583fb1cb59b31a8e18ceb8896ffd59f9ebcf0d9a3ae4888041f8d3#npm:1.6.0", {\
+        "packageLocation": "./.yarn/__virtual__/use-sync-external-store-virtual-f9eff91862/0/cache/use-sync-external-store-npm-1.6.0-2db2af616d-b40ad2847b.zip/node_modules/use-sync-external-store/",\
+        "packageDependencies": [\
+          ["use-sync-external-store", "virtual:976f3987918784f5f728ff85a298f3d2a7e7c00d23022e21803ffa95cdee776b99042f65eb583fb1cb59b31a8e18ceb8896ffd59f9ebcf0d9a3ae4888041f8d3#npm:1.6.0"],\
+          ["@types/react", null],\
+          ["react", "npm:18.3.1"]\
         ],\
         "packagePeers": [\
           "@types/react",\

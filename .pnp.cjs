@@ -4235,7 +4235,6 @@ const RAW_RUNTIME_STATE =
           ["prettier", "npm:2.8.3"],\
           ["react", "npm:18.3.1"],\
           ["react-color", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:2.19.3"],\
-          ["react-cookie", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.1.1"],\
           ["react-dom", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:18.3.1"],\
           ["react-outside-click-handler", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:1.3.0"],\
           ["react-router-dom", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:6.30.3"],\
@@ -4719,18 +4718,6 @@ const RAW_RUNTIME_STATE =
           ["@types/hoist-non-react-statics", "npm:3.3.7"]\
         ],\
         "linkType": "SOFT"\
-      }],\
-      ["virtual:82971f8e6f2ab5d068f36487f28e44acdac0d411be961a61f38cffc30b02069fffb230863ad1bb5fc80f01fd237d8b8134f2be4b82a9fd0b11145f25e8c9f7ae#npm:3.3.7", {\
-        "packageLocation": "./.yarn/__virtual__/@types-hoist-non-react-statics-virtual-de22f2b0e3/0/cache/@types-hoist-non-react-statics-npm-3.3.7-efbaafecfe-13f610572c.zip/node_modules/@types/hoist-non-react-statics/",\
-        "packageDependencies": [\
-          ["@types/hoist-non-react-statics", "virtual:82971f8e6f2ab5d068f36487f28e44acdac0d411be961a61f38cffc30b02069fffb230863ad1bb5fc80f01fd237d8b8134f2be4b82a9fd0b11145f25e8c9f7ae#npm:3.3.7"],\
-          ["@types/react", "npm:18.3.28"],\
-          ["hoist-non-react-statics", "npm:3.3.2"]\
-        ],\
-        "packagePeers": [\
-          "@types/react"\
-        ],\
-        "linkType": "HARD"\
       }],\
       ["virtual:991bd5f075f682d2b49df742310cd8c2cd252d328a6bea038797ccf3cb6e42e7e707e728eae0bf4c68227a5c5184648f977b82aca49115559178f50194401b56#npm:3.3.7", {\
         "packageLocation": "./.yarn/__virtual__/@types-hoist-non-react-statics-virtual-8b62bf11ab/0/cache/@types-hoist-non-react-statics-npm-3.3.7-efbaafecfe-13f610572c.zip/node_modules/@types/hoist-non-react-statics/",\
@@ -12152,22 +12139,6 @@ const RAW_RUNTIME_STATE =
           ["@types/react", null],\
           ["hoist-non-react-statics", "npm:3.3.2"],\
           ["react", null],\
-          ["universal-cookie", "npm:4.0.4"]\
-        ],\
-        "packagePeers": [\
-          "@types/react",\
-          "react"\
-        ],\
-        "linkType": "HARD"\
-      }],\
-      ["virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.1.1", {\
-        "packageLocation": "./.yarn/__virtual__/react-cookie-virtual-82971f8e6f/0/cache/react-cookie-npm-4.1.1-90d4f0fcb5-ea55d5213e.zip/node_modules/react-cookie/",\
-        "packageDependencies": [\
-          ["react-cookie", "virtual:f25dfec009a3ba8ebeba1872e43e47be86fc3cbba3f68e94f1a9ecc5b98c0352de221afd3123b8ec53c59d98bf57522fd8773136e3ce8b115c6f503ffd871dc7#npm:4.1.1"],\
-          ["@types/hoist-non-react-statics", "virtual:82971f8e6f2ab5d068f36487f28e44acdac0d411be961a61f38cffc30b02069fffb230863ad1bb5fc80f01fd237d8b8134f2be4b82a9fd0b11145f25e8c9f7ae#npm:3.3.7"],\
-          ["@types/react", "npm:18.3.28"],\
-          ["hoist-non-react-statics", "npm:3.3.2"],\
-          ["react", "npm:18.3.1"],\
           ["universal-cookie", "npm:4.0.4"]\
         ],\
         "packagePeers": [\

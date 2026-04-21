@@ -5,7 +5,7 @@ type ApplicationStatus =
   | 'REJECTED'
   | 'EXPIRED';
 
-export interface GetStudyApplicationResponse<T> {
+export interface GetStudyApplicationsResponse<T> {
   application: T[];
 }
 

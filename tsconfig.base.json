@@ -3,7 +3,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["services/admin/src/*"],
-      "@/apis/*": ["packages/apis/src/*"]
+      "@/apis/*": ["packages/apis/src/*"],
+      "@/utils/*": ["packages/utils/src/*"],
+      "@/hooks/*": ["packages/hooks/src/*"]
     },
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true

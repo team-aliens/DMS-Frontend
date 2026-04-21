@@ -20,7 +20,7 @@ export const getCookie = (name: CookieType) => cookie.get<string>(name);
 export const setCookie = (
   name: string,
   value: string,
-  options?: CookieSetOptions,
+  options?: CookieSetOptions
 ) => {
   cookie.set(name, value, {
     ...options,

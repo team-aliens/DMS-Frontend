@@ -6,7 +6,7 @@ import {
   PatchStudyApplicationStatusRequest,
 } from './request';
 import {
-  GetStudyApplicationResponse,
+  GetStudyApplicationsResponse,
   GeneralStudyApplication,
   HeadStudyApplication,
   ManagerStudyApplication,
@@ -15,40 +15,40 @@ import {
 
 const router = '/daybreak';
 
-export const getGeneralStudyApplication = async (
+export const getGeneralStudyApplications = async (
   state: GeneralStudyApplicationRequest
 ) => {
   const { data } = await instance.get<
-    GetStudyApplicationResponse<GeneralStudyApplication>
+    GetStudyApplicationsResponse<GeneralStudyApplication>
   >(`${router}/general/study-application`, {
     params: state,
   });
   return data;
 };
 
-export const getHeadStudyApplication = async (
+export const getHeadStudyApplications = async (
   state: HeadStudyApplicationRequest
 ) => {
   const { data } = await instance.get<
-    GetStudyApplicationResponse<HeadStudyApplication>
+    GetStudyApplicationsResponse<HeadStudyApplication>
   >(`${router}/head/study-application`, {
     params: state,
   });
   return data;
 };
 
-export const getManagerStudyApplication = async (
+export const getManagerStudyApplications = async (
   state: ManagerStudyApplicationRequest
 ) => {
   const { data } = await instance.get<
-    GetStudyApplicationResponse<ManagerStudyApplication>
+    GetStudyApplicationsResponse<ManagerStudyApplication>
   >(`${router}/manager/study-application`, {
     params: state,
   });
   return data;
 };
 
-export const getStudyApplicationType = async () => {
+export const getStudyApplicationTypes = async () => {
   const { data } = await instance.get<GetStudyApplicationType>(
     `${router}/study-type`
   );

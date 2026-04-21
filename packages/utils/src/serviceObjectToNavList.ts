@@ -1,5 +1,5 @@
 import { Features, IsUseAbleFeature } from '@/apis/auth/response';
-import { ServiceToKorean, serviceToKorean } from 'packages/utils/src/translate';
+import { ServiceToKorean, serviceToKorean } from '@/utils/translate';
 
 export const serviceObjectToNavList = (features: IsUseAbleFeature) =>
   Object.entries(features)

@@ -2,10 +2,10 @@ import { ToastContainer, ToastProvider } from '@team-aliens/design-system';
 import { Router } from './router';
 import { useModal } from './hooks/useModal';
 import { useEffect, Suspense } from 'react';
-import { pagePath } from 'c:/Project/DMS-Frontend/packages/utils/src/pagePath';
+import { pagePath } from '@/utils/pagePath';
 import { Outlet, RouterProvider } from 'react-router-dom';
 import { GlobalStyle } from './style/globalStyle';
-import { eventBus } from 'c:/Project/DMS-Frontend/packages/utils/src/eventBus';
+import { eventBus } from '@/utils/eventBus';
 import { ToastHandler } from './components/ToastHandler';
 
 export function App() {

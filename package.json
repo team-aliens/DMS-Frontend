@@ -25,6 +25,7 @@
         "postpublish": "pinst --enable"
     },
     "dependencies": {
-        "react-slick": "^0.30.2"
+        "react-slick": "^0.30.2",
+        "styled-components": "^6.4.1"
     }
 }

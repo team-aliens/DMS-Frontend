@@ -15,15 +15,12 @@ export const instance = axios.create({
 instance.interceptors.request.use(
   (config) => {
     const accessToken = getCookie('access_token');
-    if (accessToken) {
-      config.headers = new AxiosHeaders({
-        ...config.headers,
-        Authorization: `Bearer ${accessToken}`,
-      });
+    if (accessToken && config.headers) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
-  (error: AxiosError) => Promise.reject(error)
+  (error) => Promise.reject(error)
 );
 
 instance.interceptors.response.use(

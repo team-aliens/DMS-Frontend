@@ -25,6 +25,7 @@ import { VolunteerDetail } from './pages/volunteer/Detail';
 import { VolunteerApplication } from './pages/volunteer/Application';
 import { Main as SurveyMain } from './pages/survey/Main';
 import { SurveyResult } from './pages/survey/SurveyResult';
+import { DaybreakPage } from './pages/daybreak/daybreakPage';
 
 export const pathToKorean = {
   'notice': {
@@ -157,6 +158,10 @@ export const Router = createBrowserRouter([
           { index: true, element: <SurveyMain /> },
           { path: `result/:id`, element: <SurveyResult /> },
         ],
+      },
+      {
+        path: pagePath.daybreak.list,
+        children: [{ index: true, element: <DaybreakPage /> }],
       },
     ],
   },

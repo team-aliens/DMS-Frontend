@@ -12,7 +12,7 @@ import {
   login,
   postEmailAuthCode,
 } from '@/apis/auth';
-import { setCookie } from '@/utils/cookies';
+import { setCookie, getCookie } from '@/utils/cookies';
 import { queryKeys } from '@/utils/queryKeys';
 import { pagePath } from '@/utils/pagePath';
 import { setUseableFeatures } from '@/utils/setUseableFeatures';
@@ -62,6 +62,7 @@ export const useLoginMutation = ({
       const accessExpired = new Date(res.access_token_expired_at);
       setCookie('access_token', res.access_token, {
         expires: accessExpired,
+        path: '/',
       });
 
       if (autoSave) {

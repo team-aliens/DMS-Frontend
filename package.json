@@ -1,31 +1,33 @@
 {
-    "name": "DMS",
-    "packageManager": "yarn@4.6.0",
-    "workspaces": {
-        "packages": [
-            "./services/*",
-            "./packages/*"
-        ]
-    },
-    "devDependencies": {
-        "@yarnpkg/pnpify": "^4.1.6",
-        "eslint": "^8.41.0",
-        "husky": ">=6",
-        "lint-staged": ">=10",
-        "pinst": ">=2",
-        "prettier": "^2.8.8",
-        "typescript": "^5.0.4"
-    },
-    "lint-staged": {
-        "{services,packages}/**/*.{js,ts,jsx,tsx}": "prettier --write"
-    },
-    "scripts": {
-        "postinstall": "husky install",
-        "prepublishOnly": "pinst --disable",
-        "postpublish": "pinst --enable"
-    },
-    "dependencies": {
-        "react-slick": "^0.30.2",
-        "styled-components": "^6.4.1"
-    }
+  "name": "DMS",
+  "packageManager": "yarn@4.6.0",
+  "workspaces": {
+    "packages": [
+      "./services/*",
+      "./packages/*"
+    ]
+  },
+  "devDependencies": {
+    "@yarnpkg/pnpify": "^4.1.6",
+    "eslint": "^8.41.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "pinst": ">=2",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4",
+    "vite-tsconfig-paths": "^6.1.1"
+  },
+  "lint-staged": {
+    "{services,packages}/**/*.{js,ts,jsx,tsx}": "prettier --write"
+  },
+  "scripts": {
+    "postinstall": "husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
+  },
+  "dependencies": {
+    "@team-aliens/design-system": "^1.14.4",
+    "react-slick": "^0.30.2",
+    "styled-components": "^6.4.1"
+  }
 }

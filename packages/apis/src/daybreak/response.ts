@@ -6,7 +6,7 @@ type ApplicationStatus =
   | 'EXPIRED';
 
 export interface GetStudyApplicationsResponse<T> {
-  application: T[];
+  applications: T[];
 }
 
 interface BaseStudyApplication {

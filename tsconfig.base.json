@@ -5,7 +5,8 @@
       "@/*": ["services/admin/src/*"],
       "@/apis/*": ["packages/apis/src/*"],
       "@/utils/*": ["packages/utils/src/*"],
-      "@/hooks/*": ["packages/hooks/src/*"]
+      "@/hooks/*": ["packages/hooks/src/*"],
+      "@/store/*": ["packages/store/src/*"]
     },
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true

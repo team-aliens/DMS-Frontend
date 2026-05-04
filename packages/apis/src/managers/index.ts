@@ -47,12 +47,24 @@ export const searchStudentList = async (
   max_point: number,
   tag_id: TagType[]
 ) => {
-  const tagIds = tag_id.map((res) => res.id).join('&tag_id=');
+  const params = new URLSearchParams({
+    name: name || '',
+    sort: sort,
+    filter_type: filter_type,
+    min_point: String(min_point),
+    max_point: String(max_point),
+  });
+
+  if (tag_id && tag_id.length > 0) {
+    tag_id.forEach((tag) => {
+      params.append('tag_id', tag.id);
+    });
+  }
+
   const { data } = await instance.get<SearchStudentListResponse>(
-    `${changeRouter}${router}?name=${name}&sort=${sort}&filter_type=${filter_type}&min_point=${min_point}&max_point=${max_point}${
-      tagIds && '&tag_id='
-    }${tagIds}`
+    `${changeRouter}${router}?${params.toString()}`
   );
+
   return data;
 };
 

@@ -45,6 +45,11 @@ interface PagePath {
     detail: (voteId: number) => `/survey/result/${typeof voteId}`;
   };
   outing: '/outing';
+  daybreak: {
+    list: '/daybreak';
+    approved: '/study-apply/approved';
+    rejected: '/study-apply/rejected';
+  };
 }
 
 export const pagePath: PagePath = {
@@ -88,4 +93,9 @@ export const pagePath: PagePath = {
     detail: (voteId: number) => `/survey/result/${voteId}`,
   },
   outing: '/outing',
+  daybreak: {
+    list: '/daybreak',
+    approved: '/study-apply/approved',
+    rejected: '/study-apply/rejected',
+  },
 } as const;

@@ -28,4 +28,7 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1000, // 1000KB까지 경고 임계값 상향
   },
+  optimizeDeps: {
+    include: ['zustand'],
+  },
 });

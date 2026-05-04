@@ -146,7 +146,8 @@ export type ServiceToKorean =
   | '설문'
   // | '분실물'
   | '마이페이지'
-  | '외출';
+  | '외출'
+  | '새벽자습';
 export interface ServiceObject {
   service: ServiceToKorean | '';
   index: number;
@@ -161,6 +162,8 @@ export const serviceToKorean = (service: Features): ServiceObject => {
     case 'notice_service':
       return { service: '공지', index: 2 };
     case 'meal_service':
+    case 'daybreak_service':
+      return { service: '새벽자습', index: 5 };
     default:
       return {
         service: '',

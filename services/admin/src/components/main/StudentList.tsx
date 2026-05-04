@@ -95,13 +95,18 @@ export function StudentList({
   refetchSearchStudents,
   availableFeature,
 }: Props) {
-  const [selectedStudentId, resetStudentId, appendStudentId] =
-    useSelectedStudentIdStore((state) => [
-      state.selectedStudentId,
-      state.resetStudentId,
-      state.appendStudentId,
-    ]);
-
+  const selectedStudentId = useSelectedStudentIdStore(
+    (state) => state.selectedStudentId,
+  );
+  const appendStudentId = useSelectedStudentIdStore(
+    (state) => state.appendStudentId,
+  );
+  const deleteStudentId = useSelectedStudentIdStore(
+    (state) => state.deleteStudentId,
+  );
+  const resetStudentId = useSelectedStudentIdStore(
+    (state) => state.resetStudentId,
+  );
   const [clickedStudentId] = useClickedStudentIdStore((state) => [
     state.clickedStudentId,
   ]);

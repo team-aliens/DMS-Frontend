@@ -29,7 +29,7 @@
     "@dms/store": "workspace:*",
     "@tanstack/react-query": "4.29.12",
     "@tanstack/react-query-devtools": "^5.99.0",
-    "@team-aliens/design-system": "^1.14.4",
+    "@team-aliens/design-system": "^1.14.5",
     "axios": "^1.15.0",
     "file-saver": "^2.0.5",
     "react": "^18.2.0",

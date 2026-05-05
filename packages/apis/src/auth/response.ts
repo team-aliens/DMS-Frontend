@@ -7,7 +7,8 @@ export type Features =
   | 'remain_service'
   | 'study_room_service'
   | 'outing_service'
-  | 'volunteer_service';
+  | 'volunteer_service'
+  | 'daybreak_service';
 
 export type IsUseAbleFeature = {
   [key in Features]: boolean;

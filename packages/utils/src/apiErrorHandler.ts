@@ -28,6 +28,14 @@ export const handleApiError = (error: AxiosError) => {
   if (error.response) {
     const { status, data } = error.response;
 
+    if (status === 401 || status === 403 || status === 422) {
+      message = hasMessage(data) ? data.message : '인증 세션이 만료되었습니다.';
+
+      localStorage.clear();
+      window.location.href = '/login';
+      return Promise.reject(error);
+    }
+
     switch (status) {
       case 400:
         if (hasFieldError(data)) {

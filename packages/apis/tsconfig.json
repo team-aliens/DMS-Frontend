@@ -13,6 +13,11 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
-  "include": ["./src/**/*", "@types", "../../packages/utils/src/**/*"],
+  "include": [
+    "src/**/*",
+    "src/@types",
+    "packages/**/src/**/*",
+    "services/**/src/**/*"
+  ],
   "exclude": ["node_modules", "dist"]
 }

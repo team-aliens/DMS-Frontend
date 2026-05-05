@@ -1510,7 +1510,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dms/apis@workspace:packages/apis"
   dependencies:
-    "@tanstack/react-query": "npm:^4.29.12"
+    "@tanstack/react-query": "npm:4.29.12"
     "@types/file-saver": "npm:^2.0.7"
     "@types/node": "npm:^18.11.18"
     axios: "npm:^1.1.3"
@@ -1525,8 +1525,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dms/hooks@workspace:packages/hooks"
   dependencies:
-    "@tanstack/react-query": "npm:^4.29.12"
-    "@team-aliens/design-system": "npm:^1.12.0"
+    "@tanstack/react-query": "npm:4.29.12"
+    "@team-aliens/design-system": "npm:^1.14.4"
     "@types/file-saver": "npm:^2.0.7"
     "@types/node": "npm:^18.11.18"
     axios: "npm:^1.1.3"
@@ -1538,12 +1538,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@dms/store@workspace:*, @dms/store@workspace:packages/store":
+  version: 0.0.0-use.local
+  resolution: "@dms/store@workspace:packages/store"
+  dependencies:
+    "@tanstack/react-query": "npm:4.29.12"
+    "@team-aliens/design-system": "npm:^1.14.4"
+    "@types/file-saver": "npm:^2.0.7"
+    "@types/node": "npm:^18.11.18"
+    axios: "npm:^1.1.3"
+    date-fns: "npm:^4.1.0"
+    exceljs: "npm:^4.3.0"
+    file-saver: "npm:^2.0.5"
+    mitt: "npm:^3.0.1"
+    react-cookie: "npm:^4.1.1"
+    react-router-dom: "npm:^6.4.2"
+    typescript: "npm:^4.9.4"
+    zustand: "npm:^4.3.8"
+  languageName: unknown
+  linkType: soft
+
 "@dms/utils@workspace:packages/utils":
   version: 0.0.0-use.local
   resolution: "@dms/utils@workspace:packages/utils"
   dependencies:
-    "@tanstack/react-query": "npm:^4.29.12"
-    "@team-aliens/design-system": "npm:^1.12.0"
+    "@tanstack/react-query": "npm:4.29.12"
+    "@team-aliens/design-system": "npm:^1.14.4"
     "@types/file-saver": "npm:^2.0.7"
     "@types/node": "npm:^18.11.18"
     axios: "npm:^1.1.3"
@@ -2527,9 +2547,9 @@ __metadata:
     "@babel/preset-typescript": "npm:^7.17.12"
     "@babel/runtime-corejs3": "npm:^7.18.9"
     "@eslint/js": "npm:9.30.1"
-    "@tanstack/react-query": "npm:^4.29.12"
+    "@tanstack/react-query": "npm:4.29.12"
     "@tanstack/react-query-devtools": "npm:^4.29.12"
-    "@team-aliens/design-system": "npm:^1.12.0"
+    "@team-aliens/design-system": "npm:^1.14.4"
     "@types/file-saver": "npm:^2"
     "@types/jest": "npm:^29.2.6"
     "@types/node": "npm:^18.11.18"
@@ -2565,6 +2585,7 @@ __metadata:
     react-color: "npm:^2.19.3"
     react-cookie: "npm:^8.1.0"
     react-dom: "npm:^18.2.0"
+    react-intersection-observer: "npm:^10.0.3"
     react-outside-click-handler: "npm:^1.3.0"
     react-router-dom: "npm:^6.4.2"
     react-slick: "npm:^0.30.2"
@@ -2577,13 +2598,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@service/head-teacher@workspace:services/headTeacher":
+"@service/general-teacher@workspace:services/generalTeacher":
   version: 0.0.0-use.local
-  resolution: "@service/head-teacher@workspace:services/headTeacher"
+  resolution: "@service/general-teacher@workspace:services/generalTeacher"
   dependencies:
     "@dms/apis": "workspace:*"
-    "@tanstack/react-query": "npm:^5.99.0"
+    "@tanstack/react-query": "npm:4.29.12"
     "@tanstack/react-query-devtools": "npm:^5.99.0"
+    "@team-aliens/design-system": "npm:^1.14.4"
     "@types/react": "npm:^18.2.7"
     "@types/react-dom": "npm:^18.0.10"
     "@types/react-slick": "npm:^0.23.13"
@@ -2595,6 +2617,7 @@ __metadata:
     eslint: "npm:^9.33.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
+    react-intersection-observer: "npm:^10.0.3"
     react-router-dom: "npm:^6.4.2"
     react-slick: "npm:^0.31.0"
     styled-components: "npm:^5.3.6"
@@ -2602,7 +2625,40 @@ __metadata:
     typescript: "npm:^5.0.4"
     vite: "npm:5.4.0"
     vite-tsconfig-paths: "npm:^5.1.4"
-    zustand: "npm:^5.0.12"
+    zustand: "npm:^4.3.8"
+  languageName: unknown
+  linkType: soft
+
+"@service/head-teacher@workspace:services/headTeacher":
+  version: 0.0.0-use.local
+  resolution: "@service/head-teacher@workspace:services/headTeacher"
+  dependencies:
+    "@dms/apis": "workspace:*"
+    "@dms/store": "workspace:*"
+    "@tanstack/react-query": "npm:4.29.12"
+    "@tanstack/react-query-devtools": "npm:^5.99.0"
+    "@team-aliens/design-system": "npm:^1.14.4"
+    "@types/react": "npm:^18.2.7"
+    "@types/react-dom": "npm:^18.0.10"
+    "@types/react-slick": "npm:^0.23.13"
+    "@types/styled-components": "npm:^5.1.36"
+    "@vitejs/plugin-react": "npm:^4.3.0"
+    axios: "npm:^1.15.0"
+    cypress: "npm:^15.13.1"
+    cypress-react-selector: "npm:^3.0.0"
+    eslint: "npm:^9.33.0"
+    file-saver: "npm:^2.0.5"
+    react: "npm:^18.2.0"
+    react-dom: "npm:^18.2.0"
+    react-intersection-observer: "npm:^10.0.3"
+    react-router-dom: "npm:^6.4.2"
+    react-slick: "npm:^0.31.0"
+    styled-components: "npm:^5.3.6"
+    styled-normalize: "npm:^8.1.1"
+    typescript: "npm:^5.0.4"
+    vite: "npm:5.4.0"
+    vite-tsconfig-paths: "npm:^5.1.4"
+    zustand: "npm:^4.3.8"
   languageName: unknown
   linkType: soft
 
@@ -2656,17 +2712,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.44.0":
-  version: 4.44.0
-  resolution: "@tanstack/query-core@npm:4.44.0"
-  checksum: 10/f7f5c69cb2d44b58e1a9bfaa304a82724bb49f0ff63fd3abdfe377f15825ad910e1d31dd529d94e0650ff17229930eef2f54e281dbe99fa6cbd6a85e7c27bb9d
-  languageName: node
-  linkType: hard
-
-"@tanstack/query-core@npm:5.99.0":
-  version: 5.99.0
-  resolution: "@tanstack/query-core@npm:5.99.0"
-  checksum: 10/752c38122c772a8c511ffd927e003282a23a3ab6979b066d1d8b100a2061a5448096fce4cfc9e2d93a2ef468ffac5440a6181203b1456d12f6e51f69bcdc1a4d
+"@tanstack/query-core@npm:4.29.11":
+  version: 4.29.11
+  resolution: "@tanstack/query-core@npm:4.29.11"
+  checksum: 10/b0045f76a5fad81224c9329c07fe5d4f6bae3613dfcd32dd654d34b1d493ec57e8c3f999bc0711d52e523c03bc9c3c979dc37bc8da1b67a634d67bb0f2a46a62
   languageName: node
   linkType: hard
 
@@ -2704,39 +2753,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^4.29.12":
-  version: 4.44.0
-  resolution: "@tanstack/react-query@npm:4.44.0"
+"@tanstack/react-query@npm:4.29.12":
+  version: 4.29.12
+  resolution: "@tanstack/react-query@npm:4.29.12"
   dependencies:
-    "@tanstack/query-core": "npm:4.44.0"
-    use-sync-external-store: "npm:^1.6.0"
+    "@tanstack/query-core": "npm:4.29.11"
+    use-sync-external-store: "npm:^1.2.0"
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-native: "*"
   peerDependenciesMeta:
     react-dom:
       optional: true
     react-native:
       optional: true
-  checksum: 10/1eda263fbabfbb0ec7fd9444c4240b62ba5e80205b652a2d82a28a7dfb5a19a626a7e58094b4b9f71edf16085473f9b1238c7796ce6e8925bca3aefc9f18a49b
+  checksum: 10/f6dae856b0eda189ea8ce13f1cdb1d0153a70ace6ed9f53c8a8379e6be28d26cf522dabe5d2d04e6f29ffbe3fbf7aca327321cfc089e1792fa30070a5c34bc71
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.99.0":
-  version: 5.99.0
-  resolution: "@tanstack/react-query@npm:5.99.0"
-  dependencies:
-    "@tanstack/query-core": "npm:5.99.0"
-  peerDependencies:
-    react: ^18 || ^19
-  checksum: 10/aafbc87fc9c6c01c8ac8229d42ab209273f39f8284a72b8917c5fab39722b949b8dff2cf3b28487b2ebcb286bb08a377a42ed8a56dabe7f1ac4681c5af338401
-  languageName: node
-  linkType: hard
-
-"@team-aliens/design-system@npm:^1.12.0":
-  version: 1.12.0
-  resolution: "@team-aliens/design-system@npm:1.12.0"
+"@team-aliens/design-system@npm:^1.14.4":
+  version: 1.14.4
+  resolution: "@team-aliens/design-system@npm:1.14.4"
   dependencies:
     react-outside-click-handler: "npm:^1.3.0"
   peerDependencies:
@@ -2744,7 +2782,7 @@ __metadata:
     react-dom: ">= 18"
     react-router-dom: ">= 6"
     styled-components: ">= 5"
-  checksum: 10/9e76610285c129df5699bb57084baa0c7ac0e4abe2c8f77775ef95439ad3a82aaf397b4ea6a2d8caf87af2ad2c2a3e1b9a80e2f689046f108c5e1f575d5a76d4
+  checksum: 10/d2b1ab93f49607a16e3ea06bd312020235419800c265765dccdb62825948ade56a2a1de5211ab29d2c76a5eca85958d0c4e7ea1f746160834ff4db03d0178dd5
   languageName: node
   linkType: hard
 
@@ -3398,6 +3436,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "DMS@workspace:."
   dependencies:
+    "@team-aliens/design-system": "npm:^1.14.4"
     "@yarnpkg/pnpify": "npm:^4.1.6"
     eslint: "npm:^8.41.0"
     husky: "npm:>=6"
@@ -3407,6 +3446,7 @@ __metadata:
     react-slick: "npm:^0.30.2"
     styled-components: "npm:^6.4.1"
     typescript: "npm:^5.0.4"
+    vite-tsconfig-paths: "npm:^6.1.1"
   languageName: unknown
   linkType: soft
 
@@ -9055,6 +9095,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-intersection-observer@npm:^10.0.3":
+  version: 10.0.3
+  resolution: "react-intersection-observer@npm:10.0.3"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+  checksum: 10/bc28378618e7a1f9aa367e9ce19f956d027a42946caf99f20afe927f14ee9288af08871d52d038103c2bc9bf5f664c748c74010882f5e14c695cd8202928ed9b
+  languageName: node
+  linkType: hard
+
 "react-is@npm:*":
   version: 19.2.5
   resolution: "react-is@npm:19.2.5"
@@ -10810,7 +10863,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-sync-external-store@npm:^1.2.0, use-sync-external-store@npm:^1.2.2, use-sync-external-store@npm:^1.6.0":
+"use-sync-external-store@npm:^1.2.0, use-sync-external-store@npm:^1.2.2":
   version: 1.6.0
   resolution: "use-sync-external-store@npm:1.6.0"
   peerDependencies:
@@ -10870,6 +10923,19 @@ __metadata:
     vite:
       optional: true
   checksum: 10/b409dbd17829f560021a71dba3e473b9c06dcf5fdc9d630b72c1f787145ec478b38caff1be04868971ac8bdcbf0f5af45eeece23dbc9c59c54b901f867740ae0
+  languageName: node
+  linkType: hard
+
+"vite-tsconfig-paths@npm:^6.1.1":
+  version: 6.1.1
+  resolution: "vite-tsconfig-paths@npm:6.1.1"
+  dependencies:
+    debug: "npm:^4.1.1"
+    globrex: "npm:^0.1.2"
+    tsconfck: "npm:^3.0.3"
+  peerDependencies:
+    vite: "*"
+  checksum: 10/f752bce4f3c5707f0df7af8a20294b1f325e26f50578b82c8262d851028616ebb1a3e73ab0789c55cf3c8da8d985e843193c0bec2cb31662c567ccdf137f1fd0
   languageName: node
   linkType: hard
 
@@ -11176,26 +11242,5 @@ __metadata:
     react:
       optional: true
   checksum: 10/21c47ea1c9bb0363b714a7e371a91b9afaeabc5c9c2f522803a0fb412605b1e037c4f975a7377529de8f2857e60d1f4586e7ade18444168ecc492e38779e605d
-  languageName: node
-  linkType: hard
-
-"zustand@npm:^5.0.12":
-  version: 5.0.12
-  resolution: "zustand@npm:5.0.12"
-  peerDependencies:
-    "@types/react": ">=18.0.0"
-    immer: ">=9.0.6"
-    react: ">=18.0.0"
-    use-sync-external-store: ">=1.2.0"
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    immer:
-      optional: true
-    react:
-      optional: true
-    use-sync-external-store:
-      optional: true
-  checksum: 10/b84c85fc4133ec5ee05c11d0f2f3dff0f7537d9d0f1d3475a8e5a92f42ee1ba6d38039e09baf510075eb738e3d55018a635b3fa7db07c94e8d5717104abab9e5
   languageName: node
   linkType: hard

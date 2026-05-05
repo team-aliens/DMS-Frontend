@@ -13,7 +13,7 @@ import {
   GetStudyApplicationType,
 } from './response';
 
-const router = '/daybreak';
+const router = '/daybreaks';
 
 export const getGeneralStudyApplications = async (
   state: GeneralStudyApplicationRequest
@@ -58,5 +58,5 @@ export const getStudyApplicationTypes = async () => {
 export const patchStudyApplicationStatus = async (
   body: PatchStudyApplicationStatusRequest
 ) => {
-  await instance.patch(`${router}`, body);
+  await instance.patch(`${router}/study-application`, body);
 };

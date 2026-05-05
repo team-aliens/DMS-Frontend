@@ -68,7 +68,7 @@ export const TeacherPage = ({ viewType }: TeacherPageProps) => {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useHeadStudyApplication({
-      date: '2026-04-23',
+      date: today,
       size: 8,
       ...(selectedTypeId && { type_id: selectedTypeId }),
       ...(status && { status: pageConfig[viewType].status }),

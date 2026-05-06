@@ -27,7 +27,7 @@ export const commonQueryOptions = (pageSize: number = 10) => ({
   getNextPageParam: (lastPage: any, allPages: any[]) => {
     const currentItems = lastPage.applications || [];
 
-    if (currentItems.length <= pageSize || currentItems.length === 0) {
+    if (currentItems.length < pageSize || currentItems.length === 0) {
       return undefined;
     }
 
@@ -40,7 +40,11 @@ export const useGeneralStudyApplication = (
 ) => {
   return useInfiniteQuery(
     [queryKeys.일반자습신청조회, state],
-    () => getGeneralStudyApplications(state),
+    ({ pageParam = 0 }) =>
+      getGeneralStudyApplications({
+        ...state,
+        page: pageParam,
+      }),
     {
       ...commonQueryOptions(state.size),
     }
@@ -51,7 +55,11 @@ export const useHeadStudyApplication = (state: HeadStudyApplicationRequest) => {
   const token = getCookie('access_token');
   return useInfiniteQuery(
     [queryKeys.부장자습신청조회, state],
-    () => getHeadStudyApplications(state),
+    ({ pageParam = 0 }) =>
+      getHeadStudyApplications({
+        ...state,
+        page: pageParam,
+      }),
     {
       ...commonQueryOptions(state.size),
     }
@@ -63,7 +71,11 @@ export const useManagerStudyApplication = (
 ) => {
   return useInfiniteQuery(
     [queryKeys.사감자습신청조회, state],
-    () => getManagerStudyApplications(state),
+    ({ pageParam = 0 }) =>
+      getManagerStudyApplications({
+        ...state,
+        page: pageParam,
+      }),
     {
       ...commonQueryOptions(state.size),
     }

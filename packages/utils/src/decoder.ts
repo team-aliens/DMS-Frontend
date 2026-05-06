@@ -1,6 +1,9 @@
 export const getFileNameFromContentDisposition = (encodedText: string) => {
-  let decodedText = decodeURI(encodedText);
-  decodedText = decodedText.replace(' ', '');
-  decodedText = decodedText.replace('attachment;filename=', '');
-  return decodedText;
+  const decoded = decodeURI(encodedText || '');
+  const match = decoded.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+
+  if (match && match[1]) {
+    return match[1].replace(/['"]/g, '').trim();
+  }
+  return 'download.xlsx'; // fallback
 };

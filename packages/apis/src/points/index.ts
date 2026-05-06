@@ -197,6 +197,9 @@ export const useAllPointHistoryExcel = () => {
     async () =>
       await instance.get(`${router}/history/excel`, {
         responseType: 'blob',
+        headers: {
+          Accept: 'application/octet-stream',
+        },
       }),
     {
       onSuccess: (res) => {

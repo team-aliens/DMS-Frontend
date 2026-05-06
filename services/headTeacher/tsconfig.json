@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "strict": false,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "noResolve": false,
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true
+  },
+  "typeRoots": ["src/@types"],
+  "include": ["./src/**/*", "@types"]
+}

@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": ["ESNext", "DOM"],
+    "noImplicitAny": false,
+    "strict": false,
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "src/**/*",
+    "src/@types",
+    "packages/**/src/**/*",
+    "services/**/src/**/*"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

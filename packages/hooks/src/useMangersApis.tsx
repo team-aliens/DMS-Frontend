@@ -1,0 +1,144 @@
+import { MutationOptions, useMutation, useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import {
+  deleteStudent,
+  findId,
+  getMyProfile,
+  getStudentDetail,
+  searchStudentList,
+  SortType,
+} from '@/apis/managers';
+import { useToast } from '@/hooks/useToast';
+import { PointType } from '@/apis/points';
+import { useModal } from './useModal';
+import { pagePath } from '@/utils/pagePath';
+import { TagType } from '@/apis/tags/response';
+import { useSelectedStudentIdStore } from '@/store/useSelectedStudentIdStore';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+  uploadRoomInfoFile,
+  uploadStudentInfoFile,
+} from '@/apis/managers/index';
+import { AxiosError } from 'axios';
+
+interface PropsType {
+  selectedId: string;
+  answer: string;
+}
+
+export const useFindId = ({ selectedId, answer }: PropsType) => {
+  const { toastDispatch } = useToast();
+  const navigate = useNavigate();
+
+  return useMutation(() => findId(selectedId, answer), {
+    onSuccess: (res) => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: `${res.email}으로 아이디가 발송되었습니다.`,
+      });
+      navigate(pagePath.login);
+    },
+    onError: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: '학교 인증 질문과 답변이 일치하지 않습니다.',
+      });
+    },
+  });
+};
+
+interface SearchStudentPropsType {
+  name: string;
+  sort: SortType;
+  filter_type: PointType;
+  min_point: number;
+  max_point: number;
+  tag_id?: TagType[];
+}
+
+export const useSearchStudents = ({
+  name,
+  sort,
+  filter_type,
+  min_point,
+  max_point,
+  tag_id,
+}: SearchStudentPropsType) =>
+  useQuery(
+    ['studentList', name, sort, filter_type, min_point, max_point, tag_id],
+    () =>
+      searchStudentList(name, sort, filter_type, min_point, max_point, tag_id),
+    {
+      refetchOnWindowFocus: true,
+    }
+  );
+
+export const useStudentDetail = (id: string) =>
+  useQuery(['getStudentDetail', id], () => id && getStudentDetail(id), {
+    enabled: Boolean(id),
+  });
+export const useMyProfileInfo = () => useQuery(['getMyProfile'], getMyProfile);
+
+export const useDeleteStudent = (student_id: string) => {
+  const { closeModal } = useModal();
+  const [selectedStudentId, resetStudentId] = useSelectedStudentIdStore(
+    (state) => [state.selectedStudentId, state.resetStudentId]
+  );
+  const queryClient = useQueryClient();
+
+  return useMutation(() => deleteStudent(student_id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['studentList']);
+      resetStudentId();
+      closeModal();
+    },
+  });
+};
+
+export const useUploadStudentInfoFile = (file: FileList[0]) => {
+  const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
+
+  return useMutation(() => uploadStudentInfoFile(file), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '엑셀이 업로드 되었습니다.',
+      });
+      closeModal();
+    },
+    onError: (e: AxiosError<{ message: string }>) => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: e.response.data.message,
+      });
+    },
+  });
+};
+
+export const useUploadRoomInfoFile = (file: FileList[0]) => {
+  const { toastDispatch } = useToast();
+  const { closeModal } = useModal();
+
+  return useMutation(() => uploadRoomInfoFile(file), {
+    onSuccess: () => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'SUCCESS',
+        message: '엑셀이 업로드 되었습니다.',
+      });
+      closeModal();
+    },
+    onError: (e: AxiosError<{ message: string }>) => {
+      toastDispatch({
+        actionType: 'APPEND_TOAST',
+        toastType: 'ERROR',
+        message: e.response.data.message,
+      });
+    },
+  });
+};

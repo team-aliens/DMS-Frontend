@@ -1,0 +1,42 @@
+{
+  "name": "@service/general-teacher",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "jest",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.7",
+    "@types/react-dom": "^18.0.10",
+    "@types/react-slick": "^0.23.13",
+    "@types/styled-components": "^5.1.36",
+    "@vitejs/plugin-react": "^4.3.0",
+    "cypress": "^15.13.1",
+    "cypress-react-selector": "^3.0.0",
+    "eslint": "^9.33.0",
+    "typescript": "^5.0.4",
+    "vite": "5.4.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "dependencies": {
+    "@dms/apis": "workspace:*",
+    "@tanstack/react-query": "4.29.12",
+    "@tanstack/react-query-devtools": "^5.99.0",
+    "@team-aliens/design-system": "^1.14.5",
+    "axios": "^1.15.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-intersection-observer": "^10.0.3",
+    "react-router-dom": "^6.4.2",
+    "react-slick": "^0.31.0",
+    "styled-components": "^5.3.6",
+    "styled-normalize": "^8.1.1",
+    "zustand": "^4.3.8"
+  }
+}

@@ -1,9 +1,21 @@
 {
-    "compilerOptions": {
-        "noImplicitAny": false,
-        "strict": false,
-        "target": "ESNext",
-        "module": "ESNext",
-        "moduleResolution": "node"
-    }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["services/admin/src/*"],
+      "@/apis/*": ["packages/apis/src/*"],
+      "@/utils/*": ["packages/utils/src/*"],
+      "@/hooks/*": ["packages/hooks/src/*"],
+      "@/store/*": ["packages/store/src/*"]
+    },
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*",
+    "src/@types",
+    "packages/**/src/**/*",
+    "services/**/src/**/*"
+  ],
+  "exclude": ["node_modules"]
 }

@@ -1,26 +1,18 @@
 import { useModal } from '@/hooks/useModal';
-import {
-  Modal,
-  Input,
-  DropDown,
-  Button,
-  TextArea,
-} from '@team-aliens/design-system';
+import { Modal, Input, Button, Text } from '@team-aliens/design-system';
 import styled from 'styled-components';
-import { addVolunteerWork } from '@/apis/volunteers';
 import { useState } from 'react';
+import { useAddVolunteerWork } from '@/hooks/useVolunteerApi';
 import { addVolunteerWorkRequest } from '@/apis/volunteers/request';
 import { gradeKoreanCalculator } from '@/utils/translate';
 import { SexType } from '@/apis/volunteers/request';
-import { useToast } from '@/hooks/useToast';
 
 export function AddVolunteer() {
-  const [primaryGrade, setPrimaryGrade] = useState<string>('');
-  const [secondaryGrade, setSecondaryGrade] = useState<string>('');
-  const { toastDispatch } = useToast();
+  const [selectedGrades, setSelectedGrades] = useState<string[]>([]);
   const [selectedSex, setSelectedSex] = useState<SexType>(null);
+  const { mutate: addVolunteer } = useAddVolunteerWork();
 
-  const grades = ['1학년', '2학년', '3학년'];
+  const grades = ['1학년', '2학년', '3학년', '전체'];
   const { closeModal } = useModal();
 
   const [volunteerData, setVolunteerData] = useState<addVolunteerWorkRequest>({
@@ -38,10 +30,10 @@ export function AddVolunteer() {
     const { name, value } = e.target;
 
     const newValue =
-      name === ' score' ||
-      name === 'optional_score' ||
-      name === 'max_applicants'
-        ? value === '' ?  null : Number(value)
+      name === 'score' || name === 'optional_score' || name === 'max_applicants'
+        ? value === ''
+          ? null
+          : Number(value)
         : value;
 
     setVolunteerData((prevData) => ({
@@ -50,12 +42,23 @@ export function AddVolunteer() {
     }));
   };
 
-  const onDropDownChange = (gradeType: string, value: string) => {
-    if (gradeType === 'primary') {
-      setPrimaryGrade(value);
-    } else if (gradeType === 'secondary') {
-      setSecondaryGrade(value);
+  const onGradeButtonClick = (grade: string) => {
+    if (grade === '전체') {
+      setSelectedGrades(['전체']);
+      return;
     }
+
+    setSelectedGrades((prev) => {
+      if (prev.includes('전체')) return [grade];
+
+      if (prev.includes(grade)) {
+        return prev.filter((g) => g !== grade);
+      }
+
+      if (prev.length >= 2) return prev;
+
+      return [...prev, grade];
+    });
   };
 
   const onSexButtonClick = (sex: SexType) => {
@@ -66,40 +69,28 @@ export function AddVolunteer() {
     }));
   };
 
-  const onSubmit = async () => {
-    try {
-      const sortedGrades = [primaryGrade, secondaryGrade]
-        .filter(Boolean)
-        .sort();
-      const combinedGrade = gradeKoreanCalculator(sortedGrades.join(', '));
+  const onSubmit = () => {
+    const sortedGrades = selectedGrades.slice().filter(Boolean).sort();
+    const combinedGrade = gradeKoreanCalculator(sortedGrades.join(', '));
 
-      await addVolunteerWork({
+    addVolunteer(
+      {
         ...volunteerData,
         available_grade: combinedGrade,
-      });
-
-      toastDispatch({
-        actionType: 'APPEND_TOAST',
-        toastType: 'SUCCESS',
-        message: '봉사 활동을 성공적으로 추가했습니다.',
-      });
-      
-      closeModal();
-      window.location.reload();
-    } catch (error) {
-      toastDispatch({
-        actionType: 'APPEND_TOAST',
-        toastType: 'ERROR',
-        message: '봉사 활동 추가에 실패했습니다.',
-      });
-    }
+      },
+      {
+        onSuccess: () => {
+          closeModal();
+        },
+      },
+    );
   };
 
   return (
     <Modal
       close={closeModal}
       title="봉사 추가"
-      width='800px'
+      width="800px"
       inputList={[
         <>
           <_Container>
@@ -114,35 +105,46 @@ export function AddVolunteer() {
                   value={volunteerData.name}
                   onChange={onChange}
                 />
-                <DropDown
-                  items={grades}
-                  placeholder={''}
-                  value={primaryGrade}
-                  width={334}
-                  onChange={(value) => onDropDownChange('primary', value)}
-                  label="조건"
-                />
-                <DropDown
-                  items={grades}
-                  placeholder={''}
-                  value={secondaryGrade}
-                  width={334}
-                  onChange={(value) => onDropDownChange('secondary', value)}
-                />
-                 <_ButtonWrapper>
-                  <Button kind={selectedSex === 'MALE' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('MALE')}>
-                    남자
-                  </Button>
-                  <Button
-                    kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
-                    onClick={() => onSexButtonClick('FEMALE')}
-                  >
-                    여자
-                  </Button>
-                  <Button kind={selectedSex === 'ALL' ? 'contained' : 'outline'} onClick={() => onSexButtonClick('ALL')}>
-                    전체
-                  </Button>
-                </_ButtonWrapper>
+                <_GradeWrapper>
+                  <Text>조건</Text>
+                  <_GradeButtonWrapper>
+                    {grades.map((g) => (
+                      <Button
+                        key={g}
+                        kind={
+                          selectedGrades.includes(g) ? 'contained' : 'outline'
+                        }
+                        onClick={() => onGradeButtonClick(g)}
+                      >
+                        {g}
+                      </Button>
+                    ))}
+                  </_GradeButtonWrapper>
+                </_GradeWrapper>
+
+                <_SexWrapper>
+                  <Text>성별</Text>
+                  <_ButtonWrapper>
+                    <Button
+                      kind={selectedSex === 'MALE' ? 'contained' : 'outline'}
+                      onClick={() => onSexButtonClick('MALE')}
+                    >
+                      남자
+                    </Button>
+                    <Button
+                      kind={selectedSex === 'FEMALE' ? 'contained' : 'outline'}
+                      onClick={() => onSexButtonClick('FEMALE')}
+                    >
+                      여자
+                    </Button>
+                    <Button
+                      kind={selectedSex === 'ALL' ? 'contained' : 'outline'}
+                      onClick={() => onSexButtonClick('ALL')}
+                    >
+                      전체
+                    </Button>
+                  </_ButtonWrapper>
+                </_SexWrapper>
               </_Contents>
               <_Contents>
                 <Input
@@ -188,6 +190,17 @@ export function AddVolunteer() {
   );
 }
 
+const _GradeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+const _SexWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
 const _Contents = styled.div`
   display: flex;
   flex-direction: column;
@@ -203,7 +216,12 @@ const _ButtonWrapper = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-top: 36px;
+`;
+
+const _GradeButtonWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 2fr));
+  gap: 12px;
 `;
 
 const _Container = styled.div`

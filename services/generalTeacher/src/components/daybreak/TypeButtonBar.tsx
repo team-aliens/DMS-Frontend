@@ -42,7 +42,6 @@ export const TypeButtonBar = ({ activeType, onToggle }: TypeButtonBarProps) => {
 const _FilterButton = styled.div`
   display: inline-flex;
   align-items: center;
-  height: 60px;
   padding: 20px 10px;
   border-radius: 12px;
   border: 1px solid ${theme.teacherColor.blue[300]};

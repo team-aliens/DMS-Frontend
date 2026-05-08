@@ -4,6 +4,10 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  resolve: {
+    preserveSymlinks: true,
+    dedupe: ['react', 'react-dom', 'react-router-dom', '@tanstack/react-query'],
+  },
   server: {
     port: 3001, // 개발 서버 포트
   },

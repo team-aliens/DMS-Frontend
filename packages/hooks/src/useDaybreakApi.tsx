@@ -25,7 +25,7 @@ export const commonQueryOptions = (pageSize: number = 10) => ({
   cacheTime: 0,
   staleTime: 0,
   getNextPageParam: (lastPage: any, allPages: any[]) => {
-    const currentItems = lastPage.applications || [];
+    const currentItems = lastPage?.applications || [];
 
     if (currentItems.length < pageSize || currentItems.length === 0) {
       return undefined;

@@ -1510,14 +1510,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dms/apis@workspace:packages/apis"
   dependencies:
-    "@tanstack/react-query": "npm:4.29.12"
     "@types/file-saver": "npm:^2.0.7"
     "@types/node": "npm:^18.11.18"
     axios: "npm:^1.1.3"
     date-fns: "npm:^4.1.0"
     file-saver: "npm:^2.0.5"
-    react-router-dom: "npm:^6.4.2"
     typescript: "npm:^4.9.4"
+  peerDependencies:
+    "@tanstack/react-query": 4.29.12
+    react: ">=18"
+    react-router-dom: ^6.4.2
   languageName: unknown
   linkType: soft
 
@@ -1525,16 +1527,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dms/hooks@workspace:packages/hooks"
   dependencies:
-    "@tanstack/react-query": "npm:4.29.12"
     "@team-aliens/design-system": "npm:^1.14.5"
     "@types/file-saver": "npm:^2.0.7"
     "@types/node": "npm:^18.11.18"
     axios: "npm:^1.1.3"
     date-fns: "npm:^4.1.0"
     file-saver: "npm:^2.0.5"
-    react: "npm:^18.2.0"
-    react-router-dom: "npm:^6.4.2"
     typescript: "npm:^4.9.4"
+  peerDependencies:
+    "@tanstack/react-query": 4.29.12
+    react: ">=18"
+    react-router-dom: ^6.4.2
   languageName: unknown
   linkType: soft
 
@@ -2548,7 +2551,7 @@ __metadata:
     "@babel/runtime-corejs3": "npm:^7.18.9"
     "@eslint/js": "npm:9.30.1"
     "@tanstack/react-query": "npm:4.29.12"
-    "@tanstack/react-query-devtools": "npm:^4.29.12"
+    "@tanstack/react-query-devtools": "npm:4.29.12"
     "@team-aliens/design-system": "npm:^1.14.5"
     "@types/file-saver": "npm:^2"
     "@types/jest": "npm:^29.2.6"
@@ -2728,6 +2731,21 @@ __metadata:
   version: 4.29.11
   resolution: "@tanstack/query-core@npm:4.29.11"
   checksum: 10/b0045f76a5fad81224c9329c07fe5d4f6bae3613dfcd32dd654d34b1d493ec57e8c3f999bc0711d52e523c03bc9c3c979dc37bc8da1b67a634d67bb0f2a46a62
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query-devtools@npm:4.29.12":
+  version: 4.29.12
+  resolution: "@tanstack/react-query-devtools@npm:4.29.12"
+  dependencies:
+    "@tanstack/match-sorter-utils": "npm:^8.7.0"
+    superjson: "npm:^1.10.0"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    "@tanstack/react-query": 4.29.12
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/435f9aeaa33db77bb7c195fe4a3abcd64626a722ad08ec717a43e0defb8c0ba28719ff05e5e64409947e81c091bf907e8651f8c0365d010870cc52901bf1952a
   languageName: node
   linkType: hard
 

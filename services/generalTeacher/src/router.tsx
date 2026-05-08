@@ -11,7 +11,7 @@ export const Router = createBrowserRouter([
     children: [
       {
         path: pagePath.home,
-        element: <TeacherPage viewType="ALL" />,
+        element: <TeacherPage />,
       },
       { path: pagePath.login, element: <TeacherLoginPage /> },
     ],

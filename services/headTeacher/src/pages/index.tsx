@@ -71,7 +71,9 @@ export const TeacherPage = ({ viewType }: TeacherPageProps) => {
       date: today,
       size: 8,
       ...(selectedTypeId && { type_id: selectedTypeId }),
-      ...(status && { status: pageConfig[viewType].status }),
+      ...(pageConfig[viewType].status && {
+        status: pageConfig[viewType].status,
+      }),
     });
 
   const applicationList =

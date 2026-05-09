@@ -13,20 +13,8 @@ import {
   useGeneralStudyApplication,
   useUpdateStudyStatus,
 } from '@/hooks/useDaybreakApi';
-import {} from '@/apis/daybreak/request';
 
-type ApplicationStatus =
-  | 'PENDING'
-  | 'FIRST_APPROVED'
-  | 'SECOND_APPROVED'
-  | 'REJECTED'
-  | 'EXPIRED';
-
-interface TeacherPageProps {
-  viewType: 'ALL' | 'APPROVED' | 'REJECTED';
-}
-
-export const TeacherPage = ({ viewType }: TeacherPageProps) => {
+export const TeacherPage = () => {
   const [selectedId, setSelectedId] = useState<string>('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedTypeId, setSelectedTypeId] = useState<string>('');

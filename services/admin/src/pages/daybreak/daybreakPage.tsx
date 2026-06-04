@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
-import { useInView } from 'react-intersection-observer';
 import { Text } from '@team-aliens/design-system';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
 import { TypeButtonBar } from '../../components/daybreak/TypeButtonBar';
@@ -14,27 +13,21 @@ export const DaybreakPage = () => {
   const [selectedTypeId, setSelectedTypeId] = useState<string>();
 
   const { selectModal, modalState } = useModal();
-  const { ref, inView } = useInView({ threshold: 0, rootMargin: '200px' });
+  const { data } = useManagerStudyApplication({
+    ...(selectedTypeId && { grade: Number(selectedTypeId) }),
+  });
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useManagerStudyApplication({
-      size: 8,
-      ...(selectedTypeId && { grade: Number(selectedTypeId) }),
-    });
+  const applicationList = useMemo(() => {
+    return data?.applications || [];
+  }, [data]);
 
-  const applicationList =
-    data?.pages?.flatMap((page) => page.applications) || [];
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  const handleRowClick = (id: string) => {
-    setSelectedId(id);
-    selectModal('DAYBREAK_STUDY_DETAIL');
-  };
+  const handleRowClick = useCallback(
+    (id: string) => {
+      setSelectedId(id);
+      selectModal('DAYBREAK_STUDY_DETAIL');
+    },
+    [selectModal],
+  );
 
   return (
     <WithNavigatorBar>
@@ -51,7 +44,6 @@ export const DaybreakPage = () => {
           />
         </_Header>
         <TeacherTable data={applicationList} handleRowClick={handleRowClick} />
-        {hasNextPage && <div ref={ref} style={{ height: '1px' }} />}
       </_Wrapper>
       {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' && (
         <TeacherModal selectedId={selectedId} />

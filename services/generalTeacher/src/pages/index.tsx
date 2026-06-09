@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { useInView } from 'react-intersection-observer';
 import { TeacherHeader } from '../components/daybreak/Header';
 import { TypeButtonBar } from '../components/daybreak/TypeButtonBar';
 import { ActiveButtonBar } from '../components/daybreak/ActiveButtonBar';
@@ -22,7 +21,6 @@ export const TeacherPage = () => {
   const { logOut } = useAuth();
   const { selectModal, modalState } = useModal();
   const { toastDispatch } = useToast();
-  const { ref, inView } = useInView({ threshold: 0, rootMargin: '200px' });
   const today = new Intl.DateTimeFormat('fr-CA', {
     year: 'numeric',
     month: '2-digit',
@@ -30,21 +28,14 @@ export const TeacherPage = () => {
     timeZone: 'Asia/Seoul',
   }).format(new Date());
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useGeneralStudyApplication({
-      date: today,
-      size: 8,
-      ...(selectedTypeId && { type_id: selectedTypeId }),
-    });
+  const { data } = useGeneralStudyApplication({
+    date: today,
+    ...(selectedTypeId && { type_id: selectedTypeId }),
+  });
 
-  const applicationList =
-    data?.pages?.flatMap((page) => page.applications) || [];
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const applicationList = useMemo(() => {
+    return data?.applications || [];
+  }, [data]);
 
   const handleRowClick = (id: string) => {
     setSelectedId(id);
@@ -100,7 +91,6 @@ export const TeacherPage = () => {
             handleRowClick={handleRowClick}
             onSelectChange={handleSelectChange}
           />
-          {hasNextPage && <div ref={ref} style={{ height: '1px' }} />}
         </_ContentSection>
       </_Wrapper>
 

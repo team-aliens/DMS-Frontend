@@ -19,49 +19,34 @@ import {
 } from '@/apis/daybreak/request';
 import { queryKeys } from '@/utils/queryKeys';
 import { useToast } from '@/hooks/useToast';
-import { setCookie, getCookie } from '@/utils/cookies';
-
-export const commonQueryOptions = (pageSize: number = 10) => ({
-  cacheTime: 0,
-  staleTime: 0,
-  getNextPageParam: (lastPage: any, allPages: any[]) => {
-    const currentItems = lastPage?.applications || [];
-
-    if (currentItems.length < pageSize || currentItems.length === 0) {
-      return undefined;
-    }
-
-    return allPages.length;
-  },
-});
+import { getCookie } from '@/utils/cookies';
 
 export const useGeneralStudyApplication = (
   state: GeneralStudyApplicationRequest
 ) => {
-  return useInfiniteQuery(
+  return useQuery(
     [queryKeys.일반자습신청조회, state],
-    ({ pageParam = 0 }) =>
+    () =>
       getGeneralStudyApplications({
         ...state,
-        page: pageParam,
       }),
     {
-      ...commonQueryOptions(state.size),
+      cacheTime: 0,
+      staleTime: 0,
     }
   );
 };
 
 export const useHeadStudyApplication = (state: HeadStudyApplicationRequest) => {
-  const token = getCookie('access_token');
-  return useInfiniteQuery(
+  return useQuery(
     [queryKeys.부장자습신청조회, state],
-    ({ pageParam = 0 }) =>
+    () =>
       getHeadStudyApplications({
         ...state,
-        page: pageParam,
       }),
     {
-      ...commonQueryOptions(state.size),
+      cacheTime: 0,
+      staleTime: 0,
     }
   );
 };
@@ -69,15 +54,15 @@ export const useHeadStudyApplication = (state: HeadStudyApplicationRequest) => {
 export const useManagerStudyApplication = (
   state: ManagerStudyApplicationRequest
 ) => {
-  return useInfiniteQuery(
+  return useQuery(
     [queryKeys.사감자습신청조회, state],
-    ({ pageParam = 0 }) =>
+    () =>
       getManagerStudyApplications({
         ...state,
-        page: pageParam,
       }),
     {
-      ...commonQueryOptions(state.size),
+      cacheTime: 0,
+      staleTime: 0,
     }
   );
 };

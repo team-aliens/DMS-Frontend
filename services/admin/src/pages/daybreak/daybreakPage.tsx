@@ -1,7 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
-import { useInView } from 'react-intersection-observer';
-import { Text } from '@team-aliens/design-system';
+import { Button, Text } from '@team-aliens/design-system';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
 import { TypeButtonBar } from '../../components/daybreak/TypeButtonBar';
 import { TeacherTable } from '../../components/daybreak/Table';

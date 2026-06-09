@@ -64,7 +64,6 @@ export const patchStudyApplicationStatus = async (
   await instance.patch(`${router}/study-application`, body);
 };
 
-/** 새벽자습 신청 현황 엑셀 출력 */
 export const useGetStudyApplicationExcel = () =>
   useMutation(
     () =>

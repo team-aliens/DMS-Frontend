@@ -1523,6 +1523,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@dms/apis@workspace:packages/apis"
   dependencies:
+    "@tanstack/react-query": "npm:4.29.12"
     "@types/file-saver": "npm:^2.0.7"
     "@types/node": "npm:^18.11.18"
     axios: "npm:^1.1.3"

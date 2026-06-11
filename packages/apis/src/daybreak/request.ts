@@ -7,14 +7,12 @@ type ApplicationStatus =
 
 export interface GeneralStudyApplicationRequest {
   type_id?: string;
-  date: string;
   page?: number;
   size?: number;
 }
 
 export interface HeadStudyApplicationRequest {
   type_id?: string;
-  date: string;
   status?: ApplicationStatus;
   page?: number;
   size?: number;

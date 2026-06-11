@@ -21,15 +21,8 @@ export const TeacherPage = () => {
   const { logOut } = useAuth();
   const { selectModal, modalState } = useModal();
   const { toastDispatch } = useToast();
-  const today = new Intl.DateTimeFormat('fr-CA', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    timeZone: 'Asia/Seoul',
-  }).format(new Date());
 
   const { data } = useGeneralStudyApplication({
-    date: today,
     ...(selectedTypeId && { type_id: selectedTypeId }),
   });
 

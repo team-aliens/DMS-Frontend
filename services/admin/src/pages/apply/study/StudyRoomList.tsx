@@ -91,11 +91,11 @@ export function StudyRoomList() {
   const [selectTimeCardId, setSelectTimeCardId] = useState('');
   const [clickTimeCardId, setClickTimeCardId] = useState('');
   const { data: list, mutate: mutateStudyRoomList } = useStudyRoomList({
-    //@ts-ignore
-    time_slot: selectTimeCardId ?? studyTimeSlots[0],
+    time_slot: selectTimeCardId,
   });
 
   useEffect(() => {
+    if (!selectTimeCardId) return;
     mutateStudyRoomList();
   }, [selectTimeCardId]);
 
@@ -106,8 +106,10 @@ export function StudyRoomList() {
 
   useEffect(() => {
     mutateStudyTimeSlots().then((res) => {
-      setSelectTimeCardId(res.time_slots[0].id);
-      mutateStudyRoomList();
+      const firstTimeSlot = res.time_slots[0];
+      if (firstTimeSlot) {
+        setSelectTimeCardId(firstTimeSlot.id);
+      }
     });
   }, []);
 

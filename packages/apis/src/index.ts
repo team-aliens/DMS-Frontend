@@ -30,7 +30,7 @@ instance.interceptors.response.use(
       _retry?: boolean;
     };
 
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    if (error.response?.status === 401) {
       if (originalRequest._retry) {
         return Promise.reject(error);
       }

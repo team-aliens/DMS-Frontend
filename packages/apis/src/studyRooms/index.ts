@@ -151,7 +151,7 @@ export const useDeleteStudyRoom = (
 
 export const useStudyRoomDetail = (studyRoomId: string, timeSlotId: string) =>
   useQuery(
-    ['studyRoomDetail', studyRoomId, timeSlotId],
+    ['studyRoomDetail', studyRoomId],
     async () => {
       const { data } = await instance.get<StudyRoomDetailResponse>(
         `${router}/${studyRoomId}/managers`,
@@ -164,7 +164,6 @@ export const useStudyRoomDetail = (studyRoomId: string, timeSlotId: string) =>
       return data;
     },
     {
-      enabled: Boolean(studyRoomId && timeSlotId),
       refetchOnWindowFocus: true,
     }
   );
@@ -248,10 +247,7 @@ export const usePatchStudyRoom = (
 export const useStudyRoomList = ({ time_slot }: StudyRoomListRequest) =>
   useMutation(['studyRoomList'], async () => {
     const { data } = await instance.get<StudyRoomListResponse>(
-      `${router}/list/managers`,
-      {
-        params: { time_slot },
-      }
+      `${router}/list/managers?time_slot=${time_slot}`
     );
     return data;
   });

@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { useInView } from 'react-intersection-observer';
 import { TeacherHeader } from '../components/daybreak/Header';
 import { TypeButtonBar } from '../components/daybreak/TypeButtonBar';
 import { ActiveButtonBar } from '../components/daybreak/ActiveButtonBar';
@@ -33,14 +32,6 @@ export const TeacherPage = ({ viewType }: TeacherPageProps) => {
   const { logOut } = useAuth();
   const { selectModal, modalState } = useModal();
   const { toastDispatch } = useToast();
-  const { ref, inView } = useInView({ threshold: 0, rootMargin: '200px' });
-
-  const today = new Intl.DateTimeFormat('fr-CA', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    timeZone: 'Asia/Seoul',
-  }).format(new Date());
 
   const pageConfig: Record<
     'ALL' | 'APPROVED' | 'REJECTED',
@@ -66,24 +57,14 @@ export const TeacherPage = ({ viewType }: TeacherPageProps) => {
     },
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useHeadStudyApplication({
-      date: today,
-      size: 8,
-      ...(selectedTypeId && { type_id: selectedTypeId }),
-      ...(pageConfig[viewType].status && {
-        status: pageConfig[viewType].status,
-      }),
-    });
+  const { data } = useHeadStudyApplication({
+    ...(selectedTypeId && { type_id: selectedTypeId }),
+    ...(pageConfig[viewType].status && {
+      status: pageConfig[viewType].status,
+    }),
+  });
 
-  const applicationList =
-    data?.pages?.flatMap((page) => page.applications) || [];
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const applicationList = data?.applications || [];
 
   const handleRowClick = (id: string) => {
     setSelectedId(id);
@@ -142,7 +123,6 @@ export const TeacherPage = ({ viewType }: TeacherPageProps) => {
             handleRowClick={handleRowClick}
             onSelectChange={handleSelectChange}
           />
-          {hasNextPage && <div ref={ref} style={{ height: '1px' }} />}
         </_ContentSection>
       </_Wrapper>
 

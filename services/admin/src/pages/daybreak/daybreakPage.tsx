@@ -1,40 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
-import { useInView } from 'react-intersection-observer';
-import { Text } from '@team-aliens/design-system';
+import { Button, Text } from '@team-aliens/design-system';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
 import { TypeButtonBar } from '../../components/daybreak/TypeButtonBar';
 import { TeacherTable } from '../../components/daybreak/Table';
 import { TeacherModal } from '../../components/daybreak/Modal';
 import { useModal } from '@/hooks/useModal';
 import { useManagerStudyApplication } from '@/hooks/useDaybreakApi';
+import { useGetStudyApplicationExcel } from '@/apis/daybreak';
 
 export const DaybreakPage = () => {
   const [selectedId, setSelectedId] = useState<string>();
   const [selectedTypeId, setSelectedTypeId] = useState<string>();
 
+  const { mutate: downloadExcel } = useGetStudyApplicationExcel();
+
   const { selectModal, modalState } = useModal();
-  const { ref, inView } = useInView({ threshold: 0, rootMargin: '200px' });
+  const { data } = useManagerStudyApplication({
+    ...(selectedTypeId && { grade: Number(selectedTypeId) }),
+  });
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useManagerStudyApplication({
-      size: 8,
-      ...(selectedTypeId && { grade: Number(selectedTypeId) }),
-    });
+  const applicationList = useMemo(() => {
+    return data?.applications || [];
+  }, [data]);
 
-  const applicationList =
-    data?.pages?.flatMap((page) => page.applications) || [];
-
-  useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  const handleRowClick = (id: string) => {
-    setSelectedId(id);
-    selectModal('DAYBREAK_STUDY_DETAIL');
-  };
+  const handleRowClick = useCallback(
+    (id: string) => {
+      setSelectedId(id);
+      selectModal('DAYBREAK_STUDY_DETAIL');
+    },
+    [selectModal],
+  );
 
   return (
     <WithNavigatorBar>
@@ -43,15 +39,19 @@ export const DaybreakPage = () => {
           <Text display="block" size="headlineM" margin={['bottom', 40]}>
             새벽자습 신청함
           </Text>
-          <TypeButtonBar
-            activeType={selectedTypeId}
-            onToggle={(id) => {
-              setSelectedTypeId((prev) => (prev === id ? '' : id));
-            }}
-          />
+          <_FilterRow>
+            <TypeButtonBar
+              activeType={selectedTypeId}
+              onToggle={(id) => {
+                setSelectedTypeId((prev) => (prev === id ? '' : id));
+              }}
+            />
+            <Button color="gray" kind="outline" onClick={downloadExcel}>
+              액셀 출력
+            </Button>
+          </_FilterRow>
         </_Header>
         <TeacherTable data={applicationList} handleRowClick={handleRowClick} />
-        {hasNextPage && <div ref={ref} style={{ height: '1px' }} />}
       </_Wrapper>
       {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' && (
         <TeacherModal selectedId={selectedId} />
@@ -68,9 +68,14 @@ export const _Wrapper = styled.div`
 `;
 
 export const _Header = styled.div`
-  width: 100%;
+  width: 94%;
   display: flex;
   flex-direction: column;
-  margin-left: 48px;
-  margin-bottom: 30px;
+  margin: 0 48px 30px 48px;
+`;
+
+const _FilterRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;

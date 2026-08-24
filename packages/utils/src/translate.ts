@@ -155,7 +155,10 @@ export interface ServiceObject {
 
 export const serviceToKorean = (service: Features): ServiceObject => {
   switch (service) {
-    case 'study_room_service':
+    // 자습실 도메인이 삭제되면서(백엔드 #1030) 응답에서 study_room_service가 사라졌고,
+    // '신청' 탭이 통째로 없어져 잔류(/apply/remains) 진입로까지 막혔었다.
+    // 현재 '신청' 탭에 남아있는 기능은 잔류뿐이라 remain_service 기준으로 판단한다.
+    case 'remain_service':
       return { service: '신청', index: 1 };
     case 'point_service':
       return { service: '홈', index: 0 };

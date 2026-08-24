@@ -12,6 +12,9 @@ import {
   ManagerStudyApplication,
   GetStudyApplicationType,
 } from './response';
+import { useMutation } from '@tanstack/react-query';
+import fileSaver from 'file-saver';
+import { getFileNameFromContentDisposition } from '@/utils/decoder';
 
 const router = '/daybreaks';
 
@@ -60,3 +63,21 @@ export const patchStudyApplicationStatus = async (
 ) => {
   await instance.patch(`${router}/study-application`, body);
 };
+
+export const useGetStudyApplicationExcel = () =>
+  useMutation(
+    () =>
+      instance.get(`${router}/manager/study-application/export`, {
+        responseType: 'blob',
+      }),
+    {
+      onSuccess: (res) => {
+        const blob = new Blob([res.data], {
+          type: res.headers['content-type'] as string,
+        });
+        const fileName = res.headers['content-disposition'] as string;
+
+        fileSaver.saveAs(blob, getFileNameFromContentDisposition(fileName));
+      },
+    }
+  );

@@ -10,7 +10,7 @@ import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
 import {
   useHeadStudyApplication,
-  useUpdateStudyStatus,
+  useRevertStudyApplication,
 } from '@/hooks/useDaybreakApi';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 
@@ -47,7 +47,7 @@ export const ApprovalPage = () => {
     fetchNextPage,
   });
 
-  const { mutate: updateStatus } = useUpdateStudyStatus();
+  const { mutate: revert } = useRevertStudyApplication();
 
   const handleRowClick = (id: string) => {
     const clicked = applicationList.find((item) => item.application_id === id);
@@ -64,8 +64,8 @@ export const ApprovalPage = () => {
         message: '선택된 항목이 없습니다.',
       });
     }
-    updateStatus(
-      { application_id_list: selectedIds, status: 'FIRST_APPROVED' },
+    revert(
+      { application_id_list: selectedIds },
       { onSuccess: () => setSelectedIds([]) }
     );
   };

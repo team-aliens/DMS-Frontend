@@ -4,12 +4,14 @@ import {
   HeadStudyApplicationRequest,
   ManagerStudyApplicationRequest,
   PatchStudyApplicationStatusRequest,
+  StudyApplicationHistoryRequest,
 } from './request';
 import {
   GetStudyApplicationsResponse,
   GeneralStudyApplication,
   HeadStudyApplication,
   ManagerStudyApplication,
+  StudyApplicationHistory,
   GetStudyApplicationType,
 } from './response';
 import { useMutation } from '@tanstack/react-query';
@@ -46,6 +48,18 @@ export const getManagerStudyApplications = async (
   const { data } = await instance.get<
     GetStudyApplicationsResponse<ManagerStudyApplication>
   >(`${router}/manager/study-application`, {
+    params: state,
+  });
+  return data;
+};
+
+export const getStudyApplicationHistory = async (
+  student_id: string,
+  state: StudyApplicationHistoryRequest = {}
+) => {
+  const { data } = await instance.get<
+    GetStudyApplicationsResponse<StudyApplicationHistory>
+  >(`${router}/study-application/history/${student_id}`, {
     params: state,
   });
   return data;

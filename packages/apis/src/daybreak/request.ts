@@ -29,6 +29,10 @@ export interface StudyApplicationHistoryRequest {
   size?: number;
 }
 
+export interface RevertStudyApplicationRequest {
+  application_id_list: string[];
+}
+
 export interface PatchStudyApplicationStatusRequest {
   application_id_list: string[];
   status: ApplicationStatus;

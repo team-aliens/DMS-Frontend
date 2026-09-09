@@ -33,7 +33,7 @@ export function WithNavigatorBar({ children }: PropsType) {
 
   return (
     <_Wrapper>
-      <NavigatorBar navList={services} />
+      <NavigatorBar variant="teacher" navList={services} />
       {children}
     </_Wrapper>
   );

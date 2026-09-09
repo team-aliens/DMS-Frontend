@@ -7,7 +7,7 @@ const toDotDate = (value: string) => value.slice(0, 10).replace(/-/g, '.');
 /** 담당 선생님이 아직 정해지지 않은 신청이 있어 빈 값을 그대로 두지 않는다 */
 const toTeacherName = (name?: string) => name || '미배정';
 
-/** 사이드바 뱃지는 EXPIRED를 다루지 않으므로 그 경우엔 뱃지를 그리지 않는다 */
+/** 뱃지 디자인에 EXPIRED가 없어 만료된 신청은 뱃지 없이 둔다 */
 const toChipStatus = (status: StudyApplicationHistory['status']) =>
   status === 'EXPIRED' ? undefined : status;
 

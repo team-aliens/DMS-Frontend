@@ -24,6 +24,11 @@ export interface ManagerStudyApplicationRequest {
   size?: number;
 }
 
+export interface StudyApplicationHistoryRequest {
+  page?: number;
+  size?: number;
+}
+
 export interface PatchStudyApplicationStatusRequest {
   application_id_list: string[];
   status: ApplicationStatus;

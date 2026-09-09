@@ -4,6 +4,7 @@ import {
   HeadStudyApplicationRequest,
   ManagerStudyApplicationRequest,
   PatchStudyApplicationStatusRequest,
+  RevertStudyApplicationRequest,
   StudyApplicationHistoryRequest,
 } from './request';
 import {
@@ -76,6 +77,13 @@ export const patchStudyApplicationStatus = async (
   body: PatchStudyApplicationStatusRequest
 ) => {
   await instance.patch(`${router}/study-application`, body);
+};
+
+/** 부장 선생님이 자신이 내린 최종 승인/거절을 1차 승인 상태로 되돌린다 */
+export const revertStudyApplication = async (
+  body: RevertStudyApplicationRequest
+) => {
+  await instance.patch(`${router}/study-application/revert`, body);
 };
 
 export const useGetStudyApplicationExcel = () =>

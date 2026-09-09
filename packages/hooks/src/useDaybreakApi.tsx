@@ -11,12 +11,14 @@ import {
   getStudyApplicationHistory,
   getStudyApplicationTypes,
   patchStudyApplicationStatus,
+  revertStudyApplication,
 } from '@/apis/daybreak/index';
 import {
   GeneralStudyApplicationRequest,
   HeadStudyApplicationRequest,
   ManagerStudyApplicationRequest,
   PatchStudyApplicationStatusRequest,
+  RevertStudyApplicationRequest,
 } from '@/apis/daybreak/request';
 import { queryKeys } from '@/utils/queryKeys';
 import { useToast } from '@/hooks/useToast';
@@ -131,6 +133,35 @@ export const useUpdateStudyStatus = () => {
           actionType: 'APPEND_TOAST',
           toastType: 'ERROR',
           message: '자습 신청 상태 변경에 실패했습니다.',
+        });
+      },
+    }
+  );
+};
+
+/** 최종 승인/거절을 1차 승인 상태로 되돌린다 */
+export const useRevertStudyApplication = () => {
+  const { toastDispatch } = useToast();
+  const queryClient = useQueryClient();
+  return useMutation(
+    (body: RevertStudyApplicationRequest) => revertStudyApplication(body),
+    {
+      onSuccess: () => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'SUCCESS',
+          message: '자습 신청을 되돌렸습니다.',
+        });
+        queryClient.invalidateQueries([queryKeys.일반자습신청조회]);
+        queryClient.invalidateQueries([queryKeys.부장자습신청조회]);
+        queryClient.invalidateQueries([queryKeys.사감자습신청조회]);
+        queryClient.invalidateQueries([queryKeys.자습이력조회]);
+      },
+      onError: () => {
+        toastDispatch({
+          actionType: 'APPEND_TOAST',
+          toastType: 'ERROR',
+          message: '자습 신청을 되돌리지 못했습니다.',
         });
       },
     }

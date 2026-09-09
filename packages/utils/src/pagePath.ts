@@ -47,8 +47,7 @@ interface PagePath {
   outing: '/outing';
   daybreak: {
     list: '/daybreak';
-    approved: '/study-apply/approved';
-    rejected: '/study-apply/rejected';
+    approval: '/approval';
   };
 }
 
@@ -95,7 +94,6 @@ export const pagePath: PagePath = {
   outing: '/outing',
   daybreak: {
     list: '/daybreak',
-    approved: '/study-apply/approved',
-    rejected: '/study-apply/rejected',
+    approval: '/approval',
   },
 } as const;

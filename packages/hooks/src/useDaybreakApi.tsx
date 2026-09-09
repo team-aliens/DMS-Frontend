@@ -85,13 +85,16 @@ export const useManagerStudyApplication = (
 
 /** 학생 한 명의 새벽자습 이력. 가장 최신(진행 중) 신청이 맨 앞에 온다 */
 export const useStudyApplicationHistory = (studentId?: string) => {
-  return useQuery(
+  return useInfiniteQuery(
     [queryKeys.자습이력조회, studentId],
-    () => getStudyApplicationHistory(studentId as string),
+    ({ pageParam = 0 }) =>
+      getStudyApplicationHistory(studentId as string, {
+        page: pageParam,
+        size: STUDY_APPLICATION_PAGE_SIZE,
+      }),
     {
+      ...infiniteOptions,
       enabled: !!studentId,
-      cacheTime: 0,
-      staleTime: 0,
     }
   );
 };

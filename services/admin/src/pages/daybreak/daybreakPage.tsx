@@ -1,28 +1,34 @@
 import { useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
-import { Button, Text } from '@team-aliens/design-system';
+import { theme } from '@team-aliens/design-system/dist/styles/theme';
 import { WithNavigatorBar } from '../../components/WithNavigatorBar';
-import { TypeButtonBar } from '../../components/daybreak/TypeButtonBar';
 import { TeacherTable } from '../../components/daybreak/Table';
 import { TeacherModal } from '../../components/daybreak/Modal';
 import { useModal } from '@/hooks/useModal';
 import { useManagerStudyApplication } from '@/hooks/useDaybreakApi';
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 import { useGetStudyApplicationExcel } from '@/apis/daybreak';
+import ExportIcon from '../../assets/export.svg';
 
 export const DaybreakPage = () => {
   const [selectedId, setSelectedId] = useState<string>();
-  const [selectedTypeId, setSelectedTypeId] = useState<string>();
 
   const { mutate: downloadExcel } = useGetStudyApplicationExcel();
 
   const { selectModal, modalState } = useModal();
-  const { data } = useManagerStudyApplication({
-    ...(selectedTypeId && { grade: Number(selectedTypeId) }),
-  });
+  const { data, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useManagerStudyApplication({});
 
-  const applicationList = useMemo(() => {
-    return data?.applications || [];
-  }, [data]);
+  const applicationList = useMemo(
+    () => data?.pages.flatMap((page) => page.applications) ?? [],
+    [data],
+  );
+
+  const scrollRef = useInfiniteScroll({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleRowClick = useCallback(
     (id: string) => {
@@ -34,25 +40,17 @@ export const DaybreakPage = () => {
 
   return (
     <WithNavigatorBar>
-      <_Wrapper>
-        <_Header>
-          <Text display="block" size="headlineM" margin={['bottom', 40]}>
-            새벽자습 신청함
-          </Text>
-          <_FilterRow>
-            <TypeButtonBar
-              activeType={selectedTypeId}
-              onToggle={(id) => {
-                setSelectedTypeId((prev) => (prev === id ? '' : id));
-              }}
-            />
-            <Button color="gray" kind="outline" onClick={downloadExcel}>
-              액셀 출력
-            </Button>
-          </_FilterRow>
-        </_Header>
+      <_Content>
+        <_PageHeader>
+          <_PageTitle>새벽자습 신청함</_PageTitle>
+          <_ExportButton onClick={() => downloadExcel()}>
+            <img src={ExportIcon} alt="" width={28} height={28} />
+            내보내기
+          </_ExportButton>
+        </_PageHeader>
         <TeacherTable data={applicationList} handleRowClick={handleRowClick} />
-      </_Wrapper>
+        <div ref={scrollRef} />
+      </_Content>
       {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' && (
         <TeacherModal selectedId={selectedId} />
       )}
@@ -60,22 +58,39 @@ export const DaybreakPage = () => {
   );
 };
 
-export const _Wrapper = styled.div`
-  width: 1510px;
+const _Content = styled.div`
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  margin: 100px 0 0 80px;
+  gap: 32px;
+  padding: 172px 136px 80px;
 `;
 
-export const _Header = styled.div`
-  width: 94%;
+const _PageHeader = styled.div`
   display: flex;
-  flex-direction: column;
-  margin: 0 48px 30px 48px;
-`;
-
-const _FilterRow = styled.div`
-  display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+`;
+
+const _PageTitle = styled.h1`
+  ${theme.font.headlineL};
+  color: ${theme.teacherColor.gray[900]};
+`;
+
+const _ExportButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 50px;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 12px;
+  background: ${theme.teacherColor.blue[300]};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  color: ${theme.teacherColor.gray[50]};
+  ${theme.font.titleS};
+  cursor: pointer;
+  white-space: nowrap;
 `;

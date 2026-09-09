@@ -16,6 +16,7 @@ interface BaseStudyApplication {
   start_date: string;
   end_date: string;
   reason: string;
+  student_id: string;
   student_name: string;
   student_gcn: string;
 }
@@ -30,6 +31,13 @@ export interface HeadStudyApplication extends BaseStudyApplication {
 
 export interface ManagerStudyApplication extends BaseStudyApplication {
   teacher_name: string;
+}
+
+/** 이력 응답에는 student_id가 없다(경로로 이미 지정하므로) */
+export interface StudyApplicationHistory
+  extends Omit<BaseStudyApplication, 'student_id'> {
+  teacher_name: string;
+  status: ApplicationStatus;
 }
 
 export interface GetStudyApplicationType {

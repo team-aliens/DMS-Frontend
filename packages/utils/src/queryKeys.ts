@@ -15,4 +15,5 @@ export const queryKeys = {
   부장자습신청조회: 'getHeadStudyApplications',
   사감자습신청조회: 'getManagerStudyApplications',
   자습유형조회: 'getStudyApplicationTypes',
+  자습이력조회: 'getStudyApplicationHistory',
 };

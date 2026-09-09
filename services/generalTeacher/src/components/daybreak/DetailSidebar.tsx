@@ -17,14 +17,18 @@ interface DetailSidebarProps {
 }
 
 export const DetailSidebar = ({ studentId, close }: DetailSidebarProps) => {
-  const { data, isLoading } = useStudyApplicationHistory(studentId);
+  const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useStudyApplicationHistory(studentId);
 
   // 가장 최신(진행 중) 신청이 맨 앞에 오고, 사이드바가 그것을 펼쳐 보여준다
-  const history = data?.applications ?? [];
+  const history = data?.pages.flatMap((page) => page.applications) ?? [];
 
   return (
     <HistorySidebar
       isLoading={isLoading}
+      onReachEnd={() => {
+        if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+      }}
       data={history.map((item) => ({
         application_id: item.application_id,
         type_name: item.type_name,

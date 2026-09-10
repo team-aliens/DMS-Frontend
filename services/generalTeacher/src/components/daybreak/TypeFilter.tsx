@@ -30,12 +30,12 @@ export const TypeFilter = ({ value, onChange }: TypeFilterProps) => {
 
 /**
  * DropDownFilter의 옵션 박스는 일반 흐름에 놓여 있어서 펼치면 아래 요소를 밀어낸다.
- * 선택 박스 크기(191x50)로 자리를 고정해 두면 옵션 박스가 넘쳐 흐르면서 겹쳐지고,
+ * 선택 박스 높이로 자리를 고정해 두면 옵션 박스가 넘쳐 흐르면서 겹쳐지고,
  * position/z-index로 스택 컨텍스트를 만들어 뒤따라오는 테이블 위에 그려지게 한다.
+ * 너비는 라벨 길이에 따라 달라지므로 고정하지 않는다.
  */
 const _Anchor = styled.div`
   position: relative;
   z-index: 10;
-  width: 191px;
   height: 50px;
 `;

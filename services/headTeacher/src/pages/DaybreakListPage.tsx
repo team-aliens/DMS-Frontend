@@ -5,6 +5,7 @@ import {
   PageLayout,
   _PageHeader,
   _PageTitle,
+  _TableScroll,
   _Toolbar,
 } from '../components/layout';
 import { TypeFilter } from '../components/daybreak/TypeFilter';
@@ -101,14 +102,16 @@ export const DaybreakListPage = () => {
           </_Toolbar>
         </_PageHeader>
 
-        <TeacherTable
-          variant="HEAD_TEACHER"
-          data={applicationList}
-          selectedIds={selectedIds}
-          handleRowClick={handleRowClick}
-          onSelectChange={setSelectedIds}
-        />
-        <div ref={scrollRef} />
+        <_TableScroll>
+          <TeacherTable
+            variant="HEAD_TEACHER"
+            data={applicationList}
+            selectedIds={selectedIds}
+            handleRowClick={handleRowClick}
+            onSelectChange={setSelectedIds}
+          />
+          <div ref={scrollRef} />
+        </_TableScroll>
       </PageLayout>
 
       {approvalType && (

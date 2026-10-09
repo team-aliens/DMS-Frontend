@@ -1,7 +1,12 @@
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from '@team-aliens/design-system/dist/styles/theme';
-import { PageLayout, _PageHeader, _Toolbar } from '../components/layout';
+import {
+  PageLayout,
+  _PageHeader,
+  _TableScroll,
+  _Toolbar,
+} from '../components/layout';
 import { TypeFilter } from '../components/daybreak/TypeFilter';
 import { RevertButton } from '../components/daybreak/RevertButton';
 import { TeacherTable } from '../components/daybreak/Table';
@@ -100,14 +105,16 @@ export const ApprovalPage = () => {
           </_Toolbar>
         </_PageHeader>
 
-        <TeacherTable
-          variant="HEAD_TEACHER"
-          data={applicationList}
-          selectedIds={selectedIds}
-          handleRowClick={handleRowClick}
-          onSelectChange={setSelectedIds}
-        />
-        <div ref={scrollRef} />
+        <_TableScroll>
+          <TeacherTable
+            variant="HEAD_TEACHER"
+            data={applicationList}
+            selectedIds={selectedIds}
+            handleRowClick={handleRowClick}
+            onSelectChange={setSelectedIds}
+          />
+          <div ref={scrollRef} />
+        </_TableScroll>
       </PageLayout>
 
       {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' && (

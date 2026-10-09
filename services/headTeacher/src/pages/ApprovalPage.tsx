@@ -17,6 +17,7 @@ import {
   useHeadStudyApplication,
   useRevertStudyApplication,
 } from '@/hooks/useDaybreakApi';
+import { HeadStudyApplication } from '@/apis/daybreak/response';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 
 type ApprovalTab = 'APPROVED' | 'REJECTED';
@@ -28,7 +29,8 @@ const TABS: { key: ApprovalTab; label: string }[] = [
 
 export const ApprovalPage = () => {
   const [tab, setTab] = useState<ApprovalTab>('APPROVED');
-  const [selectedStudentId, setSelectedStudentId] = useState<string>('');
+  const [selectedApplication, setSelectedApplication] =
+    useState<HeadStudyApplication | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedTypeId, setSelectedTypeId] = useState<string>('');
 
@@ -57,7 +59,7 @@ export const ApprovalPage = () => {
   const handleRowClick = (id: string) => {
     const clicked = applicationList.find((item) => item.application_id === id);
     if (!clicked) return;
-    setSelectedStudentId(clicked.student_id);
+    setSelectedApplication(clicked);
     selectModal('DAYBREAK_STUDY_DETAIL');
   };
 
@@ -117,9 +119,14 @@ export const ApprovalPage = () => {
         </_TableScroll>
       </PageLayout>
 
-      {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' && (
-        <DetailSidebar studentId={selectedStudentId} close={closeModal} />
-      )}
+      {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' &&
+        selectedApplication && (
+          <DetailSidebar
+            application={selectedApplication}
+            status={tab === 'APPROVED' ? 'SECOND_APPROVED' : 'REJECTED'}
+            close={closeModal}
+          />
+        )}
     </>
   );
 };

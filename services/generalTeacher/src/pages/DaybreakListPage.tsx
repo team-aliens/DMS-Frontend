@@ -16,10 +16,12 @@ import {
   useGeneralStudyApplication,
   useUpdateStudyStatus,
 } from '@/hooks/useDaybreakApi';
+import { GeneralStudyApplication } from '@/apis/daybreak/response';
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll';
 
 export const DaybreakListPage = () => {
-  const [selectedStudentId, setSelectedStudentId] = useState<string>('');
+  const [selectedApplication, setSelectedApplication] =
+    useState<GeneralStudyApplication | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedTypeId, setSelectedTypeId] = useState<string>('');
 
@@ -56,7 +58,7 @@ export const DaybreakListPage = () => {
   const handleRowClick = (id: string) => {
     const clicked = applicationList.find((item) => item.application_id === id);
     if (!clicked) return;
-    setSelectedStudentId(clicked.student_id);
+    setSelectedApplication(clicked);
     selectModal('DAYBREAK_STUDY_DETAIL');
   };
 
@@ -107,9 +109,10 @@ export const DaybreakListPage = () => {
         </_TableScroll>
       </PageLayout>
 
-      {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' && (
-        <DetailSidebar studentId={selectedStudentId} close={closeModal} />
-      )}
+      {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' &&
+        selectedApplication && (
+          <DetailSidebar application={selectedApplication} close={closeModal} />
+        )}
     </>
   );
 };

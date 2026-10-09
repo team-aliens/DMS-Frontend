@@ -3,6 +3,7 @@ import {
   PageLayout,
   _PageHeader,
   _PageTitle,
+  _TableScroll,
   _Toolbar,
 } from '../components/layout';
 import { TypeFilter } from '../components/daybreak/TypeFilter';
@@ -93,15 +94,17 @@ export const DaybreakListPage = () => {
           </_Toolbar>
         </_PageHeader>
 
-        <TeacherTable
-          data={applicationList}
-          selectedIds={selectedIds}
-          handleRowClick={handleRowClick}
-          onSelectChange={(ids) =>
-            setSelectedIds(ids.filter((id) => selectableIds.includes(id)))
-          }
-        />
-        <div ref={scrollRef} />
+        <_TableScroll>
+          <TeacherTable
+            data={applicationList}
+            selectedIds={selectedIds}
+            handleRowClick={handleRowClick}
+            onSelectChange={(ids) =>
+              setSelectedIds(ids.filter((id) => selectableIds.includes(id)))
+            }
+          />
+          <div ref={scrollRef} />
+        </_TableScroll>
       </PageLayout>
 
       {modalState.selectedModal === 'DAYBREAK_STUDY_DETAIL' && (

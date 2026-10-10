@@ -21,7 +21,8 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
 
 const _Layout = styled.div`
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background: ${theme.teacherColor.gray[100]};
 `;
 
@@ -31,7 +32,7 @@ const _Content = styled.main`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 140px 136px 80px;
+  padding: 140px 136px 0;
 `;
 
 export const _PageHeader = styled.div`
@@ -44,6 +45,15 @@ export const _PageHeader = styled.div`
 export const _PageTitle = styled.h1`
   ${theme.font.headlineL};
   color: ${theme.teacherColor.gray[600]};
+`;
+
+/** 페이지 헤더는 그대로 두고 표만 스크롤되도록 감싼다 */
+export const _TableScroll = styled.div`
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: 80px;
+  border-radius: 24px 24px 0 0;
 `;
 
 export const _Toolbar = styled.div`

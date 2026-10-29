@@ -13,8 +13,7 @@ interface BaseStudyApplication {
   application_id: string;
   type_name: string;
   created_at: string;
-  start_date: string;
-  end_date: string;
+  dates: string[];
   reason: string;
   student_id: string;
   student_name: string;

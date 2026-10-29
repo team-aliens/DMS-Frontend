@@ -2,8 +2,9 @@ type ApplicationStatus =
   | 'PENDING'
   | 'FIRST_APPROVED'
   | 'SECOND_APPROVED'
-  | 'REJECTED'
-  | 'EXPIRED';
+  | 'REJECTED';
+
+type HistoryStatus = ApplicationStatus | 'EXPIRED';
 
 export interface GetStudyApplicationsResponse<T> {
   applications: T[];
@@ -36,7 +37,7 @@ export interface ManagerStudyApplication extends BaseStudyApplication {
 export interface StudyApplicationHistory
   extends Omit<BaseStudyApplication, 'student_id'> {
   teacher_name: string;
-  status: ApplicationStatus;
+  status: HistoryStatus;
 }
 
 export interface GetStudyApplicationType {

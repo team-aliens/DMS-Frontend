@@ -1,7 +1,8 @@
 import { Table } from '@team-aliens/design-system';
+import { GeneralStudyApplication } from '@/apis/daybreak/response';
 
 interface TeacherTableProps {
-  data: any[];
+  data: GeneralStudyApplication[];
   selectedIds: string[];
   handleRowClick: (id: string) => void;
   onSelectChange: (ids: string[]) => void;

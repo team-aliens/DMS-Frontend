@@ -15,7 +15,7 @@ const toChipStatus = (status: StudyApplicationHistory['status']) =>
   status === 'EXPIRED' ? undefined : status;
 
 const toSidebarItem = (
-  item: Omit<GeneralStudyApplication, 'student_id'>,
+  item: Omit<StudyApplicationHistory, 'teacher_name'>,
   teacherName?: string
 ) => ({
   application_id: item.application_id,

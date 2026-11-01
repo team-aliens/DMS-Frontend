@@ -19,24 +19,20 @@ interface BaseStudyApplication {
   student_id: string;
   student_name: string;
   student_gcn: string;
+  teacher_name: string;
 }
 
 export interface GeneralStudyApplication extends BaseStudyApplication {
   status: ApplicationStatus;
 }
 
-export interface HeadStudyApplication extends BaseStudyApplication {
-  teacher_name: string;
-}
+export type HeadStudyApplication = BaseStudyApplication;
 
-export interface ManagerStudyApplication extends BaseStudyApplication {
-  teacher_name: string;
-}
+export type ManagerStudyApplication = BaseStudyApplication;
 
 /** 이력 응답에는 student_id가 없다(경로로 이미 지정하므로) */
 export interface StudyApplicationHistory
   extends Omit<BaseStudyApplication, 'student_id'> {
-  teacher_name: string;
   status: HistoryStatus;
 }
 

@@ -106,7 +106,6 @@ export const DaybreakListPage = () => {
 
         <_TableScroll>
           <TeacherTable
-            variant="HEAD_TEACHER"
             data={applicationList}
             selectedIds={selectedIds}
             handleRowClick={handleRowClick}

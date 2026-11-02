@@ -29,7 +29,13 @@ export const getGeneralStudyApplications = async (
   >(`${router}/general/study-application`, {
     params: state,
   });
-  return data;
+  return {
+    ...data,
+    applications: data.applications.map((application) => ({
+      ...application,
+      dates: application.dates ?? [],
+    })),
+  };
 };
 
 export const getHeadStudyApplications = async (
@@ -40,7 +46,13 @@ export const getHeadStudyApplications = async (
   >(`${router}/head/study-application`, {
     params: state,
   });
-  return data;
+  return {
+    ...data,
+    applications: data.applications.map((application) => ({
+      ...application,
+      dates: application.dates ?? [],
+    })),
+  };
 };
 
 export const getManagerStudyApplications = async (
@@ -51,7 +63,13 @@ export const getManagerStudyApplications = async (
   >(`${router}/manager/study-application`, {
     params: state,
   });
-  return data;
+  return {
+    ...data,
+    applications: data.applications.map((application) => ({
+      ...application,
+      dates: application.dates ?? [],
+    })),
+  };
 };
 
 export const getStudyApplicationHistory = async (
@@ -63,7 +81,13 @@ export const getStudyApplicationHistory = async (
   >(`${router}/study-application/history/${student_id}`, {
     params: state,
   });
-  return data;
+  return {
+    ...data,
+    applications: data.applications.map((application) => ({
+      ...application,
+      dates: application.dates ?? [],
+    })),
+  };
 };
 
 export const getStudyApplicationTypes = async () => {
